@@ -35,6 +35,8 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
         }
 
         body {
@@ -43,6 +45,8 @@
             color: var(--text-primary);
             line-height: 1.6;
             position: relative;
+            -webkit-text-size-adjust: 100%;  /* Evita zoom automático */
+            -ms-text-size-adjust: 100%;
         }
 
         body::before {
@@ -152,9 +156,26 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
+            max-width: 100vw;
+            width: 100%;
         }
 
-        /* Login Screen */
+        /* ===== RESPONSIVIDADE GERAL ===== */
+        input, select, textarea {
+            width: 100%;
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn {
+            min-height: 44px;  /* iOS recomenda 44px para toque */
+        }
+
+        /* ===== LOGIN RESPONSIVO ===== */
         #loginScreen {
             display: flex;
             align-items: center;
@@ -331,9 +352,7 @@
             border: 2px solid var(--accent);
         }
 
-        .btn-secondary:hover {
-            background: rgba(212, 175, 55, 0.1);
-        }
+        /* Recovery Password */
 
         /* ===== RANKING STYLES ===== */
         .ranking-container {
@@ -1254,9 +1273,39 @@
             .header-brand-text {
                 font-size: 16px;
             }
+
+            .btn {
+                padding: 12px 16px;
+                font-size: 14px;
+            }
+
+            .form-input {
+                font-size: 16px;  /* Evita zoom automático no iOS */
+                padding: 12px;
+            }
+
+            .form-group {
+                margin-bottom: 16px;
+            }
+
+            .profile-section {
+                padding: 12px;
+                margin-bottom: 12px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
         }
 
         @media (max-width: 480px) {
+            /* ===== MOBILE PEQUENO (até 480px) ===== */
+            
+            body {
+                font-size: 14px;
+            }
+
             .calendar-grid {
                 grid-template-columns: repeat(4, 1fr);  /* ✅ NOVO: 4 colunas em celular pequeno */
                 gap: 8px;
@@ -1285,6 +1334,374 @@
             .admin-form {
                 flex-direction: column;
             }
+
+            .tabs {
+                gap: 4px;
+                flex-wrap: wrap;
+            }
+
+            .tab-btn {
+                padding: 10px 12px;
+                font-size: 12px;
+                flex: 1;
+                min-width: 80px;
+            }
+
+            .content {
+                padding: 12px;
+            }
+
+            header {
+                padding: 10px 12px;
+            }
+
+            .btn {
+                padding: 12px 16px;
+                font-size: 14px;
+                width: 100%;
+                border-radius: 8px;
+            }
+
+            .btn-small {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+
+            .form-input {
+                font-size: 16px;  /* Evita zoom em iOS */
+                padding: 12px;
+                border-radius: 6px;
+            }
+
+            select.form-input {
+                font-size: 16px;
+                padding: 12px;
+            }
+
+            .form-group {
+                margin-bottom: 14px;
+            }
+
+            .form-group label {
+                font-size: 12px;
+                margin-bottom: 6px;
+            }
+
+            .help-text {
+                font-size: 10px;
+            }
+
+            .profile-section {
+                padding: 12px;
+                margin-bottom: 12px;
+                border-radius: 8px;
+            }
+
+            .section-title {
+                font-size: 12px;
+                margin-bottom: 10px;
+                padding-bottom: 6px;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 12px;
+            }
+
+            .profile-photo {
+                width: 80px;
+                height: 80px;
+                font-size: 36px;
+            }
+
+            .profile-info-section {
+                width: 100%;
+            }
+
+            .profile-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .profile-label {
+                font-size: 11px;
+            }
+
+            .profile-value {
+                font-size: 13px;
+                margin-top: 4px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .info-card {
+                padding: 12px;
+            }
+
+            .info-row {
+                padding: 8px 0;
+            }
+
+            .info-label {
+                font-size: 11px;
+            }
+
+            .info-value {
+                font-size: 13px;
+            }
+
+            .ranking-filter-section {
+                padding: 12px;
+            }
+
+            .period-filter-grid {
+                gap: 8px;
+            }
+
+            .period-filter-card {
+                padding: 12px;
+            }
+
+            .period-filter-icon {
+                font-size: 20px;
+            }
+
+            .period-filter-name {
+                font-size: 11px;
+            }
+
+            .ct-filter-grid {
+                gap: 8px;
+            }
+
+            .ct-filter-card {
+                padding: 12px;
+            }
+
+            .ct-filter-icon {
+                font-size: 20px;
+            }
+
+            .ct-filter-name {
+                font-size: 11px;
+            }
+
+            .medal-card {
+                padding: 12px;
+            }
+
+            .medal-position {
+                font-size: 32px;
+            }
+
+            .medal-name {
+                font-size: 12px;
+            }
+
+            .medal-faixa {
+                font-size: 10px;
+            }
+
+            .medal-count {
+                font-size: 18px;
+            }
+
+            .ranking-item {
+                padding: 10px;
+            }
+
+            .ranking-position {
+                font-size: 14px;
+                min-width: 30px;
+            }
+
+            .ranking-name {
+                font-size: 12px;
+            }
+
+            .ranking-details {
+                font-size: 10px;
+            }
+
+            .ranking-count {
+                font-size: 14px;
+            }
+
+            .user-position-card {
+                padding: 12px;
+            }
+
+            .user-position-rank {
+                font-size: 12px;
+            }
+
+            .user-position-name {
+                font-size: 14px;
+            }
+
+            .user-position-details {
+                font-size: 11px;
+            }
+
+            /* ===== INPUTS E SELECTS ===== */
+            input[type="text"],
+            input[type="email"],
+            input[type="password"],
+            input[type="date"],
+            input[type="number"],
+            input[type="tel"],
+            select {
+                width: 100%;
+                font-size: 16px;
+                padding: 12px;
+                margin-bottom: 8px;
+                border-radius: 6px;
+            }
+
+            textarea {
+                width: 100%;
+                font-size: 14px;
+                padding: 12px;
+            }
+
+            /* ===== GRID RESPONSIVO ===== */
+            .form-row {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .form-row > * {
+                width: 100%;
+            }
+
+            /* ===== CONTAINER ===== */
+            .form-card {
+                margin: 0;
+                padding: 16px;
+                border-radius: 12px;
+            }
+
+            .ranking-container,
+            .profile-container {
+                gap: 12px;
+            }
+
+            /* ===== OVERFLOW HORIZONTAL ===== */
+            .container {
+                overflow-x: hidden;
+                width: 100%;
+            }
+
+            /* ===== TEXTO GRANDE EM MOBILE ===== */
+            body {
+                line-height: 1.5;
+            }
+
+            .calendar-title {
+                font-size: 14px;
+            }
+
+            .calendar-subtitle {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 375px) {
+            /* ===== CELULAR EXTRA PEQUENO (iPhone SE, etc) ===== */
+            
+            .header-brand-text {
+                font-size: 12px;
+            }
+
+            .login-title {
+                font-size: 18px;
+            }
+
+            .btn {
+                padding: 10px 12px;
+                font-size: 13px;
+            }
+
+            .tab-btn {
+                padding: 8px 10px;
+                font-size: 11px;
+                min-width: 70px;
+            }
+
+            .form-input {
+                font-size: 16px;
+                padding: 10px;
+            }
+
+            .profile-photo {
+                width: 70px;
+                height: 70px;
+                font-size: 32px;
+            }
+
+            .medal-card {
+                padding: 10px;
+            }
+
+            .section-title {
+                font-size: 11px;
+            }
+
+            .form-group label {
+                font-size: 11px;
+            }
+
+            .help-text {
+                font-size: 9px;
+            }
+        }
+
+        @media (max-width: 320px) {
+            /* ===== CELULAR MUITO PEQUENO ===== */
+            
+            .login-title {
+                font-size: 16px;
+            }
+
+            .tab-btn {
+                padding: 8px 8px;
+                font-size: 10px;
+                min-width: 60px;
+            }
+
+            .btn {
+                padding: 10px;
+                font-size: 12px;
+            }
+
+            .form-input {
+                font-size: 16px;
+                padding: 10px;
+            }
+
+            .profile-photo {
+                width: 60px;
+                height: 60px;
+                font-size: 28px;
+            }
+
+            .medal-position {
+                font-size: 28px;
+            }
+
+            .form-group label {
+                font-size: 10px;
+            }
+
+            .section-title {
+                font-size: 10px;
+            }
         }
 
         .content::-webkit-scrollbar {
@@ -1302,6 +1719,171 @@
 
         .content::-webkit-scrollbar-thumb:hover {
             background: var(--accent);
+        }
+
+        /* ===== PROFILE STYLES ===== */
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .profile-header {
+            display: flex;
+            gap: 20px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(30, 144, 255, 0.1));
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            align-items: flex-start;
+        }
+
+        .profile-photo-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-photo {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(30, 144, 255, 0.2));
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: 600;
+        }
+
+        .profile-info-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .profile-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .profile-faixa {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .profile-ct {
+            font-size: 12px;
+            color: var(--text-secondary);
+            opacity: 0.8;
+        }
+
+        .profile-section {
+            background: rgba(212, 175, 55, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--accent);
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.6;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        .help-text {
+            display: block;
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            opacity: 0.8;
+        }
+
+        .profile-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .profile-item:last-child {
+            border-bottom: none;
+        }
+
+        .profile-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .profile-value {
+            font-size: 14px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 11px;
         }
     </style>
 </head>
@@ -1398,10 +1980,19 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">🏢 Meu CT</label>
-                                <select id="regCT" class="form-select" required>
-                                    <option value="">Selecione Meu CT</option>
+                                <label class="form-label">❓ Pergunta de Segurança</label>
+                                <select id="regSecurityQuestion" class="form-select" required>
+                                    <option value="">Escolha uma pergunta</option>
+                                    <option value="Qual é seu CT favorito?">Qual é seu CT favorito?</option>
+                                    <option value="Qual é o nome do seu professor?">Qual é o nome do seu professor?</option>
+                                    <option value="Há quanto tempo você treina?">Há quanto tempo você treina?</option>
+                                    <option value="Qual é sua meta na luta?">Qual é sua meta na luta?</option>
                                 </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">💭 Resposta</label>
+                                <input type="text" id="regSecurityAnswer" class="form-input" placeholder="Digite sua resposta" required>
                             </div>
 
                             <div id="registerMessage"></div>
@@ -1412,12 +2003,15 @@
 
                     <button class="btn btn-secondary" onclick="showLogin()">Voltar ao Login</button>
                 </div>
+
+                <!-- RECOVERY TAB -->
             </div>
 
             <!-- APP SCREEN -->
             <div id="appScreen">
                 <div class="tabs">
                     <button class="tab-btn active" onclick="switchTab('attendance')">✍️ Check-in</button>
+                    <button class="tab-btn" onclick="switchTab('profile')">👤 Perfil</button>
                     <button class="tab-btn" onclick="switchTab('ranking')">🏆 Ranking</button>
                 </div>
 
@@ -1485,7 +2079,301 @@
                     <button class="btn btn-secondary" onclick="handleLogout()" style="margin-top: 20px;">🚪 Sair</button>
                 </div>
 
-                <!-- TAB: RANKING -->
+                <!-- TAB: PERFIL -->
+                <div id="profile" class="tab-content">
+                    <div class="profile-container">
+                        <!-- HEADER COM FOTO -->
+                        <div class="profile-header">
+                            <div class="profile-photo-section">
+                                <div class="profile-photo" id="profilePhoto">👤</div>
+                                <button class="btn btn-small" onclick="editProfileMode(true)" id="editBtn" style="margin-top: 12px;">✏️ Editar Perfil</button>
+                                <button class="btn btn-secondary btn-small" onclick="editProfileMode(false)" id="cancelBtn" style="display: none; margin-top: 12px;">✗ Cancelar</button>
+                            </div>
+                            <div class="profile-info-section">
+                                <div class="profile-name" id="profileName">-</div>
+                                <div class="profile-faixa" id="profileFaixa">-</div>
+                                <div class="profile-ct" id="profileCT">-</div>
+                            </div>
+                        </div>
+
+                        <!-- FORM EDITAR (HIDDEN POR PADRÃO) -->
+                        <div id="profileEditForm" style="display: none; margin-top: 20px;">
+                            
+                            <!-- SEÇÃO: CONTATO -->
+                            <div class="profile-section">
+                                <div class="section-title">📱 CONTATO</div>
+                                <div class="form-group">
+                                    <label>Celular/WhatsApp *</label>
+                                    <input type="tel" id="profileCell" placeholder="(11) 99999-9999" class="form-input">
+                                    <span class="help-text">Principais meios de comunicação com a academia</span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Telefone Secundário</label>
+                                    <input type="tel" id="profilePhone" placeholder="(11) 3333-3333" class="form-input">
+                                </div>
+                            </div>
+
+                            <!-- SEÇÃO: DADOS PESSOAIS -->
+                            <div class="profile-section">
+                                <div class="section-title">👤 DADOS PESSOAIS</div>
+                                <div class="form-group">
+                                    <label>Data de Nascimento *</label>
+                                    <input type="date" id="profileBirthDate" class="form-input">
+                                    <span class="help-text">Importante para documentação</span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Gênero</label>
+                                    <select id="profileGender" class="form-input">
+                                        <option value="">Selecione</option>
+                                        <option value="M">Masculino</option>
+                                        <option value="F">Feminino</option>
+                                        <option value="O">Outro</option>
+                                        <option value="N">Prefiro não informar</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- SEÇÃO: REDES SOCIAIS -->
+                            <div class="profile-section">
+                                <div class="section-title">📱 REDES SOCIAIS</div>
+                                <div class="form-group">
+                                    <label>Instagram</label>
+                                    <input type="text" id="profileInstagram" placeholder="@seu_usuario" class="form-input">
+                                    <span class="help-text">Para conteúdo e competições</span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Facebook</label>
+                                    <input type="text" id="profileFacebook" placeholder="seu_usuario" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label>LinkedIn</label>
+                                    <input type="text" id="profileLinkedIn" placeholder="seu_usuario" class="form-input">
+                                </div>
+                            </div>
+
+                            <!-- SEÇÃO: SAÚDE E SEGURANÇA -->
+                            <div class="profile-section">
+                                <div class="section-title">🏥 SAÚDE E SEGURANÇA</div>
+                                <div class="form-group">
+                                    <label>Alergias *</label>
+                                    <input type="text" id="profileAllergies" placeholder="Ex: Penicilina, Látex, Amendoim" class="form-input">
+                                    <span class="help-text" style="color: #FF6B6B;">⚠️ CRÍTICO - Professor precisa saber</span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Problemas Médicos Crônicos</label>
+                                    <input type="text" id="profileMedical" placeholder="Ex: Asma, Diabetes, Pressão alta" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label>Lesões/Limitações Atuais</label>
+                                    <input type="text" id="profileInjuries" placeholder="Ex: Joelho direito, Ombro esquerdo" class="form-input">
+                                    <span class="help-text">Professor adaptará o treino</span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Nome Contato de Emergência *</label>
+                                    <input type="text" id="profileEmergencyName" placeholder="Ex: Maria Silva" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label>Telefone Contato de Emergência *</label>
+                                    <input type="tel" id="profileEmergencyPhone" placeholder="(11) 99999-9999" class="form-input">
+                                    <span class="help-text">Lei obriga ter esta informação</span>
+                                </div>
+                            </div>
+
+                            <!-- SEÇÃO: EQUIPAMENTO -->
+                            <div class="profile-section">
+                                <div class="section-title">🥋 EQUIPAMENTO</div>
+                                <div class="form-group">
+                                    <label>Tamanho do Kimono</label>
+                                    <select id="profileKimonoSize" class="form-input">
+                                        <option value="">Selecione</option>
+                                        <optgroup label="SLIM (Corpo Fino)">
+                                            <option value="A0S">A0 Slim (145-155cm | &lt;55kg)</option>
+                                            <option value="A1S">A1 Slim (160-170cm | 55-70kg)</option>
+                                            <option value="A2S">A2 Slim (170-180cm | 70-85kg)</option>
+                                            <option value="A3S">A3 Slim (180-190cm | 85-100kg)</option>
+                                            <option value="A4S">A4 Slim (190-200cm | 100-120kg)</option>
+                                            <option value="A5S">A5 Slim (200+cm | 120kg+)</option>
+                                        </optgroup>
+                                        <optgroup label="PADRÃO (Corpo Médio)">
+                                            <option value="A0">A0 (145-155cm | &lt;55kg)</option>
+                                            <option value="A1">A1 (160-175cm | 55-75kg)</option>
+                                            <option value="A2">A2 (175-185cm | 75-90kg)</option>
+                                            <option value="A3">A3 (185-195cm | 90-110kg)</option>
+                                            <option value="A4">A4 (195-205cm | 110-130kg)</option>
+                                            <option value="A5">A5 (205+cm | 130kg+)</option>
+                                        </optgroup>
+                                    </select>
+                                    <span class="help-text">🥋 Padrão IBJJF • Altura e peso ideal indicados</span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Tamanho da Faixa (metros)</label>
+                                    <input type="number" id="profileBeltSize" placeholder="4.0" class="form-input" step="0.5" min="2" max="6">
+                                    <span class="help-text">Ex: 4.0m, 4.5m (padrão A1-A2 é 4.0m)</span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Categoria de Faixa</label>
+                                    <select id="profileBeltType" class="form-input">
+                                        <option value="">Selecione</option>
+                                        <option value="A1">A1 (Adulto Leve)</option>
+                                        <option value="A2">A2 (Adulto Médio)</option>
+                                        <option value="A3">A3 (Adulto Pesado)</option>
+                                        <option value="A4">A4 (Adulto Super Pesado)</option>
+                                        <option value="A5">A5 (Adulto Ultra Pesado)</option>
+                                        <option value="JB">JB (Juvenil Branca)</option>
+                                        <option value="JC">JC (Juvenil Colorida)</option>
+                                        <option value="CB">CB (Criança Branca)</option>
+                                        <option value="CC">CC (Criança Colorida)</option>
+                                    </select>
+                                    <span class="help-text">Conforme sua categoria de peso e idade</span>
+                                </div>
+                            </div>
+
+                            <!-- SEÇÃO: TREINO -->
+                            <div class="profile-section">
+                                <div class="section-title">🥋 TREINO E PERFORMANCE</div>
+                                <div class="form-row">
+                                    <div class="form-group" style="flex: 1;">
+                                        <label>Peso (kg) *</label>
+                                        <input type="number" id="profileWeight" placeholder="85" class="form-input" step="0.1">
+                                    </div>
+                                    <div class="form-group" style="flex: 1;">
+                                        <label>Altura (cm) *</label>
+                                        <input type="number" id="profileHeight" placeholder="180" class="form-input" step="0.1">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Objetivo *</label>
+                                    <select id="profileObjective" class="form-input">
+                                        <option value="">Selecione</option>
+                                        <option value="lazer">Lazer / Hobby</option>
+                                        <option value="fitness">Fitness / Saúde</option>
+                                        <option value="competicao">Competição</option>
+                                        <option value="profissional">Profissional</option>
+                                    </select>
+                                    <span class="help-text">Ajuda na motivação e retenção</span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Experiência em JJ *</label>
+                                    <select id="profileExperience" class="form-input">
+                                        <option value="">Selecione</option>
+                                        <option value="iniciante">Iniciante (0-6 meses)</option>
+                                        <option value="principiante">Principiante (6-12 meses)</option>
+                                        <option value="intermediario">Intermediário (1-3 anos)</option>
+                                        <option value="avancado">Avançado (3+ anos)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- BOTÕES AÇÃO -->
+                            <div style="display: flex; gap: 12px; margin-top: 20px;">
+                                <button class="btn btn-primary" onclick="saveProfile()" style="flex: 1;">💾 Salvar Alterações</button>
+                            </div>
+                            <div id="profileMessage" style="margin-top: 12px; text-align: center; font-size: 12px;"></div>
+                        </div>
+
+                        <!-- SEÇÃO: VISUALIZAR (HIDDEN QUANDO EDITAR) -->
+                        <div id="profileViewMode">
+                            <div class="profile-section">
+                                <div class="section-title">📱 CONTATO</div>
+                                <div class="profile-item">
+                                    <span class="profile-label">Celular/WhatsApp:</span>
+                                    <span class="profile-value" id="viewCell">-</span>
+                                </div>
+                                <div class="profile-item">
+                                    <span class="profile-label">Telefone Secundário:</span>
+                                    <span class="profile-value" id="viewPhone">-</span>
+                                </div>
+                            </div>
+
+                            <div class="profile-section">
+                                <div class="section-title">👤 DADOS PESSOAIS</div>
+                                <div class="profile-item">
+                                    <span class="profile-label">Data de Nascimento:</span>
+                                    <span class="profile-value" id="viewBirthDate">-</span>
+                                </div>
+                                <div class="profile-item">
+                                    <span class="profile-label">Gênero:</span>
+                                    <span class="profile-value" id="viewGender">-</span>
+                                </div>
+                            </div>
+
+                            <div class="profile-section">
+                                <div class="section-title">📱 REDES SOCIAIS</div>
+                                <div class="profile-item">
+                                    <span class="profile-label">Instagram:</span>
+                                    <span class="profile-value" id="viewInstagram">-</span>
+                                </div>
+                                <div class="profile-item">
+                                    <span class="profile-label">Facebook:</span>
+                                    <span class="profile-value" id="viewFacebook">-</span>
+                                </div>
+                                <div class="profile-item">
+                                    <span class="profile-label">LinkedIn:</span>
+                                    <span class="profile-value" id="viewLinkedIn">-</span>
+                                </div>
+                            </div>
+
+                            <div class="profile-section">
+                                <div class="section-title">🥋 EQUIPAMENTO</div>
+                                <div class="profile-item">
+                                    <span class="profile-label">Tamanho Kimono:</span>
+                                    <span class="profile-value" id="viewKimonoSize">-</span>
+                                </div>
+                                <div class="profile-item">
+                                    <span class="profile-label">Tamanho Faixa:</span>
+                                    <span class="profile-value" id="viewBeltSize">-</span>
+                                </div>
+                                <div class="profile-item">
+                                    <span class="profile-label">Tipo Faixa:</span>
+                                    <span class="profile-value" id="viewBeltType">-</span>
+                                </div>
+                            </div>
+
+                            <div class="profile-section">
+                                <div class="section-title">🏥 SAÚDE E SEGURANÇA</div>
+                                <div class="profile-item">
+                                    <span class="profile-label">Alergias:</span>
+                                    <span class="profile-value" id="viewAllergies">-</span>
+                                </div>
+                                <div class="profile-item">
+                                    <span class="profile-label">Problemas Médicos:</span>
+                                    <span class="profile-value" id="viewMedical">-</span>
+                                </div>
+                                <div class="profile-item">
+                                    <span class="profile-label">Lesões/Limitações:</span>
+                                    <span class="profile-value" id="viewInjuries">-</span>
+                                </div>
+                                <div class="profile-item">
+                                    <span class="profile-label">Contato Emergência:</span>
+                                    <span class="profile-value" id="viewEmergency">-</span>
+                                </div>
+                            </div>
+
+                            <div class="profile-section">
+                                <div class="section-title">🥋 TREINO</div>
+                                <div class="profile-item">
+                                    <span class="profile-label">Peso:</span>
+                                    <span class="profile-value" id="viewWeight">-</span>
+                                </div>
+                                <div class="profile-item">
+                                    <span class="profile-label">Altura:</span>
+                                    <span class="profile-value" id="viewHeight">-</span>
+                                </div>
+                                <div class="profile-item">
+                                    <span class="profile-label">Objetivo:</span>
+                                    <span class="profile-value" id="viewObjective">-</span>
+                                </div>
+                                <div class="profile-item">
+                                    <span class="profile-label">Experiência:</span>
+                                    <span class="profile-value" id="viewExperience">-</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- BOTÃO LOGOUT -->
+                        <button class="btn btn-secondary" onclick="handleLogout()" style="width: 100%; margin-top: 20px;">🚪 Sair da Conta</button>
+                    </div>
+                </div>
                 <div id="ranking" class="tab-content">
                     <div class="ranking-container">
                         <div class="ranking-header-section">
@@ -1554,7 +2442,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyX1_NADyW8aUUuACJQvQgdBfGwcXCnwGi1nTgf5uc03n6A7raB8YdakcC8k2QnY-py/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxdKrUmSOxdSR_IqfISfNsmGnwQaas48WuaWddtBkYNieZZeRZFJWw5MLTeCbo3oacf/exec';
         let currentUser = null;
         let selectedDay = null;
         let selectedTime = null;
@@ -1672,10 +2560,18 @@
             const faixa = document.getElementById('regFaixa').value;
             const grau = document.getElementById('regGrau').value;
             const ct = document.getElementById('regCT').value;
+            const securityQuestion = document.getElementById('regSecurityQuestion').value;
+            const securityAnswer = document.getElementById('regSecurityAnswer').value;
 
             // ✅ Validação: CT Principal é obrigatório
             if (!ct) {
                 showMessage('registerMessage', '⚠️ Escolha seu CT Principal para se cadastrar', 'warning');
+                return;
+            }
+
+            // ✅ Validação: Pergunta de segurança
+            if (!securityQuestion || !securityAnswer) {
+                showMessage('registerMessage', '⚠️ Escolha uma pergunta de segurança', 'warning');
                 return;
             }
 
@@ -1684,7 +2580,16 @@
             try {
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    body: JSON.stringify({ action: 'requestAccount', name, email, password, faixa, ct })
+                    body: JSON.stringify({ 
+                        action: 'requestAccount', 
+                        name, 
+                        email, 
+                        password, 
+                        faixa, 
+                        ct,
+                        securityQuestion,
+                        securityAnswer
+                    })
                 });
                 const data = await response.json();
 
@@ -2212,15 +3117,272 @@
             displayGeneralRanking(ranking);
         }
 
+        // ===== PROFILE MANAGEMENT =====
+        async function loadProfile() {
+            console.log('👤 Carregando perfil...');
+            
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ 
+                        action: 'getProfileData',
+                        email: currentUser.email
+                    })
+                });
+                const data = await response.json();
+                
+                console.log('Perfil recebido:', data);
+                
+                if (data.success && data.profile) {
+                    populateProfileDisplay(data.profile);
+                } else {
+                    console.log('Nenhum perfil encontrado, usando dados básicos');
+                    populateProfileDisplay({});
+                }
+            } catch (error) {
+                console.error('Erro ao carregar perfil:', error);
+            }
+        }
+
+        function populateProfileDisplay(profile) {
+            console.log('Preenchendo perfil:', profile);
+            
+            // HEADER
+            document.getElementById('profileName').textContent = currentUser.name || '-';
+            document.getElementById('profileFaixa').textContent = currentUser.faixa || '-';
+            document.getElementById('profileCT').textContent = currentUser.ct || '-';
+            
+            // FORM INPUTS (para editar)
+            document.getElementById('profileCell').value = profile.cell || '';
+            document.getElementById('profilePhone').value = profile.phone || '';
+            document.getElementById('profileBirthDate').value = profile.birthDate || '';
+            document.getElementById('profileGender').value = profile.gender || '';
+            document.getElementById('profileInstagram').value = profile.instagram || '';
+            document.getElementById('profileFacebook').value = profile.facebook || '';
+            document.getElementById('profileLinkedIn').value = profile.linkedIn || '';
+            document.getElementById('profileAllergies').value = profile.allergies || '';
+            document.getElementById('profileMedical').value = profile.medical || '';
+            document.getElementById('profileInjuries').value = profile.injuries || '';
+            document.getElementById('profileEmergencyName').value = profile.emergencyName || '';
+            document.getElementById('profileEmergencyPhone').value = profile.emergencyPhone || '';
+            document.getElementById('profileWeight').value = profile.weight || '';
+            document.getElementById('profileHeight').value = profile.height || '';
+            document.getElementById('profileObjective').value = profile.objective || '';
+            document.getElementById('profileExperience').value = profile.experience || '';
+            document.getElementById('profileKimonoSize').value = profile.kimonoSize || '';
+            document.getElementById('profileBeltSize').value = profile.beltSize || '';
+            document.getElementById('profileBeltType').value = profile.beltType || '';
+            
+            // VIEW MODE (para visualizar)
+            updateProfileDisplay();
+        }
+
+        function updateProfileDisplay() {
+            // Mapear valores dos selects para nomes
+            const genderMap = { 'M': 'Masculino', 'F': 'Feminino', 'O': 'Outro', 'N': 'Prefiro não informar' };
+            const objectiveMap = { 'lazer': 'Lazer / Hobby', 'fitness': 'Fitness / Saúde', 'competicao': 'Competição', 'profissional': 'Profissional' };
+            const experienceMap = { 'iniciante': 'Iniciante (0-6 meses)', 'principiante': 'Principiante (6-12 meses)', 'intermediario': 'Intermediário (1-3 anos)', 'avancado': 'Avançado (3+ anos)' };
+            const kimonoSizeMap = {
+                // Slim
+                'A0S': 'A0 Slim (145-155cm | <55kg)',
+                'A1S': 'A1 Slim (160-170cm | 55-70kg)',
+                'A2S': 'A2 Slim (170-180cm | 70-85kg)',
+                'A3S': 'A3 Slim (180-190cm | 85-100kg)',
+                'A4S': 'A4 Slim (190-200cm | 100-120kg)',
+                'A5S': 'A5 Slim (200+cm | 120kg+)',
+                // Padrão
+                'A0': 'A0 (145-155cm | <55kg)',
+                'A1': 'A1 (160-175cm | 55-75kg)',
+                'A2': 'A2 (175-185cm | 75-90kg)',
+                'A3': 'A3 (185-195cm | 90-110kg)',
+                'A4': 'A4 (195-205cm | 110-130kg)',
+                'A5': 'A5 (205+cm | 130kg+)'
+            };
+            const beltTypeMap = { 'A1': 'A1 (Adulto Leve)', 'A2': 'A2 (Adulto Médio)', 'A3': 'A3 (Adulto Pesado)', 'A4': 'A4 (Adulto Super Pesado)', 'A5': 'A5 (Adulto Ultra Pesado)', 'JB': 'JB (Juvenil Branca)', 'JC': 'JC (Juvenil Colorida)', 'CB': 'CB (Criança Branca)', 'CC': 'CC (Criança Colorida)' };
+            
+            // CONTATO
+            document.getElementById('viewCell').textContent = document.getElementById('profileCell').value || '-';
+            document.getElementById('viewPhone').textContent = document.getElementById('profilePhone').value || '-';
+            
+            // DADOS PESSOAIS
+            const birthDate = document.getElementById('profileBirthDate').value;
+            if (birthDate) {
+                const date = new Date(birthDate);
+                document.getElementById('viewBirthDate').textContent = date.toLocaleDateString('pt-BR');
+            } else {
+                document.getElementById('viewBirthDate').textContent = '-';
+            }
+            
+            document.getElementById('viewGender').textContent = genderMap[document.getElementById('profileGender').value] || '-';
+            
+            // REDES SOCIAIS
+            document.getElementById('viewInstagram').textContent = document.getElementById('profileInstagram').value || '-';
+            document.getElementById('viewFacebook').textContent = document.getElementById('profileFacebook').value || '-';
+            document.getElementById('viewLinkedIn').textContent = document.getElementById('profileLinkedIn').value || '-';
+            
+            // SAÚDE
+            document.getElementById('viewAllergies').textContent = document.getElementById('profileAllergies').value || '-';
+            document.getElementById('viewMedical').textContent = document.getElementById('profileMedical').value || '-';
+            document.getElementById('viewInjuries').textContent = document.getElementById('profileInjuries').value || '-';
+            
+            const emergencyName = document.getElementById('profileEmergencyName').value;
+            const emergencyPhone = document.getElementById('profileEmergencyPhone').value;
+            if (emergencyName || emergencyPhone) {
+                document.getElementById('viewEmergency').textContent = emergencyName + ' • ' + emergencyPhone;
+            } else {
+                document.getElementById('viewEmergency').textContent = '-';
+            }
+            
+            // EQUIPAMENTO
+            document.getElementById('viewKimonoSize').textContent = kimonoSizeMap[document.getElementById('profileKimonoSize').value] || '-';
+            const beltSize = document.getElementById('profileBeltSize').value;
+            document.getElementById('viewBeltSize').textContent = beltSize ? beltSize + 'm' : '-';
+            document.getElementById('viewBeltType').textContent = beltTypeMap[document.getElementById('profileBeltType').value] || '-';
+            
+            // TREINO
+            const weight = document.getElementById('profileWeight').value;
+            document.getElementById('viewWeight').textContent = weight ? weight + ' kg' : '-';
+            
+            const height = document.getElementById('profileHeight').value;
+            document.getElementById('viewHeight').textContent = height ? height + ' cm' : '-';
+            
+            document.getElementById('viewObjective').textContent = objectiveMap[document.getElementById('profileObjective').value] || '-';
+            document.getElementById('viewExperience').textContent = experienceMap[document.getElementById('profileExperience').value] || '-';
+        }
+
+        function editProfileMode(isEditing) {
+            console.log('📝 Modo editar: ' + isEditing);
+            
+            if (isEditing) {
+                document.getElementById('profileEditForm').style.display = 'block';
+                document.getElementById('profileViewMode').style.display = 'none';
+                document.getElementById('editBtn').style.display = 'none';
+                document.getElementById('cancelBtn').style.display = 'block';
+            } else {
+                document.getElementById('profileEditForm').style.display = 'none';
+                document.getElementById('profileViewMode').style.display = 'block';
+                document.getElementById('editBtn').style.display = 'block';
+                document.getElementById('cancelBtn').style.display = 'none';
+            }
+        }
+
+        async function saveProfile() {
+            console.log('💾 Salvando perfil...');
+            
+            const msgEl = document.getElementById('profileMessage');
+            msgEl.textContent = '⏳ Salvando...';
+            msgEl.style.color = 'var(--text-secondary)';
+            
+            // Validar campos obrigatórios
+            const cell = document.getElementById('profileCell').value.trim();
+            const birthDate = document.getElementById('profileBirthDate').value;
+            const allergies = document.getElementById('profileAllergies').value.trim();
+            const emergencyName = document.getElementById('profileEmergencyName').value.trim();
+            const emergencyPhone = document.getElementById('profileEmergencyPhone').value.trim();
+            const weight = document.getElementById('profileWeight').value;
+            const height = document.getElementById('profileHeight').value;
+            const objective = document.getElementById('profileObjective').value;
+            const experience = document.getElementById('profileExperience').value;
+            const kimonoSize = document.getElementById('profileKimonoSize').value;
+            const beltSize = document.getElementById('profileBeltSize').value;
+            const beltType = document.getElementById('profileBeltType').value;
+            
+            if (!cell) {
+                msgEl.textContent = '❌ Celular/WhatsApp é obrigatório';
+                msgEl.style.color = '#FF6B6B';
+                return;
+            }
+            if (!birthDate) {
+                msgEl.textContent = '❌ Data de nascimento é obrigatória';
+                msgEl.style.color = '#FF6B6B';
+                return;
+            }
+            if (!allergies) {
+                msgEl.textContent = '❌ Alergias é obrigatório (coloque "Nenhuma" se não tem)';
+                msgEl.style.color = '#FF6B6B';
+                return;
+            }
+            if (!emergencyName || !emergencyPhone) {
+                msgEl.textContent = '❌ Contato de emergência é obrigatório';
+                msgEl.style.color = '#FF6B6B';
+                return;
+            }
+            if (!weight || !height) {
+                msgEl.textContent = '❌ Peso e altura são obrigatórios';
+                msgEl.style.color = '#FF6B6B';
+                return;
+            }
+            if (!objective) {
+                msgEl.textContent = '❌ Objetivo é obrigatório';
+                msgEl.style.color = '#FF6B6B';
+                return;
+            }
+            if (!experience) {
+                msgEl.textContent = '❌ Experiência é obrigatória';
+                msgEl.style.color = '#FF6B6B';
+                return;
+            }
+            
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'saveProfileData',
+                        email: currentUser.email,
+                        profile: {
+                            cell: cell,
+                            phone: document.getElementById('profilePhone').value.trim(),
+                            birthDate: birthDate,
+                            gender: document.getElementById('profileGender').value,
+                            instagram: document.getElementById('profileInstagram').value.trim(),
+                            facebook: document.getElementById('profileFacebook').value.trim(),
+                            linkedIn: document.getElementById('profileLinkedIn').value.trim(),
+                            allergies: allergies,
+                            medical: document.getElementById('profileMedical').value.trim(),
+                            injuries: document.getElementById('profileInjuries').value.trim(),
+                            emergencyName: emergencyName,
+                            emergencyPhone: emergencyPhone,
+                            weight: weight,
+                            height: height,
+                            objective: objective,
+                            experience: experience,
+                            kimonoSize: kimonoSize,
+                            beltSize: beltSize,
+                            beltType: beltType
+                        }
+                    })
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    msgEl.textContent = '✅ Perfil atualizado com sucesso!';
+                    msgEl.style.color = '#51CF66';
+                    updateProfileDisplay();
+                    setTimeout(() => {
+                        editProfileMode(false);
+                    }, 1500);
+                } else {
+                    msgEl.textContent = '❌ Erro: ' + data.message;
+                    msgEl.style.color = '#FF6B6B';
+                }
+            } catch (error) {
+                console.error('Erro ao salvar perfil:', error);
+                msgEl.textContent = '❌ Erro ao salvar perfil';
+                msgEl.style.color = '#FF6B6B';
+            }
+        }
+
         function switchTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
             
-            // ✅ Carrega ranking quando a aba for aberta
+            // ✅ Carrega dados específicos quando abrir abas
             if (tabName === 'ranking') {
                 loadRanking();
+            } else if (tabName === 'profile') {
+                loadProfile();
             }
         }
 
