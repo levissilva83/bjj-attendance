@@ -2,10 +2,11 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5, user-scalable=yes">
     <meta name="theme-color" content="#0f0f1e">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
     <title>🥋 Luta Academy - Check-in de Treino</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
@@ -13,7 +14,10 @@
         * {
             margin: 0;
             padding: 0;
+            border: 0;
             box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
         }
 
         :root {
@@ -35,6 +39,15 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: transparent;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            overflow-x: hidden;
         }
 
         body {
@@ -43,6 +56,16 @@
             color: var(--text-primary);
             line-height: 1.6;
             position: relative;
+            width: 100%;
+            height: 100vh;
+            max-width: 100%;
+            max-height: 100vh;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body::before {
@@ -152,9 +175,102 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
+            max-width: 100vw;
+            width: 100%;
         }
 
-        /* Login Screen */
+        /* ===== RESPONSIVIDADE GERAL ===== */
+        input, select, textarea {
+            width: 100%;
+            font-family: inherit;
+            font-size: 16px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border: none;
+            border-radius: 4px;
+            padding: 12px;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            user-select: text;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        input:disabled, select:disabled, textarea:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            -webkit-focus-ring-color: transparent;
+            border-color: var(--accent);
+            background-color: rgba(212, 175, 55, 0.1);
+        }
+
+        /* Remover estilos padrão iOS */
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="date"],
+        input[type="number"],
+        input[type="tel"],
+        textarea,
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border-radius: 6px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        /* Remove seta do select */
+        select {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d4af37' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 20px;
+            padding-right: 40px;
+            cursor: pointer;
+        }
+
+        button {
+            cursor: pointer;
+            transition: all 0.2s ease;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        button:active {
+            opacity: 0.8;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn {
+            min-height: 44px;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        /* ===== LOGIN RESPONSIVO ===== */
         #loginScreen {
             display: flex;
             align-items: center;
@@ -331,9 +447,7 @@
             border: 2px solid var(--accent);
         }
 
-        .btn-secondary:hover {
-            background: rgba(212, 175, 55, 0.1);
-        }
+        /* Recovery Password */
 
         /* ===== RANKING STYLES ===== */
         .ranking-container {
@@ -761,7 +875,7 @@
 
         .calendar-title {
             font-family: 'Playfair Display', serif;
-            font-size: 20px;
+            font-size: 16px;  /* Reduzido de 20px */
             font-weight: 700;
             color: var(--accent);
             margin-bottom: 8px;
@@ -771,7 +885,7 @@
 
         .calendar-subtitle {
             color: var(--text-secondary);
-            font-size: 12px;
+            font-size: 11px;  /* Reduzido de 12px */
         }
 
         /* Days Grid */
@@ -784,130 +898,6 @@
             max-width: 220px;  /* ✅ Limita largura para card ficar bem proporcionado */
             margin-left: auto;
             margin-right: auto;
-        }
-
-        .day-card {
-            background: var(--day-bg);
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            padding: 16px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .day-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .day-card:hover {
-            border-color: var(--accent);
-            background: var(--day-hover);
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
-        }
-
-        .day-card:hover::before {
-            opacity: 1;
-        }
-
-        .day-card.has-training::before {
-            opacity: 1;
-        }
-
-        .day-card.selected {
-            border-color: var(--accent);
-            background: rgba(212, 175, 55, 0.15);
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
-            transform: scale(1.05);
-        }
-
-        /* ✅ Dia de hoje (grande e muito destacado) */
-        .day-card.today .day-number {
-            font-size: 60px;  /* ✅ AUMENTADO: 42px → 60px para ficar ainda maior */
-            font-weight: 800;
-            color: var(--accent);
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);  /* ✅ Brilho no número */
-        }
-
-        .day-card.today {
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.08));
-            border: 3px solid var(--accent);
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3), inset 0 0 15px rgba(212, 175, 55, 0.1);
-            transform: scale(1.2);  /* ✅ AUMENTADO: 1.1 → 1.2 para ficar maior */
-            padding: 30px;  /* ✅ AUMENTADO: 20px → 30px */
-            width: 100%;
-            max-width: 200px;
-        }
-
-        .day-card.today:hover {
-            transform: scale(1.3);  /* ✅ AUMENTADO: 1.15 → 1.3 */
-            box-shadow: 0 0 40px rgba(212, 175, 55, 0.4), inset 0 0 20px rgba(212, 175, 55, 0.15);
-        }
-
-        /* ✅ Dias retroativos (pequeno e discreto) */
-        .day-card.past .day-number {
-            font-size: 16px;  /* ✅ NOVO: Aumentado um pouco de 14px para 16px para mobile */
-            font-weight: 600;
-            opacity: 0.65;
-            color: var(--text-secondary);  /* ✅ NOVO: Cor mais discreta */
-        }
-
-        .day-card.past {
-            opacity: 0.75;
-            background: var(--day-bg);
-            border-color: var(--border);
-            padding: 14px;  /* ✅ NOVO: Menos padding que o hoje */
-        }
-
-        .day-card.past:hover {
-            opacity: 0.95;  /* ✅ NOVO: Mais visível no hover */
-        }
-
-        .day-number {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--accent);
-            margin-bottom: 4px;
-        }
-
-        .day-card.today .day-name {
-            font-size: 16px;  /* ✅ Aumentado para visibilidade */
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        .day-training-icon {
-            font-size: 18px;
-            opacity: 0.6;
-            transition: opacity 0.3s ease;
-        }
-
-        .day-card.today .day-training-icon {
-            font-size: 28px;  /* ✅ Maior para hoje */
-            opacity: 1;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        .day-card.has-training .day-training-icon {
-            opacity: 1;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        .day-card.selected .day-training-icon {
-            opacity: 1;
         }
 
         /* Times Grid */
@@ -1016,7 +1006,7 @@
         .selected-value {
             color: var(--accent);
             font-weight: 700;
-            font-size: 14px;
+            font-size: 12px;  /* Reduzido de 14px para 12px */
         }
 
         /* Message */
@@ -1229,61 +1219,136 @@
         }
 
         /* Responsividade */
-        @media (max-width: 768px) {
-            .calendar-grid {
-                grid-template-columns: repeat(5, 1fr);  /* ✅ NOVO: 5 colunas em tablets */
-                gap: 10px;
-            }
+        /* ===== MOBILE FIRST - PADRÃO PARA CELULAR ===== */
+        
+        body {
+            font-size: 14px;
+        }
 
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        .container {
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
 
-            .login-title {
-                font-size: 24px;
-            }
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
 
+        img, video {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* ===== TABLET (768px+) ===== */
+        @media (min-width: 769px) {
             .content {
-                padding: 16px;
+                padding: 20px;
+                gap: 20px;
             }
 
-            header {
-                padding: 12px 16px;
+            .form-row {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
             }
 
-            .header-brand-text {
-                font-size: 16px;
+            .selected-value {
+                font-size: 14px;  /* Maior em tablet */
             }
         }
 
+        /* ===== MOBILE PEQUENO (até 480px) ===== */
         @media (max-width: 480px) {
-            .calendar-grid {
-                grid-template-columns: repeat(4, 1fr);  /* ✅ NOVO: 4 colunas em celular pequeno */
+            body {
+                font-size: 13px;
+            }
+
+            .content {
+                padding: 10px;
+                gap: 10px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .selected-value {
+                font-size: 11px;  /* Menor em mobile */
+            }
+
+            .btn {
+                padding: 10px 12px;
+                font-size: 12px;
+                min-height: 40px;
+            }
+
+            .tab-btn {
+                padding: 8px 10px;
+                font-size: 11px;
+            }
+
+            header {
+                padding: 10px 12px;
+            }
+
+            .tabs {
+                gap: 4px;
+            }
+        }
+
+        /* ===== MOBILE ULTRA PEQUENO (até 375px) ===== */
+        @media (max-width: 375px) {
+            body {
+                font-size: 12px;
+            }
+
+            .content {
+                padding: 8px;
                 gap: 8px;
             }
 
-            .stats-grid {
-                grid-template-columns: 1fr;
+            .selected-value {
+                font-size: 10px;  /* Ainda menor para iPhone SE */
             }
 
-            .header-brand-text {
-                font-size: 14px;
+            .btn {
+                padding: 8px 10px;
+                font-size: 11px;
+                min-height: 38px;
             }
 
-            .header-user {
-                display: none;
+            header {
+                padding: 8px 10px;
+            }
+        }
+
+        /* ===== LANDSCAPE MOBILE ===== */
+        @media (max-height: 500px) {
+            .tabs {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
             }
 
-            .login-title {
-                font-size: 20px;
+            .content {
+                padding: 8px;
+                gap: 8px;
             }
 
-            .times-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .admin-form {
-                flex-direction: column;
+            header {
+                padding: 8px;
             }
         }
 
@@ -1302,6 +1367,11 @@
 
         .content::-webkit-scrollbar-thumb:hover {
             background: var(--accent);
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 11px;
         }
     </style>
 </head>
@@ -1398,9 +1468,9 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">🏢 Meu CT</label>
+                                <label class="form-label">🏢 CT Principal</label>
                                 <select id="regCT" class="form-select" required>
-                                    <option value="">Selecione Meu CT</option>
+                                    <option value="">Selecione seu CT</option>
                                 </select>
                             </div>
 
@@ -1412,6 +1482,8 @@
 
                     <button class="btn btn-secondary" onclick="showLogin()">Voltar ao Login</button>
                 </div>
+
+                <!-- RECOVERY TAB -->
             </div>
 
             <!-- APP SCREEN -->
@@ -1439,22 +1511,6 @@
                     </div>
 
                     <div class="calendar-container">
-                        <div class="calendar-header">
-                            <div class="calendar-title">📅 Selecione o Dia</div>
-                            <div class="calendar-subtitle">Clique no dia que você treinou</div>
-                        </div>
-
-                        <div class="calendar-grid" id="calendarDays">
-                            <!-- Preenchido dinamicamente -->
-                        </div>
-
-                        <div class="times-container" id="timesContainer">
-                            <div class="times-title">⏰ Horários Disponíveis</div>
-                            <div class="times-grid" id="timesGrid">
-                                <!-- Preenchido dinamicamente -->
-                            </div>
-                        </div>
-
                         <div class="times-container active" id="ctSelectorContainer">
                             <div class="times-title">🏢 Qual CT você treinou?</div>
                             <div class="times-grid" id="ctGrid">
@@ -1463,14 +1519,6 @@
                         </div>
 
                         <div class="selected-info" id="selectedInfo">
-                            <div class="selected-row">
-                                <span class="selected-label">📅 Data</span>
-                                <span class="selected-value" id="selectedDate">-</span>
-                            </div>
-                            <div class="selected-row">
-                                <span class="selected-label">⏰ Horário</span>
-                                <span class="selected-value" id="selectedTime">-</span>
-                            </div>
                             <div class="selected-row">
                                 <span class="selected-label">🏢 Academia</span>
                                 <span class="selected-value" id="selectedCT">-</span>
@@ -1481,7 +1529,7 @@
                     <button class="btn btn-primary" onclick="confirmAttendance()">✓ Confirmar Presença</button>
                     <div id="attendanceMessage"></div>
                     
-                    <!-- ✅ Botão de logout movido da aba Perfil -->
+                    <!-- ✅ Botão de logout -->
                     <button class="btn btn-secondary" onclick="handleLogout()" style="margin-top: 20px;">🚪 Sair</button>
                 </div>
 
@@ -1554,39 +1602,12 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyX1_NADyW8aUUuACJQvQgdBfGwcXCnwGi1nTgf5uc03n6A7raB8YdakcC8k2QnY-py/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyk619XLNFVHSAebAda4NDfHXKzoYp0k8K56oILQLzs2KbCN4BIfVwfi4TG-9W7Q_J-/exec';
         let currentUser = null;
-        let selectedDay = null;
-        let selectedTime = null;
         let selectedCT = null;
         let allCTs = [];
 
-        const trainingSchedule = {
-            0: [[9, 11]],                          // Domingo: 09:00-11:00
-            1: [[6, 8], [13, 16], [17, 21]],       // Segunda: 06:00-08:00 | 13:00-16:00 | 17:00-21:00
-            2: [[6, 8], [13, 16], [17, 21]],       // Terça: 06:00-08:00 | 13:00-16:00 | 17:00-21:00
-            3: [[6, 8], [13, 16], [17, 21]],       // Quarta: 06:00-08:00 | 13:00-16:00 | 17:00-21:00
-            4: [[6, 8], [13, 16], [17, 21]],       // Quinta: 06:00-08:00 | 13:00-16:00 | 17:00-21:00
-            5: [[6, 8], [13, 16], [17, 21]],       // Sexta: 06:00-08:00 | 13:00-16:00 | 17:00-21:00
-            6: [[9, 11], [19, 21]]                 // Sábado: 09:00-11:00 | 19:00-21:00
-        };
-
-        const dayNames = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-
-        function generateTimes(timeRanges) {
-            let times = [];
-            timeRanges.forEach(range => {
-                const [startHour, endHour] = range;
-                for (let h = startHour; h <= endHour; h++) {
-                    times.push(`${String(h).padStart(2, '0')}:00`);
-                    if (h < endHour) {
-                        times.push(`${String(h).padStart(2, '0')}:30`);
-                    }
-                }
-            });
-            return times;
-        }
-
+        // ✅ Fluxo simplificado: CT → Confirmar Presença (sem dias)
         // ✅ FUNÇÃO CRÍTICA: Exibir mensagens ao usuário
         function showMessage(elementId, message, type) {
             const element = document.getElementById(elementId);
@@ -1629,7 +1650,7 @@
                 showAppScreen();
                 loadAttendanceInfo();
                 loadCTs();
-                generateCalendarDays();
+                // ✅ Calendário removido - fluxo simplificado
             }
         });
 
@@ -1654,7 +1675,7 @@
                     showAppScreen();
                     loadAttendanceInfo();
                     loadCTs();
-                    generateCalendarDays();
+                    // ✅ Calendário removido - fluxo simplificado
                 } else {
                     // ✅ CORREÇÃO: Usar data.message em vez de data.error
                     showMessage('loginMessage', data.message || 'Erro ao fazer login', 'danger');
@@ -1684,7 +1705,15 @@
             try {
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    body: JSON.stringify({ action: 'requestAccount', name, email, password, faixa, ct })
+                    body: JSON.stringify({ 
+                        action: 'requestAccount', 
+                        name, 
+                        email, 
+                        password, 
+                        faixa, 
+                        grau,
+                        ct
+                    })
                 });
                 const data = await response.json();
 
@@ -1697,83 +1726,6 @@
             } catch (error) {
                 showMessage('registerMessage', 'Erro de conexão', 'danger');
             }
-        }
-
-        function generateCalendarDays() {
-            const container = document.getElementById('calendarDays');
-            container.innerHTML = '';
-
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);  // Zerar horas para comparação
-            
-            // ✅ MOSTRANDO APENAS HOJE - Data grande e em destaque
-            const dayOfWeek = today.getDay();
-            const dayNum = today.getDate();
-            const dayName = dayNames[dayOfWeek];
-            
-            const hasTraining = trainingSchedule[dayOfWeek] && trainingSchedule[dayOfWeek].length > 0;
-            
-            const dayCard = document.createElement('div');
-            dayCard.className = `day-card today ${hasTraining ? 'has-training' : ''}`;
-            dayCard.innerHTML = `
-                <div class="day-number">${dayNum}</div>
-                <div class="day-name">${dayName}</div>
-                <div class="day-training-icon">${hasTraining ? '💪' : '-'}</div>
-            `;
-            
-            dayCard.addEventListener('click', () => selectDay(today, dayOfWeek, dayNum, dayName, hasTraining));
-            container.appendChild(dayCard);
-        }
-
-        function selectDay(date, dayOfWeek, dayNum, dayName, hasTraining) {
-            if (!hasTraining) {
-                showMessage('attendanceMessage', 'Não há treino neste dia', 'warning');
-                return;
-            }
-
-            document.querySelectorAll('.day-card').forEach(card => card.classList.remove('selected'));
-            event.target.closest('.day-card').classList.add('selected');
-
-            selectedDay = { date, dayOfWeek, dayNum, dayName };
-            selectedTime = null;
-            selectedCT = null;
-
-            showTimes(dayOfWeek);
-            
-            const dateStr = date.toLocaleDateString('pt-BR');
-            document.getElementById('selectedDate').textContent = `${dayName}, ${dateStr}`;
-            document.getElementById('selectedTime').textContent = '-';
-            document.getElementById('selectedCT').textContent = '-';
-            document.getElementById('selectedInfo').classList.add('active');
-        }
-
-        function showTimes(dayOfWeek) {
-            const timeRanges = trainingSchedule[dayOfWeek] || [];
-            const times = generateTimes(timeRanges);
-            const grid = document.getElementById('timesGrid');
-            const container = document.getElementById('timesContainer');
-            
-            grid.innerHTML = '';
-            
-            times.forEach(time => {
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = 'time-btn';
-                btn.textContent = time;
-                btn.addEventListener('click', () => selectTime(time));
-                grid.appendChild(btn);
-            });
-
-            container.classList.add('active');
-        }
-
-        function selectTime(time) {
-            selectedTime = time;
-            
-            document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('selected'));
-            event.target.classList.add('selected');
-
-            document.getElementById('selectedTime').textContent = time;
         }
 
         async function loadCTs() {
@@ -1835,14 +1787,16 @@
         }
 
         function confirmAttendance() {
-            if (!selectedDay || !selectedTime || !selectedCT) {
-                showMessage('attendanceMessage', 'Selecione dia, horário e CT', 'warning');
+            if (!selectedCT) {
+                showMessage('attendanceMessage', 'Selecione o CT', 'warning');
                 return;
             }
 
             showMessage('attendanceMessage', 'Registrando presença...', 'warning');
 
-            const dateStr = selectedDay.date.toLocaleDateString('pt-BR');
+            // ✅ Usar data atual (hoje)
+            const today = new Date();
+            const dateStr = today.toLocaleDateString('pt-BR');
 
             fetch(SCRIPT_URL, {
                 method: 'POST',
@@ -1853,7 +1807,6 @@
                     faixa: currentUser.faixa,
                     grau: currentUser.grau,
                     ct: selectedCT,
-                    schedule: `${selectedDay.dayName} ${selectedTime}`,
                     date: dateStr
                 })
             }).then(r => r.json()).then(data => {
@@ -1868,13 +1821,9 @@
                     document.getElementById('displayCount').textContent = currentUser.treinos;
                     
                     showMessage('attendanceMessage', '✅ Presença confirmada!', 'success');
-                    selectedDay = null;
-                    selectedTime = null;
                     selectedCT = null;
-                    document.querySelectorAll('.day-card').forEach(card => card.classList.remove('selected'));
                     document.querySelectorAll('.ct-btn').forEach(btn => btn.classList.remove('selected'));
-                    document.getElementById('timesContainer').classList.remove('active');
-                    generateCalendarDays();
+                    document.getElementById('selectedCT').textContent = '-';
                     setTimeout(() => document.getElementById('attendanceMessage').innerHTML = '', 3000);
                 } else {
                     showMessage('attendanceMessage', data.message || 'Erro', 'danger');
@@ -2218,7 +2167,7 @@
             document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
             
-            // ✅ Carrega ranking quando a aba for aberta
+            // ✅ Carrega dados específicos quando abrir abas
             if (tabName === 'ranking') {
                 loadRanking();
             }
