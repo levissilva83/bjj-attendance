@@ -3815,6 +3815,67 @@
             cursor: pointer;
             font-family: inherit;
         }
+        /* ══════ TREINO ALARM ══════ */
+        .treino-alarm {
+            position: relative; overflow: hidden;
+            background: linear-gradient(135deg, #0d1f0d 0%, #1a2e1a 50%, #0d1f0d 100%);
+            border: 1px solid rgba(45,200,90,0.25);
+            border-radius: 16px; padding: 16px; margin-bottom: 16px;
+            display: flex; align-items: center; gap: 14px;
+        }
+        .treino-alarm-glow {
+            position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(45,200,90,0.08) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .treino-alarm-icon {
+            font-size: 36px; z-index: 1; position: relative;
+            animation: alarmBell 2s ease-in-out infinite;
+        }
+        @keyframes alarmBell {
+            0%, 100% { transform: rotate(0deg); }
+            5% { transform: rotate(14deg); }
+            10% { transform: rotate(-14deg); }
+            15% { transform: rotate(10deg); }
+            20% { transform: rotate(-8deg); }
+            25% { transform: rotate(4deg); }
+            30%, 100% { transform: rotate(0deg); }
+        }
+        .treino-alarm-body { z-index: 1; position: relative; flex: 1; }
+        .treino-alarm-title {
+            font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 900;
+            color: #4ade80; margin-bottom: 2px;
+        }
+        .treino-alarm-sub {
+            font-size: 12px; color: rgba(74,222,128,0.6); font-weight: 600;
+        }
+        .treino-alarm-times {
+            display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;
+        }
+        .treino-alarm-time {
+            background: rgba(45,200,90,0.12); border: 1px solid rgba(45,200,90,0.2);
+            border-radius: 8px; padding: 4px 10px;
+            font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 800;
+            color: #4ade80; display: flex; align-items: center; gap: 4px;
+        }
+        .treino-alarm-time .clock-icon { font-size: 12px; }
+        .treino-alarm-time.next {
+            background: rgba(45,200,90,0.25); border-color: rgba(45,200,90,0.5);
+            box-shadow: 0 0 10px rgba(45,200,90,0.15);
+            animation: nextPulse 2s ease-in-out infinite;
+        }
+        @keyframes nextPulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(45,200,90,0.15); }
+            50% { box-shadow: 0 0 18px rgba(45,200,90,0.3); }
+        }
+        .treino-alarm.no-train {
+            background: linear-gradient(135deg, #1a1a1a 0%, #222 50%, #1a1a1a 100%);
+            border-color: rgba(255,255,255,0.06);
+        }
+        .treino-alarm.no-train .treino-alarm-title { color: var(--text-3); }
+        .treino-alarm.no-train .treino-alarm-sub { color: var(--text-3); opacity: 0.5; }
+        .treino-alarm.no-train .treino-alarm-icon { animation: none; }
+
         /* ══════ AVATAR BUILDER ══════ */
         .avb-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -4059,6 +4120,17 @@
 
                     <!-- SUB: CHECK-IN -->
                     <div id="sub-checkin" class="subtab-content active">
+                    <!-- ALARM: Hoje tem treino! -->
+                    <div id="treino-alarm" class="treino-alarm" style="display:none;">
+                        <div class="treino-alarm-glow"></div>
+                        <div class="treino-alarm-icon" id="treinoAlarmIcon">🔔</div>
+                        <div class="treino-alarm-body">
+                            <div class="treino-alarm-title" id="treinoAlarmTitle">Hoje tem treino!</div>
+                            <div class="treino-alarm-sub" id="treinoAlarmSub">Bora pro tatame! 🤙</div>
+                            <div class="treino-alarm-times" id="treinoAlarmTimes"></div>
+                        </div>
+                    </div>
+
                     <div class="checkin-profile">
                         <div class="checkin-avatar" id="checkinInitial">L</div>
                         <div class="checkin-info">
@@ -5355,7 +5427,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwsd1schVSFRurAwP4viiqwS78oU0DfVCMXzP3xpFn2w4HomILcBl0B-qMcrxresKIc/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzOj-WKbTDS1YnFrzkHz1rk8dJT42CCjL7EQR7obujzRXemMYMXAsRr5QlCvxtD9phP-w/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -5364,11 +5436,61 @@
         let currentRankingFilter = 'geral';
         let allRankingData = null;
 
+        // =================================================================
+        // 🔒 SECURITY MODULE
+        // =================================================================
+        function escapeHtml(str) {
+            if (str === null || str === undefined) return '';
+            return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');
+        }
+
+        async function secureFetch(action, payload) {
+            var token = getSessionToken();
+            if (!token && ['login','requestAccount','getCTsList','requestPasswordReset'].indexOf(action) === -1) {
+                handleSessionExpired();
+                throw new Error('Sessão expirada');
+            }
+            var body = Object.assign({}, payload || {}, { action: action });
+            if (token) body.token = token;
+            var response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(body) });
+            var data = await response.json();
+            if (data.unauthorized === true) { handleSessionExpired(); throw new Error('Sessão expirada'); }
+            if (data.forbidden === true) { alert('⛔ Sem permissão'); throw new Error('Permissão negada'); }
+            return data;
+        }
+
+        function getSessionToken() {
+            try {
+                var session = JSON.parse(localStorage.getItem('bjjSession') || 'null');
+                if (!session || !session.token) return null;
+                if (session.expiresAt && Date.now() > session.expiresAt) { clearSession(); return null; }
+                return session.token;
+            } catch(e) { return null; }
+        }
+
+        function setSessionToken(token) {
+            localStorage.setItem('bjjSession', JSON.stringify({ token: token, expiresAt: Date.now() + 86400000 }));
+        }
+
+        function clearSession() {
+            localStorage.removeItem('bjjUser');
+            localStorage.removeItem('bjjProfile');
+            localStorage.removeItem('bjjSession');
+            currentUser = null;
+        }
+
+        function handleSessionExpired() {
+            clearSession();
+            alert('Sua sessão expirou. Faça login novamente.');
+            location.reload();
+        }
+
+
         // ===== UTILS =====
         function showMessage(elementId, message, type) {
             const el = document.getElementById(elementId);
             if (!el) return;
-            el.innerHTML = '<div class="msg ' + type + '">' + message + '</div>';
+            el.innerHTML = '<div class="msg ' + escapeHtml(type) + '">' + message + '</div>';
         }
 
         // ===== INIT =====
@@ -5376,6 +5498,7 @@
             const s = localStorage.getItem('bjjUser');
             if (s) {
                 try {
+                    if (!getSessionToken()) { clearSession(); return; }
                     currentUser = JSON.parse(s);
                     showAppScreen();
                     loadAttendanceInfo();
@@ -5394,8 +5517,7 @@
                     }
                     fetchProfileFromBackend();
                 } catch(e) {
-                    localStorage.removeItem('bjjUser');
-                    localStorage.removeItem('bjjProfile');
+                    clearSession();
                 }
             }
         });
@@ -5408,10 +5530,13 @@
             showMessage('loginMessage', 'Conectando...', 'warning');
 
             try {
-                const r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'login', email, password }) });
+                const r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'login', email: email, password: password }) });
                 const data = await r.json();
                 if (data.authenticated === true) {
-                    currentUser = data;
+                    if (data.token) { setSessionToken(data.token); }
+                    var userData = Object.assign({}, data);
+                    delete userData.token;
+                    currentUser = userData;
                     localStorage.setItem('bjjUser', JSON.stringify(currentUser));
                     showAppScreen();
                     loadAttendanceInfo();
@@ -5601,9 +5726,7 @@
 
         function handleLogout() {
             if (confirm('Sair da conta?')) {
-                localStorage.removeItem('bjjUser');
-                localStorage.removeItem('bjjProfile');
-                currentUser = null;
+                clearSession();
                 // Limpar campos do perfil
                 for (var i = 0; i < PERFIL_FIELDS.length; i++) {
                     var el = document.getElementById(PERFIL_FIELDS[i].id);
@@ -5681,8 +5804,7 @@
         // ===== CHECK-IN =====
         async function loadCTs() {
             try {
-                const r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'getCTsList' }) });
-                const data = await r.json();
+                const data = await secureFetch('getCTsList', {});
                 if (data.success && data.cts) {
                     allCTs = data.cts;
                     // Armazenar schedules
@@ -5730,6 +5852,8 @@
                             grid.innerHTML = '<div style="text-align:center;color:var(--text-3);font-size:13px;padding:20px;grid-column:1/-1;">😴 Nenhum CT com treino hoje (' + dayLabels[new Date().getDay()] + ')</div>';
                         }
                     }
+                    // Check training alarm
+                    checkTreinoAlarm(data.cts);
                 }
             } catch (err) { console.error('Erro CTs:', err); }
         }
@@ -5759,6 +5883,113 @@
             }
         }
 
+        // ═══ TREINO ALARM ═══
+        function checkTreinoAlarm(cts) {
+            var alarm = document.getElementById('treino-alarm');
+            if (!alarm) return;
+            if (!currentUser || !currentUser.ct) { alarm.style.display = 'none'; return; }
+
+            var userCT = currentUser.ct;
+            var dayKeys = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'];
+            var dayLabels = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+            var now = new Date();
+            var hoje = dayKeys[now.getDay()];
+            var hojeName = dayLabels[now.getDay()];
+
+            // Find user's CT data
+            var ctData = null;
+            for (var i = 0; i < cts.length; i++) {
+                var ct = cts[i];
+                var name = typeof ct === 'string' ? ct : ct.name;
+                if (name === userCT) { ctData = ct; break; }
+            }
+
+            if (!ctData || typeof ctData === 'string') { alarm.style.display = 'none'; return; }
+
+            var schedule = ctData.schedule || {};
+            var hasConfig = Object.values(schedule).some(function(v) { return v === true; });
+            var hasTrainToday = !hasConfig || schedule[hoje] === true;
+            var horarios = ctData.horarios || '';
+
+            alarm.style.display = 'flex';
+            var icon = document.getElementById('treinoAlarmIcon');
+            var title = document.getElementById('treinoAlarmTitle');
+            var sub = document.getElementById('treinoAlarmSub');
+            var timesDiv = document.getElementById('treinoAlarmTimes');
+
+            if (hasTrainToday) {
+                alarm.className = 'treino-alarm';
+                icon.textContent = '🔔';
+                title.textContent = 'Hoje tem treino!';
+                sub.textContent = hojeName + ' · ' + userCT + ' · Bora pro tatame! 🤙';
+
+                if (horarios) {
+                    var times = horarios.split(',').map(function(t) { return t.trim(); }).filter(function(t) { return t; });
+                    var html = '';
+                    for (var t = 0; t < times.length; t++) {
+                        var isNext = false;
+                        var parts = times[t].split(':');
+                        if (parts.length === 2) {
+                            var classH = parseInt(parts[0]);
+                            var classM = parseInt(parts[1]) || 0;
+                            if (classH > now.getHours() || (classH === now.getHours() && classM > now.getMinutes())) {
+                                isNext = true;
+                            }
+                        }
+                        html += '<div class="treino-alarm-time' + (isNext ? ' next' : '') + '">' +
+                            '<span class="clock-icon">⏰</span> ' + times[t] +
+                        '</div>';
+                    }
+                    timesDiv.innerHTML = html;
+                } else {
+                    timesDiv.innerHTML = '<div style="font-size:11px;color:rgba(74,222,128,0.4);">Horários não cadastrados</div>';
+                }
+
+                // Find next class for countdown
+                if (horarios) {
+                    var times2 = horarios.split(',').map(function(t) { return t.trim(); });
+                    for (var t2 = 0; t2 < times2.length; t2++) {
+                        var p2 = times2[t2].split(':');
+                        if (p2.length === 2) {
+                            var h2 = parseInt(p2[0]), m2 = parseInt(p2[1]) || 0;
+                            var classDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h2, m2);
+                            var diff = classDate - now;
+                            if (diff > 0 && diff < 3600000 * 4) {
+                                var mins = Math.floor(diff / 60000);
+                                if (mins < 60) {
+                                    sub.textContent = '⏱️ Próxima aula em ' + mins + ' min! · ' + userCT;
+                                } else {
+                                    var hrs = Math.floor(mins / 60);
+                                    var rm = mins % 60;
+                                    sub.textContent = '⏱️ Próxima aula em ' + hrs + 'h' + (rm > 0 ? rm + 'min' : '') + ' · ' + userCT;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+            } else {
+                alarm.className = 'treino-alarm no-train';
+                icon.textContent = '😴';
+                title.textContent = 'Hoje é dia de descanso';
+                sub.textContent = hojeName + ' · Sem treino no ' + userCT;
+
+                var nextDay = '';
+                for (var nd = 1; nd <= 7; nd++) {
+                    var checkDay = dayKeys[(now.getDay() + nd) % 7];
+                    if (schedule[checkDay]) {
+                        nextDay = dayLabels[(now.getDay() + nd) % 7];
+                        break;
+                    }
+                }
+                if (nextDay) {
+                    timesDiv.innerHTML = '<div style="font-size:11px;color:var(--text-3);">Próximo treino: <strong>' + nextDay + '</strong>' + (horarios ? ' · ' + horarios.replace(/,/g, ' · ') : '') + '</div>';
+                } else {
+                    timesDiv.innerHTML = '';
+                }
+            }
+        }
+
         function confirmAttendance() {
             if (!selectedCT) { showMessage('attendanceMessage', 'Selecione o CT', 'warning'); return; }
 
@@ -5773,13 +6004,10 @@
 
             showMessage('attendanceMessage', 'Registrando presença...', 'info');
 
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify({
-                    action: 'attendance', email: currentUser.email, name: currentUser.name,
-                    faixa: currentUser.faixa, grau: currentUser.grau, ct: selectedCT
-                })
-            }).then(r => r.json()).then(data => {
+            secureFetch('attendance', {
+                email: currentUser.email, name: currentUser.name,
+                faixa: currentUser.faixa, grau: currentUser.grau, ct: selectedCT
+            }).then(data => {
                 if (data.success) {
                     // Admin: check-in direto (sem aprovação)
                     if (data.direct) {
@@ -5823,8 +6051,7 @@
             document.getElementById('ctFilterGrid').innerHTML = '';
 
             try {
-                const r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'getRankingMonth', email: currentUser.email, period: currentRankingPeriod }) });
-                const data = await r.json();
+                const data = await secureFetch('getRankingMonth', { email: currentUser.email, period: currentRankingPeriod });
                 if (data.success && data.ranking && data.ranking.length > 0) {
                     displayRanking(data.ranking);
                 } else {
@@ -5909,7 +6136,7 @@
                 Object.keys(userRank.treinosPorCT).sort().forEach(ct => {
                     const tag = document.createElement('div');
                     tag.className = 'user-ct-tag';
-                    tag.innerHTML = '<div class="user-ct-tag-name">' + ct + '</div><div class="user-ct-tag-count">' + userRank.treinosPorCT[ct] + '</div>';
+                    tag.innerHTML = '<div class="user-ct-tag-name">' + escapeHtml(ct) + '</div><div class="user-ct-tag-count">' + userRank.treinosPorCT[ct] + '</div>';
                     grid.appendChild(tag);
                 });
                 document.getElementById('userTotalCount').textContent = userRank.totalTreinos;
@@ -5928,7 +6155,7 @@
                 if (s.treinosPorCT) cts = Object.keys(s.treinosPorCT).map(c => c + ': ' + s.treinosPorCT[c]).join(' | ');
                 const card = document.createElement('div');
                 card.className = 'podium-card ' + classes[i];
-                card.innerHTML = '<div class="podium-medal">' + medals[i] + '</div><div class="podium-name">' + s.name + '</div><div class="podium-faixa">' + s.faixa + '</div><div class="podium-count">' + s.totalTreinos + '</div><div class="podium-ct">' + s.ctPrincipal + '</div>' + (cts ? '<div style="font-size:9px;color:var(--text-3);margin-top:4px;">' + cts + '</div>' : '');
+                card.innerHTML = '<div class="podium-medal">' + medals[i] + '</div><div class="podium-name">' + escapeHtml(s.name) + '</div><div class="podium-faixa">' + escapeHtml(s.faixa) + '</div><div class="podium-count">' + escapeHtml(s.totalTreinos) + '</div><div class="podium-ct">' + escapeHtml(s.ctPrincipal) + '</div>' + (cts ? '<div style="font-size:9px;color:var(--text-3);margin-top:4px;">' + escapeHtml(cts) + '</div>' : '');
                 top3.appendChild(card);
             }
             top3.style.display = ranking.length > 0 ? 'grid' : 'none';
@@ -5958,7 +6185,7 @@
                     if (s.treinosPorCT) cts = Object.keys(s.treinosPorCT).map(c => c + ': ' + s.treinosPorCT[c]).join(' • ');
                     const item = document.createElement('div');
                     item.className = 'rank-item' + (isMe ? ' me' : '');
-                    item.innerHTML = '<div class="rank-item-left"><div class="rank-pos">#' + (i+1) + '</div><div><div class="rank-name">' + s.name + (isMe ? ' ✨' : '') + '</div><div class="rank-detail">' + s.faixa + ' • ' + s.ctPrincipal + '</div>' + (cts ? '<div style="font-size:10px;color:var(--text-3);margin-top:2px;">' + cts + '</div>' : '') + '</div></div><div class="rank-num">' + s.totalTreinos + '</div>';
+                    item.innerHTML = '<div class="rank-item-left"><div class="rank-pos">#' + (i+1) + '</div><div><div class="rank-name">' + escapeHtml(s.name) + (isMe ? ' ✨' : '') + '</div><div class="rank-detail">' + escapeHtml(s.faixa) + ' • ' + escapeHtml(s.ctPrincipal) + '</div>' + (cts ? '<div style="font-size:10px;color:var(--text-3);margin-top:2px;">' + escapeHtml(cts) + '</div>' : '') + '</div></div><div class="rank-num">' + escapeHtml(s.totalTreinos) + '</div>';
                     list.appendChild(item);
                 }
             }
@@ -5984,7 +6211,7 @@
                 const isMe = s.email.toLowerCase() === currentUser.email.toLowerCase();
                 const item = document.createElement('div');
                 item.className = 'rank-item' + (isMe ? ' me' : '');
-                item.innerHTML = '<div class="rank-item-left"><div class="rank-pos">#' + (i+1) + '</div><div><div class="rank-name">' + s.name + (isMe ? ' ✨' : '') + '</div><div class="rank-detail">' + s.faixa + ' • ' + s.ctPrincipal + '</div></div></div><div class="rank-num">' + s.ctTreinos + '</div>';
+                item.innerHTML = '<div class="rank-item-left"><div class="rank-pos">#' + (i+1) + '</div><div><div class="rank-name">' + escapeHtml(s.name) + (isMe ? ' ✨' : '') + '</div><div class="rank-detail">' + escapeHtml(s.faixa) + ' • ' + escapeHtml(s.ctPrincipal) + '</div></div></div><div class="rank-num">' + escapeHtml(s.ctTreinos) + '</div>';
                 list.appendChild(item);
             }
         }
@@ -6283,11 +6510,7 @@
         async function fetchProfileFromBackend() {
             if (!currentUser || !currentUser.email) return;
             try {
-                var r = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({ action: 'getProfile', email: currentUser.email })
-                });
-                var data = await r.json();
+                var data = await secureFetch('getProfile', { email: currentUser.email });
                 if (data.success && data.profile) {
                     // Cache in localStorage
                     localStorage.setItem('bjjProfile', JSON.stringify(data.profile));
@@ -6625,15 +6848,7 @@
             }
 
             try {
-                var r = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        action: 'saveProfile',
-                        email: currentUser.email,
-                        profile: profileData
-                    })
-                });
-                var data = await r.json();
+                var data = await secureFetch('saveProfile', { email: currentUser.email, profile: profileData });
                 if (data.success) {
                     // Cache locally for persistence
                     localStorage.setItem('bjjProfile', JSON.stringify(profileData));
@@ -7083,11 +7298,7 @@
             if (nova !== confirma) { showMessage('perfilPwdMessage', '⚠️ As senhas não coincidem', 'warning'); return; }
 
             try {
-                var r = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({ action: 'changePassword', email: currentUser.email, currentPassword: atual, newPassword: nova })
-                });
-                var data = await r.json();
+                var data = await secureFetch('changePassword', { email: currentUser.email, currentPassword: atual, newPassword: nova });
                 if (data.success) {
                     showMessage('perfilPwdMessage', '✅ Senha alterada!', 'success');
                     document.getElementById('perfilSenhaAtual').value = '';
@@ -7132,8 +7343,7 @@
             if (novoGrau <= (currentUser.grau || 0)) return;
             currentUser._updatingGrau = true;
             try {
-                const r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'updateGrau', email: currentUser.email, grau: novoGrau }) });
-                const data = await r.json();
+                const data = await secureFetch('updateGrau', { email: currentUser.email, grau: novoGrau });
                 if (data.success) {
                     currentUser.grau = novoGrau;
                     localStorage.setItem('bjjUser', JSON.stringify(currentUser));
@@ -7151,8 +7361,7 @@
             cardsEl.innerHTML = '<div style="text-align:center;color:var(--text-3);padding:24px;font-size:13px;">Carregando...</div>';
 
             try {
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'getCTsList' }) });
-                var data = await r.json();
+                var data = await secureFetch('getCTsList', {});
                 if (data.success && data.cts && data.cts.length > 0) {
                     guideDataCache = data.cts;
                     renderGuide(data.cts);
@@ -7333,8 +7542,7 @@
 
             // Load Champions
             try {
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'getChampions' }) });
-                var data = await r.json();
+                var data = await secureFetch('getChampions', {});
                 if (data.success && data.champions && data.champions.length > 0 && hall && cards) {
                     championsCache = data.champions;
                     hall.style.display = 'block';
@@ -7360,8 +7568,7 @@
             var section = document.getElementById('campScoreSection');
             if (!section) return;
             try {
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'getCampPlacar', edicao: '', ct: '' }) });
-                var data = await r.json();
+                var data = await secureFetch('getCampPlacar', { edicao: '', ct: '' });
                 var edSel = document.getElementById('campScoreEdSelect');
                 var edicoes = (data.success && data.edicoes) ? data.edicoes : [];
                 if (edicoes.length === 0) {
@@ -7399,8 +7606,7 @@
 
         async function loadCampScoreCTs() {
             try {
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'getCampPlacar', edicao: campScoreEdFilter, ct: '' }) });
-                var data = await r.json();
+                var data = await secureFetch('getCampPlacar', { edicao: campScoreEdFilter, ct: '' });
                 var cts = (data.success && data.cts) ? data.cts : [];
                 if (cts.length === 0 && allCTs && allCTs.length > 0) {
                     allCTs.forEach(function(ct) {
@@ -7433,8 +7639,11 @@
             try {
                 // Busca SEM filtro de categoria — traz tudo
                 var payload = { action: 'getCampPlacar', edicao: campScoreEdFilter, ct: isTodos ? '' : campScoreCTFilter };
+                if (getSessionToken()) payload.token = getSessionToken();
                 var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
                 var data = await r.json();
+                if (data.unauthorized) { handleSessionExpired(); return; }
+                if (data.forbidden) { alert('⛔ Sem permissão'); return; }
                 var placar = data.success ? (data.placar || []) : [];
                 if (isTodos) { renderCampTodosAllCats(placar); }
                 else { renderCampAllCats(placar); }
@@ -7747,8 +7956,7 @@
         async function initCampAdmin() {
             // SEMPRE buscar CTs do backend para garantir que estejam carregados
             try {
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'getCTsList' }) });
-                var data = await r.json();
+                var data = await secureFetch('getCTsList', {});
                 if (data.success && data.cts) {
                     allCTs = data.cts;
                     ctSchedules = {};
@@ -7784,7 +7992,7 @@
                 if (allCTs && allCTs.length > 0) {
                     allCTs.forEach(function(ct) {
                         var name = typeof ct === 'string' ? ct : ct.name || ct.toString();
-                        selCT.innerHTML += '<option value="' + name + '">' + name + '</option>';
+                        selCT.innerHTML += '<option value="' + escapeHtml(name) + '">' + escapeHtml(name) + '</option>';
                     });
                 }
             }
@@ -7814,7 +8022,7 @@
             });
             filtered.sort(function(a, b) { return (a.name || '').localeCompare(b.name || ''); });
             filtered.forEach(function(s) {
-                sel.innerHTML += '<option value="' + s.email + '">' + s.name + '</option>';
+                sel.innerHTML += '<option value="' + escapeHtml(s.email) + '">' + escapeHtml(s.name) + '</option>';
             });
 
             // Recarregar placar para esse CT
@@ -7828,15 +8036,14 @@
             if (allCTs && allCTs.length > 0) {
                 allCTs.forEach(function(ct) {
                     var name = typeof ct === 'string' ? ct : ct.name || ct.toString();
-                    sel.innerHTML += '<option value="' + name + '">' + name + '</option>';
+                    sel.innerHTML += '<option value="' + escapeHtml(name) + '">' + escapeHtml(name) + '</option>';
                 });
             }
         }
 
         async function loadStudentsForPlacar() {
             try {
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'getStudentsList' }) });
-                var data = await r.json();
+                var data = await secureFetch('getStudentsList', {});
                 if (data.success && data.students) {
                     adminStudentsCacheCamp = data.students;
                 }
@@ -7933,12 +8140,7 @@
 
             showMessage('campPlacarMessage', 'Salvando placar...', 'warning');
             try {
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({
-                    action: 'saveCampPlacar',
-                    edicao: edicao,
-                    placar: campPlacarData
-                }) });
-                var data = await r.json();
+                var data = await secureFetch('saveCampPlacar', { edicao: edicao, placar: campPlacarData });
                 if (data.success) {
                     showMessage('campPlacarMessage', '✅ ' + data.message, 'success');
                 } else {
@@ -7960,8 +8162,7 @@
             }
 
             try {
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'getCampPlacar', edicao: edicao, ct: ct, categoria: categoria }) });
-                var data = await r.json();
+                var data = await secureFetch('getCampPlacar', { edicao: edicao, ct: ct, categoria: categoria });
                 campPlacarData = (data.success && data.placar) ? data.placar : [];
                 renderPlacarAdmin();
             } catch (err) {
@@ -8019,8 +8220,7 @@
 
             showMessage('campSaveMessage', 'Salvando...', 'warning');
             try {
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'saveChampions', champions: champions }) });
-                var data = await r.json();
+                var data = await secureFetch('saveChampions', { champions: champions });
                 if (data.success) {
                     showMessage('campSaveMessage', '✅ ' + data.message, 'success');
                     document.getElementById('campGeralNome').value = '';
@@ -8042,8 +8242,7 @@
             container.innerHTML = '<div style="text-align:center;color:var(--text-3);font-size:12px;padding:8px;">Carregando...</div>';
 
             try {
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'getChampions' }) });
-                var data = await r.json();
+                var data = await secureFetch('getChampions', {});
                 if (data.success && data.champions && data.champions.length > 0) {
                     renderChampionsAdmin(data.champions, container);
                 } else {
@@ -8115,7 +8314,7 @@
             if (allCTs && allCTs.length > 0) {
                 allCTs.forEach(function(c) {
                     var name = typeof c === 'string' ? c : c.name || c.toString();
-                    ctSel.innerHTML += '<option value="' + name + '">' + name + '</option>';
+                    ctSel.innerHTML += '<option value="' + escapeHtml(name) + '">' + escapeHtml(name) + '</option>';
                 });
             }
             ctSel.value = ct;
@@ -8148,13 +8347,16 @@
 
             document.getElementById('champEditMessage').innerHTML = '<span style="color:var(--text-3);">Salvando...</span>';
             try {
+                if (getSessionToken()) payload.token = getSessionToken();
                 var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
                 var data = await r.json();
+                if (data.unauthorized) { handleSessionExpired(); return; }
+                if (data.forbidden) { alert('⛔ Sem permissão'); return; }
                 if (data.success) {
                     closeEditChampion();
                     loadChampionsAdmin();
                 } else {
-                    document.getElementById('champEditMessage').innerHTML = '<span style="color:#e74c3c;">❌ ' + data.message + '</span>';
+                    document.getElementById('champEditMessage').innerHTML = '<span style="color:#e74c3c;">❌ ' + escapeHtml(data.message) + '</span>';
                 }
             } catch (err) {
                 document.getElementById('champEditMessage').innerHTML = '<span style="color:#e74c3c;">❌ ' + err.message + '</span>';
@@ -8165,8 +8367,7 @@
             if (!confirm('Remover campeão "' + nome + '"?')) return;
 
             try {
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'deleteChampion', rowIndex: rowIndex }) });
-                var data = await r.json();
+                var data = await secureFetch('deleteChampion', { rowIndex: rowIndex });
                 if (data.success) {
                     loadChampionsAdmin();
                 } else {
@@ -8221,8 +8422,7 @@
         // --- ADMIN OWN CHECK-IN ---
         async function loadAdminCTs() {
             try {
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'getCTsList' }) });
-                var data = await r.json();
+                var data = await secureFetch('getCTsList', {});
                 if (data.success && data.cts) {
                     var grid = document.getElementById('admCtGrid');
                     if (grid) {
@@ -8257,13 +8457,10 @@
                 return;
             }
             showMessage('admAttendanceMessage', 'Registrando...', 'info');
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify({
-                    action: 'attendance', email: currentUser.email, name: currentUser.name,
-                    faixa: currentUser.faixa, grau: currentUser.grau, ct: adminSelectedCT
-                })
-            }).then(function(r) { return r.json(); }).then(function(data) {
+            secureFetch('attendance', {
+                email: currentUser.email, name: currentUser.name,
+                faixa: currentUser.faixa, grau: currentUser.grau, ct: adminSelectedCT
+            }).then(function(data) {
                 if (data.success) {
                     currentUser.treinos = (currentUser.treinos || 0) + 1;
                     localStorage.setItem('bjjUser', JSON.stringify(currentUser));
@@ -8290,10 +8487,7 @@
             if (nw !== confirm) { showMessage('admPwMessage', 'Senhas não conferem', 'warning'); return; }
             showMessage('admPwMessage', 'Alterando...', 'info');
             try {
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({
-                    action: 'changePassword', email: currentUser.email, currentPassword: cur, newPassword: nw
-                })});
-                var data = await r.json();
+                var data = await secureFetch('changePassword', { email: currentUser.email, currentPassword: cur, newPassword: nw });
                 if (data.success) {
                     showMessage('admPwMessage', '✅ Senha alterada!', 'success');
                     document.getElementById('admCurrentPw').value = '';
@@ -8324,8 +8518,11 @@
             try {
                 var payload = { action: 'getAttendanceReport' };
                 if (reportSelectedCT && reportSelectedCT !== 'todos') payload.ct = reportSelectedCT;
+                if (getSessionToken()) payload.token = getSessionToken();
                 var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
                 var data = await r.json();
+                if (data.unauthorized) { handleSessionExpired(); return; }
+                if (data.forbidden) { alert('⛔ Sem permissão'); return; }
                 if (data.success) {
                     reportData = data;
                     renderReportCTFilter(data);
@@ -8462,8 +8659,7 @@
             var container = document.getElementById('adminCTScheduleList');
             container.innerHTML = '<div class="admin-empty">Carregando...</div>';
             try {
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'getCTsList' }) });
-                var data = await r.json();
+                var data = await secureFetch('getCTsList', {});
                 if (data.success && data.cts && data.cts.length > 0) {
                     ctScheduleCache = {};
                     var html = '';
@@ -8594,7 +8790,7 @@
 
             try {
                 // Save schedule
-                var r1 = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'saveCTSchedule', ctName: ctName, schedule: schedule }) });
+                var r1 = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'saveCTSchedule', ctName: ctName, schedule: schedule, token: getSessionToken() }) });
                 await r1.json();
 
                 // Save details
@@ -8611,6 +8807,7 @@
                     telefone: (document.getElementById('ctDet_tel_' + cardIdx) || {}).value || ''
                 };
 
+                details.token = getSessionToken();
                 var r2 = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(details) });
                 var data = await r2.json();
 
@@ -8632,8 +8829,7 @@
             var container = document.getElementById('adminStudentsList');
             container.innerHTML = '<div class="admin-empty">Carregando...</div>';
             try {
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'getStudentsList' }) });
-                var data = await r.json();
+                var data = await secureFetch('getStudentsList', {});
                 if (data.success && data.students) {
                     adminStudentsCache = data.students;
                     renderStudentsList(adminStudentsCache);
@@ -8681,8 +8877,7 @@
             var container = document.getElementById('adminRankingList');
             container.innerHTML = '<div class="admin-empty">Carregando...</div>';
             try {
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'getRankingMonth', period: admRankPeriod }) });
-                var data = await r.json();
+                var data = await secureFetch('getRankingMonth', { period: admRankPeriod });
                 if (data.success && data.ranking && data.ranking.length > 0) {
                     var BELT_EMOJI = { 'Branca':'⬜','Cinza':'🩶','Amarela':'🟨','Laranja':'🟧','Verde':'🟩','Azul':'🟦','Roxa':'🟪','Marrom':'🟫','Preta':'⬛','Coral':'🔴','Vermelha':'🔴' };
                     var html = '';
@@ -8829,8 +9024,11 @@
             };
 
             try {
+                if (getSessionToken()) payload.token = getSessionToken();
                 var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
                 var data = await r.json();
+                if (data.unauthorized) { handleSessionExpired(); return; }
+                if (data.forbidden) { alert('⛔ Sem permissão'); return; }
                 var msg = document.getElementById('stuModalMsg');
                 if (data.success) {
                     msg.className = 'stu-modal-msg success';
@@ -8862,8 +9060,7 @@
             if (!confirm('Remover ' + stuModalEmail + '? Esta ação não pode ser desfeita.')) return;
 
             try {
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'deleteStudent', email: stuModalEmail }) });
-                var data = await r.json();
+                var data = await secureFetch('deleteStudent', { email: stuModalEmail });
                 if (data.success) {
                     closeStuModal();
                     loadStudentsList();
@@ -8885,8 +9082,7 @@
             var container = document.getElementById('adminAccountsList');
             container.innerHTML = '<div class="admin-empty">Carregando...</div>';
             try {
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'getPendingAccounts' }) });
-                var data = await r.json();
+                var data = await secureFetch('getPendingAccounts', {});
                 if (data.success && data.accounts && data.accounts.length > 0) {
                     var html = '';
                     for (var i = 0; i < data.accounts.length; i++) {
@@ -8933,10 +9129,9 @@
             var card = document.getElementById('accCard' + idx);
             if (card) card.style.opacity = '0.5';
             try {
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'approveAccount', email: email }) });
-                var data = await r.json();
+                var data = await secureFetch('approveAccount', { email: email });
                 if (data.success) {
-                    if (card) { card.style.background = 'rgba(45,138,78,0.1)'; card.innerHTML = '<div class="admin-empty" style="color:#2d8a4e">✅ ' + email + ' aprovado!</div>'; }
+                    if (card) { card.style.background = 'rgba(45,138,78,0.1)'; card.innerHTML = '<div class="admin-empty" style="color:#2d8a4e">✅ ' + escapeHtml(email) + ' aprovado!</div>'; }
                     setTimeout(loadPendingAccounts, 1500);
                 } else {
                     alert(data.message || 'Erro ao aprovar');
@@ -8953,10 +9148,9 @@
             var card = document.getElementById('accCard' + idx);
             if (card) card.style.opacity = '0.5';
             try {
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'rejectAccount', email: email }) });
-                var data = await r.json();
+                var data = await secureFetch('rejectAccount', { email: email });
                 if (data.success) {
-                    if (card) { card.style.background = 'rgba(232,93,93,0.1)'; card.innerHTML = '<div class="admin-empty" style="color:var(--coral)">❌ ' + email + ' rejeitado</div>'; }
+                    if (card) { card.style.background = 'rgba(232,93,93,0.1)'; card.innerHTML = '<div class="admin-empty" style="color:var(--coral)">❌ ' + escapeHtml(email) + ' rejeitado</div>'; }
                     setTimeout(loadPendingAccounts, 1500);
                 } else { alert(data.message || 'Erro'); if (card) card.style.opacity = '1'; }
             } catch (err) { alert('Erro de conexão'); if (card) card.style.opacity = '1'; }
@@ -8967,8 +9161,7 @@
             var container = document.getElementById('adminResetsList');
             container.innerHTML = '<div class="admin-empty">Carregando...</div>';
             try {
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'getPendingResets' }) });
-                var data = await r.json();
+                var data = await secureFetch('getPendingResets', {});
                 if (data.success && data.resets && data.resets.length > 0) {
                     var html = '';
                     for (var i = 0; i < data.resets.length; i++) {
@@ -9008,10 +9201,9 @@
             var card = document.getElementById('rstCard' + idx);
             if (card) card.style.opacity = '0.5';
             try {
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'approvePasswordReset', email: email }) });
-                var data = await r.json();
+                var data = await secureFetch('approvePasswordReset', { email: email });
                 if (data.success) {
-                    if (card) { card.style.background = 'rgba(45,138,78,0.1)'; card.innerHTML = '<div class="admin-empty" style="color:#2d8a4e">✅ Senha de ' + email + ' atualizada!</div>'; }
+                    if (card) { card.style.background = 'rgba(45,138,78,0.1)'; card.innerHTML = '<div class="admin-empty" style="color:#2d8a4e">✅ Senha de ' + escapeHtml(email) + ' atualizada!</div>'; }
                     setTimeout(loadPendingResets, 1500);
                 } else {
                     alert(data.message || 'Erro ao aprovar');
@@ -9028,8 +9220,7 @@
             var card = document.getElementById('rstCard' + idx);
             if (card) card.style.opacity = '0.5';
             try {
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'rejectPasswordReset', email: email }) });
-                var data = await r.json();
+                var data = await secureFetch('rejectPasswordReset', { email: email });
                 if (data.success) {
                     if (card) { card.style.background = 'rgba(232,93,93,0.1)'; card.innerHTML = '<div class="admin-empty" style="color:var(--coral)">❌ Reset rejeitado</div>'; }
                     setTimeout(loadPendingResets, 1500);
@@ -9043,8 +9234,7 @@
             var approvedContainer = document.getElementById('adminApprovedList');
             container.innerHTML = '<div class="admin-empty">Carregando...</div>';
             try {
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'getPendingCheckins', filter: adminCheckinFilter }) });
-                var data = await r.json();
+                var data = await secureFetch('getPendingCheckins', { filter: adminCheckinFilter });
 
                 // Pending
                 adminPendingCheckins = (data.pending || []);
@@ -9147,8 +9337,7 @@
             var card = document.getElementById('ckCard' + cardIdx);
             if (card) card.style.opacity = '0.5';
             try {
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'approveCheckin', rowIndex: rowIndex, approvedBy: currentUser.email }) });
-                var data = await r.json();
+                var data = await secureFetch('approveCheckin', { rowIndex: rowIndex, approvedBy: currentUser.email });
                 if (data.success) {
                     if (card) { card.style.background = 'rgba(45,138,78,0.1)'; card.innerHTML = '<div class="admin-empty" style="color:#2d8a4e">✅ Aprovado!</div>'; }
                     setTimeout(loadPendingCheckins, 1000);
@@ -9164,8 +9353,7 @@
             var card = document.getElementById('ckCard' + cardIdx);
             if (card) card.style.opacity = '0.5';
             try {
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'rejectCheckin', rowIndex: rowIndex }) });
-                var data = await r.json();
+                var data = await secureFetch('rejectCheckin', { rowIndex: rowIndex });
                 if (data.success) {
                     if (card) { card.style.background = 'rgba(232,93,93,0.1)'; card.innerHTML = '<div class="admin-empty" style="color:var(--coral)">❌ Rejeitado</div>'; }
                     setTimeout(loadPendingCheckins, 1000);
@@ -9179,8 +9367,7 @@
             btn.disabled = true;
             btn.textContent = 'Aprovando...';
             try {
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'bulkApproveCheckins', approvedBy: currentUser.email, filter: adminCheckinFilter }) });
-                var data = await r.json();
+                var data = await secureFetch('bulkApproveCheckins', { approvedBy: currentUser.email, filter: adminCheckinFilter });
                 if (data.success) {
                     btn.textContent = '✅ ' + (data.count || 0) + ' aprovados!';
                     setTimeout(loadPendingCheckins, 1500);
