@@ -288,7 +288,7 @@
             -webkit-justify-content: space-around;
             -ms-flex-pack: distribute;
             justify-content: space-around;
-            max-width: 400px;
+            max-width: 460px;
             margin: 0 auto;
         }
 
@@ -306,7 +306,7 @@
             -webkit-align-items: center;
             -ms-flex-align: center;
             align-items: center;
-            padding: 6px 16px;
+            padding: 6px 10px;
             background: none;
             border: none;
             color: var(--text-3);
@@ -2810,6 +2810,199 @@
         }
         .bday-close:hover { transform: scale(1.05); }
         .bday-close:active { transform: scale(0.97); }
+
+        /* ===== REWARDS / GAMIFICATION ===== */
+        .rwd-container { padding: 16px; max-width: 460px; margin: 0 auto; }
+
+        /* Tier Hero Card */
+        .rwd-hero {
+            position: relative;
+            border-radius: 20px;
+            padding: 28px 20px 20px;
+            text-align: center;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+        .rwd-hero.bronze { background: linear-gradient(135deg, #1a1510 0%, #2a1f14 50%, #1a1510 100%); border: 1px solid rgba(205,127,50,0.25); }
+        .rwd-hero.prata { background: linear-gradient(135deg, #141618 0%, #1e2226 50%, #141618 100%); border: 1px solid rgba(192,192,192,0.25); }
+        .rwd-hero.ouro { background: linear-gradient(135deg, #1a1708 0%, #2a2510 50%, #1a1708 100%); border: 1px solid rgba(212,175,55,0.3); }
+        .rwd-hero.diamante { background: linear-gradient(135deg, #0a1520 0%, #102030 50%, #0a1520 100%); border: 1px solid rgba(100,200,255,0.3); }
+
+        .rwd-hero-shimmer {
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.03) 50%, transparent 70%);
+            animation: rwdShimmer 4s ease-in-out infinite;
+        }
+        @keyframes rwdShimmer { 0%, 100% { transform: translateX(-30%) rotate(0deg); } 50% { transform: translateX(30%) rotate(5deg); } }
+
+        .rwd-tier-icon { font-size: 48px; margin-bottom: 4px; position: relative; z-index: 1; }
+        .rwd-tier-name {
+            font-family: 'Sora', sans-serif;
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            margin-bottom: 2px;
+            position: relative; z-index: 1;
+        }
+        .rwd-hero.bronze .rwd-tier-name { color: #cd7f32; }
+        .rwd-hero.prata .rwd-tier-name { color: #c0c0c0; }
+        .rwd-hero.ouro .rwd-tier-name { color: #d4af37; }
+        .rwd-hero.diamante .rwd-tier-name { color: #64c8ff; }
+
+        .rwd-pontos {
+            font-family: 'Sora', sans-serif;
+            font-size: 42px;
+            font-weight: 900;
+            color: #fff;
+            line-height: 1;
+            margin-bottom: 2px;
+            position: relative; z-index: 1;
+        }
+        .rwd-pontos-label { font-size: 11px; color: var(--text-3); letter-spacing: 1px; text-transform: uppercase; font-weight: 600; margin-bottom: 16px; position: relative; z-index: 1; }
+
+        /* Desconto badge */
+        .rwd-desconto {
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-family: 'Sora', sans-serif;
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 14px;
+            position: relative; z-index: 1;
+        }
+        .rwd-hero.bronze .rwd-desconto { background: rgba(205,127,50,0.12); color: #cd7f32; border: 1px solid rgba(205,127,50,0.25); }
+        .rwd-hero.prata .rwd-desconto { background: rgba(192,192,192,0.12); color: #e0e0e0; border: 1px solid rgba(192,192,192,0.25); }
+        .rwd-hero.ouro .rwd-desconto { background: rgba(212,175,55,0.15); color: #f5d76e; border: 1px solid rgba(212,175,55,0.3); }
+        .rwd-hero.diamante .rwd-desconto { background: rgba(100,200,255,0.12); color: #64c8ff; border: 1px solid rgba(100,200,255,0.3); }
+
+        /* Progress bar to next tier */
+        .rwd-progress { position: relative; z-index: 1; }
+        .rwd-progress-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-3);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .rwd-progress-track {
+            height: 8px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .rwd-progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .rwd-hero.bronze .rwd-progress-fill { background: linear-gradient(90deg, #8b5a2b, #cd7f32); }
+        .rwd-hero.prata .rwd-progress-fill { background: linear-gradient(90deg, #808080, #c0c0c0); }
+        .rwd-hero.ouro .rwd-progress-fill { background: linear-gradient(90deg, #b8972e, #f5d76e); }
+        .rwd-hero.diamante .rwd-progress-fill { background: linear-gradient(90deg, #2890c8, #64c8ff); }
+
+        /* Stats row */
+        .rwd-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
+        .rwd-stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px 8px;
+            text-align: center;
+        }
+        .rwd-stat-icon { font-size: 20px; margin-bottom: 4px; }
+        .rwd-stat-num { font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 800; color: #fff; }
+        .rwd-stat-lbl { font-size: 9px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-3); font-weight: 600; margin-top: 2px; }
+
+        /* Breakdown */
+        .rwd-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .rwd-section-title {
+            font-family: 'Sora', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-2);
+            margin-bottom: 12px;
+        }
+        .rwd-breakdown-row {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .rwd-breakdown-row:last-child { border-bottom: none; }
+        .rwd-breakdown-icon { font-size: 18px; margin-right: 10px; width: 28px; text-align: center; }
+        .rwd-breakdown-label { flex: 1; font-size: 13px; color: var(--text-2); }
+        .rwd-breakdown-pts {
+            font-family: 'Sora', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        /* How to earn */
+        .rwd-rule-row {
+            display: flex;
+            align-items: center;
+            padding: 7px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .rwd-rule-row:last-child { border-bottom: none; }
+        .rwd-rule-icon { font-size: 16px; margin-right: 10px; width: 26px; text-align: center; }
+        .rwd-rule-text { flex: 1; font-size: 12px; color: var(--text-3); }
+        .rwd-rule-pts { font-size: 12px; font-weight: 700; color: var(--gold); font-family: 'Sora', sans-serif; }
+
+        /* Tier ladder */
+        .rwd-ladder { display: flex; flex-direction: column; gap: 6px; }
+        .rwd-ladder-row {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+            transition: all 0.3s;
+        }
+        .rwd-ladder-row.active { border-color: var(--gold); background: rgba(212,175,55,0.06); }
+        .rwd-ladder-icon { font-size: 20px; margin-right: 10px; }
+        .rwd-ladder-info { flex: 1; }
+        .rwd-ladder-name { font-size: 13px; font-weight: 700; color: var(--text-1); }
+        .rwd-ladder-range { font-size: 10px; color: var(--text-3); }
+        .rwd-ladder-pct { font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 800; }
+        .rwd-ladder-row.active .rwd-ladder-pct { color: var(--gold); }
+
+        /* History mini bars */
+        .rwd-hist-row {
+            display: flex;
+            align-items: center;
+            padding: 6px 0;
+        }
+        .rwd-hist-label { font-size: 11px; color: var(--text-3); min-width: 65px; font-weight: 600; }
+        .rwd-hist-track { flex: 1; height: 18px; background: rgba(255,255,255,0.04); border-radius: 5px; overflow: hidden; margin: 0 8px; }
+        .rwd-hist-fill { height: 100%; border-radius: 5px; background: linear-gradient(90deg, #b8972e, #d4af37); transition: width 0.6s ease; }
+        .rwd-hist-val { font-size: 11px; font-weight: 700; color: var(--text-2); min-width: 36px; text-align: right; font-family: 'Sora', sans-serif; }
+
+        /* CTs visited */
+        .rwd-ct-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+        .rwd-ct-tag {
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .rwd-ct-tag.home { background: rgba(212,175,55,0.12); color: var(--gold); border: 1px solid rgba(212,175,55,0.25); }
+        .rwd-ct-tag.visit { background: rgba(100,200,255,0.08); color: #64c8ff; border: 1px solid rgba(100,200,255,0.2); }
     </style>
 </head>
 <body>
@@ -3109,6 +3302,87 @@
                 </div>
 
                 <!-- PERFIL TAB -->
+
+                <!-- REWARDS TAB -->
+                <div id="rewards" class="tab-content">
+                    <div class="rwd-container">
+                        <!-- Hero Tier Card -->
+                        <div class="rwd-hero bronze" id="rwdHero">
+                            <div class="rwd-hero-shimmer"></div>
+                            <div class="rwd-tier-icon" id="rwdTierIcon">🥉</div>
+                            <div class="rwd-tier-name" id="rwdTierName">BRONZE</div>
+                            <div class="rwd-pontos" id="rwdPontos">0</div>
+                            <div class="rwd-pontos-label">Pontos este mês</div>
+                            <div class="rwd-desconto" id="rwdDesconto">Sem desconto</div>
+                            <div class="rwd-progress" id="rwdProgressSection">
+                                <div class="rwd-progress-labels">
+                                    <span id="rwdProgressLeft">Bronze</span>
+                                    <span id="rwdProgressRight">Prata (100 pts)</span>
+                                </div>
+                                <div class="rwd-progress-track">
+                                    <div class="rwd-progress-fill" id="rwdProgressFill" style="width:0%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stats -->
+                        <div class="rwd-stats">
+                            <div class="rwd-stat-card">
+                                <div class="rwd-stat-icon">🏠</div>
+                                <div class="rwd-stat-num" id="rwdHomeCount">0</div>
+                                <div class="rwd-stat-lbl">CT Base</div>
+                            </div>
+                            <div class="rwd-stat-card">
+                                <div class="rwd-stat-icon">🌍</div>
+                                <div class="rwd-stat-num" id="rwdVisitCount">0</div>
+                                <div class="rwd-stat-lbl">Visitante</div>
+                            </div>
+                            <div class="rwd-stat-card">
+                                <div class="rwd-stat-icon">📍</div>
+                                <div class="rwd-stat-num" id="rwdCTsCount">0</div>
+                                <div class="rwd-stat-lbl">CTs</div>
+                            </div>
+                        </div>
+
+                        <!-- CTs Visitados -->
+                        <div class="rwd-section" id="rwdCTsSection" style="display:none;">
+                            <div class="rwd-section-title">📍 CTs Visitados</div>
+                            <div class="rwd-ct-tags" id="rwdCTsTags"></div>
+                        </div>
+
+                        <!-- Breakdown -->
+                        <div class="rwd-section">
+                            <div class="rwd-section-title">⚡ Detalhamento de Pontos</div>
+                            <div id="rwdBreakdown">
+                                <div style="text-align:center;color:var(--text-3);font-size:12px;padding:12px;">Carregando...</div>
+                            </div>
+                        </div>
+
+                        <!-- Histórico -->
+                        <div class="rwd-section">
+                            <div class="rwd-section-title">📊 Histórico Mensal</div>
+                            <div id="rwdHistorico"></div>
+                        </div>
+
+                        <!-- Tier Ladder -->
+                        <div class="rwd-section">
+                            <div class="rwd-section-title">🏅 Níveis de Desconto</div>
+                            <div class="rwd-ladder" id="rwdLadder"></div>
+                        </div>
+
+                        <!-- How to Earn -->
+                        <div class="rwd-section">
+                            <div class="rwd-section-title">🎯 Como Ganhar Pontos</div>
+                            <div class="rwd-rule-row"><div class="rwd-rule-icon">🏠</div><div class="rwd-rule-text">Check-in no seu CT Base</div><div class="rwd-rule-pts">+10 pts</div></div>
+                            <div class="rwd-rule-row"><div class="rwd-rule-icon">🌍</div><div class="rwd-rule-text">Check-in em outro CT (visitante)</div><div class="rwd-rule-pts">+15 pts</div></div>
+                            <div class="rwd-rule-row"><div class="rwd-rule-icon">🔥</div><div class="rwd-rule-text">3+ treinos na semana</div><div class="rwd-rule-pts">+20 pts</div></div>
+                            <div class="rwd-rule-row"><div class="rwd-rule-icon">💪</div><div class="rwd-rule-text">5+ treinos na semana</div><div class="rwd-rule-pts">+50 pts</div></div>
+                            <div class="rwd-rule-row"><div class="rwd-rule-icon">📍</div><div class="rwd-rule-text">Treinar em 2 CTs no mês</div><div class="rwd-rule-pts">+30 pts</div></div>
+                            <div class="rwd-rule-row"><div class="rwd-rule-icon">🗺️</div><div class="rwd-rule-text">Treinar em 3+ CTs no mês</div><div class="rwd-rule-pts">+60 pts</div></div>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="perfil" class="tab-content">
                     <div class="perfil-container">
                         <div class="perfil-header">
@@ -3556,6 +3830,10 @@
                     <span class="bnav-icon">🏆</span>
                     <span class="bnav-label">Ranking</span>
                 </button>
+                <button class="bnav-btn" onclick="switchTab('rewards', event)">
+                    <span class="bnav-icon">🎁</span>
+                    <span class="bnav-label">Prêmios</span>
+                </button>
                 <button class="bnav-btn" onclick="switchTab('evolucao', event)">
                     <span class="bnav-icon">📈</span>
                     <span class="bnav-label">Evolução</span>
@@ -3616,7 +3894,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxzOU6YpYgotA-SkNI_p3MDL0I7d0jZ1L6XFU3XF0TzCsXwN8jtb9MNKQBiyXu98a1y/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx1FZ5XL5zdH269KPlUOi30K1pGY-orftyfykcFNi0LuMrPIuJN6Crn1YZd51c-8Y7r/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -3902,6 +4180,7 @@
             }
 
             if (tabName === 'ranking') loadRanking();
+            if (tabName === 'rewards') loadRewards();
             if (tabName === 'evolucao') loadEvolucao();
             if (tabName === 'perfil') loadProfile();
         }
@@ -4762,6 +5041,166 @@
                 }
             } catch (err) { console.error('Erro grau:', err); }
             finally { currentUser._updatingGrau = false; }
+        }
+
+        // ===== REWARDS / GAMIFICATION =====
+        var rewardsData = null;
+
+        async function loadRewards() {
+            if (!currentUser || !currentUser.email) return;
+
+            // Show loading state
+            document.getElementById('rwdPontos').textContent = '...';
+            document.getElementById('rwdBreakdown').innerHTML = '<div style="text-align:center;color:var(--text-3);font-size:12px;padding:12px;">Carregando...</div>';
+
+            try {
+                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'getRewardsData', email: currentUser.email }) });
+                var data = await r.json();
+                if (data.success) {
+                    rewardsData = data;
+                    renderRewards(data);
+                } else {
+                    document.getElementById('rwdPontos').textContent = '0';
+                    document.getElementById('rwdBreakdown').innerHTML = '<div style="text-align:center;color:var(--text-3);font-size:12px;padding:12px;">Erro ao carregar</div>';
+                }
+            } catch (err) {
+                document.getElementById('rwdPontos').textContent = '0';
+            }
+        }
+
+        function renderRewards(d) {
+            var TIER_CONFIG = {
+                bronze:   { icon: '🥉', name: 'BRONZE',   label: 'Sem desconto' },
+                prata:    { icon: '🥈', name: 'PRATA',    label: '5% de desconto' },
+                ouro:     { icon: '🥇', name: 'OURO',     label: '10% de desconto' },
+                diamante: { icon: '💎', name: 'DIAMANTE', label: '15% de desconto' }
+            };
+
+            var tier = d.tier || 'bronze';
+            var cfg = TIER_CONFIG[tier];
+
+            // Hero card
+            var hero = document.getElementById('rwdHero');
+            hero.className = 'rwd-hero ' + tier;
+            document.getElementById('rwdTierIcon').textContent = cfg.icon;
+            document.getElementById('rwdTierName').textContent = cfg.name;
+            document.getElementById('rwdDesconto').textContent = d.desconto > 0 ? d.desconto + '% de desconto' : 'Sem desconto';
+
+            // Animate pontos counter
+            animateCounter('rwdPontos', d.pontos || 0);
+
+            // Progress
+            if (d.proximoTier) {
+                document.getElementById('rwdProgressSection').style.display = 'block';
+                document.getElementById('rwdProgressLeft').textContent = cfg.name;
+                var TIER_THRESHOLDS = { 'Prata': 100, 'Ouro': 250, 'Diamante': 450 };
+                document.getElementById('rwdProgressRight').textContent = d.proximoTier + ' (' + TIER_THRESHOLDS[d.proximoTier] + ' pts)';
+                setTimeout(function() {
+                    document.getElementById('rwdProgressFill').style.width = Math.min(100, d.progresso || 0) + '%';
+                }, 100);
+            } else {
+                document.getElementById('rwdProgressSection').style.display = 'none';
+            }
+
+            // Stats
+            document.getElementById('rwdHomeCount').textContent = d.totalHome || 0;
+            document.getElementById('rwdVisitCount').textContent = d.totalVisita || 0;
+            document.getElementById('rwdCTsCount').textContent = d.numCTs || 0;
+
+            // CTs tags
+            var ctsSection = document.getElementById('rwdCTsSection');
+            if (d.ctsVisitados && d.ctsVisitados.length > 0) {
+                ctsSection.style.display = 'block';
+                var tagsHtml = '';
+                for (var t = 0; t < d.ctsVisitados.length; t++) {
+                    var isHome = d.ctsVisitados[t] === d.homeCT;
+                    tagsHtml += '<div class="rwd-ct-tag ' + (isHome ? 'home' : 'visit') + '">' +
+                        (isHome ? '🏠 ' : '🌍 ') + d.ctsVisitados[t] + '</div>';
+                }
+                document.getElementById('rwdCTsTags').innerHTML = tagsHtml;
+            } else {
+                ctsSection.style.display = 'none';
+            }
+
+            // Breakdown
+            var bkHtml = '';
+            if (d.breakdown && d.breakdown.length > 0) {
+                for (var b = 0; b < d.breakdown.length; b++) {
+                    var bk = d.breakdown[b];
+                    bkHtml += '<div class="rwd-breakdown-row">' +
+                        '<div class="rwd-breakdown-icon">' + (bk.icon || '⚡') + '</div>' +
+                        '<div class="rwd-breakdown-label">' + bk.label + '</div>' +
+                        '<div class="rwd-breakdown-pts">+' + bk.pts + '</div>' +
+                    '</div>';
+                }
+            } else {
+                bkHtml = '<div style="text-align:center;color:var(--text-3);font-size:12px;padding:16px;">Nenhum treino registrado este mês.<br>Faça check-in para começar a pontuar! 🥋</div>';
+            }
+            document.getElementById('rwdBreakdown').innerHTML = bkHtml;
+
+            // Histórico
+            var histHtml = '';
+            if (d.historico && d.historico.length > 0) {
+                var maxHist = Math.max.apply(null, d.historico.map(function(h) { return h.pontos; }));
+                if (maxHist === 0) maxHist = 1;
+                for (var h = 0; h < d.historico.length; h++) {
+                    var hItem = d.historico[h];
+                    var hPct = Math.round((hItem.pontos / maxHist) * 100);
+                    var isCurrentMonth = (h === d.historico.length - 1);
+                    histHtml += '<div class="rwd-hist-row">' +
+                        '<div class="rwd-hist-label">' + hItem.label + '</div>' +
+                        '<div class="rwd-hist-track"><div class="rwd-hist-fill" style="width:' + hPct + '%;' + (isCurrentMonth ? 'background:linear-gradient(90deg,#d4af37,#f5d76e);' : '') + '"></div></div>' +
+                        '<div class="rwd-hist-val">' + hItem.pontos + ' pts</div>' +
+                    '</div>';
+                }
+            } else {
+                histHtml = '<div style="text-align:center;color:var(--text-3);font-size:12px;padding:12px;">Sem dados históricos</div>';
+            }
+            document.getElementById('rwdHistorico').innerHTML = histHtml;
+
+            // Tier Ladder
+            var TIERS = [
+                { key: 'diamante', icon: '💎', name: 'Diamante', range: '450+ pts', pct: '15%' },
+                { key: 'ouro', icon: '🥇', name: 'Ouro', range: '250–449 pts', pct: '10%' },
+                { key: 'prata', icon: '🥈', name: 'Prata', range: '100–249 pts', pct: '5%' },
+                { key: 'bronze', icon: '🥉', name: 'Bronze', range: '0–99 pts', pct: '—' }
+            ];
+            var ladderHtml = '';
+            for (var l = 0; l < TIERS.length; l++) {
+                var tr = TIERS[l];
+                var isActive = tr.key === tier;
+                ladderHtml += '<div class="rwd-ladder-row' + (isActive ? ' active' : '') + '">' +
+                    '<div class="rwd-ladder-icon">' + tr.icon + '</div>' +
+                    '<div class="rwd-ladder-info">' +
+                        '<div class="rwd-ladder-name">' + tr.name + '</div>' +
+                        '<div class="rwd-ladder-range">' + tr.range + '</div>' +
+                    '</div>' +
+                    '<div class="rwd-ladder-pct">' + tr.pct + '</div>' +
+                '</div>';
+            }
+            document.getElementById('rwdLadder').innerHTML = ladderHtml;
+        }
+
+        function animateCounter(elementId, target) {
+            var el = document.getElementById(elementId);
+            var current = 0;
+            var duration = 800;
+            var steps = 30;
+            var increment = target / steps;
+            var stepTime = duration / steps;
+
+            function step() {
+                current += increment;
+                if (current >= target) {
+                    el.textContent = target;
+                    return;
+                }
+                el.textContent = Math.round(current);
+                setTimeout(step, stepTime);
+            }
+
+            if (target === 0) { el.textContent = '0'; return; }
+            step();
         }
 
         // ===== ADMIN PANEL =====
