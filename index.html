@@ -3111,6 +3111,66 @@
         }
         .ct-benefit-toggle.active { background: rgba(46,204,113,0.15); color: #2ecc71; border-color: rgba(46,204,113,0.3); }
 
+        /* ===== CT TIME SLOT PICKER ===== */
+        .ct-time-picker { margin-top: 4px; }
+        .ct-time-slots { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+        .ct-time-slot {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            font-family: 'Sora', monospace;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.03);
+            color: var(--adm-text-3);
+            transition: all 0.2s;
+            user-select: none;
+            position: relative;
+        }
+        .ct-time-slot.active {
+            background: rgba(94,234,212,0.15);
+            color: #5EEAD4;
+            border-color: rgba(94,234,212,0.4);
+            box-shadow: 0 0 8px rgba(94,234,212,0.1);
+        }
+        .ct-time-slot.custom .ct-time-remove {
+            display: inline-block;
+            margin-left: 5px;
+            font-size: 10px;
+            opacity: 0.5;
+            cursor: pointer;
+        }
+        .ct-time-slot.custom .ct-time-remove:hover { opacity: 1; color: #E85D5D; }
+        .ct-time-add-row {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+        .ct-time-add-input {
+            width: 70px;
+            padding: 5px 8px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
+            color: var(--adm-text-1);
+            font-size: 12px;
+            font-family: 'Sora', monospace;
+            text-align: center;
+        }
+        .ct-time-add-btn {
+            padding: 5px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(94,234,212,0.3);
+            background: rgba(94,234,212,0.1);
+            color: #5EEAD4;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .ct-time-add-btn:hover { background: rgba(94,234,212,0.2); }
+
         /* ===== ADMIN STUDENT EDITOR MODAL ===== */
         .stu-modal-overlay {
             display: none;
@@ -5427,7 +5487,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyuw9luNmICO1aAa2qRqVy5tS4_tfaJHF_ey6q0UUEnhFE8w2BrJi14Jcx62S--CAa-/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzOj-WKbTDS1YnFrzkHz1rk8dJT42CCjL7EQR7obujzRXemMYMXAsRr5QlCvxtD9phP-w/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -5910,6 +5970,11 @@
             var hasConfig = Object.values(schedule).some(function(v) { return v === true; });
             var hasTrainToday = !hasConfig || schedule[hoje] === true;
             var horarios = ctData.horarios || '';
+            // Safeguard: se veio como Date string (1899), extrai só HH:MM
+            if (horarios.indexOf('1899') > -1 || horarios.indexOf('GMT') > -1) {
+                var m = horarios.match(/(\d{1,2}):(\d{2}):\d{2}/);
+                if (m) horarios = (m[1].length < 2 ? '0' + m[1] : m[1]) + ':' + m[2];
+            }
 
             alarm.style.display = 'flex';
             var icon = document.getElementById('treinoAlarmIcon');
@@ -8701,7 +8766,39 @@
                         html += '<div class="ct-detail-field"><label>Endereço</label><input type="text" id="ctDet_end_' + i + '" value="' + esc(ct.endereco) + '" placeholder="Rua, número, bairro"></div>';
 
                         html += '<div class="ct-detail-row">';
-                        html += '<div class="ct-detail-field"><label>Horários (vírgula)</label><input type="text" id="ctDet_hrs_' + i + '" value="' + esc(ct.horarios) + '" placeholder="06:00,07:00,19:00"></div>';
+                        // Time slot picker
+                        var DEFAULT_TIMES = ['07:30','08:00','18:00','19:00','19:30','20:30','21:00'];
+                        var currentTimes = ct.horarios ? ct.horarios.split(',').map(function(t) { return t.trim(); }).filter(function(t) { return t; }) : [];
+                        // Merge: default + any custom times already saved
+                        var allTimes = DEFAULT_TIMES.slice();
+                        for (var ti = 0; ti < currentTimes.length; ti++) {
+                            if (allTimes.indexOf(currentTimes[ti]) === -1) allTimes.push(currentTimes[ti]);
+                        }
+                        allTimes.sort();
+
+                        html += '<div class="ct-detail-field" style="flex:2;">';
+                        html += '<label>⏰ Horários de Aula</label>';
+                        html += '<input type="hidden" id="ctDet_hrs_' + i + '" value="' + esc(ct.horarios) + '">';
+                        html += '<div class="ct-time-picker" id="ctTimePicker_' + i + '">';
+                        html += '<div class="ct-time-slots" id="ctTimeSlots_' + i + '">';
+                        for (var ti2 = 0; ti2 < allTimes.length; ti2++) {
+                            var timeVal = allTimes[ti2];
+                            var isActive = currentTimes.indexOf(timeVal) >= 0;
+                            var isCustom = DEFAULT_TIMES.indexOf(timeVal) === -1;
+                            html += '<div class="ct-time-slot' + (isActive ? ' active' : '') + (isCustom ? ' custom' : '') + '" ';
+                            html += 'data-time="' + timeVal + '" ';
+                            html += 'onclick="toggleCTTime(this,' + i + ')">';
+                            html += timeVal;
+                            if (isCustom) html += '<span class="ct-time-remove" onclick="event.stopPropagation();removeCTTime(this,' + i + ')">✕</span>';
+                            html += '</div>';
+                        }
+                        html += '</div>';
+                        html += '<div class="ct-time-add-row">';
+                        html += '<input type="text" class="ct-time-add-input" id="ctTimeNew_' + i + '" placeholder="HH:MM" maxlength="5">';
+                        html += '<button type="button" class="ct-time-add-btn" onclick="addCTTime(' + i + ')">+ Horário</button>';
+                        html += '</div>';
+                        html += '</div></div>';
+
                         html += '<div class="ct-detail-field"><label>Valor Avulso (R$)</label><input type="text" id="ctDet_val_' + i + '" value="' + esc(ct.valorAvulso) + '" placeholder="50,00"></div>';
                         html += '</div>';
 
@@ -8736,11 +8833,24 @@
                     // Add change listeners to detail fields
                     for (var k = 0; k < data.cts.length; k++) {
                         (function(idx) {
-                            var fields = ['ctDet_end_','ctDet_hrs_','ctDet_val_','ctDet_pla_','ctDet_map_','ctDet_ig_','ctDet_tel_'];
+                            var fields = ['ctDet_end_','ctDet_val_','ctDet_pla_','ctDet_map_','ctDet_ig_','ctDet_tel_'];
                             fields.forEach(function(prefix) {
                                 var el = document.getElementById(prefix + idx);
                                 if (el) el.addEventListener('input', function() { markCTUnsaved(idx); });
                             });
+                            // Time input: Enter to add + auto-colon mask
+                            var timeInput = document.getElementById('ctTimeNew_' + idx);
+                            if (timeInput) {
+                                timeInput.addEventListener('keydown', function(e) {
+                                    if (e.key === 'Enter') { e.preventDefault(); addCTTime(idx); }
+                                });
+                                timeInput.addEventListener('input', function(e) {
+                                    var v = e.target.value.replace(/[^\d:]/g, '');
+                                    if (v.length === 2 && v.indexOf(':') === -1) v = v + ':';
+                                    if (v.length > 5) v = v.substring(0, 5);
+                                    e.target.value = v;
+                                });
+                            }
                         })(k);
                     }
                 } else {
@@ -8754,6 +8864,83 @@
         function markCTUnsaved(cardIdx) {
             var statusEl = document.getElementById('ctSchedStatus_' + cardIdx);
             if (statusEl) { statusEl.textContent = 'alterado'; statusEl.className = 'ct-schedule-status unsaved'; }
+        }
+
+        // ===== CT TIME SLOT PICKER =====
+        function updateCTTimeHidden(cardIdx) {
+            var container = document.getElementById('ctTimeSlots_' + cardIdx);
+            if (!container) return;
+            var active = container.querySelectorAll('.ct-time-slot.active');
+            var times = [];
+            for (var i = 0; i < active.length; i++) {
+                times.push(active[i].getAttribute('data-time'));
+            }
+            times.sort();
+            var hidden = document.getElementById('ctDet_hrs_' + cardIdx);
+            if (hidden) hidden.value = times.join(',');
+            markCTUnsaved(cardIdx);
+        }
+
+        function toggleCTTime(el, cardIdx) {
+            el.classList.toggle('active');
+            updateCTTimeHidden(cardIdx);
+        }
+
+        function removeCTTime(removeBtn, cardIdx) {
+            var slot = removeBtn.parentElement;
+            slot.remove();
+            updateCTTimeHidden(cardIdx);
+        }
+
+        function addCTTime(cardIdx) {
+            var input = document.getElementById('ctTimeNew_' + cardIdx);
+            if (!input) return;
+            var val = input.value.trim();
+            // Validar formato HH:MM
+            if (!/^\d{1,2}:\d{2}$/.test(val)) {
+                input.style.borderColor = '#E85D5D';
+                setTimeout(function() { input.style.borderColor = ''; }, 1500);
+                return;
+            }
+            var parts = val.split(':');
+            var h = parseInt(parts[0]), m = parseInt(parts[1]);
+            if (h < 0 || h > 23 || m < 0 || m > 59) {
+                input.style.borderColor = '#E85D5D';
+                setTimeout(function() { input.style.borderColor = ''; }, 1500);
+                return;
+            }
+            var formatted = ('0' + h).slice(-2) + ':' + ('0' + m).slice(-2);
+
+            var container = document.getElementById('ctTimeSlots_' + cardIdx);
+            if (!container) return;
+            // Checar duplicata
+            var existing = container.querySelectorAll('.ct-time-slot');
+            for (var i = 0; i < existing.length; i++) {
+                if (existing[i].getAttribute('data-time') === formatted) {
+                    existing[i].classList.add('active');
+                    updateCTTimeHidden(cardIdx);
+                    input.value = '';
+                    return;
+                }
+            }
+            // Criar novo slot (custom, já ativo)
+            var slot = document.createElement('div');
+            slot.className = 'ct-time-slot active custom';
+            slot.setAttribute('data-time', formatted);
+            slot.setAttribute('onclick', 'toggleCTTime(this,' + cardIdx + ')');
+            slot.innerHTML = formatted + '<span class="ct-time-remove" onclick="event.stopPropagation();removeCTTime(this,' + cardIdx + ')">✕</span>';
+            // Inserir ordenado
+            var inserted = false;
+            for (var j = 0; j < existing.length; j++) {
+                if (existing[j].getAttribute('data-time') > formatted) {
+                    container.insertBefore(slot, existing[j]);
+                    inserted = true;
+                    break;
+                }
+            }
+            if (!inserted) container.appendChild(slot);
+            input.value = '';
+            updateCTTimeHidden(cardIdx);
         }
 
         function toggleCTDay(ctName, dayKey, el, cardIdx) {
