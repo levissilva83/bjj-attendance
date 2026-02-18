@@ -6337,14 +6337,24 @@
 
             for (let i = 0; i < 4; i++) {
                 const min = reqs[i];
-                const isUnlocked = (i + 1) <= grauAtual;
-                const isCurrent = !isUnlocked && (i === grauAtual);
+                const hasEnoughTreinos = treinosSemestre >= min;
+                // Desbloqueado: atingiu o mínimo de treinos exigido
+                const isUnlocked = hasEnoughTreinos;
+                // Alvo pronto: treinos bateram mas grau ainda não foi registrado
+                const isReady = hasEnoughTreinos && (i + 1) > grauAtual;
                 const progress = Math.min(treinosSemestre, min);
-                const pct = Math.round((progress / min) * 100);
 
                 let cls = 'locked', icon = '🔒', lbl = '', prog = '';
-                if (isUnlocked) { cls = 'unlocked'; icon = '⭐'; lbl = 'unlocked'; prog = 'Conquistado'; }
-                else if (isCurrent) { cls = 'current-target'; icon = pct >= 100 ? '✅' : '🎯'; lbl = 'current-target'; prog = progress + '/' + min; }
+                if (isUnlocked && !isReady) {
+                    // Conquistado: treinos ok + grau já registrado
+                    cls = 'unlocked'; icon = '⭐'; lbl = 'unlocked'; prog = '✅ Conquistado';
+                } else if (isReady) {
+                    // Treinos bateram, aguardando professor registrar o grau
+                    cls = 'current-target'; icon = '✅'; lbl = 'current-target'; prog = '🎉 Apto!';
+                } else {
+                    // Bloqueado: treinos insuficientes
+                    cls = 'locked'; icon = '🔒'; lbl = ''; prog = progress + '/' + min;
+                }
 
                 const seal = document.createElement('div');
                 seal.className = 'evo-seal';
