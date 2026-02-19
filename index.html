@@ -3935,6 +3935,26 @@
         .treino-alarm.no-train .treino-alarm-title { color: var(--text-3); }
         .treino-alarm.no-train .treino-alarm-sub { color: var(--text-3); opacity: 0.5; }
         .treino-alarm.no-train .treino-alarm-icon { animation: none; }
+        .treino-alarm.checked-in {
+            background: linear-gradient(135deg, #0a1a2e 0%, #0d2847 50%, #0a1a2e 100%);
+            border-color: rgba(59,130,246,0.3);
+        }
+        .treino-alarm.checked-in .treino-alarm-glow {
+            background: radial-gradient(circle at 30% 50%, rgba(59,130,246,0.1) 0%, transparent 60%);
+        }
+        .treino-alarm.checked-in .treino-alarm-title { color: #60a5fa; }
+        .treino-alarm.checked-in .treino-alarm-sub { color: rgba(96,165,250,0.7); }
+        .treino-alarm.checked-in .treino-alarm-icon { animation: none; }
+        .treino-alarm.missed {
+            background: linear-gradient(135deg, #2a1a0a 0%, #3d2210 50%, #2a1a0a 100%);
+            border-color: rgba(251,191,36,0.25);
+        }
+        .treino-alarm.missed .treino-alarm-glow {
+            background: radial-gradient(circle at 30% 50%, rgba(251,191,36,0.08) 0%, transparent 60%);
+        }
+        .treino-alarm.missed .treino-alarm-title { color: #fbbf24; }
+        .treino-alarm.missed .treino-alarm-sub { color: rgba(251,191,36,0.6); }
+        .treino-alarm.missed .treino-alarm-icon { animation: none; }
 
         /* ══════ AVATAR BUILDER ══════ */
         .avb-overlay {
@@ -5487,7 +5507,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzbYOc_R5GXW9hFaEjHuWg7Lyf8VRhTHz0K3JcdsztaDsSt0ELw9_BPIWHCrXSM6tvd/exec';
+        const SCRIPT_URL = 'hhttps://script.google.com/macros/s/AKfycbxy19KKvTxBJuFt0XUNz9qfQM5OsM7dHQqBpcQzvsK_6FWnjOiWEECFI0xklgJys56g/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -5914,6 +5934,12 @@
                     }
                     // Check training alarm
                     checkTreinoAlarm(data.cts);
+                    // Auto-refresh alarm a cada 60s (countdown, estado)
+                    if (!window._alarmInterval) {
+                        window._alarmInterval = setInterval(function() {
+                            if (allCTs && allCTs.length > 0) checkTreinoAlarm(allCTs);
+                        }, 60000);
+                    }
                 }
             } catch (err) { console.error('Erro CTs:', err); }
         }
@@ -5944,6 +5970,47 @@
         }
 
         // ═══ TREINO ALARM ═══
+        // ===== MOTIVATIONAL MESSAGES =====
+        var MOTIVATIONAL_CHECKIN = [
+            'Treino feito! Cada repetição te torna mais forte. 💪',
+            'Ossú! Mais um treino no banco. Consistência vence talento! 🔥',
+            'Você apareceu e deu o melhor. Isso já te coloca à frente de muitos! 🥋',
+            'Treino registrado! O tatame nunca mente — você evoluiu hoje. 🏆',
+            'Mais um dia de evolução. Quem treina junto, cresce junto! 🤝',
+            'Mandou bem! A faixa não enrola em quem não aparece. Você apareceu! ⭐',
+            'Treino concluído! Cada gota de suor é um investimento em você. 💎',
+            'Parabéns pelo treino! Disciplina é fazer mesmo quando não quer. 🎯',
+            'Hoje você foi melhor que ontem. E amanhã será melhor que hoje! 📈',
+            'Check-in feito! O caminho da faixa preta é um passo de cada vez. 🥇'
+        ];
+
+        var MOTIVATIONAL_MISSED = [
+            'O tatame sentiu sua falta hoje... Amanhã é dia de voltar! 💪',
+            'Perdeu o treino de hoje, mas não perca o de amanhã! 🥋',
+            'Sem treino hoje? Tudo bem, descanse e volte com tudo! 🔄',
+            'O jiu-jitsu te espera. Não deixe o tatame esfriar! 🔥',
+            'Hoje não deu, mas seu compromisso continua. Bora amanhã? 🤙',
+            'Quem falta ao treino, o tatame cobra depois. Volte logo! 😤',
+            'Não treinou hoje? Lembre: a consistência constrói campeões. ⏰',
+            'O treino de hoje era importante... mas o de amanhã também é! 💎'
+        ];
+
+        function getRandomMessage(arr) {
+            // Usa o dia como seed para mesma mensagem no mesmo dia
+            var dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
+            return arr[dayOfYear % arr.length];
+        }
+
+        function fezCheckinHoje() {
+            if (!currentUser) return false;
+            var uc = currentUser.ultimoCheckin;
+            if (!uc) return false;
+            var last = new Date(uc);
+            if (isNaN(last.getTime())) return false;
+            var now = new Date();
+            return last.getFullYear() === now.getFullYear() && last.getMonth() === now.getMonth() && last.getDate() === now.getDate();
+        }
+
         function checkTreinoAlarm(cts) {
             var alarm = document.getElementById('treino-alarm');
             if (!alarm) return;
@@ -5955,6 +6022,7 @@
             var now = new Date();
             var hoje = dayKeys[now.getDay()];
             var hojeName = dayLabels[now.getDay()];
+            var nowMin = now.getHours() * 60 + now.getMinutes();
 
             // Find user's CT data
             var ctData = null;
@@ -5969,71 +6037,15 @@
             var schedule = ctData.schedule || {};
             var hasConfig = Object.values(schedule).some(function(v) { return v === true; });
             var hasTrainToday = !hasConfig || schedule[hoje] === true;
-            var horarios = ctData.horarios || '';
-            // Safeguard: se veio como Date string (1899), extrai só HH:MM
-            if (horarios.indexOf('1899') > -1 || horarios.indexOf('GMT') > -1) {
-                var m = horarios.match(/(\d{1,2}):(\d{2}):\d{2}/);
-                if (m) horarios = (m[1].length < 2 ? '0' + m[1] : m[1]) + ':' + m[2];
-            }
 
-            alarm.style.display = 'flex';
             var icon = document.getElementById('treinoAlarmIcon');
             var title = document.getElementById('treinoAlarmTitle');
             var sub = document.getElementById('treinoAlarmSub');
             var timesDiv = document.getElementById('treinoAlarmTimes');
 
-            if (hasTrainToday) {
-                alarm.className = 'treino-alarm';
-                icon.textContent = '🔔';
-                title.textContent = 'Hoje tem treino!';
-                sub.textContent = hojeName + ' · ' + userCT + ' · Bora pro tatame! 🤙';
-
-                if (horarios) {
-                    var times = horarios.split(',').map(function(t) { return t.trim(); }).filter(function(t) { return t; });
-                    var html = '';
-                    for (var t = 0; t < times.length; t++) {
-                        var isNext = false;
-                        var parts = times[t].split(':');
-                        if (parts.length === 2) {
-                            var classH = parseInt(parts[0]);
-                            var classM = parseInt(parts[1]) || 0;
-                            if (classH > now.getHours() || (classH === now.getHours() && classM > now.getMinutes())) {
-                                isNext = true;
-                            }
-                        }
-                        html += '<div class="treino-alarm-time' + (isNext ? ' next' : '') + '">' +
-                            '<span class="clock-icon">⏰</span> ' + times[t] +
-                        '</div>';
-                    }
-                    timesDiv.innerHTML = html;
-                } else {
-                    timesDiv.innerHTML = '<div style="font-size:11px;color:rgba(74,222,128,0.4);">Horários não cadastrados</div>';
-                }
-
-                // Find next class for countdown
-                if (horarios) {
-                    var times2 = horarios.split(',').map(function(t) { return t.trim(); });
-                    for (var t2 = 0; t2 < times2.length; t2++) {
-                        var p2 = times2[t2].split(':');
-                        if (p2.length === 2) {
-                            var h2 = parseInt(p2[0]), m2 = parseInt(p2[1]) || 0;
-                            var classDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h2, m2);
-                            var diff = classDate - now;
-                            if (diff > 0 && diff < 3600000 * 4) {
-                                var mins = Math.floor(diff / 60000);
-                                if (mins < 60) {
-                                    sub.textContent = '⏱️ Próxima aula em ' + mins + ' min! · ' + userCT;
-                                } else {
-                                    var hrs = Math.floor(mins / 60);
-                                    var rm = mins % 60;
-                                    sub.textContent = '⏱️ Próxima aula em ' + hrs + 'h' + (rm > 0 ? rm + 'min' : '') + ' · ' + userCT;
-                                }
-                                break;
-                            }
-                        }
-                    }
-                }
-            } else {
+            // ===== SEM TREINO HOJE =====
+            if (!hasTrainToday) {
+                alarm.style.display = 'flex';
                 alarm.className = 'treino-alarm no-train';
                 icon.textContent = '😴';
                 title.textContent = 'Hoje é dia de descanso';
@@ -6047,23 +6059,234 @@
                         break;
                     }
                 }
-                if (nextDay) {
-                    timesDiv.innerHTML = '<div style="font-size:11px;color:var(--text-3);">Próximo treino: <strong>' + nextDay + '</strong>' + (horarios ? ' · ' + horarios.replace(/,/g, ' · ') : '') + '</div>';
+                var horStr = (ctData.horarios || '').replace(/,/g, ' · ');
+                timesDiv.innerHTML = nextDay ? '<div style="font-size:11px;color:var(--text-3);">Próximo treino: <strong>' + nextDay + '</strong>' + (horStr ? ' · ' + horStr : '') + '</div>' : '';
+                return;
+            }
+
+            // ===== TEM TREINO HOJE - Analisar janelas =====
+            var horarios = ctData.horarios || '';
+            // Safeguard: Date string (1899)
+            if (horarios.indexOf('1899') > -1 || horarios.indexOf('GMT') > -1) {
+                var mx = horarios.match(/(\d{1,2}):(\d{2}):\d{2}/);
+                if (mx) horarios = (mx[1].length < 2 ? '0' + mx[1] : mx[1]) + ':' + mx[2];
+            }
+
+            // Parse time slots
+            var slots = [];
+            if (horarios) {
+                var parts = horarios.split(',');
+                for (var s = 0; s < parts.length; s++) {
+                    var t = parts[s].trim();
+                    var pm = t.match(/^(\d{1,2}):(\d{2})$/);
+                    if (!pm) continue;
+                    var h = parseInt(pm[1]), m = parseInt(pm[2]);
+                    slots.push({ label: t, startMin: h * 60 + m, endMin: Math.min(h * 60 + m + 300, 1439) });
+                }
+                slots.sort(function(a, b) { return a.startMin - b.startMin; });
+            }
+
+            // Se não tem horários cadastrados, fallback: sempre visível em dia de treino
+            if (slots.length === 0) {
+                alarm.style.display = 'flex';
+                alarm.className = 'treino-alarm';
+                icon.textContent = '🔔';
+                title.textContent = 'Hoje tem treino!';
+                sub.textContent = hojeName + ' · ' + userCT + ' · Bora pro tatame! 🤙';
+                timesDiv.innerHTML = '<div style="font-size:11px;color:rgba(74,222,128,0.4);">Horários não cadastrados</div>';
+                return;
+            }
+
+            var primeiraAulaMin = slots[0].startMin;
+            var ultimaJanelaFim = slots[slots.length - 1].endMin;
+            var alertaInicio = primeiraAulaMin - 120; // 2h antes
+            var checkinFeito = fezCheckinHoje();
+
+            // ===== ESTADO 1: Antes de 2h da primeira aula → ESCONDER =====
+            if (nowMin < alertaInicio) {
+                alarm.style.display = 'none';
+                return;
+            }
+
+            // ===== ESTADO 2: Após todas as janelas → PÓS-TREINO =====
+            if (nowMin > ultimaJanelaFim) {
+                alarm.style.display = 'flex';
+                if (checkinFeito) {
+                    // ✅ Fez check-in → Mensagem motivacional
+                    alarm.className = 'treino-alarm checked-in';
+                    icon.textContent = '🏆';
+                    title.textContent = 'Treino concluído!';
+                    sub.textContent = getRandomMessage(MOTIVATIONAL_CHECKIN);
+                    timesDiv.innerHTML = '<div style="font-size:11px;color:rgba(96,165,250,0.5);">' + hojeName + ' · ' + userCT + ' · Total: ' + (currentUser.treinos || 0) + ' treinos</div>';
                 } else {
-                    timesDiv.innerHTML = '';
+                    // 😔 Não fez check-in → Mensagem de incentivo
+                    alarm.className = 'treino-alarm missed';
+                    icon.textContent = '😔';
+                    title.textContent = 'Você não treinou hoje';
+                    sub.textContent = getRandomMessage(MOTIVATIONAL_MISSED);
+                    var nextDay2 = '';
+                    for (var nd2 = 1; nd2 <= 7; nd2++) {
+                        var cd2 = dayKeys[(now.getDay() + nd2) % 7];
+                        if (schedule[cd2]) { nextDay2 = dayLabels[(now.getDay() + nd2) % 7]; break; }
+                    }
+                    timesDiv.innerHTML = nextDay2 ? '<div style="font-size:11px;color:rgba(251,191,36,0.5);">Próximo treino: <strong>' + nextDay2 + '</strong></div>' : '';
+                }
+                return;
+            }
+
+            // ===== ESTADO 3: Dentro da janela (2h antes → fim da última aula) =====
+            // Se já fez check-in durante a janela ativa → motivacional
+            if (checkinFeito) {
+                alarm.style.display = 'flex';
+                alarm.className = 'treino-alarm checked-in';
+                icon.textContent = '✅';
+                title.textContent = 'Presença registrada!';
+                sub.textContent = getRandomMessage(MOTIVATIONAL_CHECKIN);
+                timesDiv.innerHTML = '<div style="font-size:11px;color:rgba(96,165,250,0.5);">' + hojeName + ' · ' + userCT + ' · Total: ' + (currentUser.treinos || 0) + ' treinos</div>';
+                return;
+            }
+
+            // Ainda não fez check-in → Alarme ativo com countdown
+            alarm.style.display = 'flex';
+            alarm.className = 'treino-alarm';
+            icon.textContent = '🔔';
+            title.textContent = 'Hoje tem treino!';
+            sub.textContent = hojeName + ' · ' + userCT + ' · Bora pro tatame! 🤙';
+
+            // Render time slots
+            var timesHtml = '';
+            for (var ts = 0; ts < slots.length; ts++) {
+                var isPast = nowMin > slots[ts].endMin;
+                var isNext = !isPast && (nowMin < slots[ts].startMin || nowMin <= slots[ts].endMin);
+                var nextFound = false;
+                var cls = '';
+                if (isPast) {
+                    cls = ' style="opacity:0.3;"';
+                } else if (isNext && !nextFound) {
+                    cls = ' class="treino-alarm-time next"';
+                    nextFound = true;
+                }
+                if (isPast) {
+                    timesHtml += '<div class="treino-alarm-time" style="opacity:0.35;"><span class="clock-icon">⏰</span> ' + slots[ts].label + '</div>';
+                } else if (isNext) {
+                    timesHtml += '<div class="treino-alarm-time next"><span class="clock-icon">⏰</span> ' + slots[ts].label + '</div>';
+                } else {
+                    timesHtml += '<div class="treino-alarm-time"><span class="clock-icon">⏰</span> ' + slots[ts].label + '</div>';
                 }
             }
+            timesDiv.innerHTML = timesHtml;
+
+            // Countdown para próxima aula
+            for (var c = 0; c < slots.length; c++) {
+                if (slots[c].startMin > nowMin) {
+                    var diffMin = slots[c].startMin - nowMin;
+                    if (diffMin <= 120) {
+                        if (diffMin < 60) {
+                            sub.textContent = '⏱️ Próxima aula em ' + diffMin + ' min! · ' + userCT;
+                        } else {
+                            var hrs = Math.floor(diffMin / 60);
+                            var rm = diffMin % 60;
+                            sub.textContent = '⏱️ Próxima aula em ' + hrs + 'h' + (rm > 0 ? rm + 'min' : '') + ' · ' + userCT;
+                        }
+                    }
+                    break;
+                }
+                // Se estamos dentro da janela de uma aula que já começou
+                if (nowMin >= slots[c].startMin && nowMin <= slots[c].endMin) {
+                    sub.textContent = '🥋 Aula das ' + slots[c].label + ' em andamento! · ' + userCT;
+                    break;
+                }
+            }
+        }
+
+        /**
+         * Verifica se o check-in está dentro da janela permitida para o CT.
+         * Regra: cada horário de aula abre uma janela de 5h para check-in.
+         *   - Manhã (ex: 07:30) → check-in 07:30 até 12:30
+         *   - Noite  (ex: 19:00) → check-in 19:00 até 00:00
+         * Janela máxima: não ultrapassa 23:59 (meia-noite).
+         * Se o CT não tem horários configurados, fallback: 06:00–23:59.
+         * Retorna { allowed, message, windows }
+         */
+        function checkCheckinWindow(ctName) {
+            var ct = allCTs.find(function(c) { return c.name === ctName; });
+            var horarios = (ct && ct.horarios) ? ct.horarios.toString().trim() : '';
+
+            var now = new Date();
+            var nowMinutes = now.getHours() * 60 + now.getMinutes();
+
+            // Sem horários configurados → fallback 06:00-23:59
+            if (!horarios) {
+                if (nowMinutes < 360 || nowMinutes > 1439) {
+                    return { allowed: false, message: '⚠️ Check-in disponível apenas das 06:00 às 23:59' };
+                }
+                return { allowed: true };
+            }
+
+            var slots = horarios.split(',');
+            var windows = [];
+
+            for (var i = 0; i < slots.length; i++) {
+                var t = slots[i].trim();
+                var parts = t.match(/^(\d{1,2}):(\d{2})$/);
+                if (!parts) continue;
+                var h = parseInt(parts[1]);
+                var m = parseInt(parts[2]);
+                var startMin = h * 60 + m;
+                var endMin = Math.min(startMin + 300, 1439); // +5h, cap 23:59
+                windows.push({ start: startMin, end: endMin, label: t });
+            }
+
+            if (windows.length === 0) {
+                if (nowMinutes < 360 || nowMinutes > 1439) {
+                    return { allowed: false, message: '⚠️ Check-in disponível apenas das 06:00 às 23:59' };
+                }
+                return { allowed: true };
+            }
+
+            // Verificar se está em alguma janela
+            for (var j = 0; j < windows.length; j++) {
+                if (nowMinutes >= windows[j].start && nowMinutes <= windows[j].end) {
+                    return { allowed: true, matchedSlot: windows[j].label };
+                }
+            }
+
+            // Fora de todas as janelas - mostrar próxima
+            var proximaHoje = null;
+            for (var k = 0; k < windows.length; k++) {
+                if (windows[k].start > nowMinutes) {
+                    if (!proximaHoje || windows[k].start < proximaHoje.start) {
+                        proximaHoje = windows[k];
+                    }
+                }
+            }
+
+            var msg = '⚠️ Fora do horário de check-in.';
+            if (proximaHoje) {
+                msg += '<br>Próxima janela: ' + proximaHoje.label + ' até ' + formatMinutes(proximaHoje.end);
+            } else {
+                msg += '<br>Janelas de hoje já encerraram.';
+            }
+            // Listar todas as janelas
+            var lista = windows.map(function(w) { return w.label + ' → ' + formatMinutes(w.end); }).join(', ');
+            msg += '<br>📋 Horários do CT: ' + lista;
+
+            return { allowed: false, message: msg };
+        }
+
+        function formatMinutes(totalMin) {
+            var h = Math.floor(totalMin / 60);
+            var m = totalMin % 60;
+            return (h < 10 ? '0' + h : h) + ':' + (m < 10 ? '0' + m : m);
         }
 
         function confirmAttendance() {
             if (!selectedCT) { showMessage('attendanceMessage', 'Selecione o CT', 'warning'); return; }
 
-            // ===== VALIDAÇÃO DE HORÁRIO (sem check-in retroativo) =====
-            var now = new Date();
-            var hora = now.getHours();
-            // Horário permitido: 06:00 às 23:00
-            if (hora < 6 || hora >= 23) {
-                showMessage('attendanceMessage', '⚠️ Check-in disponível apenas das 06:00 às 23:00', 'warning');
+            // ===== VALIDAÇÃO DE JANELA DE CHECK-IN =====
+            var windowCheck = checkCheckinWindow(selectedCT);
+            if (!windowCheck.allowed) {
+                showMessage('attendanceMessage', windowCheck.message, 'warning');
                 return;
             }
 
@@ -6074,14 +6297,16 @@
                 faixa: currentUser.faixa, grau: currentUser.grau, ct: selectedCT
             }).then(data => {
                 if (data.success) {
-                    // Admin: check-in direto (sem aprovação)
-                    if (data.direct) {
+                    if (data.status === 'APROVADO') {
                         currentUser.treinos = (currentUser.treinos || 0) + 1;
+                        currentUser.ultimoCheckin = new Date().toISOString();
                         localStorage.setItem('bjjUser', JSON.stringify(currentUser));
                         document.getElementById('displayCount').textContent = currentUser.treinos;
-                        showMessage('attendanceMessage', '✅ Presença confirmada!', 'success');
+                        showMessage('attendanceMessage', '✅ Presença registrada com sucesso!', 'success');
+                        // Atualizar alarme para estado motivacional
+                        if (allCTs && allCTs.length > 0) checkTreinoAlarm(allCTs);
                     } else {
-                        showMessage('attendanceMessage', '✅ Check-in registrado! Aguardando aprovação do Professor.', 'success');
+                        showMessage('attendanceMessage', data.message || '⏳ Check-in pendente de aprovação.', 'warning');
                     }
                     selectedCT = null;
                     document.querySelectorAll('.ct-btn').forEach(b => b.classList.remove('selected'));
@@ -8525,10 +8750,9 @@
 
         function adminConfirmAttendance() {
             if (!adminSelectedCT) { showMessage('admAttendanceMessage', 'Selecione o CT', 'warning'); return; }
-            var now = new Date();
-            var hora = now.getHours();
-            if (hora < 6 || hora >= 23) {
-                showMessage('admAttendanceMessage', '⚠️ Check-in disponível apenas das 06:00 às 23:00', 'warning');
+            var windowCheck = checkCheckinWindow(adminSelectedCT);
+            if (!windowCheck.allowed) {
+                showMessage('admAttendanceMessage', windowCheck.message, 'warning');
                 return;
             }
             showMessage('admAttendanceMessage', 'Registrando...', 'info');
@@ -8537,10 +8761,15 @@
                 faixa: currentUser.faixa, grau: currentUser.grau, ct: adminSelectedCT
             }).then(function(data) {
                 if (data.success) {
-                    currentUser.treinos = (currentUser.treinos || 0) + 1;
-                    localStorage.setItem('bjjUser', JSON.stringify(currentUser));
-                    document.getElementById('admDisplayCount').textContent = currentUser.treinos;
-                    showMessage('admAttendanceMessage', '✅ Presença confirmada!', 'success');
+                    if (data.status === 'APROVADO') {
+                        currentUser.treinos = (currentUser.treinos || 0) + 1;
+                        currentUser.ultimoCheckin = new Date().toISOString();
+                        localStorage.setItem('bjjUser', JSON.stringify(currentUser));
+                        document.getElementById('admDisplayCount').textContent = currentUser.treinos;
+                        showMessage('admAttendanceMessage', '✅ Presença registrada!', 'success');
+                    } else {
+                        showMessage('admAttendanceMessage', data.message || '⏳ Pendente de aprovação', 'warning');
+                    }
                     adminSelectedCT = null;
                     document.querySelectorAll('#admCtGrid .ct-btn').forEach(function(b) { b.classList.remove('selected'); });
                     document.getElementById('admSelectedCT').textContent = '-';
@@ -9280,6 +9509,7 @@
             container.innerHTML = '<div class="admin-empty">Carregando...</div>';
             try {
                 var data = await secureFetch('getPendingAccounts', {});
+                console.log('getPendingAccounts response:', JSON.stringify(data));
                 if (data.success && data.accounts && data.accounts.length > 0) {
                     var html = '';
                     for (var i = 0; i < data.accounts.length; i++) {
@@ -9297,7 +9527,8 @@
                     document.getElementById('adminPendingAccountsCount').textContent = '0';
                 }
             } catch (err) {
-                container.innerHTML = '<div class="admin-empty">Erro ao carregar</div>';
+                console.error('loadPendingAccounts error:', err);
+                container.innerHTML = '<div class="admin-empty" style="color:#E85D5D;">Erro: ' + (err.message || 'Falha ao carregar') + '</div>';
             }
         }
 
