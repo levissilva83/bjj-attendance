@@ -1056,6 +1056,285 @@
         }
 
         /* ===== EVOLUÇÃO TAB ===== */
+        /* === GRADUATION TIMELINE === */
+        .grad-section { margin-top: 12px; }
+        .grad-section-title { font-size: 13px; font-weight: 700; color: var(--adm-primary-bright, var(--accent)); margin-bottom: 10px; }
+        .grad-timeline { position: relative; padding-left: 20px; }
+        .grad-timeline::before {
+            content: ''; position: absolute; left: 7px; top: 4px; bottom: 4px;
+            width: 2px; background: rgba(255,255,255,0.08);
+        }
+        .grad-event {
+            position: relative; padding: 8px 12px; margin-bottom: 8px;
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 10px; font-size: 12px;
+        }
+        .grad-event::before {
+            content: ''; position: absolute; left: -17px; top: 14px;
+            width: 10px; height: 10px; border-radius: 50%;
+            background: rgba(251,191,36,0.3); border: 2px solid rgba(251,191,36,0.6);
+        }
+        .grad-event.inicio::before { background: rgba(46,204,113,0.3); border-color: rgba(46,204,113,0.6); }
+        .grad-event.faixa::before { background: rgba(139,92,246,0.3); border-color: rgba(139,92,246,0.6); }
+        .grad-event .grad-date { font-size: 10px; color: var(--text-3, #999); margin-bottom: 2px; }
+        .grad-event .grad-title { font-weight: 700; color: var(--text-1, #fff); }
+        .grad-event .grad-obs { font-size: 10px; color: var(--text-3, #999); margin-top: 2px; font-style: italic; }
+        .grad-event .grad-delete {
+            position: absolute; top: 6px; right: 8px; font-size: 10px;
+            color: rgba(231,76,60,0.5); cursor: pointer; padding: 2px 4px;
+        }
+        .grad-event .grad-delete:hover { color: #e74c3c; }
+        .grad-event.pendente { opacity: 0.85; border-style: dashed; border-color: rgba(251,191,36,0.3); }
+        .grad-empty { text-align: center; padding: 16px; color: var(--text-3, #999); font-size: 12px; }
+
+        /* Admin add form */
+        .grad-add-form {
+            display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px;
+            padding: 10px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.08);
+            border-radius: 10px;
+        }
+        .grad-add-form select, .grad-add-form input {
+            flex: 1; min-width: 80px; padding: 7px 8px; border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04);
+            color: var(--text-1, #fff); font-size: 11px;
+        }
+        .grad-add-btn {
+            padding: 7px 14px; border-radius: 6px; border: none;
+            background: rgba(20,184,166,0.2); color: var(--adm-primary-bright, #5eead4);
+            font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;
+        }
+        .grad-add-btn:hover { background: rgba(20,184,166,0.3); }
+
+        /* Student timeline (Evolução) */
+        .evo-timeline { margin-top: 20px; }
+        .evo-timeline-title {
+            font-size: 14px; font-weight: 700; color: var(--accent);
+            margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+        }
+        .evo-tl-event {
+            position: relative; padding: 12px 14px; margin-bottom: 10px;
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 12px; margin-left: 24px;
+        }
+        .evo-tl-event::before {
+            content: ''; position: absolute; left: -20px; top: 16px;
+            width: 12px; height: 12px; border-radius: 50%; border: 2px solid;
+        }
+        .evo-tl-event.inicio::before { border-color: #2ecc71; background: rgba(46,204,113,0.2); }
+        .evo-tl-event.grau::before { border-color: #fbbf24; background: rgba(251,191,36,0.2); }
+        .evo-tl-event.faixa::before { border-color: #8b5cf6; background: rgba(139,92,246,0.2); }
+        .evo-tl-event .evo-tl-icon { font-size: 20px; float: right; }
+        .evo-tl-event .evo-tl-title { font-weight: 700; font-size: 13px; color: var(--text-1); }
+        .evo-tl-event .evo-tl-sub { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+        .evo-tl-event .evo-tl-date { font-size: 10px; color: var(--accent); margin-top: 4px; font-weight: 600; }
+        .evo-tl-event .evo-tl-obs { font-size: 10px; color: var(--text-3); margin-top: 3px; font-style: italic; }
+        .evo-tl-line {
+            position: absolute; left: 4px; top: 0; bottom: 0; width: 2px;
+            background: rgba(255,255,255,0.06); margin-left: 0;
+        }
+        .evo-tl-start { font-size: 11px; color: var(--text-3); text-align: center; padding: 10px; }
+
+        /* Student inicio box */
+        .evo-inicio-box {
+            background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+            padding: 14px; margin-bottom: 14px;
+        }
+        .evo-inicio-label { font-size: 13px; font-weight: 600; color: var(--text-1); margin-bottom: 8px; }
+        .evo-inicio-row { display: flex; gap: 8px; align-items: center; }
+        .evo-inicio-input {
+            flex: 1; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border);
+            background: rgba(255,255,255,0.04); color: var(--text-1); font-size: 13px;
+        }
+        .evo-inicio-btn {
+            padding: 8px 16px; border-radius: 8px; border: none;
+            background: rgba(46,204,113,0.2); color: #2ecc71; font-weight: 700; font-size: 12px;
+            cursor: pointer; white-space: nowrap;
+        }
+        .evo-inicio-btn:hover { background: rgba(46,204,113,0.3); }
+        .evo-inicio-saved {
+            font-size: 12px; color: #2ecc71; font-weight: 600; padding-top: 4px;
+        }
+        .evo-inicio-edit {
+            color: var(--accent); cursor: pointer; margin-left: 8px; font-size: 11px;
+            text-decoration: underline; font-weight: 400;
+        }
+
+        /* Apt notification */
+        .evo-apt-msg {
+            background: linear-gradient(135deg, rgba(251,191,36,0.08), rgba(251,191,36,0.02));
+            border: 1px solid rgba(251,191,36,0.2); border-radius: 12px;
+            padding: 14px; margin-bottom: 14px; text-align: center;
+            animation: fadeIn 0.3s ease;
+        }
+        .evo-apt-icon { font-size: 28px; margin-bottom: 4px; }
+        .evo-apt-text { font-size: 13px; font-weight: 700; color: var(--accent); }
+        .evo-apt-sub { font-size: 11px; color: var(--text-3); margin-top: 4px; }
+
+        /* Student declare prior history */
+        .evo-declare-box {
+            background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+            margin-bottom: 14px; overflow: hidden;
+        }
+        .evo-declare-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px 14px; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--text-2);
+        }
+        .evo-declare-header:active { background: rgba(255,255,255,0.03); }
+        .evo-declare-toggle { font-size: 14px; color: var(--text-3); transition: transform 0.2s; }
+        .evo-declare-toggle.open { transform: rotate(90deg); }
+        .evo-declare-form { padding: 0 14px 14px; }
+        .evo-declare-hint { font-size: 11px; color: var(--text-3); margin-bottom: 10px; }
+        .evo-declare-row { display: flex; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+        .evo-declare-row select, .evo-declare-row input {
+            flex: 1; min-width: 70px; padding: 8px 8px; border-radius: 8px;
+            border: 1px solid var(--border); background: rgba(255,255,255,0.04);
+            color: var(--text-1); font-size: 12px;
+        }
+        .evo-declare-btn {
+            padding: 8px 16px; border-radius: 8px; border: none;
+            background: rgba(251,191,36,0.2); color: var(--accent); font-weight: 700; font-size: 12px;
+            cursor: pointer; white-space: nowrap;
+        }
+        .evo-declare-btn:hover { background: rgba(251,191,36,0.3); }
+
+        /* Status badges (timeline) */
+        .grad-status {
+            display: inline-block; font-size: 9px; padding: 2px 8px; border-radius: 4px;
+            font-weight: 700; margin-left: 6px; vertical-align: middle;
+        }
+        .grad-status.aprovado { background: rgba(46,204,113,0.15); color: #2ecc71; }
+        .grad-status.pendente { background: rgba(251,191,36,0.15); color: #fbbf24; }
+        .evo-tl-status {
+            display: inline-block; font-size: 9px; padding: 2px 8px; border-radius: 4px;
+            font-weight: 700; margin-top: 4px;
+        }
+        .evo-tl-status.aprovado { background: rgba(46,204,113,0.15); color: #2ecc71; }
+        .evo-tl-status.pendente { background: rgba(251,191,36,0.15); color: #fbbf24; }
+        .evo-tl-event.pendente { opacity: 0.7; border-style: dashed; }
+
+        /* Admin approve/reject buttons */
+        .grad-actions { display: flex; gap: 6px; margin-top: 6px; }
+        .grad-action-btn {
+            padding: 5px 12px; border-radius: 6px; border: none;
+            font-size: 10px; font-weight: 700; cursor: pointer;
+        }
+        .grad-action-btn.approve { background: rgba(46,204,113,0.2); color: #2ecc71; }
+        .grad-action-btn.approve:hover { background: rgba(46,204,113,0.3); }
+        .grad-action-btn.reject { background: rgba(231,76,60,0.15); color: #e74c3c; }
+        .grad-action-btn.reject:hover { background: rgba(231,76,60,0.25); }
+
+        /* === PRESENÇAS CALENDAR === */
+        .prs-container { padding: 16px 0; }
+        .prs-month-nav {
+            display: flex; align-items: center; justify-content: center; gap: 16px;
+            margin-bottom: 16px;
+        }
+        .prs-nav-btn {
+            width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border);
+            background: var(--card); color: var(--accent); font-size: 20px; font-weight: 700;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+        }
+        .prs-nav-btn:hover { background: rgba(212,175,55,0.1); }
+        .prs-month-title { font-size: 16px; font-weight: 700; color: var(--accent); min-width: 160px; text-align: center; }
+        
+        .prs-summary {
+            display: flex; gap: 8px; margin-bottom: 16px;
+        }
+        .prs-stat {
+            flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+            padding: 12px 8px; text-align: center;
+        }
+        .prs-stat-num { font-size: 22px; font-weight: 800; color: var(--accent); }
+        .prs-stat-lbl { font-size: 10px; color: var(--text-3); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        .prs-cal {
+            background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+            padding: 12px; margin-bottom: 12px;
+        }
+        .prs-cal-header {
+            display: grid; grid-template-columns: repeat(7, 1fr); margin-bottom: 6px;
+        }
+        .prs-cal-hdr {
+            text-align: center; font-size: 10px; font-weight: 700; color: var(--text-3);
+            text-transform: uppercase; padding: 4px 0;
+        }
+        .prs-cal-grid {
+            display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px;
+        }
+        .prs-day {
+            aspect-ratio: 1; border-radius: 10px; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; font-size: 13px; font-weight: 600;
+            cursor: pointer; transition: all 0.15s; position: relative; color: var(--text-2);
+        }
+        .prs-day.empty { cursor: default; }
+        .prs-day.today { outline: 2px solid var(--accent); outline-offset: -2px; }
+        .prs-day.present { background: rgba(46,204,113,0.15); color: #2ecc71; }
+        .prs-day.present::after {
+            content: ''; position: absolute; bottom: 4px; width: 6px; height: 6px;
+            border-radius: 50%; background: #2ecc71;
+        }
+        .prs-day.missed { background: rgba(231,76,60,0.1); color: rgba(231,76,60,0.7); }
+        .prs-day.missed::after {
+            content: '✕'; position: absolute; bottom: 2px; font-size: 8px; color: rgba(231,76,60,0.5);
+        }
+        .prs-day.expected { background: rgba(251,191,36,0.08); }
+        .prs-day.expected::after {
+            content: ''; position: absolute; bottom: 4px; width: 4px; height: 4px;
+            border-radius: 50%; background: rgba(251,191,36,0.3);
+        }
+        .prs-day.multi::after { width: 10px; border-radius: 3px; height: 4px; }
+        .prs-day.selected { outline: 2px solid var(--accent); outline-offset: -2px; }
+        .prs-day:hover:not(.empty) { background: rgba(255,255,255,0.05); }
+        .prs-day .prs-ct-dot {
+            position: absolute; top: 3px; right: 3px; width: 5px; height: 5px;
+            border-radius: 50%;
+        }
+        
+        .prs-legend {
+            display: flex; gap: 14px; justify-content: center; margin-bottom: 14px;
+        }
+        .prs-legend-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--text-3); }
+        .prs-dot { width: 8px; height: 8px; border-radius: 50%; }
+        .prs-dot.present { background: #2ecc71; }
+        .prs-dot.expected { background: rgba(251,191,36,0.4); }
+        .prs-dot.missed { background: rgba(231,76,60,0.5); }
+        
+        .prs-detail {
+            background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+            padding: 14px; margin-bottom: 12px; animation: fadeIn 0.2s ease;
+        }
+        .prs-detail-header {
+            font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 8px;
+        }
+        .prs-detail-list {}
+        .prs-detail-item {
+            display: flex; align-items: center; gap: 10px; padding: 8px 0;
+            border-bottom: 1px solid var(--border); font-size: 12px;
+        }
+        .prs-detail-item:last-child { border-bottom: none; }
+        .prs-detail-time { font-weight: 700; color: var(--text-1); min-width: 44px; }
+        .prs-detail-ct { color: var(--accent); font-weight: 600; }
+        .prs-detail-badge {
+            font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: 700;
+            background: rgba(46,204,113,0.15); color: #2ecc71;
+        }
+        
+        .prs-list { }
+        .prs-list-title {
+            font-size: 12px; font-weight: 700; color: var(--text-3); margin-bottom: 8px;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .prs-list-item {
+            display: flex; align-items: center; padding: 10px 12px;
+            background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+            margin-bottom: 6px;
+        }
+        .prs-list-date { font-weight: 700; color: var(--text-1); min-width: 36px; font-size: 13px; }
+        .prs-list-day { font-size: 10px; color: var(--text-3); min-width: 32px; }
+        .prs-list-ct { flex: 1; font-size: 12px; color: var(--accent); font-weight: 600; }
+        .prs-list-time { font-size: 11px; color: var(--text-3); }
+
         .evo-container {
             display: flex;
             flex-direction: column;
@@ -2221,6 +2500,78 @@
         .admin-badge.green { background: var(--adm-green); color: #0a0a0a; }
         .admin-badge.blue { background: var(--adm-primary); color: #0a0a0a; }
 
+        /* ══════ REPORT PERIOD BAR ══════ */
+        .rpt-period-bar { display: flex; gap: 6px; margin-bottom: 16px; }
+        .rpt-period-btn {
+            flex: 1; padding: 10px 6px; border-radius: 10px; border: 1px solid var(--adm-border);
+            background: var(--adm-bg-card); color: var(--adm-text-3); font-size: 12px; font-weight: 600;
+            cursor: pointer; transition: all 0.2s; white-space: nowrap; text-align: center;
+        }
+        .rpt-period-btn.active {
+            background: var(--adm-primary-dim); border-color: var(--adm-primary);
+            color: var(--adm-primary-bright); box-shadow: 0 0 12px rgba(20,184,166,0.15);
+        }
+        .rpt-panel { animation: fadeIn 0.3s ease; }
+        .rpt-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 14px; padding: 12px 16px; border-radius: 12px;
+            background: var(--adm-bg-card); border: 1px solid var(--adm-border);
+        }
+        .rpt-header-title { font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 700; color: var(--adm-text-1); }
+        .rpt-header-date { font-size: 12px; color: var(--adm-primary); font-weight: 600; }
+        .rpt-chart-area { min-height: 30px; }
+        .rpt-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+        .rpt-bar-label { min-width: 48px; font-size: 11px; color: var(--adm-text-2); text-align: right; font-weight: 600; }
+        .rpt-bar-track { flex: 1; height: 22px; background: rgba(255,255,255,0.04); border-radius: 6px; overflow: hidden; }
+        .rpt-bar-fill {
+            height: 100%; border-radius: 6px; display: flex; align-items: center; padding: 0 8px;
+            min-width: 24px; transition: width 0.5s ease;
+            background: linear-gradient(90deg, var(--adm-primary-dim), var(--adm-primary));
+        }
+        .rpt-bar-fill.alt { background: linear-gradient(90deg, rgba(251,191,36,0.25), rgba(251,191,36,0.5)); }
+        .rpt-bar-fill.belt { opacity: 0.85; }
+        .rpt-bar-val { font-size: 10px; font-weight: 700; color: #fff; }
+        .rpt-mini-list { max-height: 260px; overflow-y: auto; }
+        .rpt-mini-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 8px 12px; border-bottom: 1px solid var(--adm-border); font-size: 12px;
+        }
+        .rpt-mini-item:last-child { border-bottom: none; }
+        .rpt-mini-name { color: var(--adm-text-1); font-weight: 600; }
+        .rpt-mini-meta { color: var(--adm-text-3); font-size: 11px; margin-top: 1px; }
+        .rpt-mini-tag {
+            font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; white-space: nowrap;
+        }
+        .rpt-mini-tag.green { background: rgba(45,200,90,0.15); color: #4ade80; }
+        .rpt-mini-tag.yellow { background: rgba(251,191,36,0.15); color: #fbbf24; }
+        .rpt-mini-tag.red { background: rgba(232,93,93,0.15); color: #f87171; }
+        .rpt-mini-tag.blue { background: rgba(20,184,166,0.15); color: var(--adm-primary-bright); }
+
+        /* ══════ SYSTEM HEALTH ══════ */
+        .sys-health-score {
+            display: flex; align-items: center; gap: 16px; padding: 16px;
+            background: var(--adm-bg-card); border: 1px solid var(--adm-border); border-radius: 14px; margin-bottom: 12px;
+        }
+        .sys-health-circle {
+            width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-family: 'Sora', sans-serif; font-size: 22px; font-weight: 900; flex-shrink: 0;
+            border: 3px solid var(--adm-green); color: var(--adm-green); background: rgba(45,200,90,0.05);
+        }
+        .sys-health-circle.warn { border-color: var(--adm-amber); color: var(--adm-amber); background: rgba(251,191,36,0.05); }
+        .sys-health-circle.bad { border-color: var(--adm-red); color: var(--adm-red); background: rgba(232,93,93,0.05); }
+        .sys-health-info { flex: 1; }
+        .sys-health-label { font-size: 14px; color: var(--adm-text-1); font-weight: 600; }
+        .sys-health-time { font-size: 10px; color: var(--adm-text-3); margin-top: 2px; }
+        .sys-issue {
+            display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px;
+            border-radius: 10px; margin-bottom: 6px; font-size: 12px; line-height: 1.4;
+        }
+        .sys-issue.error { background: rgba(232,93,93,0.08); border: 1px solid rgba(232,93,93,0.15); color: #f87171; }
+        .sys-issue.warning { background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.15); color: #fbbf24; }
+        .sys-issue.info { background: rgba(20,184,166,0.08); border: 1px solid rgba(20,184,166,0.15); color: var(--adm-primary-bright); }
+        .sys-issue-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+        .sys-issue-area { font-weight: 700; }
+
         .admin-empty { text-align: center; color: var(--adm-text-3); padding: 24px 0; font-size: 13px; }
 
         /* Admin stats grid */
@@ -3192,39 +3543,51 @@
             position: sticky;
             top: 0;
             z-index: 10;
-            background: rgba(10,10,15,0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            padding: 14px 16px;
+            background: rgba(10,10,15,0.97);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: env(safe-area-inset-top, 8px) 12px 0 12px;
             border-bottom: 1px solid var(--border);
         }
-        .stu-modal-back {
-            background: none; border: none;
-            color: var(--text-2); font-size: 20px;
-            cursor: pointer; padding: 4px 8px;
-            margin-right: 8px;
+        .stu-modal-toprow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0 10px 0;
         }
+        .stu-modal-back {
+            background: rgba(255,255,255,0.06); border: none;
+            color: var(--text-1); font-size: 16px; font-weight: 600;
+            cursor: pointer; padding: 8px 14px;
+            border-radius: 10px;
+            display: flex; align-items: center; gap: 6px;
+            font-family: 'Sora', sans-serif;
+            transition: background 0.2s;
+        }
+        .stu-modal-back:active { background: rgba(255,255,255,0.12); }
         .stu-modal-title {
-            flex: 1;
             font-family: 'Sora', sans-serif;
             font-size: 15px;
             font-weight: 700;
             color: var(--text-1);
+            text-align: center;
+            position: absolute; left: 50%; transform: translateX(-50%);
+            pointer-events: none;
         }
         .stu-modal-save {
             background: linear-gradient(135deg, #d4af37, #f5d76e);
             color: #000;
             border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
+            padding: 8px 18px;
+            border-radius: 10px;
             font-family: 'Sora', sans-serif;
             font-size: 12px;
             font-weight: 700;
             cursor: pointer;
+            transition: opacity 0.2s;
         }
-        .stu-modal-save:disabled { opacity: 0.5; }
+        .stu-modal-save:active { opacity: 0.7; }
+        .stu-modal-save:disabled { opacity: 0.4; }
 
         .stu-modal-body { padding: 16px; }
 
@@ -3324,6 +3687,53 @@
             transition: transform 0.3s;
         }
         .stu-toggle.on::after { transform: translateX(20px); }
+
+        .stu-days-row {
+            display: flex; gap: 6px; margin-top: 6px;
+        }
+        .stu-day-btn {
+            flex: 1; height: 38px; border-radius: 8px; border: 1.5px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.04); color: var(--text-3); font-size: 13px; font-weight: 700;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .stu-day-btn.on {
+            background: rgba(20,184,166,0.2); border-color: var(--adm-primary);
+            color: var(--adm-primary-bright); box-shadow: 0 0 8px rgba(20,184,166,0.15);
+        }
+        .stu-days-hint {
+            font-size: 10px; color: var(--text-3); margin-top: 4px; min-height: 14px;
+        }
+        .stu-days-hint .hint-link {
+            color: var(--adm-primary); cursor: pointer; text-decoration: underline;
+        }
+
+        /* Report CT filter */
+        .rpt-ct-filter { display: flex; gap: 6px; margin-bottom: 14px; overflow-x: auto; padding-bottom: 2px; }
+        .rpt-ct-btn {
+            padding: 7px 14px; border-radius: 8px; border: 1px solid var(--adm-border);
+            background: var(--adm-bg-card); color: var(--adm-text-3); font-size: 11px; font-weight: 600;
+            cursor: pointer; transition: all 0.2s; white-space: nowrap;
+        }
+        .rpt-ct-btn.active {
+            background: rgba(251,191,36,0.15); border-color: rgba(251,191,36,0.4);
+            color: #fbbf24;
+        }
+
+        /* Per-day horarios picker */
+        .ct-hpd-days { display: flex; gap: 4px; margin-bottom: 8px; flex-wrap: wrap; }
+        .ct-hpd-day-btn {
+            padding: 6px 12px; border-radius: 8px; border: 1px solid var(--adm-border);
+            background: var(--adm-bg-card); color: var(--adm-text-3); font-size: 11px; font-weight: 700;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .ct-hpd-day-btn.active {
+            background: rgba(20,184,166,0.15); border-color: var(--adm-primary);
+            color: var(--adm-primary-bright);
+        }
+        .ct-hpd-day-btn .hpd-count {
+            font-size: 9px; margin-left: 3px; opacity: 0.6;
+        }
+        .ct-hpd-panel { margin-bottom: 6px; animation: fadeIn 0.2s ease; }
 
         .stu-modal-msg {
             text-align: center;
@@ -4196,6 +4606,7 @@
                     <div class="subtab-bar">
                         <button class="subtab-btn active" onclick="switchSubTab('treino-tab','sub-checkin',event)">✍️ Check-in</button>
                         <button class="subtab-btn" onclick="switchSubTab('treino-tab','sub-evolucao',event)">📈 Evolução</button>
+                        <button class="subtab-btn" onclick="switchSubTab('treino-tab','sub-presencas',event)">📅 Presenças</button>
                     </div>
 
                     <!-- SUB: CHECK-IN -->
@@ -4291,7 +4702,7 @@
                             <div class="evo-criteria-list" id="evoFaixaCriteriaList"></div>
                         </div>
 
-                        <button class="evo-exam-btn disabled" id="evoExamBtn" disabled>🔒 Critérios pendentes para Exame de Faixa</button>
+                        <button class="evo-exam-btn disabled" id="evoExamBtn" disabled>🔒 Critérios pendentes · Aprovação do professor</button>
 
                         <div class="ibjjf-roadmap">
                             <div class="ibjjf-title">🥋 Sistema de Graduação IBJJF</div>
@@ -4318,8 +4729,138 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Graduation Timeline -->
+                        <div class="evo-timeline" id="evoTimeline">
+                            <div class="evo-timeline-title">🏆 Minha Jornada</div>
+
+                            <!-- Student: set own start date -->
+                            <div class="evo-inicio-box" id="evoInicioBox">
+                                <div class="evo-inicio-label">📅 Quando você começou no Jiu-Jitsu?</div>
+                                <div class="evo-inicio-row">
+                                    <input type="date" id="evoInicioDate" class="evo-inicio-input">
+                                    <button class="evo-inicio-btn" id="evoInicioBtn" onclick="saveMyInicioBJJ()">Salvar</button>
+                                </div>
+                                <div class="evo-inicio-saved" id="evoInicioSaved" style="display:none;">
+                                    ✅ <span id="evoInicioSavedText"></span>
+                                    <span class="evo-inicio-edit" onclick="editInicioBJJ()">editar</span>
+                                </div>
+                            </div>
+
+                            <!-- Student: declare prior grades/belts -->
+                            <div class="evo-declare-box" id="evoDeclareBox">
+                                <div class="evo-declare-header" onclick="toggleDeclareForm()">
+                                    <span>📋 Já possui graus ou faixas anteriores?</span>
+                                    <span class="evo-declare-toggle" id="evoDeclareToggle">▸</span>
+                                </div>
+                                <div class="evo-declare-form" id="evoDeclareForm" style="display:none;">
+                                    <div class="evo-declare-hint">Informe seu histórico. O professor irá validar.</div>
+                                    <div class="evo-declare-row">
+                                        <select id="evoDeclTipo" onchange="onEvoDeclTipoChange()">
+                                            <option value="grau">🏅 Grau</option>
+                                            <option value="faixa">🥋 Faixa</option>
+                                        </select>
+                                        <select id="evoDeclFaixa">
+                                            <option value="Branca">Branca</option>
+                                            <option value="Cinza">Cinza</option>
+                                            <option value="Amarela">Amarela</option>
+                                            <option value="Laranja">Laranja</option>
+                                            <option value="Verde">Verde</option>
+                                            <option value="Azul">Azul</option>
+                                            <option value="Roxa">Roxa</option>
+                                            <option value="Marrom">Marrom</option>
+                                            <option value="Preta">Preta</option>
+                                        </select>
+                                        <select id="evoDeclGrau">
+                                            <option value="1">1º Grau</option>
+                                            <option value="2">2º Grau</option>
+                                            <option value="3">3º Grau</option>
+                                            <option value="4">4º Grau</option>
+                                        </select>
+                                    </div>
+                                    <div class="evo-declare-row">
+                                        <input type="date" id="evoDeclData" class="evo-inicio-input" style="flex:1;">
+                                        <button class="evo-declare-btn" onclick="requestGraduacao()">Enviar</button>
+                                    </div>
+                                    <div id="evoDeclMsg" style="font-size:11px;color:var(--text-3);margin-top:4px;"></div>
+                                </div>
+                            </div>
+
+                            <!-- Apt notification -->
+                            <div class="evo-apt-msg" id="evoAptMsg" style="display:none;">
+                                <div class="evo-apt-icon">🏅</div>
+                                <div class="evo-apt-text" id="evoAptText">Você atingiu os critérios para o próximo grau!</div>
+                                <div class="evo-apt-sub">Aguarde a aprovação do professor</div>
+                            </div>
+
+                            <div style="position:relative;padding-left:10px;">
+                                <div class="evo-tl-line"></div>
+                                <div id="evoTimelineContent">
+                                    <div class="evo-tl-start">Sua jornada será registrada aqui pelo professor 🥋</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                    </div>
+
+                    <!-- SUBTAB: PRESENÇAS (Calendário Mensal) -->
+                    <div id="sub-presencas" class="subtab-content">
+                        <div class="prs-container">
+                            <!-- Month Navigator -->
+                            <div class="prs-month-nav">
+                                <button class="prs-nav-btn" onclick="prsChangeMonth(-1)">‹</button>
+                                <div class="prs-month-title" id="prsMonthTitle">Fevereiro 2026</div>
+                                <button class="prs-nav-btn" onclick="prsChangeMonth(1)">›</button>
+                            </div>
+
+                            <!-- Summary Cards -->
+                            <div class="prs-summary" id="prsSummary">
+                                <div class="prs-stat">
+                                    <div class="prs-stat-num" id="prsTotalMes">0</div>
+                                    <div class="prs-stat-lbl">Treinos</div>
+                                </div>
+                                <div class="prs-stat">
+                                    <div class="prs-stat-num" id="prsCTsMes">0</div>
+                                    <div class="prs-stat-lbl">CTs</div>
+                                </div>
+                                <div class="prs-stat">
+                                    <div class="prs-stat-num" id="prsFreqMes">0%</div>
+                                    <div class="prs-stat-lbl">Frequência</div>
+                                </div>
+                            </div>
+
+                            <!-- Calendar Grid -->
+                            <div class="prs-cal">
+                                <div class="prs-cal-header">
+                                    <div class="prs-cal-hdr">S</div>
+                                    <div class="prs-cal-hdr">T</div>
+                                    <div class="prs-cal-hdr">Q</div>
+                                    <div class="prs-cal-hdr">Q</div>
+                                    <div class="prs-cal-hdr">S</div>
+                                    <div class="prs-cal-hdr">S</div>
+                                    <div class="prs-cal-hdr">D</div>
+                                </div>
+                                <div class="prs-cal-grid" id="prsCalGrid"></div>
+                            </div>
+
+                            <!-- Legend -->
+                            <div class="prs-legend">
+                                <div class="prs-legend-item"><span class="prs-dot present"></span> Treinou</div>
+                                <div class="prs-legend-item"><span class="prs-dot expected"></span> Dia de treino</div>
+                                <div class="prs-legend-item"><span class="prs-dot missed"></span> Faltou</div>
+                            </div>
+
+                            <!-- Day Detail (expandable) -->
+                            <div class="prs-detail" id="prsDetail" style="display:none;">
+                                <div class="prs-detail-header" id="prsDetailHeader">—</div>
+                                <div class="prs-detail-list" id="prsDetailList"></div>
+                            </div>
+
+                            <!-- Monthly List -->
+                            <div class="prs-list" id="prsList"></div>
+                        </div>
+                    </div>
+
                 </div> <!-- /treino-tab -->
 
                 <!-- TAB: RANKING & PRÊMIOS (main) -->
@@ -4831,91 +5372,118 @@
                 </div>
             </div>
 
-            <!-- TAB: CTs SCHEDULE -->
-            <div id="adm-cts" class="adm-tab">
-                <div class="admin-container">
-                    <div class="adm-page-title">
-                        <h2>Centros de Treinamento</h2>
-                        <p>Dias, horários, valores e benefícios</p>
-                    </div>
-                    <div id="adminCTScheduleList">
-                        <div class="admin-empty">Carregando...</div>
-                    </div>
-                </div>
-            </div>
+            <!-- CTs moved to Sistema tab -->
 
-            <!-- TAB: RELATÓRIOS -->
+            <!-- TAB: RELATÓRIOS (REBUILT) -->
             <div id="adm-relatorios" class="adm-tab">
                 <div class="admin-container">
                     <div class="adm-page-title">
-                        <h2>Relatórios</h2>
-                        <p>Métricas de frequência e presença</p>
+                        <h2>Central de Relatórios</h2>
+                        <p>Análise completa por período</p>
+                    </div>
+
+                    <!-- Period Selector -->
+                    <div class="rpt-period-bar">
+                        <button class="rpt-period-btn active" onclick="switchReportPeriod('diario', event)">📅 Diário</button>
+                        <button class="rpt-period-btn" onclick="switchReportPeriod('semanal', event)">📆 Semanal</button>
+                        <button class="rpt-period-btn" onclick="switchReportPeriod('mensal', event)">🗓️ Mensal</button>
+                        <button class="rpt-period-btn" onclick="switchReportPeriod('anual', event)">📊 Anual</button>
                     </div>
 
                     <!-- CT Filter -->
-                    <div class="report-section" style="padding:12px;">
-                        <div class="report-section-title" style="margin-bottom:10px;">📍 Filtrar por CT</div>
-                        <div class="report-filter-row" id="rptCTFilter">
-                            <button class="report-filter-btn active" onclick="switchReportCT('todos')">Todos os CTs</button>
+                    <div class="rpt-ct-filter" id="rptCTFilterBar"></div>
+
+                    <div id="rptLoading" class="admin-empty">Carregando relatório...</div>
+
+                    <!-- ===== DAILY ===== -->
+                    <div id="rpt-diario" class="rpt-panel" style="display:none;">
+                        <div class="rpt-header"><div class="rpt-header-title">📅 Relatório Diário</div><div class="rpt-header-date" id="rptDailyDate"></div></div>
+                        <div class="admin-stats" id="rptDailyStats"></div>
+                        <div class="admin-section">
+                            <div class="admin-section-title">📊 Check-ins por Horário</div>
+                            <div id="rptDailyHourly" class="rpt-chart-area"></div>
+                        </div>
+                        <div class="admin-section">
+                            <div class="admin-section-title">🏢 Check-ins por CT</div>
+                            <div id="rptDailyCT" class="rpt-chart-area"></div>
+                        </div>
+                        <div class="admin-section">
+                            <div class="admin-section-header">
+                                <div class="admin-section-title">✅ Quem treinou <span class="admin-badge green" id="rptDailyPresentBadge">0</span></div>
+                            </div>
+                            <div id="rptDailyPresent" class="rpt-mini-list"></div>
+                        </div>
+                        <div class="admin-section">
+                            <div class="admin-section-header">
+                                <div class="admin-section-title">😴 Ausentes <span class="admin-badge" id="rptDailyAbsentBadge">0</span></div>
+                            </div>
+                            <div id="rptDailyAbsent" class="rpt-mini-list"></div>
                         </div>
                     </div>
 
-                    <!-- KPIs -->
-                    <div class="report-kpi-grid" id="reportKPIs">
-                        <div class="report-kpi"><div class="report-kpi-num gold" id="rptTotal">-</div><div class="report-kpi-label">Presenças</div></div>
-                        <div class="report-kpi"><div class="report-kpi-num green" id="rptAlunos">-</div><div class="report-kpi-label">Alunos Ativos</div></div>
-                        <div class="report-kpi"><div class="report-kpi-num cyan" id="rptMedia">-</div><div class="report-kpi-label">Média/Mês</div></div>
-                        <div class="report-kpi"><div class="report-kpi-num purple" id="rptMediaAluno">-</div><div class="report-kpi-label">Média/Aluno</div></div>
-                    </div>
-
-                    <!-- Picos -->
-                    <div class="report-pico-grid" id="reportPicos">
-                        <div class="report-pico"><div class="report-pico-icon">📅</div><div class="report-pico-val" id="rptPicoMes">-</div><div class="report-pico-lbl">Melhor Mês</div></div>
-                        <div class="report-pico"><div class="report-pico-icon">📆</div><div class="report-pico-val" id="rptPicoDia">-</div><div class="report-pico-lbl">Dia Favorito</div></div>
-                        <div class="report-pico"><div class="report-pico-icon">⏰</div><div class="report-pico-val" id="rptPicoHora">-</div><div class="report-pico-lbl">Horário Pico</div></div>
-                    </div>
-
-                    <!-- Frequência por Mês -->
-                    <div class="report-section">
-                        <div class="report-section-title">📊 Frequência por Mês</div>
-                        <div id="rptByMonth"></div>
-                    </div>
-
-                    <!-- Frequência por Dia da Semana -->
-                    <div class="report-section">
-                        <div class="report-section-title">📆 Frequência por Dia da Semana</div>
-                        <div id="rptByDay"></div>
-                    </div>
-
-                    <!-- Frequência por Horário -->
-                    <div class="report-section">
-                        <div class="report-section-title">⏰ Frequência por Horário</div>
-                        <div id="rptByHour"></div>
-                    </div>
-
-                    <!-- Frequência por CT (só quando "Todos") -->
-                    <div class="report-section" id="rptByCTSection">
-                        <div class="report-section-title">📍 Presenças por CT</div>
-                        <div id="rptByCT"></div>
-                    </div>
-
-                    <!-- Top Alunos -->
-                    <div class="report-section">
-                        <div class="report-section-title">🏆 Top Alunos (mais presenças)</div>
-                        <div id="rptTopAlunos"></div>
-                    </div>
-
-                    <!-- Lista de Presenças -->
-                    <div class="report-section">
-                        <div class="report-section-title">📋 Últimas Presenças</div>
-                        <div style="overflow-x:auto;">
-                            <table class="report-table" id="rptRecordsTable">
-                                <thead>
-                                    <tr><th>Aluno</th><th>CT</th><th>Data</th><th>Hora</th><th>Dia</th></tr>
-                                </thead>
-                                <tbody id="rptRecords"></tbody>
-                            </table>
+                    <!-- ===== WEEKLY ===== -->
+                    <div id="rpt-semanal" class="rpt-panel" style="display:none;">
+                        <div class="rpt-header"><div class="rpt-header-title">📆 Relatório Semanal</div><div class="rpt-header-date" id="rptWeeklyDate"></div></div>
+                        <div class="admin-stats" id="rptWeeklyStats"></div>
+                        <div class="admin-section">
+                            <div class="admin-section-title">📊 Check-ins por Dia da Semana</div>
+                            <div id="rptWeeklyDays" class="rpt-chart-area"></div>
                         </div>
+                        <div class="admin-section">
+                            <div class="admin-section-title">🏢 Ranking por CT</div>
+                            <div id="rptWeeklyCT" class="rpt-chart-area"></div>
+                        </div>
+                    </div>
+
+                    <!-- ===== MONTHLY ===== -->
+                    <div id="rpt-mensal" class="rpt-panel" style="display:none;">
+                        <div class="rpt-header"><div class="rpt-header-title">🗓️ Relatório Mensal</div><div class="rpt-header-date" id="rptMonthlyDate"></div></div>
+                        <div class="admin-stats" id="rptMonthlyStats"></div>
+                        <div class="admin-section">
+                            <div class="admin-section-title">📊 Check-ins por Semana</div>
+                            <div id="rptMonthlyWeeks" class="rpt-chart-area"></div>
+                        </div>
+                        <div class="admin-section">
+                            <div class="admin-section-title">🏢 Check-ins por CT</div>
+                            <div id="rptMonthlyCT" class="rpt-chart-area"></div>
+                        </div>
+                        <div class="admin-section">
+                            <div class="admin-section-header">
+                                <div class="admin-section-title">⚠️ Alunos em Risco (15-30 dias sem treinar)</div>
+                            </div>
+                            <div id="rptMonthlyRisk" class="rpt-mini-list"></div>
+                        </div>
+                        <div class="admin-section">
+                            <div class="admin-section-header">
+                                <div class="admin-section-title">🥋 Elegíveis para Promoção de Faixa</div>
+                            </div>
+                            <div id="rptMonthlyPromo" class="rpt-mini-list"></div>
+                        </div>
+                    </div>
+
+                    <!-- ===== ANNUAL ===== -->
+                    <div id="rpt-anual" class="rpt-panel" style="display:none;">
+                        <div class="rpt-header"><div class="rpt-header-title">📊 Relatório Anual</div><div class="rpt-header-date" id="rptAnnualDate"></div></div>
+                        <div class="admin-stats" id="rptAnnualStats"></div>
+                        <div class="admin-section">
+                            <div class="admin-section-title">📊 Check-ins por Mês</div>
+                            <div id="rptAnnualMonths" class="rpt-chart-area"></div>
+                        </div>
+                        <div class="admin-section">
+                            <div class="admin-section-title">📈 Distribuição de Faixas</div>
+                            <div id="rptAnnualBelts" class="rpt-chart-area"></div>
+                        </div>
+                        <div class="admin-section">
+                            <div class="admin-section-header">
+                                <div class="admin-section-title">🔴 Alunos Inativos (+30 dias)</div>
+                            </div>
+                            <div id="rptAnnualInactive" class="rpt-mini-list"></div>
+                        </div>
+                    </div>
+
+                    <!-- Export -->
+                    <div style="margin-top:16px;text-align:center;padding-bottom:12px;">
+                        <button class="admin-btn approve" onclick="exportReportCSV()" style="min-width:200px;">📥 Exportar CSV</button>
                     </div>
                 </div>
             </div>
@@ -5058,12 +5626,41 @@
                 </div>
             </div>
 
-            <!-- TAB: MEU CHECK-IN -->
-            <div id="adm-checkin" class="adm-tab">
+            <!-- TAB: SISTEMA (Manutenção + CTs + Check-in + Perfil) -->
+            <div id="adm-sistema" class="adm-tab">
                 <div class="admin-container">
                     <div class="adm-page-title">
-                        <h2>Meu Check-in</h2>
+                        <h2>Sistema & Manutenção</h2>
+                        <p>Saúde do sistema, configurações e perfil</p>
                     </div>
+
+                    <!-- System Health -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">🏥 Saúde do Sistema</div>
+                            <button class="admin-refresh-btn" onclick="loadSystemHealth()">↻</button>
+                        </div>
+                        <div id="sysHealthScore" class="sys-health-score" style="display:none;">
+                            <div class="sys-health-circle" id="sysHealthCircle"><span id="sysHealthNum">--</span></div>
+                            <div class="sys-health-info">
+                                <div class="sys-health-label" id="sysHealthLabel">Verificando...</div>
+                                <div class="sys-health-time" id="sysHealthTime"></div>
+                            </div>
+                        </div>
+                        <div id="sysHealthStats" class="admin-stats" style="display:none;"></div>
+                        <div id="sysHealthIssues"></div>
+                    </div>
+
+                    <!-- CTs Management -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">🏢 Centros de Treinamento</div>
+                            <button class="admin-refresh-btn" onclick="loadCTScheduleAdmin()">↻</button>
+                        </div>
+                        <div id="adminCTScheduleList"><div class="admin-empty">Carregando...</div></div>
+                    </div>
+
+                    <!-- Admin Check-in -->
                     <div class="admin-section">
                         <div class="admin-section-header">
                             <div class="admin-section-title">✍️ Meu Check-in</div>
@@ -5079,28 +5676,18 @@
                                 <div class="checkin-count-label">Treinos</div>
                             </div>
                         </div>
-
                         <div class="ct-section">
                             <div class="section-title">Onde você treinou?</div>
                             <div class="ct-grid" id="admCtGrid"></div>
                             <div class="selected-ct-bar" id="admSelectedInfo">
-                                <span>Academia:</span>
-                                <span id="admSelectedCT">-</span>
+                                <span>Academia:</span><span id="admSelectedCT">-</span>
                             </div>
                         </div>
-
                         <button class="btn btn-primary" onclick="adminConfirmAttendance()">✓ Confirmar Presença</button>
                         <div id="admAttendanceMessage"></div>
                     </div>
-                </div>
-            </div>
 
-            <!-- TAB: PERFIL ADMIN -->
-            <div id="adm-perfil" class="adm-tab">
-                <div class="admin-container">
-                    <div class="adm-page-title">
-                        <h2>Meu Perfil</h2>
-                    </div>
+                    <!-- Admin Profile -->
                     <div class="admin-section">
                         <div class="admin-section-header">
                             <div class="admin-section-title">👤 Meu Perfil</div>
@@ -5117,18 +5704,20 @@
                         </div>
                     </div>
 
+                    <!-- Change Password -->
                     <div class="admin-section">
                         <div class="admin-section-header">
                             <div class="admin-section-title">🔒 Alterar Senha</div>
                         </div>
                         <div class="form-group"><label class="form-label">Senha Atual</label><input type="password" id="admCurrentPw" placeholder="••••••"></div>
                         <div class="form-group"><label class="form-label">Nova Senha</label><input type="password" id="admNewPw" placeholder="Mínimo 6 caracteres"></div>
-                        <div class="form-group"><label class="form-label">Confirmar Nova Senha</label><input type="password" id="admConfirmPw" placeholder="Repita a nova senha"></div>
+                        <div class="form-group"><label class="form-label">Confirmar</label><input type="password" id="admConfirmPw" placeholder="Repita a nova senha"></div>
                         <div id="admPwMessage"></div>
                         <button class="btn btn-primary" onclick="adminChangePassword()">🔑 Alterar Senha</button>
                     </div>
 
-                    <button class="perfil-logout-btn" onclick="handleLogout()" style="margin-top:16px">🚪 Sair da Conta</button>
+                    <!-- Logout -->
+                    <button class="perfil-logout-btn" onclick="handleLogout()" style="margin-top:16px;margin-bottom:80px;">🚪 Sair da Conta</button>
                 </div>
             </div>
 
@@ -5160,32 +5749,19 @@
         <div class="bnav" id="adminNav" style="display:none;">
             <div class="bnav-inner">
                 <button class="bnav-btn active" onclick="switchAdminTab('adm-painel', event)">
-                    <span class="bnav-icon">🏠</span>
-                    <span class="bnav-label">Painel</span>
+                    <span class="bnav-icon">🏠</span><span class="bnav-label">Painel</span>
                 </button>
                 <button class="bnav-btn" onclick="switchAdminTab('adm-alunos', event)">
-                    <span class="bnav-icon">👥</span>
-                    <span class="bnav-label">Alunos</span>
-                </button>
-                <button class="bnav-btn" onclick="switchAdminTab('adm-cts', event)">
-                    <span class="bnav-icon">📍</span>
-                    <span class="bnav-label">CTs</span>
+                    <span class="bnav-icon">👥</span><span class="bnav-label">Alunos</span>
                 </button>
                 <button class="bnav-btn" onclick="switchAdminTab('adm-relatorios', event)">
-                    <span class="bnav-icon">📊</span>
-                    <span class="bnav-label">Relatórios</span>
+                    <span class="bnav-icon">📊</span><span class="bnav-label">Relatórios</span>
                 </button>
                 <button class="bnav-btn" onclick="switchAdminTab('adm-campeonato', event)">
-                    <span class="bnav-icon">🏅</span>
-                    <span class="bnav-label">Camp.</span>
+                    <span class="bnav-icon">🏅</span><span class="bnav-label">Camp.</span>
                 </button>
-                <button class="bnav-btn" onclick="switchAdminTab('adm-checkin', event)">
-                    <span class="bnav-icon">✍️</span>
-                    <span class="bnav-label">Check-in</span>
-                </button>
-                <button class="bnav-btn" onclick="switchAdminTab('adm-perfil', event)">
-                    <span class="bnav-icon">👤</span>
-                    <span class="bnav-label">Perfil</span>
+                <button class="bnav-btn" onclick="switchAdminTab('adm-sistema', event)">
+                    <span class="bnav-icon">🔧</span><span class="bnav-label">Sistema</span>
                 </button>
             </div>
         </div>
@@ -5197,9 +5773,11 @@
     <div id="stuModal" class="stu-modal-overlay">
         <div class="stu-modal">
             <div class="stu-modal-header">
-                <button class="stu-modal-back" onclick="closeStuModal()">←</button>
-                <div class="stu-modal-title">Editar Aluno</div>
-                <button class="stu-modal-save" id="stuSaveBtn" onclick="saveStuModal()">Salvar</button>
+                <div class="stu-modal-toprow">
+                    <button class="stu-modal-back" onclick="closeStuModal()">‹ Voltar</button>
+                    <div class="stu-modal-title">Editar Aluno</div>
+                    <button class="stu-modal-save" id="stuSaveBtn" onclick="saveStuModal()">Salvar</button>
+                </div>
             </div>
             <div class="stu-modal-body">
                 <div id="stuModalMsg" class="stu-modal-msg"></div>
@@ -5263,7 +5841,20 @@
                     </div>
                     <div class="stu-field">
                         <label>CT Principal</label>
-                        <select id="stuCT"></select>
+                        <select id="stuCT" onchange="onStuCTChange()"></select>
+                    </div>
+                    <div class="stu-field">
+                        <label>📅 Dias de Treino</label>
+                        <div class="stu-days-row" id="stuDiasGrid">
+                            <button type="button" class="stu-day-btn" data-day="seg" onclick="this.classList.toggle('on')">S</button>
+                            <button type="button" class="stu-day-btn" data-day="ter" onclick="this.classList.toggle('on')">T</button>
+                            <button type="button" class="stu-day-btn" data-day="qua" onclick="this.classList.toggle('on')">Q</button>
+                            <button type="button" class="stu-day-btn" data-day="qui" onclick="this.classList.toggle('on')">Q</button>
+                            <button type="button" class="stu-day-btn" data-day="sex" onclick="this.classList.toggle('on')">S</button>
+                            <button type="button" class="stu-day-btn" data-day="sab" onclick="this.classList.toggle('on')">S</button>
+                            <button type="button" class="stu-day-btn" data-day="dom" onclick="this.classList.toggle('on')">D</button>
+                        </div>
+                        <div class="stu-days-hint" id="stuDiasHint"></div>
                     </div>
                     <div class="stu-toggle-row">
                         <div class="stu-toggle-label">🛡️ Administrador</div>
@@ -5382,6 +5973,39 @@
                     <div class="stu-field">
                         <label>Lesão ou Condição Médica</label>
                         <textarea id="stuSaude" placeholder="Ex: Lesão no joelho, hérnia de disco..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Graduation Timeline -->
+                <div class="stu-section">
+                    <div class="stu-section-title">🏆 Linha do Tempo · Graduação</div>
+                    <div class="grad-add-form" id="gradAddForm">
+                        <select id="gradTipo" onchange="onGradTipoChange()">
+                            <option value="grau">🟡 Grau na faixa</option>
+                            <option value="faixa">🟣 Graduação de faixa</option>
+                        </select>
+                        <select id="gradFaixa">
+                            <option value="Branca">Branca</option>
+                            <option value="Cinza">Cinza</option>
+                            <option value="Amarela">Amarela</option>
+                            <option value="Laranja">Laranja</option>
+                            <option value="Verde">Verde</option>
+                            <option value="Azul">Azul</option>
+                            <option value="Roxa">Roxa</option>
+                            <option value="Marrom">Marrom</option>
+                            <option value="Preta">Preta</option>
+                        </select>
+                        <select id="gradGrau">
+                            <option value="1">1º Grau</option>
+                            <option value="2">2º Grau</option>
+                            <option value="3">3º Grau</option>
+                            <option value="4">4º Grau</option>
+                        </select>
+                        <input type="text" id="gradObs" placeholder="Obs (opcional)" style="min-width:100px;">
+                        <button class="grad-add-btn" onclick="addGraduacao()">✅ Aprovar</button>
+                    </div>
+                    <div id="gradTimeline" class="grad-timeline">
+                        <div class="grad-empty">Nenhum evento registrado</div>
                     </div>
                 </div>
 
@@ -5507,7 +6131,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz30hE1N6tUq0BwUKnShcHqclwjKVF4k3KXzNQsj6uBSdlrwJLuEKOD5utc7uOQnoo/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzb7IYW00KJuY7vrRk8wK8WsGbtyIhCZlWngaJS6k0vLsZaQQoRlpPDkXL0dx9pxg-P/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -5875,7 +6499,8 @@
 
         function triggerSubTabLoad(subId) {
             if (subId === 'sub-ranking') loadRanking();
-            if (subId === 'sub-evolucao') loadEvolucao();
+            if (subId === 'sub-evolucao') { loadEvolucao(); loadMyGraduacoes(); }
+            if (subId === 'sub-presencas') loadPresencas();
             if (subId === 'sub-campeonato') loadChampions();
         }
 
@@ -6014,9 +6639,8 @@
         function checkTreinoAlarm(cts) {
             var alarm = document.getElementById('treino-alarm');
             if (!alarm) return;
-            if (!currentUser || !currentUser.ct) { alarm.style.display = 'none'; return; }
+            if (!currentUser) { alarm.style.display = 'none'; return; }
 
-            var userCT = currentUser.ct;
             var dayKeys = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'];
             var dayLabels = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
             var now = new Date();
@@ -6024,102 +6648,120 @@
             var hojeName = dayLabels[now.getDay()];
             var nowMin = now.getHours() * 60 + now.getMinutes();
 
-            // Find user's CT data
-            var ctData = null;
-            for (var i = 0; i < cts.length; i++) {
-                var ct = cts[i];
-                var name = typeof ct === 'string' ? ct : ct.name;
-                if (name === userCT) { ctData = ct; break; }
-            }
-
-            if (!ctData || typeof ctData === 'string') { alarm.style.display = 'none'; return; }
-
-            var schedule = ctData.schedule || {};
-            var hasConfig = Object.values(schedule).some(function(v) { return v === true; });
-            var hasTrainToday = !hasConfig || schedule[hoje] === true;
-
             var icon = document.getElementById('treinoAlarmIcon');
             var title = document.getElementById('treinoAlarmTitle');
             var sub = document.getElementById('treinoAlarmSub');
             var timesDiv = document.getElementById('treinoAlarmTimes');
 
-            // ===== SEM TREINO HOJE =====
-            if (!hasTrainToday) {
+            // ===== SCAN ALL CTs =====
+            var ctsComAulaHoje = []; // { name, horarios, slots[], schedule }
+            var allSlots = [];       // merged from all CTs
+
+            for (var i = 0; i < cts.length; i++) {
+                var ct = cts[i];
+                if (typeof ct === 'string') continue;
+                var ctName = ct.name || '';
+                var schedule = ct.schedule || {};
+                var hasConfig = Object.values(schedule).some(function(v) { return v === true; });
+                var temAulaHoje = !hasConfig || schedule[hoje] === true;
+                if (!temAulaHoje) continue;
+
+                // Per-day horarios: use today's specific times
+                var horarios = '';
+                var hpd = ct.horariosPorDia || {};
+                if (hpd[hoje]) {
+                    horarios = hpd[hoje];
+                } else if (hpd._global) {
+                    horarios = hpd._global;
+                } else {
+                    horarios = ct.horarios || '';
+                }
+                if (horarios.indexOf('1899') > -1 || horarios.indexOf('GMT') > -1) {
+                    var mx = horarios.match(/(\d{1,2}):(\d{2}):\d{2}/);
+                    if (mx) horarios = (mx[1].length < 2 ? '0' + mx[1] : mx[1]) + ':' + mx[2];
+                }
+
+                var ctSlots = [];
+                if (horarios) {
+                    var parts = horarios.split(',');
+                    for (var s = 0; s < parts.length; s++) {
+                        var t = parts[s].trim();
+                        var pm = t.match(/^(\d{1,2}):(\d{2})$/);
+                        if (!pm) continue;
+                        var h = parseInt(pm[1]), m = parseInt(pm[2]);
+                        var slot = { label: t, startMin: h * 60 + m, endMin: Math.min(h * 60 + m + 300, 1439), ct: ctName };
+                        ctSlots.push(slot);
+                        allSlots.push(slot);
+                    }
+                }
+                ctsComAulaHoje.push({ name: ctName, horarios: horarios, slots: ctSlots, schedule: schedule });
+            }
+
+            allSlots.sort(function(a, b) { return a.startMin - b.startMin; });
+            var ctNames = ctsComAulaHoje.map(function(c) { return c.name; });
+
+            // ===== NENHUM CT TEM AULA HOJE → DESCANSO =====
+            if (ctsComAulaHoje.length === 0) {
                 alarm.style.display = 'flex';
                 alarm.className = 'treino-alarm no-train';
                 icon.textContent = '😴';
                 title.textContent = 'Hoje é dia de descanso';
-                sub.textContent = hojeName + ' · Sem treino no ' + userCT;
+                sub.textContent = hojeName + ' · Sem treino hoje';
 
+                // Próximo dia com aula em qualquer CT
                 var nextDay = '';
                 for (var nd = 1; nd <= 7; nd++) {
                     var checkDay = dayKeys[(now.getDay() + nd) % 7];
-                    if (schedule[checkDay]) {
-                        nextDay = dayLabels[(now.getDay() + nd) % 7];
-                        break;
+                    for (var ci = 0; ci < cts.length; ci++) {
+                        var c2 = cts[ci];
+                        if (typeof c2 === 'string') continue;
+                        var sch2 = c2.schedule || {};
+                        if (sch2[checkDay]) {
+                            nextDay = dayLabels[(now.getDay() + nd) % 7];
+                            break;
+                        }
                     }
+                    if (nextDay) break;
                 }
-                var horStr = (ctData.horarios || '').replace(/,/g, ' · ');
-                timesDiv.innerHTML = nextDay ? '<div style="font-size:11px;color:var(--text-3);">Próximo treino: <strong>' + nextDay + '</strong>' + (horStr ? ' · ' + horStr : '') + '</div>' : '';
+                timesDiv.innerHTML = nextDay ? '<div style="font-size:11px;color:var(--text-3);">Próximo treino: <strong>' + nextDay + '</strong></div>' : '';
                 return;
             }
 
-            // ===== TEM TREINO HOJE - Analisar janelas =====
-            var horarios = ctData.horarios || '';
-            // Safeguard: Date string (1899)
-            if (horarios.indexOf('1899') > -1 || horarios.indexOf('GMT') > -1) {
-                var mx = horarios.match(/(\d{1,2}):(\d{2}):\d{2}/);
-                if (mx) horarios = (mx[1].length < 2 ? '0' + mx[1] : mx[1]) + ':' + mx[2];
-            }
+            // ===== TEM AULA HOJE =====
+            var ctLabel = ctNames.length === 1 ? ctNames[0] : ctNames.join(' · ');
 
-            // Parse time slots
-            var slots = [];
-            if (horarios) {
-                var parts = horarios.split(',');
-                for (var s = 0; s < parts.length; s++) {
-                    var t = parts[s].trim();
-                    var pm = t.match(/^(\d{1,2}):(\d{2})$/);
-                    if (!pm) continue;
-                    var h = parseInt(pm[1]), m = parseInt(pm[2]);
-                    slots.push({ label: t, startMin: h * 60 + m, endMin: Math.min(h * 60 + m + 300, 1439) });
-                }
-                slots.sort(function(a, b) { return a.startMin - b.startMin; });
-            }
-
-            // Se não tem horários cadastrados, fallback: sempre visível em dia de treino
-            if (slots.length === 0) {
+            // Se nenhum CT tem horários cadastrados, fallback
+            if (allSlots.length === 0) {
                 alarm.style.display = 'flex';
                 alarm.className = 'treino-alarm';
                 icon.textContent = '🔔';
                 title.textContent = 'Hoje tem treino!';
-                sub.textContent = hojeName + ' · ' + userCT + ' · Bora pro tatame! 🤙';
+                sub.textContent = hojeName + ' · ' + ctLabel + ' · Bora pro tatame! 🤙';
                 timesDiv.innerHTML = '<div style="font-size:11px;color:rgba(74,222,128,0.4);">Horários não cadastrados</div>';
                 return;
             }
 
-            var primeiraAulaMin = slots[0].startMin;
-            var ultimaJanelaFim = slots[slots.length - 1].endMin;
-            var alertaInicio = primeiraAulaMin - 120; // 2h antes
+            var primeiraAulaMin = allSlots[0].startMin;
+            var ultimaJanelaFim = allSlots[allSlots.length - 1].endMin;
+            var alertaInicio = primeiraAulaMin - 120;
             var checkinFeito = fezCheckinHoje();
 
-            // ===== ESTADO 1: Antes de 2h da primeira aula → ESCONDER =====
+            // ===== ANTES DE 2H DA PRIMEIRA AULA → ESCONDER =====
             if (nowMin < alertaInicio) {
                 alarm.style.display = 'none';
                 return;
             }
 
-            // ===== ESTADO 2: Após todas as janelas → PÓS-TREINO =====
+            // ===== APÓS TODAS AS JANELAS → PÓS-TREINO =====
             if (nowMin > ultimaJanelaFim) {
                 alarm.style.display = 'flex';
                 if (checkinFeito) {
-                    // ✅ Fez check-in → Mensagem motivacional
                     alarm.className = 'treino-alarm checked-in';
                     icon.textContent = '🏆';
                     title.textContent = 'Treino concluído!';
                     sub.textContent = getRandomMessage(MOTIVATIONAL_CHECKIN);
-                    timesDiv.innerHTML = '<div style="font-size:11px;color:rgba(96,165,250,0.5);">' + hojeName + ' · ' + userCT + ' · Total: ' + (currentUser.treinos || 0) + ' treinos</div>';
+                    timesDiv.innerHTML = '<div style="font-size:11px;color:rgba(96,165,250,0.5);">' + hojeName + ' · Total: ' + (currentUser.treinos || 0) + ' treinos</div>';
                 } else {
-                    // 😔 Não fez check-in → Mensagem de incentivo
                     alarm.className = 'treino-alarm missed';
                     icon.textContent = '😔';
                     title.textContent = 'Você não treinou hoje';
@@ -6127,76 +6769,65 @@
                     var nextDay2 = '';
                     for (var nd2 = 1; nd2 <= 7; nd2++) {
                         var cd2 = dayKeys[(now.getDay() + nd2) % 7];
-                        if (schedule[cd2]) { nextDay2 = dayLabels[(now.getDay() + nd2) % 7]; break; }
+                        for (var ci2 = 0; ci2 < ctsComAulaHoje.length; ci2++) {
+                            if (ctsComAulaHoje[ci2].schedule[cd2]) { nextDay2 = dayLabels[(now.getDay() + nd2) % 7]; break; }
+                        }
+                        if (nextDay2) break;
                     }
                     timesDiv.innerHTML = nextDay2 ? '<div style="font-size:11px;color:rgba(251,191,36,0.5);">Próximo treino: <strong>' + nextDay2 + '</strong></div>' : '';
                 }
                 return;
             }
 
-            // ===== ESTADO 3: Dentro da janela (2h antes → fim da última aula) =====
-            // Se já fez check-in durante a janela ativa → motivacional
+            // ===== DENTRO DA JANELA =====
             if (checkinFeito) {
                 alarm.style.display = 'flex';
                 alarm.className = 'treino-alarm checked-in';
                 icon.textContent = '✅';
                 title.textContent = 'Presença registrada!';
                 sub.textContent = getRandomMessage(MOTIVATIONAL_CHECKIN);
-                timesDiv.innerHTML = '<div style="font-size:11px;color:rgba(96,165,250,0.5);">' + hojeName + ' · ' + userCT + ' · Total: ' + (currentUser.treinos || 0) + ' treinos</div>';
+                timesDiv.innerHTML = '<div style="font-size:11px;color:rgba(96,165,250,0.5);">' + hojeName + ' · Total: ' + (currentUser.treinos || 0) + ' treinos</div>';
                 return;
             }
 
-            // Ainda não fez check-in → Alarme ativo com countdown
+            // Alarme ativo - mostrar SÓ a próxima aula
             alarm.style.display = 'flex';
             alarm.className = 'treino-alarm';
             icon.textContent = '🔔';
-            title.textContent = 'Hoje tem treino!';
-            sub.textContent = hojeName + ' · ' + userCT + ' · Bora pro tatame! 🤙';
 
-            // Render time slots
-            var timesHtml = '';
-            for (var ts = 0; ts < slots.length; ts++) {
-                var isPast = nowMin > slots[ts].endMin;
-                var isNext = !isPast && (nowMin < slots[ts].startMin || nowMin <= slots[ts].endMin);
-                var nextFound = false;
-                var cls = '';
-                if (isPast) {
-                    cls = ' style="opacity:0.3;"';
-                } else if (isNext && !nextFound) {
-                    cls = ' class="treino-alarm-time next"';
-                    nextFound = true;
-                }
-                if (isPast) {
-                    timesHtml += '<div class="treino-alarm-time" style="opacity:0.35;"><span class="clock-icon">⏰</span> ' + slots[ts].label + '</div>';
-                } else if (isNext) {
-                    timesHtml += '<div class="treino-alarm-time next"><span class="clock-icon">⏰</span> ' + slots[ts].label + '</div>';
-                } else {
-                    timesHtml += '<div class="treino-alarm-time"><span class="clock-icon">⏰</span> ' + slots[ts].label + '</div>';
+            // Encontrar próxima aula (visível 2h antes)
+            var multiCT = ctsComAulaHoje.length > 1;
+            var nextSlot = null;
+            for (var ns = 0; ns < allSlots.length; ns++) {
+                if (nowMin < allSlots[ns].endMin && nowMin >= allSlots[ns].startMin - 120) {
+                    nextSlot = allSlots[ns];
+                    break;
                 }
             }
+            // Se nenhum slot visível (todos >2h), esconder alarme
+            if (!nextSlot) {
+                alarm.style.display = 'none';
+                return;
+            }
+
+            var diffMin = nextSlot.startMin - nowMin;
+            var nextLabel = nextSlot.label + (multiCT ? ' · ' + nextSlot.ct : '');
+            
+            if (diffMin > 0) {
+                // Contagem regressiva
+                var hh = Math.floor(diffMin / 60);
+                var mm = diffMin % 60;
+                var countdown = hh > 0 ? hh + 'h' + (mm > 0 ? mm + 'min' : '') : mm + 'min';
+                title.textContent = 'Hoje tem treino!';
+                sub.textContent = '⏱️ Próxima aula em ' + countdown + (multiCT ? ' · ' + nextSlot.ct : '');
+            } else {
+                // Aula em andamento
+                title.textContent = 'Aula em andamento!';
+                sub.textContent = '🥋 ' + nextLabel + ' · Bora pro tatame!';
+            }
+
+            var timesHtml = '<div class="treino-alarm-time next"><span class="clock-icon">⏰</span> ' + nextLabel + '</div>';
             timesDiv.innerHTML = timesHtml;
-
-            // Countdown para próxima aula
-            for (var c = 0; c < slots.length; c++) {
-                if (slots[c].startMin > nowMin) {
-                    var diffMin = slots[c].startMin - nowMin;
-                    if (diffMin <= 120) {
-                        if (diffMin < 60) {
-                            sub.textContent = '⏱️ Próxima aula em ' + diffMin + ' min! · ' + userCT;
-                        } else {
-                            var hrs = Math.floor(diffMin / 60);
-                            var rm = diffMin % 60;
-                            sub.textContent = '⏱️ Próxima aula em ' + hrs + 'h' + (rm > 0 ? rm + 'min' : '') + ' · ' + userCT;
-                        }
-                    }
-                    break;
-                }
-                // Se estamos dentro da janela de uma aula que já começou
-                if (nowMin >= slots[c].startMin && nowMin <= slots[c].endMin) {
-                    sub.textContent = '🥋 Aula das ' + slots[c].label + ' em andamento! · ' + userCT;
-                    break;
-                }
-            }
         }
 
         /**
@@ -6210,7 +6841,11 @@
          */
         function checkCheckinWindow(ctName) {
             var ct = allCTs.find(function(c) { return c.name === ctName; });
-            var horarios = (ct && ct.horarios) ? ct.horarios.toString().trim() : '';
+            // Use per-day horarios for today
+            var hpdStu = (ct && ct.horariosPorDia) ? ct.horariosPorDia : {};
+            var dayKeysStu = ['dom','seg','ter','qua','qui','sex','sab'];
+            var hojeStu = dayKeysStu[new Date().getDay()];
+            var horarios = hpdStu[hojeStu] || hpdStu._global || ((ct && ct.horarios) ? ct.horarios.toString().trim() : '');
 
             var now = new Date();
             var nowMinutes = now.getHours() * 60 + now.getMinutes();
@@ -6633,8 +7268,8 @@
             if (allPass) {
                 btn.className = 'evo-exam-btn active';
                 btn.disabled = false;
-                btn.innerHTML = '🏅 Solicitar Exame → ' + cfg.next;
-                btn.onclick = () => alert('Solicitação de exame enviada! Aguarde contato do professor.');
+                btn.innerHTML = '✅ Apto para Exame de Faixa → ' + cfg.next;
+                btn.onclick = () => alert('Parabéns! Você cumpriu todos os critérios. A aprovação e agendamento do exame será feita pelo professor.');
             } else {
                 btn.className = 'evo-exam-btn disabled';
                 btn.disabled = true;
@@ -6740,6 +7375,533 @@
             else { iconEl.textContent = '🌅'; textEl.textContent = '"A jornada de mil milhas começa com um único passo."'; subEl.textContent = 'Nunca é tarde para recomeçar'; }
         }
 
+        // ===== PRESENÇAS (Calendário Mensal) =====
+        var _prsData = null;
+        var _prsMonth = new Date().getMonth();
+        var _prsYear = new Date().getFullYear();
+        var _prsSelectedDay = null;
+
+        async function loadPresencas() {
+            if (_prsData) { renderPresencas(); return; }
+            var grid = document.getElementById('prsCalGrid');
+            if (grid) grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:20px;color:var(--text-3);">Carregando...</div>';
+            try {
+                var data = await secureFetch('getMyPresencas', {});
+                if (data.success) {
+                    _prsData = data.records || [];
+                    renderPresencas();
+                }
+            } catch(e) {
+                if (grid) grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--coral);">Erro ao carregar</div>';
+            }
+        }
+
+        function prsChangeMonth(delta) {
+            _prsMonth += delta;
+            if (_prsMonth > 11) { _prsMonth = 0; _prsYear++; }
+            if (_prsMonth < 0) { _prsMonth = 11; _prsYear--; }
+            _prsSelectedDay = null;
+            document.getElementById('prsDetail').style.display = 'none';
+            renderPresencas();
+        }
+
+        function renderPresencas() {
+            var MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+            var DIAS_SEMANA = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+            var DAY_KEYS = ['dom','seg','ter','qua','qui','sex','sab'];
+
+            // Title
+            document.getElementById('prsMonthTitle').textContent = MESES[_prsMonth] + ' ' + _prsYear;
+
+            // Build attendance map for this month
+            var monthKey = _prsYear + '-' + String(_prsMonth + 1).padStart(2, '0');
+            var dayMap = {}; // { "15": [{hora, ct}, ...] }
+            var ctSet = {};
+            var totalMes = 0;
+
+            if (_prsData) {
+                for (var i = 0; i < _prsData.length; i++) {
+                    var r = _prsData[i];
+                    if (r.date && r.date.substring(0, 7) === monthKey) {
+                        var dayNum = parseInt(r.date.substring(8, 10));
+                        if (!dayMap[dayNum]) dayMap[dayNum] = [];
+                        dayMap[dayNum].push({ hora: r.hora, ct: r.ct });
+                        if (r.ct) ctSet[r.ct] = true;
+                        totalMes++;
+                    }
+                }
+            }
+
+            // Student's training days
+            var stuDiasTreino = [];
+            if (currentUser && currentUser.diasTreino) {
+                stuDiasTreino = currentUser.diasTreino.split(',');
+            } else {
+                // Fallback: read from profile cache
+                try {
+                    var cached = JSON.parse(localStorage.getItem('bjjProfile') || '{}');
+                    if (cached.diasTreino) stuDiasTreino = cached.diasTreino.split(',');
+                } catch(e) {}
+            }
+
+            // Calculate expected training days this month
+            var daysInMonth = new Date(_prsYear, _prsMonth + 1, 0).getDate();
+            var expectedDays = 0;
+            var now = new Date();
+            for (var ed = 1; ed <= daysInMonth; ed++) {
+                var edDate = new Date(_prsYear, _prsMonth, ed);
+                if (edDate > now) break;
+                var edKey = DAY_KEYS[edDate.getDay()];
+                if (stuDiasTreino.indexOf(edKey) !== -1) expectedDays++;
+            }
+
+            // Summary
+            document.getElementById('prsTotalMes').textContent = totalMes;
+            document.getElementById('prsCTsMes').textContent = Object.keys(ctSet).length || (totalMes > 0 ? 1 : 0);
+            var freq = expectedDays > 0 ? Math.round(totalMes / expectedDays * 100) : (totalMes > 0 ? 100 : 0);
+            document.getElementById('prsFreqMes').textContent = Math.min(freq, 100) + '%';
+
+            // Render calendar grid
+            var firstDay = new Date(_prsYear, _prsMonth, 1).getDay();
+            // Adjust to start on Monday: 0=Mon...6=Sun
+            var startOffset = (firstDay + 6) % 7;
+            var html = '';
+
+            // Empty cells before first day
+            for (var e = 0; e < startOffset; e++) {
+                html += '<div class="prs-day empty"></div>';
+            }
+
+            var today = new Date();
+            for (var d = 1; d <= daysInMonth; d++) {
+                var dt = new Date(_prsYear, _prsMonth, d);
+                var dayOfWeek = DAY_KEYS[dt.getDay()];
+                var isToday = d === today.getDate() && _prsMonth === today.getMonth() && _prsYear === today.getFullYear();
+                var isExpected = stuDiasTreino.indexOf(dayOfWeek) !== -1;
+                var hasCheckin = dayMap[d] && dayMap[d].length > 0;
+                var isPast = dt < now && !isToday;
+                var isFuture = dt > now;
+
+                var cls = 'prs-day';
+                if (isToday) cls += ' today';
+                if (hasCheckin) {
+                    cls += ' present';
+                    if (dayMap[d].length > 1) cls += ' multi';
+                } else if (isExpected && isPast) {
+                    cls += ' missed';
+                } else if (isExpected && !isFuture) {
+                    cls += ' expected';
+                }
+                if (_prsSelectedDay === d) cls += ' selected';
+
+                html += '<div class="' + cls + '" onclick="prsSelectDay(' + d + ')">' + d + '</div>';
+            }
+
+            document.getElementById('prsCalGrid').innerHTML = html;
+
+            // Monthly list (recent first)
+            var listHtml = '<div class="prs-list-title">📋 Registro do mês (' + totalMes + ')</div>';
+            var sortedDays = Object.keys(dayMap).map(Number).sort(function(a,b) { return b - a; });
+            for (var li = 0; li < sortedDays.length; li++) {
+                var ld = sortedDays[li];
+                var ldt = new Date(_prsYear, _prsMonth, ld);
+                var ldow = DIAS_SEMANA[ldt.getDay()];
+                var entries = dayMap[ld];
+                for (var le = 0; le < entries.length; le++) {
+                    listHtml += '<div class="prs-list-item">' +
+                        '<div class="prs-list-date">' + ld + '</div>' +
+                        '<div class="prs-list-day">' + ldow + '</div>' +
+                        '<div class="prs-list-ct">📍 ' + (entries[le].ct || '—') + '</div>' +
+                        '<div class="prs-list-time">🕐 ' + (entries[le].hora || '—') + '</div>' +
+                        '</div>';
+                }
+            }
+            if (totalMes === 0) {
+                listHtml += '<div style="text-align:center;padding:20px;color:var(--text-3);font-size:12px;">Nenhum treino registrado neste mês</div>';
+            }
+            document.getElementById('prsList').innerHTML = listHtml;
+
+            // Show detail if day selected
+            if (_prsSelectedDay && dayMap[_prsSelectedDay]) {
+                prsShowDayDetail(_prsSelectedDay, dayMap[_prsSelectedDay]);
+            }
+        }
+
+        function prsSelectDay(day) {
+            _prsSelectedDay = (_prsSelectedDay === day) ? null : day;
+            renderPresencas();
+        }
+
+        function prsShowDayDetail(day, entries) {
+            var DIAS_SEMANA = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+            var dt = new Date(_prsYear, _prsMonth, day);
+            var detail = document.getElementById('prsDetail');
+            var header = document.getElementById('prsDetailHeader');
+            var list = document.getElementById('prsDetailList');
+
+            header.textContent = '📅 ' + DIAS_SEMANA[dt.getDay()] + ', ' + day + '/' + (_prsMonth + 1);
+            var html = '';
+            for (var i = 0; i < entries.length; i++) {
+                html += '<div class="prs-detail-item">' +
+                    '<div class="prs-detail-time">' + (entries[i].hora || '—') + '</div>' +
+                    '<div class="prs-detail-ct">📍 ' + (entries[i].ct || '—') + '</div>' +
+                    '<div class="prs-detail-badge">✅ Confirmado</div>' +
+                    '</div>';
+            }
+            if (entries.length === 0) {
+                html = '<div style="text-align:center;padding:12px;color:var(--text-3);font-size:12px;">Sem registro neste dia</div>';
+            }
+            list.innerHTML = html;
+            detail.style.display = 'block';
+        }
+
+        // ===== GRADUATION TIMELINE =====
+
+        // Admin: tipo change shows/hides grau field
+        function onGradTipoChange() {
+            var tipo = document.getElementById('gradTipo').value;
+            document.getElementById('gradGrau').style.display = (tipo === 'grau') ? '' : 'none';
+        }
+
+        // Admin: approve graduation event (direct or pending)
+        async function addGraduacao() {
+            if (!stuModalEmail) return;
+            var tipo = document.getElementById('gradTipo').value;
+
+            var payload = {
+                alunoEmail: stuModalEmail,
+                tipo: tipo,
+                faixa: document.getElementById('gradFaixa').value,
+                grau: document.getElementById('gradGrau').value,
+                obs: document.getElementById('gradObs').value.trim()
+            };
+
+            try {
+                var result = await secureFetch('addGraduacao', payload);
+                if (result.success) {
+                    document.getElementById('gradObs').value = '';
+                    loadGraduacoes(stuModalEmail);
+                } else {
+                    alert(result.message || 'Erro');
+                }
+            } catch(e) { alert('Erro de conexão'); }
+        }
+
+        // Admin: approve a pending event by rowIndex
+        async function approveGraduacaoRow(rowIndex) {
+            try {
+                var result = await secureFetch('addGraduacao', { rowIndex: rowIndex });
+                if (result.success) {
+                    loadGraduacoes(stuModalEmail);
+                } else {
+                    alert(result.message || 'Erro');
+                }
+            } catch(e) { alert('Erro de conexão'); }
+        }
+
+        // Admin: reject a pending event
+        async function rejectGraduacaoRow(rowIndex) {
+            if (!confirm('Rejeitar esta solicitação?')) return;
+            try {
+                var result = await secureFetch('rejectGraduacao', { rowIndex: rowIndex });
+                if (result.success) {
+                    loadGraduacoes(stuModalEmail);
+                } else {
+                    alert(result.message || 'Erro');
+                }
+            } catch(e) { alert('Erro de conexão'); }
+        }
+
+        // Admin: load graduation events for a student
+        async function loadGraduacoes(email) {
+            var container = document.getElementById('gradTimeline');
+            if (!container) return;
+            container.innerHTML = '<div class="grad-empty">Carregando...</div>';
+
+            try {
+                var data = await secureFetch('getGraduacoes', { alunoEmail: email });
+                if (data.success) {
+                    renderGradTimeline(container, data.events || []);
+                }
+            } catch(e) {
+                container.innerHTML = '<div class="grad-empty">Erro ao carregar</div>';
+            }
+        }
+
+        // Render graduation timeline (admin view with approve/reject)
+        function renderGradTimeline(container, events) {
+            if (!events || events.length === 0) {
+                container.innerHTML = '<div class="grad-empty">Nenhum evento registrado</div>';
+                return;
+            }
+
+            var FAIXA_EMOJI = {
+                'Branca':'⬜','Cinza':'🩶','Amarela':'🟨','Laranja':'🟧',
+                'Verde':'🟩','Azul':'🟦','Roxa':'🟪','Marrom':'🟫','Preta':'⬛'
+            };
+
+            var html = '';
+            for (var i = 0; i < events.length; i++) {
+                var ev = events[i];
+                var isPending = (ev.status === 'PENDENTE');
+                var cls = 'grad-event ' + ev.tipo + (isPending ? ' pendente' : '');
+                var title = '', icon = '';
+
+                if (ev.tipo === 'inicio') {
+                    title = 'Início no Jiu-Jitsu'; icon = '🥋';
+                } else if (ev.tipo === 'grau') {
+                    title = ev.grau + 'º Grau · Faixa ' + ev.faixa; icon = '🏅';
+                } else if (ev.tipo === 'faixa') {
+                    title = 'Graduação: Faixa ' + ev.faixa; icon = (FAIXA_EMOJI[ev.faixa] || '🥋');
+                }
+
+                var statusBadge = isPending 
+                    ? '<span class="grad-status pendente">⏳ PENDENTE</span>'
+                    : '<span class="grad-status aprovado">✅ APROVADO</span>';
+
+                html += '<div class="' + cls + '">';
+                html += '<div class="grad-date">' + formatGradDate(ev.data) + ' ' + statusBadge + '</div>';
+                html += '<div class="grad-title">' + icon + ' ' + title + '</div>';
+                if (ev.obs) html += '<div class="grad-obs">"' + escapeHtml(ev.obs) + '"</div>';
+                
+                if (isPending && ev.rowIndex) {
+                    html += '<div class="grad-actions">';
+                    html += '<button class="grad-action-btn approve" onclick="approveGraduacaoRow(' + ev.rowIndex + ')">✅ Aprovar</button>';
+                    html += '<button class="grad-action-btn reject" onclick="rejectGraduacaoRow(' + ev.rowIndex + ')">✕ Rejeitar</button>';
+                    html += '</div>';
+                }
+                html += '</div>';
+            }
+            container.innerHTML = html;
+        }
+
+        function formatGradDate(dateStr) {
+            if (!dateStr) return '—';
+            var MESES = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+            var parts = dateStr.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+            if (parts) {
+                return parseInt(parts[1]) + ' ' + MESES[parseInt(parts[2])-1] + ' ' + parts[3];
+            }
+            var parts2 = dateStr.split('-');
+            if (parts2.length >= 3) {
+                return parseInt(parts2[2]) + ' ' + MESES[parseInt(parts2[1])-1] + ' ' + parts2[0];
+            }
+            return dateStr;
+        }
+
+        // ===== STUDENT GRADUATION TIMELINE =====
+
+        function toggleDeclareForm() {
+            var form = document.getElementById('evoDeclareForm');
+            var toggle = document.getElementById('evoDeclareToggle');
+            if (!form) return;
+            var open = form.style.display !== 'none';
+            form.style.display = open ? 'none' : 'block';
+            if (toggle) toggle.classList.toggle('open', !open);
+        }
+
+        function onEvoDeclTipoChange() {
+            var tipo = document.getElementById('evoDeclTipo').value;
+            document.getElementById('evoDeclGrau').style.display = (tipo === 'grau') ? '' : 'none';
+        }
+
+        async function requestGraduacao() {
+            var tipo = document.getElementById('evoDeclTipo').value;
+            var data = document.getElementById('evoDeclData').value;
+            if (!data) { alert('Informe a data'); return; }
+
+            var payload = {
+                tipo: tipo,
+                faixa: document.getElementById('evoDeclFaixa').value,
+                grau: document.getElementById('evoDeclGrau').value,
+                data: data,
+                obs: ''
+            };
+
+            var msg = document.getElementById('evoDeclMsg');
+            if (msg) msg.textContent = 'Enviando...';
+
+            try {
+                var result = await secureFetch('requestGraduacao', payload);
+                if (result.success) {
+                    if (msg) { msg.style.color = '#2ecc71'; msg.textContent = '✅ Solicitação enviada! Aguarde aprovação.'; }
+                    document.getElementById('evoDeclData').value = '';
+                    loadMyGraduacoes();
+                } else {
+                    if (msg) { msg.style.color = 'var(--coral)'; msg.textContent = result.message || 'Erro'; }
+                }
+            } catch(e) {
+                if (msg) { msg.style.color = 'var(--coral)'; msg.textContent = 'Erro de conexão'; }
+            }
+        }
+
+        // Student: load own graduation timeline
+        async function loadMyGraduacoes() {
+            var container = document.getElementById('evoTimelineContent');
+            if (!container) return;
+
+            try {
+                var data = await secureFetch('getMyGraduacoes', {});
+                if (data.success) {
+                    var events = data.events || [];
+                    
+                    // Handle inicio box
+                    var inicioEvent = null;
+                    for (var i = 0; i < events.length; i++) {
+                        if (events[i].tipo === 'inicio') { inicioEvent = events[i]; break; }
+                    }
+                    
+                    var inicioBox = document.getElementById('evoInicioBox');
+                    var inicioRow = inicioBox ? inicioBox.querySelector('.evo-inicio-row') : null;
+                    var inicioSaved = document.getElementById('evoInicioSaved');
+                    
+                    if (inicioEvent && inicioEvent.data) {
+                        if (inicioRow) inicioRow.style.display = 'none';
+                        if (inicioSaved) {
+                            inicioSaved.style.display = 'block';
+                            var label = inicioBox ? inicioBox.querySelector('.evo-inicio-label') : null;
+                            if (label) label.style.display = 'none';
+                            document.getElementById('evoInicioSavedText').textContent = 
+                                'Início: ' + formatGradDateLong(inicioEvent.data);
+                        }
+                    }
+                    
+                    // Filter out inicio for timeline
+                    var tlEvents = events.filter(function(e) { return e.tipo !== 'inicio'; });
+                    
+                    if (tlEvents.length > 0) {
+                        renderEvoTimeline(container, tlEvents);
+                    } else {
+                        container.innerHTML = '<div class="evo-tl-start">Sua jornada será registrada aqui pelo professor 🥋</div>';
+                    }
+                    
+                    checkAptStatus();
+                }
+            } catch(e) {
+                container.innerHTML = '<div class="evo-tl-start">Erro ao carregar timeline</div>';
+            }
+        }
+
+        function formatGradDateLong(dateStr) {
+            if (!dateStr) return '—';
+            var MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+            var parts = dateStr.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+            if (parts) {
+                return parseInt(parts[1]) + ' de ' + MESES[parseInt(parts[2])-1] + ' de ' + parts[3];
+            }
+            var parts2 = dateStr.split('-');
+            if (parts2.length >= 3) {
+                return parseInt(parts2[2]) + ' de ' + MESES[parseInt(parts2[1])-1] + ' de ' + parts2[0];
+            }
+            return dateStr;
+        }
+
+        async function saveMyInicioBJJ() {
+            var input = document.getElementById('evoInicioDate');
+            if (!input || !input.value) { alert('Selecione a data'); return; }
+            
+            var btn = document.getElementById('evoInicioBtn');
+            if (btn) { btn.disabled = true; btn.textContent = 'Salvando...'; }
+            
+            try {
+                var result = await secureFetch('setMyInicioBJJ', { data: input.value });
+                if (result.success) {
+                    loadMyGraduacoes();
+                } else {
+                    alert(result.message || 'Erro');
+                }
+            } catch(e) { alert('Erro de conexão'); }
+            
+            if (btn) { btn.disabled = false; btn.textContent = 'Salvar'; }
+        }
+
+        function editInicioBJJ() {
+            var inicioBox = document.getElementById('evoInicioBox');
+            if (!inicioBox) return;
+            var row = inicioBox.querySelector('.evo-inicio-row');
+            var saved = document.getElementById('evoInicioSaved');
+            var label = inicioBox.querySelector('.evo-inicio-label');
+            if (row) row.style.display = 'flex';
+            if (saved) saved.style.display = 'none';
+            if (label) label.style.display = 'block';
+        }
+
+        function checkAptStatus() {
+            var aptMsg = document.getElementById('evoAptMsg');
+            var aptText = document.getElementById('evoAptText');
+            if (!aptMsg || !aptText) return;
+            
+            var examBtn = document.getElementById('evoExamBtn');
+            if (examBtn && !examBtn.disabled) {
+                aptMsg.style.display = 'block';
+                aptText.textContent = 'Você atingiu os critérios para o próximo grau!';
+            } else {
+                aptMsg.style.display = 'none';
+            }
+        }
+
+        function renderEvoTimeline(container, events) {
+            var FAIXA_EMOJI = {
+                'Branca':'⬜','Cinza':'🩶','Amarela':'🟨','Laranja':'🟧',
+                'Verde':'🟩','Azul':'🟦','Roxa':'🟪','Marrom':'🟫','Preta':'⬛'
+            };
+            var MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
+            var html = '';
+            for (var i = 0; i < events.length; i++) {
+                var ev = events[i];
+                var isPending = (ev.status === 'PENDENTE');
+                var title = '', sub = '', icon = '';
+
+                if (ev.tipo === 'inicio') {
+                    title = 'Início da Jornada'; sub = 'Primeiro dia no tatame'; icon = '🥋';
+                } else if (ev.tipo === 'grau') {
+                    title = ev.grau + 'º Grau · ' + ev.faixa;
+                    sub = isPending ? 'Aguardando aprovação do professor' : 'Grau recebido na faixa ' + ev.faixa;
+                    icon = '🏅';
+                } else if (ev.tipo === 'faixa') {
+                    title = 'Faixa ' + ev.faixa;
+                    sub = isPending ? 'Aguardando aprovação do professor' : 'Promovido à faixa ' + ev.faixa;
+                    icon = (FAIXA_EMOJI[ev.faixa] || '🥋');
+                }
+
+                var dateStr = '';
+                var dp = (ev.data || '').match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+                var d, m, y;
+                if (dp) {
+                    d = parseInt(dp[1]); m = parseInt(dp[2]) - 1; y = parseInt(dp[3]);
+                } else {
+                    var dp2 = (ev.data || '').split('-');
+                    if (dp2.length >= 3) { y = parseInt(dp2[0]); m = parseInt(dp2[1]) - 1; d = parseInt(dp2[2]); }
+                }
+                if (d && m !== undefined && y) {
+                    dateStr = d + ' de ' + MESES[m] + ' de ' + y;
+                    var evDate = new Date(y, m, d);
+                    var now = new Date();
+                    var diffDays = Math.floor((now - evDate) / (1000*60*60*24));
+                    if (diffDays >= 0) {
+                        if (diffDays < 30) dateStr += ' · há ' + diffDays + ' dias';
+                        else if (diffDays < 365) dateStr += ' · há ' + Math.floor(diffDays/30) + ' meses';
+                        else dateStr += ' · há ' + Math.floor(diffDays/365) + ' ano(s)';
+                    }
+                }
+
+                var statusHtml = isPending 
+                    ? '<div class="evo-tl-status pendente">⏳ Aguardando aprovação</div>'
+                    : '<div class="evo-tl-status aprovado">✅ Aprovado</div>';
+
+                html += '<div class="evo-tl-event ' + ev.tipo + (isPending ? ' pendente' : '') + '">';
+                html += '<div class="evo-tl-icon">' + icon + '</div>';
+                html += '<div class="evo-tl-title">' + title + '</div>';
+                html += '<div class="evo-tl-sub">' + sub + '</div>';
+                html += '<div class="evo-tl-date">📅 ' + dateStr + '</div>';
+                if (ev.obs) html += '<div class="evo-tl-obs">"' + escapeHtml(ev.obs) + '"</div>';
+                html += statusHtml;
+                html += '</div>';
+            }
+            container.innerHTML = html;
+        }
+
         // ===== PROFILE (Aba Alunos, colunas I-T) =====
         // I:Nascimento|J:Genero|K:Profissao|L:Bairro|M:Telefone|N:Instagram|O:Emergencia|P:Origem|Q:Objetivo|R:Horario|S:Experiencia|T:Saude
         var PERFIL_FIELDS = [
@@ -6815,6 +7977,11 @@
                     // Cache in localStorage
                     localStorage.setItem('bjjProfile', JSON.stringify(data.profile));
                     fillProfileFields(data.profile);
+                    // Store diasTreino in currentUser for calendar
+                    if (data.profile.diasTreino) {
+                        currentUser.diasTreino = data.profile.diasTreino;
+                        localStorage.setItem('bjjUser', JSON.stringify(currentUser));
+                    }
                     // Check birthday after profile loads
                     checkBirthday(data.profile);
                 }
@@ -7745,7 +8912,13 @@
                 cardsHtml += '</div>';
 
                 // Horários
-                if (ct.horarios) {
+                var _guideHrs = '';
+                if (ct.horariosPorDia) {
+                    var _dk2 = ['dom','seg','ter','qua','qui','sex','sab'];
+                    var _hj2 = _dk2[new Date().getDay()];
+                    _guideHrs = (ct.horariosPorDia[_hj2] || ct.horariosPorDia._global || ct.horarios || '');
+                } else { _guideHrs = ct.horarios || ''; }
+                if (_guideHrs) {
                     cardsHtml += '<div class="guide-info-row"><div class="guide-info-icon">🕐</div><div class="guide-info-content">' +
                         '<div class="guide-info-label">Horários</div>' +
                         '<div class="guide-info-value">' + ct.horarios.replace(/,/g, ' · ') + '</div></div></div>';
@@ -8690,18 +9863,15 @@
             document.querySelectorAll('#adminNav .bnav-btn').forEach(function(b) { b.classList.remove('active'); });
             var tab = document.getElementById(tabName);
             if (tab) tab.classList.add('active');
-            var e = evt || window.event;
-            if (e && e.target) {
-                var btn = e.target.closest('.bnav-btn');
+            if (evt && evt.target) {
+                var btn = evt.target.closest('.bnav-btn');
                 if (btn) btn.classList.add('active');
             }
             if (tabName === 'adm-painel') loadAdminPanel();
             if (tabName === 'adm-alunos') loadStudentsList();
-            if (tabName === 'adm-cts') loadCTScheduleAdmin();
-            if (tabName === 'adm-relatorios') loadAttendanceReport();
-            if (tabName === 'adm-campeonato') { initCampAdmin(); }
-            if (tabName === 'adm-checkin') loadAdminCTs();
-            if (tabName === 'adm-perfil') loadAdminProfile();
+            if (tabName === 'adm-relatorios') loadNewReportData();
+            if (tabName === 'adm-campeonato') initCampAdmin();
+            if (tabName === 'adm-sistema') { loadSystemHealth(); loadAdminCTs(); loadAdminProfile(); }
         }
 
         function loadAdminProfile() {
@@ -8803,160 +9973,320 @@
             } catch (err) { showMessage('admPwMessage', 'Erro de conexão', 'danger'); }
         }
 
-        // --- STUDENTS LIST ---
+
 
         // --- ATTENDANCE REPORT ---
         var reportData = null;
         var reportSelectedCT = 'todos';
 
+        // ===== NEW REPORT SYSTEM =====
+        var _rptData = null;
+        var _rptPeriod = 'diario';
+        var _rptFilterCT = 'todos';
+
+        function switchReportPeriod(period, evt) {
+            _rptPeriod = period;
+            document.querySelectorAll('.rpt-period-btn').forEach(function(b) { b.classList.remove('active'); });
+            if (evt && evt.target) evt.target.classList.add('active');
+            document.querySelectorAll('.rpt-panel').forEach(function(p) { p.style.display = 'none'; });
+            var panel = document.getElementById('rpt-' + period);
+            if (panel) panel.style.display = 'block';
+            if (_rptData) renderNewReport(_rptData);
+        }
+
         function switchReportCT(ct) {
-            reportSelectedCT = ct;
-            loadAttendanceReport();
+            _rptFilterCT = ct;
+            document.querySelectorAll('.rpt-ct-btn').forEach(function(b) { b.classList.remove('active'); });
+            document.querySelectorAll('.rpt-ct-btn').forEach(function(b) {
+                if (b.getAttribute('data-ct') === ct) b.classList.add('active');
+            });
+            if (_rptData) renderNewReport(_rptData);
         }
 
-        async function loadAttendanceReport() {
-            document.getElementById('rptTotal').textContent = '...';
-            document.getElementById('rptAlunos').textContent = '...';
-            document.getElementById('rptMedia').textContent = '...';
-            document.getElementById('rptMediaAluno').textContent = '...';
+        async function loadNewReportData() {
+            var loading = document.getElementById('rptLoading');
+            if (loading) loading.style.display = 'block';
+            document.querySelectorAll('.rpt-panel').forEach(function(p) { p.style.display = 'none'; });
             try {
-                var payload = { action: 'getAttendanceReport' };
-                if (reportSelectedCT && reportSelectedCT !== 'todos') payload.ct = reportSelectedCT;
-                if (getSessionToken()) payload.token = getSessionToken();
-                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
-                var data = await r.json();
-                if (data.unauthorized) { handleSessionExpired(); return; }
-                if (data.forbidden) { alert('⛔ Sem permissão'); return; }
+                var data = await secureFetch('getReportData', {});
+                if (loading) loading.style.display = 'none';
                 if (data.success) {
-                    reportData = data;
-                    renderReportCTFilter(data);
-                    renderReport(data);
-                } else {
-                    document.getElementById('rptTotal').textContent = '0';
+                    _rptData = data;
+                    // Render CT filter bar
+                    var filterBar = document.getElementById('rptCTFilterBar');
+                    if (filterBar && data.allCTs) {
+                        var fh = '<button class="rpt-ct-btn' + (_rptFilterCT === 'todos' ? ' active' : '') + '" data-ct="todos" onclick="switchReportCT(\'todos\')">Todos</button>';
+                        data.allCTs.forEach(function(ct) {
+                            fh += '<button class="rpt-ct-btn' + (_rptFilterCT === ct ? ' active' : '') + '" data-ct="' + ct + '" onclick="switchReportCT(\'' + ct.replace(/'/g,"\\'") + '\')">' + escapeHtml(ct) + '</button>';
+                        });
+                        filterBar.innerHTML = fh;
+                    }
+                    var panel = document.getElementById('rpt-' + _rptPeriod);
+                    if (panel) panel.style.display = 'block';
+                    renderNewReport(data);
                 }
-            } catch (err) {
-                document.getElementById('rptTotal').textContent = 'Erro';
+            } catch(e) {
+                if (loading) loading.textContent = 'Erro ao carregar';
+                console.error('loadNewReportData:', e);
             }
         }
 
-        function renderReportCTFilter(d) {
-            var container = document.getElementById('rptCTFilter');
-            container.innerHTML = '';
-            var allCTs = d.allCTs || [];
-            var current = d.filterCT || 'todos';
-
-            // Botão "Todos"
-            var allBtn = document.createElement('button');
-            allBtn.className = 'report-filter-btn' + (current === 'todos' ? ' active' : '');
-            allBtn.textContent = 'Todos os CTs';
-            allBtn.onclick = function() { switchReportCT('todos'); };
-            container.appendChild(allBtn);
-
-            // Botão por CT
-            for (var i = 0; i < allCTs.length; i++) {
-                var btn = document.createElement('button');
-                btn.className = 'report-filter-btn' + (current === allCTs[i] ? ' active' : '');
-                btn.textContent = allCTs[i];
-                btn.setAttribute('data-ct', allCTs[i]);
-                btn.onclick = (function(ct) { return function() { switchReportCT(ct); }; })(allCTs[i]);
-                container.appendChild(btn);
-            }
+        function rptStatCards(cards) {
+            return cards.map(function(c) {
+                return '<div class="admin-stat ' + (c.cls||'') + '"><div class="admin-stat-num">' + c.num + '</div><div class="admin-stat-label">' + c.label + '</div></div>';
+            }).join('');
         }
 
-        function renderReport(d) {
-            var isFiltered = d.filterCT && d.filterCT !== 'todos';
-            var ctLabel = isFiltered ? ' (' + d.filterCT + ')' : '';
+        function rptBarChart(containerId, dataObj, prefix, labelMap) {
+            var el = document.getElementById(containerId);
+            if (!el) return;
+            var keys = Object.keys(dataObj);
+            if (keys.length === 0) { el.innerHTML = '<div class="admin-empty">Sem dados</div>'; return; }
+            var max = Math.max.apply(null, keys.map(function(k){return dataObj[k];})) || 1;
+            var h = '';
+            keys.forEach(function(k) {
+                var pct = Math.max(Math.round(dataObj[k] / max * 100), 4);
+                var lbl = labelMap && labelMap[k] ? labelMap[k] : ((prefix||'') + k);
+                h += '<div class="rpt-bar-row"><div class="rpt-bar-label">' + lbl + '</div><div class="rpt-bar-track"><div class="rpt-bar-fill" style="width:' + pct + '%;"><span class="rpt-bar-val">' + dataObj[k] + '</span></div></div></div>';
+            });
+            el.innerHTML = h;
+        }
 
-            // KPIs
-            document.getElementById('rptTotal').textContent = d.totalGeral || 0;
-            document.getElementById('rptAlunos').textContent = d.totalAlunos || 0;
-            var mediaMes = d.byMonth && d.byMonth.length > 0 ? Math.round(d.totalGeral / d.byMonth.length) : 0;
-            document.getElementById('rptMedia').textContent = mediaMes;
-            var mediaAluno = d.totalAlunos > 0 ? (d.totalGeral / d.totalAlunos).toFixed(1) : '0';
-            document.getElementById('rptMediaAluno').textContent = mediaAluno;
+        function rptMiniList(containerId, items, emptyMsg) {
+            var el = document.getElementById(containerId);
+            if (!el) return;
+            if (!items || items.length === 0) { el.innerHTML = '<div class="admin-empty">' + (emptyMsg||'Sem dados') + '</div>'; return; }
+            var h = '';
+            items.forEach(function(item) {
+                h += '<div class="rpt-mini-item"><div><span class="rpt-mini-name">' + escapeHtml(item.name||'') + '</span><div class="rpt-mini-meta">' + escapeHtml(item.meta||'') + '</div></div><span class="rpt-mini-tag ' + (item.tagCls||'') + '">' + (item.tag||'') + '</span></div>';
+            });
+            el.innerHTML = h;
+        }
 
-            // Picos
-            var DAY_LABELS_RPT = { dom: 'Domingo', seg: 'Segunda', ter: 'Terça', qua: 'Quarta', qui: 'Quinta', sex: 'Sexta', sab: 'Sábado' };
-            if (d.pico) {
-                document.getElementById('rptPicoMes').textContent = d.pico.mes ? d.pico.mes.label + ' (' + d.pico.mes.total + ')' : '-';
-                document.getElementById('rptPicoDia').textContent = d.pico.dia ? DAY_LABELS_RPT[d.pico.dia] || d.pico.dia : '-';
-                document.getElementById('rptPicoHora').textContent = d.pico.hora ? d.pico.hora.hour + ' (' + d.pico.hora.total + ')' : '-';
+        function renderNewReport(data) {
+            var s = data.summary;
+            var now = new Date();
+            var MONTHS = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+            var DAY_MAP = {dom:'Dom',seg:'Seg',ter:'Ter',qua:'Qua',qui:'Qui',sex:'Sex',sab:'Sáb'};
+            var ct = _rptFilterCT;
+            var filtered = ct !== 'todos';
+            var ctLabel = filtered ? ' · ' + ct : '';
+
+            // Filter helper
+            function byCT(arr) { return filtered ? arr.filter(function(r) { return r.ct === ct; }) : arr; }
+            function countByCT(obj) {
+                if (!filtered) return obj;
+                var r = {}; r[ct] = obj[ct] || 0; return r;
             }
 
-            // By Month
-            renderBarChart('rptByMonth', (d.byMonth || []).map(function(m) { return { label: m.label, value: m.total }; }), 'gold');
+            // Filtered daily
+            var fRecords = byCT(data.daily.records || []);
+            var fAbsent = byCT(data.daily.absent || []);
+            var fHourly = {};
+            if (filtered) {
+                fRecords.forEach(function(r) {
+                    var hk = r.hora ? r.hora.substring(0,2) : '??';
+                    fHourly[hk] = (fHourly[hk] || 0) + 1;
+                });
+            } else { fHourly = data.daily.hourly || {}; }
 
-            // By Day
-            var dayOrder = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
-            var dayLabels = { seg: 'Seg', ter: 'Ter', qua: 'Qua', qui: 'Qui', sex: 'Sex', sab: 'Sáb', dom: 'Dom' };
-            var dayData = dayOrder.map(function(k) { return { label: dayLabels[k], value: d.byDayOfWeek ? d.byDayOfWeek[k] || 0 : 0 }; });
-            renderBarChart('rptByDay', dayData, 'green');
+            // Filtered insights
+            var fRisk = byCT(data.insights.emRisco || []);
+            var fInactive = byCT(data.insights.inativos || []);
+            var fPromo = byCT(data.insights.elegiveisPromo || []);
 
-            // By Hour
-            renderBarChart('rptByHour', (d.byHour || []).map(function(h) { return { label: h.hour, value: h.total }; }), 'cyan');
+            // Filtered counts
+            var fTotalHoje = filtered ? fRecords.length : s.totalHoje;
+            var fTotalSemana = filtered ? (data.weekly.byCT || {})[ct] || 0 : s.totalSemana;
+            var fTotalMes = filtered ? (data.monthly.byCT || {})[ct] || 0 : s.totalMes;
+            var fTotalAno = filtered ? Object.values(data.yearly.byMonth || {}).reduce(function(a,b){return a+b;},0) : s.totalAno;
+            var fAlunos = filtered ? (s.ctStudentCount || {})[ct] || 0 : s.totalAlunos;
 
-            // By CT — só mostra quando "Todos"
-            var ctSection = document.getElementById('rptByCTSection');
-            if (isFiltered) {
-                ctSection.style.display = 'none';
-            } else {
-                ctSection.style.display = 'block';
-                renderBarChart('rptByCT', (d.byCT || []).map(function(c) { return { label: c.ct, value: c.total }; }), 'purple');
+            // ===== DAILY =====
+            var dd = document.getElementById('rptDailyDate');
+            if (dd) dd.textContent = now.toLocaleDateString('pt-BR', {weekday:'long', day:'numeric', month:'long'}) + ctLabel;
+            var ds = document.getElementById('rptDailyStats');
+            if (ds) ds.innerHTML = rptStatCards([
+                {num: fTotalHoje, label:'Check-ins', cls:'ok'},
+                {num: fAbsent.length, label:'Ausentes', cls: fAbsent.length > 0 ? 'warn' : ''},
+                {num: filtered ? 1 : Object.keys(data.daily.byCT||{}).length, label: filtered ? 'CT' : 'CTs ativos'},
+                {num: filtered ? fAlunos : s.ativos, label: filtered ? 'Alunos CT' : 'Ativos total', cls:'ok'}
+            ]);
+            rptBarChart('rptDailyHourly', fHourly, '');
+            rptBarChart('rptDailyCT', filtered ? countByCT(data.daily.byCT||{}) : data.daily.byCT || {}, '');
+            var pb = document.getElementById('rptDailyPresentBadge');
+            if (pb) pb.textContent = fRecords.length;
+            rptMiniList('rptDailyPresent',
+                fRecords.map(function(r) { return {name:r.name, meta:r.ct+' · '+r.faixa, tag:r.hora||'-', tagCls:'green'}; }),
+                'Nenhum check-in' + ctLabel);
+            var ab = document.getElementById('rptDailyAbsentBadge');
+            if (ab) ab.textContent = fAbsent.length;
+            rptMiniList('rptDailyAbsent',
+                fAbsent.map(function(a) { return {name:a.name, meta:a.ct+' · '+a.faixa, tag:'Ausente', tagCls:'red'}; }),
+                'Todos presentes! 🎉');
+
+            // ===== WEEKLY =====
+            var wd = document.getElementById('rptWeeklyDate');
+            if (wd) wd.textContent = 'Semana atual' + ctLabel;
+            var ws = document.getElementById('rptWeeklyStats');
+            if (ws) ws.innerHTML = rptStatCards([
+                {num: fTotalSemana, label:'Check-ins', cls:'ok'},
+                {num: fTotalSemana > 0 ? Math.round(fTotalSemana / Math.max(now.getDay()+1,1) * 10) / 10 : 0, label:'Média/dia'},
+                {num: fRisk.length, label:'Em risco', cls: fRisk.length > 0 ? 'warn' : ''},
+                {num: s.novos30d, label:'Novos 30d', cls:'ok'}
+            ]);
+            rptBarChart('rptWeeklyDays', data.weekly.byDay || {}, '', DAY_MAP);
+            rptBarChart('rptWeeklyCT', filtered ? countByCT(data.weekly.byCT||{}) : data.weekly.byCT || {}, '');
+
+            // ===== MONTHLY =====
+            var md = document.getElementById('rptMonthlyDate');
+            if (md) md.textContent = MONTHS[now.getMonth()] + ' ' + now.getFullYear() + ctLabel;
+            var ms = document.getElementById('rptMonthlyStats');
+            if (ms) ms.innerHTML = rptStatCards([
+                {num: fTotalMes, label:'Check-ins', cls:'ok'},
+                {num: fTotalMes > 0 ? Math.round(fTotalMes / now.getDate() * 10) / 10 : 0, label:'Média/dia'},
+                {num: fInactive.length, label:'Inativos', cls: fInactive.length > 0 ? 'warn' : ''},
+                {num: fPromo.length, label:'Promoção', cls: fPromo.length > 0 ? 'ok' : ''}
+            ]);
+            rptBarChart('rptMonthlyWeeks', data.monthly.byWeek || {}, 'Sem ');
+            rptBarChart('rptMonthlyCT', filtered ? countByCT(data.monthly.byCT||{}) : data.monthly.byCT || {}, '');
+            rptMiniList('rptMonthlyRisk',
+                fRisk.map(function(r) { return {name:r.name, meta:r.ct+' · '+r.faixa, tag:r.dias+' dias', tagCls:'yellow'}; }),
+                'Nenhum aluno em risco 💪');
+            rptMiniList('rptMonthlyPromo',
+                fPromo.map(function(p) { return {name:p.name, meta:p.faixa+' → '+p.proxFaixa+' · '+p.treinos+' treinos', tag:'Elegível', tagCls:'blue'}; }),
+                'Nenhum elegível no momento');
+
+            // ===== ANNUAL =====
+            var ad = document.getElementById('rptAnnualDate');
+            if (ad) ad.textContent = now.getFullYear().toString() + ctLabel;
+            var as2 = document.getElementById('rptAnnualStats');
+            if (as2) as2.innerHTML = rptStatCards([
+                {num: filtered ? fTotalAno : s.totalAno, label:'No ano', cls:'ok'},
+                {num: fAlunos, label:'Alunos'},
+                {num: filtered ? fAlunos - fInactive.length : s.ativos, label:'Ativos', cls:'ok'},
+                {num: fInactive.length, label:'Inativos', cls: fInactive.length > 0 ? 'warn' : ''}
+            ]);
+            rptBarChart('rptAnnualMonths', data.yearly.byMonth || {}, '');
+
+            // Belt distribution
+            var beltsEl = document.getElementById('rptAnnualBelts');
+            if (beltsEl && s.faixaCount) {
+                var bColors = {Branca:'#d1d5db',Azul:'#3b82f6',Roxa:'#8b5cf6',Marrom:'#92400e',Preta:'#374151'};
+                var bKeys = Object.keys(s.faixaCount);
+                var bMax = Math.max.apply(null, bKeys.map(function(k){return s.faixaCount[k];})) || 1;
+                var bh = '';
+                bKeys.forEach(function(k) {
+                    var pct = Math.max(Math.round(s.faixaCount[k] / bMax * 100), 4);
+                    bh += '<div class="rpt-bar-row"><div class="rpt-bar-label">' + k + '</div><div class="rpt-bar-track"><div class="rpt-bar-fill belt" style="width:' + pct + '%;background:' + (bColors[k]||'var(--adm-primary)') + ';"><span class="rpt-bar-val">' + s.faixaCount[k] + '</span></div></div></div>';
+                });
+                beltsEl.innerHTML = bh;
             }
 
-            // Top Alunos
-            var topHtml = '';
-            if (d.byAluno && d.byAluno.length > 0) {
-                var maxAluno = d.byAluno[0].total;
-                for (var a = 0; a < Math.min(15, d.byAluno.length); a++) {
-                    var al = d.byAluno[a];
-                    var pct = maxAluno > 0 ? Math.round((al.total / maxAluno) * 100) : 0;
-                    topHtml += '<div class="report-bar-row">' +
-                        '<div class="report-bar-label" style="min-width:100px;font-size:11px;">' + (a + 1) + '. ' + al.name + '</div>' +
-                        '<div class="report-bar-track"><div class="report-bar-fill gold" style="width:' + pct + '%"></div></div>' +
-                        '<div class="report-bar-value">' + al.total + '</div>' +
-                    '</div>';
+            rptMiniList('rptAnnualInactive',
+                fInactive.slice(0,25).map(function(i2) { return {name:i2.name, meta:i2.ct+' · '+i2.faixa, tag:i2.dias+' dias', tagCls:'red'}; }),
+                'Nenhum inativo 🎉');
+        }
+
+        function exportReportCSV() {
+            if (!_rptData) { showMessage('rptLoading','Carregue o relat\u00f3rio primeiro','warning'); return; }
+            var d = _rptData;
+            var s = d.summary;
+            var ct = _rptFilterCT;
+            var filtered = ct !== 'todos';
+            function byCT(arr) { return filtered ? arr.filter(function(r) { return r.ct === ct; }) : arr; }
+            var csv = '\uFEFF';
+            csv += 'RELAT\u00d3RIO ACADEMIA - ' + new Date().toLocaleString('pt-BR') + '\n';
+            if (filtered) csv += 'FILTRO: ' + ct + '\n';
+            csv += '\nRESUMO GERAL\n';
+            csv += 'Total Alunos,' + s.totalAlunos + '\n';
+            csv += 'Ativos,' + s.ativos + '\n';
+            csv += 'Em Risco,' + s.emRisco + '\n';
+            csv += 'Inativos,' + s.inativos + '\n';
+            csv += 'Check-ins Hoje,' + s.totalHoje + '\n';
+            csv += 'Check-ins Semana,' + s.totalSemana + '\n';
+            csv += 'Check-ins M\u00eas,' + s.totalMes + '\n';
+            csv += 'Check-ins Ano,' + s.totalAno + '\n\n';
+            csv += 'PRESEN\u00c7AS HOJE\nNome,CT,Faixa,Hora\n';
+            byCT(d.daily.records||[]).forEach(function(r) {
+                csv += '"' + (r.name||'') + '","' + (r.ct||'') + '","' + (r.faixa||'') + '","' + (r.hora||'') + '"\n';
+            });
+            csv += '\nAUSENTES HOJE\nNome,CT,Faixa\n';
+            byCT(d.daily.absent||[]).forEach(function(a) {
+                csv += '"' + (a.name||'') + '","' + (a.ct||'') + '","' + (a.faixa||'') + '"\n';
+            });
+            csv += '\nEM RISCO (15-30 dias)\nNome,CT,Faixa,Dias\n';
+            byCT(d.insights.emRisco||[]).forEach(function(r) {
+                csv += '"' + (r.name||'') + '","' + (r.ct||'') + '","' + (r.faixa||'') + '",' + r.dias + '\n';
+            });
+            csv += '\nINATIVOS (+30 dias)\nNome,CT,Faixa,Dias\n';
+            byCT(d.insights.inativos||[]).forEach(function(i2) {
+                csv += '"' + (i2.name||'') + '","' + (i2.ct||'') + '","' + (i2.faixa||'') + '",' + i2.dias + '\n';
+            });
+            csv += '\nELEG\u00cdVEIS PROMO\u00c7\u00c3O\nNome,Faixa,Pr\u00f3xima,Treinos,Graus,CT\n';
+            byCT(d.insights.elegiveisPromo||[]).forEach(function(p) {
+                csv += '"' + (p.name||'') + '","' + (p.faixa||'') + '","' + (p.proxFaixa||'') + '",' + p.treinos + ',' + p.grau + ',"' + (p.ct||'') + '"\n';
+            });
+            var suffix = filtered ? '_' + ct.replace(/\s/g,'_') : '';
+            var blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+            var link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'relatorio' + suffix + '_' + new Date().toISOString().slice(0,10) + '.csv';
+            link.click();
+        }
+
+        // ===== SYSTEM HEALTH =====
+        async function loadSystemHealth() {
+            var issuesDiv = document.getElementById('sysHealthIssues');
+            if (issuesDiv) issuesDiv.innerHTML = '<div class="admin-empty">Verificando sistema...</div>';
+            try {
+                var data = await secureFetch('getSystemHealth', {});
+                if (!data.success) return;
+
+                var scoreEl = document.getElementById('sysHealthScore');
+                var circleEl = document.getElementById('sysHealthCircle');
+                var numEl = document.getElementById('sysHealthNum');
+                var labelEl = document.getElementById('sysHealthLabel');
+                var timeEl = document.getElementById('sysHealthTime');
+                if (scoreEl) scoreEl.style.display = 'flex';
+                if (numEl) numEl.textContent = data.healthScore;
+                if (timeEl) timeEl.textContent = 'Verificado: ' + new Date().toLocaleTimeString('pt-BR');
+                if (circleEl) {
+                    circleEl.className = 'sys-health-circle';
+                    if (data.healthScore >= 80) { if(labelEl) labelEl.textContent = '✅ Sistema saudável'; }
+                    else if (data.healthScore >= 50) { circleEl.classList.add('warn'); if(labelEl) labelEl.textContent = '⚠️ Atenção necessária'; }
+                    else { circleEl.classList.add('bad'); if(labelEl) labelEl.textContent = '🔴 Problemas detectados'; }
                 }
-            } else {
-                topHtml = '<div style="text-align:center;color:var(--adm-text-3);padding:12px;">Sem dados</div>';
-            }
-            document.getElementById('rptTopAlunos').innerHTML = topHtml;
 
-            // Records
-            var tbody = document.getElementById('rptRecords');
-            var rHtml = '';
-            if (d.records && d.records.length > 0) {
-                for (var r = 0; r < d.records.length; r++) {
-                    var rec = d.records[r];
-                    rHtml += '<tr><td>' + rec.name + '</td><td>' + rec.ct + '</td><td>' + rec.data + '</td><td>' + rec.hora + '</td><td>' + (rec.dia || '') + '</td></tr>';
+                var statsEl = document.getElementById('sysHealthStats');
+                if (statsEl && data.stats) {
+                    statsEl.style.display = 'grid';
+                    statsEl.innerHTML = rptStatCards([
+                        {num: data.stats.totalAlunos||0, label:'Alunos'},
+                        {num: data.stats.totalPresenca||0, label:'Presenças'},
+                        {num: data.stats.totalCTs||0, label:'CTs'},
+                        {num: (data.stats.presencaPendentes||0) + (data.stats.contasPendentes||0) + (data.stats.resetsPendentes||0), label:'Pendências', cls: (data.stats.presencaPendentes||0) > 0 ? 'warn' : ''}
+                    ]);
                 }
-            } else {
-                rHtml = '<tr><td colspan="5" style="text-align:center;padding:16px;color:var(--adm-text-3);">Nenhuma presença registrada</td></tr>';
+
+                if (issuesDiv) {
+                    if (!data.issues || data.issues.length === 0) {
+                        issuesDiv.innerHTML = '<div class="admin-empty">Nenhum problema encontrado! 🎉</div>';
+                    } else {
+                        var icons = {error:'🔴', warning:'🟡', info:'ℹ️'};
+                        var ih = '';
+                        data.issues.forEach(function(issue) {
+                            ih += '<div class="sys-issue ' + issue.type + '"><div class="sys-issue-icon">' + (icons[issue.type]||'ℹ️') + '</div><div><span class="sys-issue-area">[' + issue.area + ']</span> ' + issue.msg + '</div></div>';
+                        });
+                        issuesDiv.innerHTML = ih;
+                    }
+                }
+            } catch(e) {
+                if (issuesDiv) issuesDiv.innerHTML = '<div class="admin-empty" style="color:#f87171;">Erro: ' + (e.message||'falha na verificação') + '</div>';
             }
-            tbody.innerHTML = rHtml;
         }
 
-        function renderBarChart(containerId, data, colorClass) {
-            var container = document.getElementById(containerId);
-            if (!data || data.length === 0) {
-                container.innerHTML = '<div style="text-align:center;color:var(--adm-text-3);padding:12px;font-size:12px;">Sem dados</div>';
-                return;
-            }
-            var maxVal = Math.max.apply(null, data.map(function(d) { return d.value; }));
-            if (maxVal === 0) maxVal = 1;
-            var html = '';
-            for (var i = 0; i < data.length; i++) {
-                var pct = Math.round((data[i].value / maxVal) * 100);
-                html += '<div class="report-bar-row">' +
-                    '<div class="report-bar-label">' + data[i].label + '</div>' +
-                    '<div class="report-bar-track"><div class="report-bar-fill ' + colorClass + '" style="width:' + pct + '%"></div></div>' +
-                    '<div class="report-bar-value">' + data[i].value + '</div>' +
-                '</div>';
-            }
-            container.innerHTML = html;
-        }
-
-        // --- CT SCHEDULE MANAGEMENT ---
+                // --- CT SCHEDULE MANAGEMENT ---
         var ctScheduleCache = {};
 
         async function loadCTScheduleAdmin() {
@@ -9004,40 +10334,55 @@
 
                         html += '<div class="ct-detail-field"><label>Endereço</label><input type="text" id="ctDet_end_' + i + '" value="' + esc(ct.endereco) + '" placeholder="Rua, número, bairro"></div>';
 
-                        html += '<div class="ct-detail-row">';
-                        // Time slot picker
-                        var DEFAULT_TIMES = ['07:30','08:00','18:00','19:00','19:30','20:30','21:00'];
-                        var currentTimes = ct.horarios ? ct.horarios.split(',').map(function(t) { return t.trim(); }).filter(function(t) { return t; }) : [];
-                        // Merge: default + any custom times already saved
-                        var allTimes = DEFAULT_TIMES.slice();
-                        for (var ti = 0; ti < currentTimes.length; ti++) {
-                            if (allTimes.indexOf(currentTimes[ti]) === -1) allTimes.push(currentTimes[ti]);
-                        }
-                        allTimes.sort();
+                        // Per-day time picker
+                        var hpd = ct.horariosPorDia || {};
+                        var DEFAULT_TIMES = ['06:00','06:30','07:00','07:30','08:00','08:30','09:00','10:00','11:00','17:00','18:00','18:30','19:00','19:30','20:00','20:30','21:00','21:30'];
 
-                        html += '<div class="ct-detail-field" style="flex:2;">';
-                        html += '<label>⏰ Horários de Aula</label>';
-                        html += '<input type="hidden" id="ctDet_hrs_' + i + '" value="' + esc(ct.horarios) + '">';
-                        html += '<div class="ct-time-picker" id="ctTimePicker_' + i + '">';
-                        html += '<div class="ct-time-slots" id="ctTimeSlots_' + i + '">';
-                        for (var ti2 = 0; ti2 < allTimes.length; ti2++) {
-                            var timeVal = allTimes[ti2];
-                            var isActive = currentTimes.indexOf(timeVal) >= 0;
-                            var isCustom = DEFAULT_TIMES.indexOf(timeVal) === -1;
-                            html += '<div class="ct-time-slot' + (isActive ? ' active' : '') + (isCustom ? ' custom' : '') + '" ';
-                            html += 'data-time="' + timeVal + '" ';
-                            html += 'onclick="toggleCTTime(this,' + i + ')">';
-                            html += timeVal;
-                            if (isCustom) html += '<span class="ct-time-remove" onclick="event.stopPropagation();removeCTTime(this,' + i + ')">✕</span>';
+                        html += '<div class="ct-detail-field">';
+                        html += '<label>⏰ Horários por Dia da Semana</label>';
+                        html += '<input type="hidden" id="ctDet_hrs_' + i + '" value="">';
+
+                        // Day selector tabs
+                        html += '<div class="ct-hpd-days" id="ctHpdDays_' + i + '">';
+                        for (var hd = 0; hd < DAY_KEYS.length; hd++) {
+                            var dayActive = schedule[DAY_KEYS[hd]] === true;
+                            if (!dayActive) continue;
+                            html += '<button type="button" class="ct-hpd-day-btn' + (hd === 0 || !document.querySelector ? '' : '') + '" data-day="' + DAY_KEYS[hd] + '" data-idx="' + i + '" onclick="switchCTHpdDay(this,' + i + ',\'' + DAY_KEYS[hd] + '\')">' + DAY_LABELS[hd] + '</button>';
+                        }
+                        html += '</div>';
+
+                        // Time slots area (one per day, stacked)
+                        for (var hd2 = 0; hd2 < DAY_KEYS.length; hd2++) {
+                            var dk = DAY_KEYS[hd2];
+                            if (schedule[dk] !== true) continue;
+                            var dayTimes = hpd[dk] ? hpd[dk].split(',').map(function(t){return t.trim();}).filter(Boolean) : (hpd._global ? hpd._global.split(',').map(function(t){return t.trim();}).filter(Boolean) : []);
+                            var allDayTimes = DEFAULT_TIMES.slice();
+                            for (var dti = 0; dti < dayTimes.length; dti++) {
+                                if (allDayTimes.indexOf(dayTimes[dti]) === -1) allDayTimes.push(dayTimes[dti]);
+                            }
+                            allDayTimes.sort();
+
+                            html += '<div class="ct-hpd-panel" id="ctHpdPanel_' + i + '_' + dk + '" style="display:none;">';
+                            html += '<div class="ct-time-slots" id="ctHpdSlots_' + i + '_' + dk + '">';
+                            for (var dti2 = 0; dti2 < allDayTimes.length; dti2++) {
+                                var tv = allDayTimes[dti2];
+                                var isOn = dayTimes.indexOf(tv) >= 0;
+                                var isCust = DEFAULT_TIMES.indexOf(tv) === -1;
+                                html += '<div class="ct-time-slot' + (isOn ? ' active' : '') + (isCust ? ' custom' : '') + '" data-time="' + tv + '" data-day="' + dk + '" data-idx="' + i + '" onclick="toggleCTHpdTime(this,' + i + ',\'' + dk + '\')">' + tv;
+                                if (isCust) html += '<span class="ct-time-remove" onclick="event.stopPropagation();removeCTHpdTime(this,' + i + ',\'' + dk + '\')">✕</span>';
+                                html += '</div>';
+                            }
+                            html += '</div>';
+                            html += '<div class="ct-time-add-row">';
+                            html += '<input type="text" class="ct-time-add-input" id="ctHpdNew_' + i + '_' + dk + '" placeholder="HH:MM" maxlength="5">';
+                            html += '<button type="button" class="ct-time-add-btn" onclick="addCTHpdTime(' + i + ',\'' + dk + '\')">+</button>';
+                            html += '</div>';
                             html += '</div>';
                         }
-                        html += '</div>';
-                        html += '<div class="ct-time-add-row">';
-                        html += '<input type="text" class="ct-time-add-input" id="ctTimeNew_' + i + '" placeholder="HH:MM" maxlength="5">';
-                        html += '<button type="button" class="ct-time-add-btn" onclick="addCTTime(' + i + ')">+ Horário</button>';
-                        html += '</div>';
-                        html += '</div></div>';
 
+                        html += '</div>';
+
+                        html += '<div class="ct-detail-row">';
                         html += '<div class="ct-detail-field"><label>Valor Avulso (R$)</label><input type="text" id="ctDet_val_' + i + '" value="' + esc(ct.valorAvulso) + '" placeholder="50,00"></div>';
                         html += '</div>';
 
@@ -9069,6 +10414,9 @@
 
                     container.innerHTML = html;
 
+                    // Init per-day tabs (auto-click first day)
+                    initCTHpdDays();
+
                     // Add change listeners to detail fields
                     for (var k = 0; k < data.cts.length; k++) {
                         (function(idx) {
@@ -9077,11 +10425,29 @@
                                 var el = document.getElementById(prefix + idx);
                                 if (el) el.addEventListener('input', function() { markCTUnsaved(idx); });
                             });
-                            // Time input: Enter to add + auto-colon mask
-                            var timeInput = document.getElementById('ctTimeNew_' + idx);
+                            // Time input: Enter to add + auto-colon mask (per-day)
+                            var dayContainer = document.getElementById('ctHpdDays_' + idx);
+                            if (dayContainer) {
+                                dayContainer.querySelectorAll('.ct-hpd-day-btn').forEach(function(dayBtn) {
+                                    var dk = dayBtn.getAttribute('data-day');
+                                    var ti2 = document.getElementById('ctHpdNew_' + idx + '_' + dk);
+                                    if (ti2) {
+                                        ti2.addEventListener('keydown', function(e) {
+                                            if (e.key === 'Enter') { e.preventDefault(); addCTHpdTime(idx, dk); }
+                                        });
+                                        ti2.addEventListener('input', function(e2) {
+                                            var v2 = e2.target.value.replace(/[^\d:]/g, '');
+                                            if (v2.length === 2 && v2.indexOf(':') === -1) v2 = v2 + ':';
+                                            e2.target.value = v2;
+                                        });
+                                    }
+                                });
+                                updateHpdDayCount(idx);
+                            }
+                            var timeInput = document.getElementById('ctTimeNew_DISABLED_' + idx);
                             if (timeInput) {
                                 timeInput.addEventListener('keydown', function(e) {
-                                    if (e.key === 'Enter') { e.preventDefault(); addCTTime(idx); }
+                                    if (e.key === 'Enter') { e.preventDefault(); }
                                 });
                                 timeInput.addEventListener('input', function(e) {
                                     var v = e.target.value.replace(/[^\d:]/g, '');
@@ -9224,7 +10590,7 @@
                     action: 'saveCTDetails',
                     ctName: ctName,
                     endereco: (document.getElementById('ctDet_end_' + cardIdx) || {}).value || '',
-                    horarios: (document.getElementById('ctDet_hrs_' + cardIdx) || {}).value || '',
+                    horarios: collectCTHpdJSON(cardIdx),
                     valorAvulso: (document.getElementById('ctDet_val_' + cardIdx) || {}).value || '',
                     planos: (document.getElementById('ctDet_pla_' + cardIdx) || {}).value || '',
                     beneficios: activeBens.join(','),
@@ -9248,6 +10614,108 @@
             }
 
             if (saveBtn) { saveBtn.disabled = false; saveBtn.textContent = 'Salvar Tudo'; }
+        }
+
+        // === PER-DAY HORARIOS FUNCTIONS ===
+        function switchCTHpdDay(btn, idx, day) {
+            // Deactivate other day buttons
+            var container = btn.parentElement;
+            container.querySelectorAll('.ct-hpd-day-btn').forEach(function(b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+            // Hide all panels for this CT, show selected
+            var allPanels = document.querySelectorAll('[id^="ctHpdPanel_' + idx + '_"]');
+            allPanels.forEach(function(p) { p.style.display = 'none'; });
+            var panel = document.getElementById('ctHpdPanel_' + idx + '_' + day);
+            if (panel) panel.style.display = 'block';
+        }
+
+        function initCTHpdDays() {
+            // Auto-click first day button for each CT
+            document.querySelectorAll('.ct-hpd-days').forEach(function(container) {
+                var first = container.querySelector('.ct-hpd-day-btn');
+                if (first) first.click();
+            });
+        }
+
+        function toggleCTHpdTime(el, idx, day) {
+            el.classList.toggle('active');
+            markCTUnsaved(idx);
+            updateHpdDayCount(idx);
+        }
+
+        function removeCTHpdTime(el, idx, day) {
+            el.parentElement.remove();
+            markCTUnsaved(idx);
+            updateHpdDayCount(idx);
+        }
+
+        function addCTHpdTime(idx, day) {
+            var input = document.getElementById('ctHpdNew_' + idx + '_' + day);
+            if (!input) return;
+            var val = input.value.trim();
+            if (!/^\d{1,2}:\d{2}$/.test(val)) { input.style.borderColor = '#e74c3c'; return; }
+            var h = parseInt(val.split(':')[0]), m = parseInt(val.split(':')[1]);
+            if (h > 23 || m > 59) { input.style.borderColor = '#e74c3c'; return; }
+            var formatted = (h < 10 ? '0' + h : h) + ':' + (m < 10 ? '0' + m : m);
+
+            var container = document.getElementById('ctHpdSlots_' + idx + '_' + day);
+            if (!container) return;
+            // Check duplicate
+            var existing = container.querySelectorAll('.ct-time-slot');
+            for (var e = 0; e < existing.length; e++) {
+                if (existing[e].getAttribute('data-time') === formatted) { input.value = ''; return; }
+            }
+
+            var slot = document.createElement('div');
+            slot.className = 'ct-time-slot active custom';
+            slot.setAttribute('data-time', formatted);
+            slot.setAttribute('data-day', day);
+            slot.setAttribute('data-idx', idx);
+            slot.onclick = function() { toggleCTHpdTime(this, idx, day); };
+            slot.innerHTML = formatted + '<span class="ct-time-remove" onclick="event.stopPropagation();removeCTHpdTime(this,' + idx + ',\'' + day + '\')">✕</span>';
+
+            // Insert sorted
+            var inserted = false;
+            for (var s = 0; s < existing.length; s++) {
+                if (existing[s].getAttribute('data-time') > formatted) {
+                    container.insertBefore(slot, existing[s]);
+                    inserted = true;
+                    break;
+                }
+            }
+            if (!inserted) container.appendChild(slot);
+
+            input.value = '';
+            input.style.borderColor = '';
+            markCTUnsaved(idx);
+            updateHpdDayCount(idx);
+        }
+
+        function collectCTHpdJSON(idx) {
+            var result = {};
+            var panels = document.querySelectorAll('[id^="ctHpdPanel_' + idx + '_"]');
+            panels.forEach(function(panel) {
+                var id = panel.id; // ctHpdPanel_0_seg
+                var day = id.split('_').pop();
+                var times = [];
+                panel.querySelectorAll('.ct-time-slot.active').forEach(function(slot) {
+                    times.push(slot.getAttribute('data-time'));
+                });
+                result[day] = times.join(',');
+            });
+            return JSON.stringify(result);
+        }
+
+        function updateHpdDayCount(idx) {
+            var dayBtns = document.querySelectorAll('#ctHpdDays_' + idx + ' .ct-hpd-day-btn');
+            dayBtns.forEach(function(btn) {
+                var day = btn.getAttribute('data-day');
+                var panel = document.getElementById('ctHpdPanel_' + idx + '_' + day);
+                var count = panel ? panel.querySelectorAll('.ct-time-slot.active').length : 0;
+                var span = btn.querySelector('.hpd-count');
+                if (!span) { span = document.createElement('span'); span.className = 'hpd-count'; btn.appendChild(span); }
+                span.textContent = count > 0 ? '(' + count + ')' : '';
+            });
         }
 
         // --- STUDENTS LIST ---
@@ -9282,12 +10750,17 @@
                 var initial = (s.name || '?').charAt(0).toUpperCase();
                 var isAdm = (s.admin === true || s.admin === 'TRUE');
                 var treinos = s.treinos || 0;
+                var diasLabel = '';
+                if (s.diasTreino) {
+                    var dMap = {seg:'S',ter:'T',qua:'Q',qui:'Q',sex:'S',sab:'S',dom:'D'};
+                    diasLabel = ' · 📅 ' + s.diasTreino.split(',').map(function(d) { return dMap[d] || d; }).join('');
+                }
                 html += '<div class="admin-student-card" onclick="openStuModal(\'' + (s.email || '').replace(/'/g, "\\'") + '\')">' +
                     '<div class="admin-card-avatar">' + initial + '</div>' +
                     '<div class="admin-student-info">' +
                         '<div class="admin-student-name">' + (s.name || '-') + (isAdm ? ' <span class="admin-header-badge">ADMIN</span>' : '') + '</div>' +
                         '<div class="admin-student-meta">' + (s.email || '') + '</div>' +
-                        '<div class="admin-student-belt">🥋 ' + (s.faixa || '-') + ' · 📍 ' + (s.ct || '-') + ' · 💪 ' + treinos + ' treinos</div>' +
+                        '<div class="admin-student-belt">🥋 ' + (s.faixa || '-') + ' · 📍 ' + (s.ct || '-') + ' · 💪 ' + treinos + diasLabel + '</div>' +
                     '</div>' +
                     '<span style="color:var(--text-3);font-size:16px;flex-shrink:0;">›</span>' +
                 '</div>';
@@ -9402,6 +10875,16 @@
             document.getElementById('stuExperiencia').value = s.experiencia || '';
             document.getElementById('stuSaude').value = s.saude || '';
 
+            // Dias de treino
+            var diasStr = s.diasTreino || '';
+            var diasArr = diasStr ? diasStr.split(',') : [];
+            document.querySelectorAll('#stuDiasGrid .stu-day-btn').forEach(function(btn) {
+                var d = btn.getAttribute('data-day');
+                if (diasArr.indexOf(d) !== -1) btn.classList.add('on');
+                else btn.classList.remove('on');
+            });
+            updateStuDiasHint(s.ct);
+
             // Clear message
             var msg = document.getElementById('stuModalMsg');
             msg.className = 'stu-modal-msg';
@@ -9411,8 +10894,51 @@
             var delBtn = document.getElementById('stuDeleteBtn');
             delBtn.style.display = (email === currentUser.email) ? 'none' : 'block';
 
+            // Load graduation timeline
+            loadGraduacoes(email);
+
             // Scroll to top
             modal.scrollTop = 0;
+        }
+
+        function onStuCTChange() {
+            var ct = document.getElementById('stuCT').value;
+            updateStuDiasHint(ct);
+        }
+
+        function updateStuDiasHint(ctName) {
+            var hint = document.getElementById('stuDiasHint');
+            if (!hint) return;
+            if (!ctName || !allCTs) { hint.innerHTML = ''; return; }
+            var ct = allCTs.find(function(c) { return (typeof c === 'string' ? c : c.name) === ctName; });
+            if (!ct || typeof ct === 'string') { hint.innerHTML = ''; return; }
+            var sch = ct.schedule || {};
+            var dayMap = {seg:'Seg',ter:'Ter',qua:'Qua',qui:'Qui',sex:'Sex',sab:'Sáb',dom:'Dom'};
+            var ctDays = [];
+            var keys = Object.keys(dayMap);
+            for (var i = 0; i < keys.length; i++) {
+                if (sch[keys[i]]) ctDays.push(dayMap[keys[i]]);
+            }
+            if (ctDays.length === 0) { hint.innerHTML = ''; return; }
+            // Check if any day is already selected
+            var hasSelected = false;
+            document.querySelectorAll('#stuDiasGrid .stu-day-btn.on').forEach(function() { hasSelected = true; });
+            hint.innerHTML = '📍 ' + ctName + ' funciona: <strong>' + ctDays.join(', ') + '</strong>' +
+                (!hasSelected ? ' · <span class="hint-link" onclick="applyCTDays()">Aplicar dias do CT</span>' : '');
+        }
+
+        function applyCTDays() {
+            var ctName = document.getElementById('stuCT').value;
+            if (!ctName || !allCTs) return;
+            var ct = allCTs.find(function(c) { return (typeof c === 'string' ? c : c.name) === ctName; });
+            if (!ct || typeof ct === 'string') return;
+            var sch = ct.schedule || {};
+            document.querySelectorAll('#stuDiasGrid .stu-day-btn').forEach(function(btn) {
+                var d = btn.getAttribute('data-day');
+                if (sch[d]) btn.classList.add('on');
+                else btn.classList.remove('on');
+            });
+            updateStuDiasHint(ctName);
         }
 
         function closeStuModal() {
@@ -9446,7 +10972,14 @@
                 objetivo: document.getElementById('stuObjetivo').value,
                 horario: document.getElementById('stuHorario').value,
                 experiencia: document.getElementById('stuExperiencia').value,
-                saude: document.getElementById('stuSaude').value
+                saude: document.getElementById('stuSaude').value,
+                diasTreino: (function() {
+                    var dias = [];
+                    document.querySelectorAll('#stuDiasGrid .stu-day-btn.on').forEach(function(btn) {
+                        dias.push(btn.getAttribute('data-day'));
+                    });
+                    return dias.join(',');
+                })()
             };
 
             try {
