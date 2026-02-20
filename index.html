@@ -255,6 +255,29 @@
         .main::-webkit-scrollbar-thumb { background: var(--text-3); border-radius: 4px; }
         .main::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
+        /* ===== MODE SWITCHER ===== */
+        .mode-switch {
+            display: none;
+            align-items: center; gap: 4px;
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px; padding: 3px; cursor: pointer;
+        }
+        .mode-switch.visible { display: flex; }
+        .mode-switch-opt {
+            padding: 4px 10px; border-radius: 16px; font-size: 10px; font-weight: 700;
+            letter-spacing: 0.5px; text-transform: uppercase; transition: all 0.25s;
+            color: var(--text-3); background: transparent; border: none; cursor: pointer;
+            font-family: 'Sora', sans-serif; white-space: nowrap;
+        }
+        .mode-switch-opt.active {
+            background: var(--accent); color: #000;
+            box-shadow: 0 2px 8px rgba(212,165,41,0.3);
+        }
+        .mode-switch-opt.active.admin-active {
+            background: var(--adm-primary); color: #000;
+            box-shadow: 0 2px 8px rgba(20,184,166,0.3);
+        }
+
         /* ===== BOTTOM NAV ===== */
         .bnav {
             position: fixed;
@@ -1472,21 +1495,21 @@
 
         .evo-seals-row {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
         }
 
         .evo-seal { text-align: center; }
 
         .evo-seal-circle {
-            width: 52px;
-            height: 52px;
-            border-radius: 16px;
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
-            margin: 0 auto 8px;
+            font-size: 20px;
+            margin: 0 auto 6px;
             transition: all 0.5s ease;
         }
 
@@ -2320,8 +2343,12 @@
         /* ===== RESPONSIVE ===== */
         @media (max-width: 380px) {
             .main { padding: 14px 12px; padding-bottom: 76px; }
-            .evo-seals-row { gap: 6px; }
-            .evo-seal-circle { width: 44px; height: 44px; font-size: 18px; border-radius: 14px; }
+            .evo-seals-row { gap: 4px; }
+            .evo-seal-circle { width: 38px; height: 38px; font-size: 16px; border-radius: 12px; }
+            .evo-seal-label { font-size: 9px; }
+            .evo-seal-progress { font-size: 8px; }
+            .evo-seal-label { font-size: 9px; }
+            .evo-seal-progress { font-size: 8px; }
             .podium { gap: 6px; }
         }
 
@@ -2500,17 +2527,78 @@
         .admin-badge.green { background: var(--adm-green); color: #0a0a0a; }
         .admin-badge.blue { background: var(--adm-primary); color: #0a0a0a; }
 
-        /* ══════ REPORT PERIOD BAR ══════ */
-        .rpt-period-bar { display: flex; gap: 6px; margin-bottom: 16px; }
-        .rpt-period-btn {
-            flex: 1; padding: 10px 6px; border-radius: 10px; border: 1px solid var(--adm-border);
-            background: var(--adm-bg-card); color: var(--adm-text-3); font-size: 12px; font-weight: 600;
-            cursor: pointer; transition: all 0.2s; white-space: nowrap; text-align: center;
+        /* ══════ REPORT FILTERS ══════ */
+        .rpt-filters {
+            display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; align-items: flex-end;
         }
-        .rpt-period-btn.active {
+        .rpt-date-range { display: flex; gap: 6px; flex: 1; min-width: 200px; }
+        .rpt-date-field { display: flex; flex-direction: column; flex: 1; }
+        .rpt-date-field label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--adm-text-3); font-weight: 600; margin-bottom: 3px; }
+        .rpt-date-field input[type="date"], .rpt-date-field select {
+            padding: 10px 12px; border-radius: 10px; border: 1px solid var(--adm-border);
+            background: var(--adm-bg-card); color: var(--adm-text-1); font-size: 13px;
+            font-family: 'Inter', sans-serif; cursor: pointer;
+        }
+        .rpt-date-field input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(0.7); cursor: pointer; font-size: 16px; padding: 2px;
+        }
+        .rpt-date-field input[type="date"]:focus {
+            border-color: var(--adm-primary); outline: none;
+            box-shadow: 0 0 0 2px rgba(20,184,166,0.2);
+        }
+        .rpt-generate-btn {
+            padding: 10px 20px; border-radius: 10px; border: none;
+            background: linear-gradient(135deg, var(--adm-primary), var(--adm-primary-bright));
+            color: #000; font-weight: 700; font-size: 13px; cursor: pointer; white-space: nowrap;
+            align-self: flex-end; min-height: 42px;
+        }
+        .rpt-generate-btn:active { transform: scale(0.97); }
+        .rpt-quick-bar { display: flex; gap: 4px; margin-bottom: 14px; }
+        .rpt-quick-btn {
+            flex: 1; padding: 7px 6px; border-radius: 8px; border: 1px solid var(--adm-border);
+            background: var(--adm-bg-card); color: var(--adm-text-3); font-size: 11px; font-weight: 600;
+            cursor: pointer; text-align: center; transition: all 0.2s;
+        }
+        .rpt-quick-btn.active {
             background: var(--adm-primary-dim); border-color: var(--adm-primary);
-            color: var(--adm-primary-bright); box-shadow: 0 0 12px rgba(20,184,166,0.15);
+            color: var(--adm-primary-bright);
         }
+
+        /* ══════ REPORT HOURLY CARDS ══════ */
+        .rpt-hourly-slot {
+            background: var(--adm-bg-card); border: 1px solid var(--adm-border);
+            border-radius: 10px; margin-bottom: 8px; overflow: hidden;
+        }
+        .rpt-hourly-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 14px; cursor: pointer;
+        }
+        .rpt-hourly-header:active { background: rgba(255,255,255,0.02); }
+        .rpt-hourly-time { font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 700; color: var(--adm-text-1); }
+        .rpt-hourly-badges { display: flex; gap: 8px; }
+        .rpt-hourly-badge { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 8px; }
+        .rpt-hourly-badge.green { background: rgba(46,204,113,0.15); color: #4ade80; }
+        .rpt-hourly-badge.red { background: rgba(232,93,93,0.15); color: #f87171; }
+        .rpt-hourly-detail { padding: 0 14px 12px; border-top: 1px solid var(--adm-border); }
+        .rpt-hourly-group-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--adm-text-3); margin: 8px 0 4px; }
+        .rpt-hourly-name { font-size: 11px; color: var(--adm-text-2); padding: 2px 0; }
+        .rpt-hourly-columns { display: flex; gap: 16px; }
+        .rpt-hourly-col { flex: 1; min-width: 0; }
+
+        /* ══════ REPORT ALERT CARD ══════ */
+        .rpt-alert-row {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 14px; border-bottom: 1px solid var(--adm-border);
+            background: rgba(231,76,60,0.04);
+        }
+        .rpt-alert-row:last-child { border-bottom: none; }
+        .rpt-alert-icon { font-size: 18px; }
+        .rpt-alert-info { flex: 1; }
+        .rpt-alert-name { font-weight: 700; color: var(--adm-text-1); font-size: 13px; }
+        .rpt-alert-meta { font-size: 11px; color: var(--adm-text-3); }
+        .rpt-alert-badge { font-size: 11px; font-weight: 800; color: #f87171; background: rgba(231,76,60,0.15); padding: 4px 10px; border-radius: 8px; }
+
+        /* Keep existing styles */
         .rpt-panel { animation: fadeIn 0.3s ease; }
         .rpt-header {
             display: flex; justify-content: space-between; align-items: center;
@@ -3708,6 +3796,58 @@
         }
 
         /* Report CT filter */
+
+        /* Enhanced Attendance List */
+        .rpt-chamada { margin-top: 4px; }
+        .rpt-chamada-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 14px; border-radius: 10px; margin-bottom: 8px;
+            background: linear-gradient(135deg, rgba(20,184,166,0.1), rgba(20,184,166,0.05));
+        }
+        .rpt-chamada-title { font-size: 14px; font-weight: 700; color: var(--adm-text-1); }
+        .rpt-chamada-stats { display: flex; gap: 12px; }
+        .rpt-chamada-stat { text-align: center; }
+        .rpt-chamada-stat-num { font-size: 18px; font-weight: 800; }
+        .rpt-chamada-stat-num.green { color: #4ade80; }
+        .rpt-chamada-stat-num.red { color: #f87171; }
+        .rpt-chamada-stat-num.blue { color: var(--adm-primary-bright); }
+        .rpt-chamada-stat-lbl { font-size: 9px; color: var(--adm-text-3); text-transform: uppercase; font-weight: 600; }
+
+        .rpt-aluno-row {
+            display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.04); transition: background 0.15s;
+        }
+        .rpt-aluno-row:last-child { border-bottom: none; }
+        .rpt-aluno-status {
+            width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; font-size: 16px; flex-shrink: 0;
+        }
+        .rpt-aluno-status.present { background: rgba(45,200,90,0.15); }
+        .rpt-aluno-status.absent { background: rgba(232,93,93,0.12); }
+        .rpt-aluno-info { flex: 1; min-width: 0; }
+        .rpt-aluno-name { font-size: 13px; font-weight: 600; color: var(--adm-text-1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .rpt-aluno-detail { font-size: 11px; color: var(--adm-text-3); margin-top: 1px; }
+        .rpt-aluno-badge {
+            padding: 3px 8px; border-radius: 6px; font-size: 10px; font-weight: 700;
+            white-space: nowrap; flex-shrink: 0;
+        }
+        .rpt-aluno-badge.ok { background: rgba(45,200,90,0.12); color: #4ade80; }
+        .rpt-aluno-badge.warn { background: rgba(251,191,36,0.12); color: #fbbf24; }
+        .rpt-aluno-badge.danger { background: rgba(232,93,93,0.12); color: #f87171; }
+        .rpt-aluno-badge.info { background: rgba(20,184,166,0.12); color: var(--adm-primary-bright); }
+
+        .rpt-section-toggle {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 14px; cursor: pointer; border-radius: 8px;
+            background: rgba(255,255,255,0.02); margin-bottom: 4px;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .rpt-section-toggle:active { background: rgba(255,255,255,0.06); }
+        .rpt-section-toggle-left { display: flex; align-items: center; gap: 8px; }
+        .rpt-section-toggle-title { font-size: 13px; font-weight: 700; color: var(--adm-text-1); }
+        .rpt-section-toggle-arrow { color: var(--adm-text-3); transition: transform 0.2s; font-size: 12px; }
+        .rpt-section-toggle.open .rpt-section-toggle-arrow { transform: rotate(90deg); }
+
         .rpt-ct-filter { display: flex; gap: 6px; margin-bottom: 14px; overflow-x: auto; padding-bottom: 2px; }
         .rpt-ct-btn {
             padding: 7px 14px; border-radius: 8px; border: 1px solid var(--adm-border);
@@ -4466,6 +4606,10 @@
                     <div id="headerSubtitle" style="font-size:10px;letter-spacing:1.5px;color:var(--text-2);font-weight:600;text-transform:uppercase;font-family:'Sora',sans-serif;">Checkin</div>
                 </div>
             </div>
+            <div class="mode-switch" id="modeSwitcher">
+                <button class="mode-switch-opt" id="modeOptAluno" onclick="switchViewMode('aluno')">🥋 Aluno</button>
+                <button class="mode-switch-opt active admin-active" id="modeOptAdmin" onclick="switchViewMode('admin')">⚙️ Admin</button>
+            </div>
             <div class="hdr-user" id="headerUser" onclick="handleLogout()">
                 <div class="hdr-avatar" id="userInitial">L</div>
                 <div class="hdr-name" id="headerUserName">User</div>
@@ -4760,7 +4904,7 @@
                                             <option value="grau">🏅 Grau</option>
                                             <option value="faixa">🥋 Faixa</option>
                                         </select>
-                                        <select id="evoDeclFaixa">
+                                        <select id="evoDeclFaixa" onchange="updateGrauOptions('evoDeclFaixa','evoDeclGrau')">
                                             <option value="Branca">Branca</option>
                                             <option value="Cinza">Cinza</option>
                                             <option value="Amarela">Amarela</option>
@@ -4772,6 +4916,7 @@
                                             <option value="Preta">Preta</option>
                                         </select>
                                         <select id="evoDeclGrau">
+                                            <option value="0">0º Grau</option>
                                             <option value="1">1º Grau</option>
                                             <option value="2">2º Grau</option>
                                             <option value="3">3º Grau</option>
@@ -5182,12 +5327,8 @@
                             <div class="perfil-field">
                                 <label>Horário preferido de treino</label>
                                 <select id="perfilHorario">
-                                    <option value="">Selecione</option>
-                                    <option value="Manhã (6h-11h)">Manhã (6h-11h)</option>
-                                    <option value="Almoço (11h-14h)">Almoço (11h-14h)</option>
-                                    <option value="Tarde (14h-18h)">Tarde (14h-18h)</option>
-                                    <option value="Noite (18h-22h)">Noite (18h-22h)</option>
-                                    <option value="Flexível">Flexível</option>
+                                    <option value="Manhã">Manhã (6h-11:59h)</option>
+                                    <option value="Noite">Noite (18h-23:59h)</option>
                                 </select>
                             </div>
                             <div class="perfil-field">
@@ -5264,7 +5405,7 @@
                     </div>
 
                     <!-- Stats -->
-                    <div class="admin-stats">
+                    <div class="admin-stats" style="grid-template-columns: repeat(5, 1fr);">
                         <div class="admin-stat warn">
                             <div class="admin-stat-num" id="adminPendingAccountsCount">0</div>
                             <div class="admin-stat-label">Cadastros</div>
@@ -5275,7 +5416,11 @@
                         </div>
                         <div class="admin-stat warn">
                             <div class="admin-stat-num" id="adminPendingCheckinsCount">0</div>
-                            <div class="admin-stat-label">Pendentes</div>
+                            <div class="admin-stat-label">Check-ins</div>
+                        </div>
+                        <div class="admin-stat warn">
+                            <div class="admin-stat-num" id="adminPendingGradCount">0</div>
+                            <div class="admin-stat-label">Graduações</div>
                         </div>
                         <div class="admin-stat ok">
                             <div class="admin-stat-num" id="adminTodayCheckinsCount">0</div>
@@ -5320,6 +5465,17 @@
                             <div class="admin-empty">Carregando...</div>
                         </div>
                         <button class="admin-bulk-btn" id="adminBulkApproveBtn" style="display:none" onclick="bulkApproveCheckins()">✓ Aprovar Todos Pendentes</button>
+                    </div>
+
+                    <!-- Pending Graduations -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">🏆 Graduações Pendentes <span class="admin-badge" id="adminGradBadge" style="display:none">0</span></div>
+                            <button class="admin-refresh-btn" onclick="loadPendingGraduacoes()">↻</button>
+                        </div>
+                        <div id="adminGradList">
+                            <div class="admin-empty">Carregando...</div>
+                        </div>
                     </div>
 
                     <!-- Recent Approved -->
@@ -5379,111 +5535,107 @@
                 <div class="admin-container">
                     <div class="adm-page-title">
                         <h2>Central de Relatórios</h2>
-                        <p>Análise completa por período</p>
+                        <p>Selecione o período e CT para análise</p>
                     </div>
 
-                    <!-- Period Selector -->
-                    <div class="rpt-period-bar">
-                        <button class="rpt-period-btn active" onclick="switchReportPeriod('diario', event)">📅 Diário</button>
-                        <button class="rpt-period-btn" onclick="switchReportPeriod('semanal', event)">📆 Semanal</button>
-                        <button class="rpt-period-btn" onclick="switchReportPeriod('mensal', event)">🗓️ Mensal</button>
-                        <button class="rpt-period-btn" onclick="switchReportPeriod('anual', event)">📊 Anual</button>
-                    </div>
-
-                    <!-- CT Filter -->
-                    <div class="rpt-ct-filter" id="rptCTFilterBar"></div>
-
-                    <div id="rptLoading" class="admin-empty">Carregando relatório...</div>
-
-                    <!-- ===== DAILY ===== -->
-                    <div id="rpt-diario" class="rpt-panel" style="display:none;">
-                        <div class="rpt-header"><div class="rpt-header-title">📅 Relatório Diário</div><div class="rpt-header-date" id="rptDailyDate"></div></div>
-                        <div class="admin-stats" id="rptDailyStats"></div>
-                        <div class="admin-section">
-                            <div class="admin-section-title">📊 Check-ins por Horário</div>
-                            <div id="rptDailyHourly" class="rpt-chart-area"></div>
+                    <!-- Date Range + CT Filter -->
+                    <div class="rpt-filters">
+                        <div class="rpt-date-range">
+                            <div class="rpt-date-field">
+                                <label>De</label>
+                                <input type="date" id="rptDateFrom">
+                            </div>
+                            <div class="rpt-date-field">
+                                <label>Até</label>
+                                <input type="date" id="rptDateTo">
+                            </div>
                         </div>
+                        <div class="rpt-date-field" style="min-width:120px;">
+                            <label>CT</label>
+                            <select id="rptCTSelect" onchange="_rptFilterCT=this.value">
+                                <option value="">Todos os CTs</option>
+                            </select>
+                        </div>
+                        <button class="rpt-generate-btn" onclick="generateReport()">📊 Gerar Relatório</button>
+                    </div>
+
+                    <!-- Quick period buttons -->
+                    <div class="rpt-quick-bar">
+                        <button class="rpt-quick-btn active" onclick="setRptQuickPeriod('hoje',this)">Hoje</button>
+                        <button class="rpt-quick-btn" onclick="setRptQuickPeriod('semana',this)">Semana</button>
+                        <button class="rpt-quick-btn" onclick="setRptQuickPeriod('mes',this)">Mês</button>
+                        <button class="rpt-quick-btn" onclick="setRptQuickPeriod('ano',this)">Ano</button>
+                    </div>
+
+                    <div id="rptLoading" class="admin-empty" style="display:none;">Carregando relatório...</div>
+                    <div id="rptContent" style="display:none;">
+
+                        <!-- Summary -->
+                        <div class="rpt-header">
+                            <div class="rpt-header-title">📋 Relatório</div>
+                            <div class="rpt-header-date" id="rptPeriodLabel"></div>
+                        </div>
+
+                        <div class="admin-stats" id="rptSummaryStats"></div>
+
+                        <!-- 🚨 ALERTS (5+ faltas) -->
+                        <div class="admin-section" id="rptAlertSection" style="display:none;">
+                            <div class="admin-section-header">
+                                <div class="admin-section-title">🚨 Alertas · Alunos com 5+ Faltas</div>
+                            </div>
+                            <div id="rptAlerts" class="rpt-mini-list"></div>
+                        </div>
+
+                        <!-- 📊 Presença por Horário -->
+                        <div class="admin-section">
+                            <div class="admin-section-header">
+                                <div class="admin-section-title">📊 Presença por Horário</div>
+                            </div>
+                            <div id="rptHourlySummary"></div>
+                        </div>
+
+                        <!-- ❌ Faltas Acumuladas -->
+                        <div class="admin-section">
+                            <div class="rpt-section-toggle open" onclick="toggleRptSection(this)">
+                                <div class="rpt-section-toggle-left">
+                                    <span>❌</span>
+                                    <span class="rpt-section-toggle-title">Faltas Acumuladas <span class="admin-badge" style="background:rgba(232,93,93,0.15);color:#f87171;" id="rptFaltasBadge">0</span></span>
+                                </div>
+                                <span class="rpt-section-toggle-arrow">▶</span>
+                            </div>
+                            <div id="rptFaltasList" class="rpt-chamada"></div>
+                        </div>
+
+                        <!-- 🏢 Check-ins por CT -->
                         <div class="admin-section">
                             <div class="admin-section-title">🏢 Check-ins por CT</div>
-                            <div id="rptDailyCT" class="rpt-chart-area"></div>
+                            <div id="rptCTChart" class="rpt-chart-area"></div>
                         </div>
-                        <div class="admin-section">
-                            <div class="admin-section-header">
-                                <div class="admin-section-title">✅ Quem treinou <span class="admin-badge green" id="rptDailyPresentBadge">0</span></div>
-                            </div>
-                            <div id="rptDailyPresent" class="rpt-mini-list"></div>
-                        </div>
-                        <div class="admin-section">
-                            <div class="admin-section-header">
-                                <div class="admin-section-title">😴 Ausentes <span class="admin-badge" id="rptDailyAbsentBadge">0</span></div>
-                            </div>
-                            <div id="rptDailyAbsent" class="rpt-mini-list"></div>
-                        </div>
-                    </div>
 
-                    <!-- ===== WEEKLY ===== -->
-                    <div id="rpt-semanal" class="rpt-panel" style="display:none;">
-                        <div class="rpt-header"><div class="rpt-header-title">📆 Relatório Semanal</div><div class="rpt-header-date" id="rptWeeklyDate"></div></div>
-                        <div class="admin-stats" id="rptWeeklyStats"></div>
+                        <!-- Insights -->
                         <div class="admin-section">
-                            <div class="admin-section-title">📊 Check-ins por Dia da Semana</div>
-                            <div id="rptWeeklyDays" class="rpt-chart-area"></div>
-                        </div>
-                        <div class="admin-section">
-                            <div class="admin-section-title">🏢 Ranking por CT</div>
-                            <div id="rptWeeklyCT" class="rpt-chart-area"></div>
-                        </div>
-                    </div>
-
-                    <!-- ===== MONTHLY ===== -->
-                    <div id="rpt-mensal" class="rpt-panel" style="display:none;">
-                        <div class="rpt-header"><div class="rpt-header-title">🗓️ Relatório Mensal</div><div class="rpt-header-date" id="rptMonthlyDate"></div></div>
-                        <div class="admin-stats" id="rptMonthlyStats"></div>
-                        <div class="admin-section">
-                            <div class="admin-section-title">📊 Check-ins por Semana</div>
-                            <div id="rptMonthlyWeeks" class="rpt-chart-area"></div>
-                        </div>
-                        <div class="admin-section">
-                            <div class="admin-section-title">🏢 Check-ins por CT</div>
-                            <div id="rptMonthlyCT" class="rpt-chart-area"></div>
+                            <div class="admin-section-header">
+                                <div class="admin-section-title">⚠️ Em Risco (15-30 dias)</div>
+                            </div>
+                            <div id="rptRisk" class="rpt-mini-list"></div>
                         </div>
                         <div class="admin-section">
                             <div class="admin-section-header">
-                                <div class="admin-section-title">⚠️ Alunos em Risco (15-30 dias sem treinar)</div>
+                                <div class="admin-section-title">🔴 Inativos (+30 dias)</div>
                             </div>
-                            <div id="rptMonthlyRisk" class="rpt-mini-list"></div>
+                            <div id="rptInactive" class="rpt-mini-list"></div>
                         </div>
                         <div class="admin-section">
                             <div class="admin-section-header">
-                                <div class="admin-section-title">🥋 Elegíveis para Promoção de Faixa</div>
+                                <div class="admin-section-title">🥋 Elegíveis para Promoção</div>
                             </div>
-                            <div id="rptMonthlyPromo" class="rpt-mini-list"></div>
+                            <div id="rptPromo" class="rpt-mini-list"></div>
                         </div>
-                    </div>
 
-                    <!-- ===== ANNUAL ===== -->
-                    <div id="rpt-anual" class="rpt-panel" style="display:none;">
-                        <div class="rpt-header"><div class="rpt-header-title">📊 Relatório Anual</div><div class="rpt-header-date" id="rptAnnualDate"></div></div>
-                        <div class="admin-stats" id="rptAnnualStats"></div>
-                        <div class="admin-section">
-                            <div class="admin-section-title">📊 Check-ins por Mês</div>
-                            <div id="rptAnnualMonths" class="rpt-chart-area"></div>
+                        <!-- Export -->
+                        <div style="margin-top:16px;text-align:center;padding-bottom:12px;">
+                            <button class="admin-btn approve" onclick="exportReportCSV()" style="min-width:200px;">📥 Exportar CSV</button>
                         </div>
-                        <div class="admin-section">
-                            <div class="admin-section-title">📈 Distribuição de Faixas</div>
-                            <div id="rptAnnualBelts" class="rpt-chart-area"></div>
-                        </div>
-                        <div class="admin-section">
-                            <div class="admin-section-header">
-                                <div class="admin-section-title">🔴 Alunos Inativos (+30 dias)</div>
-                            </div>
-                            <div id="rptAnnualInactive" class="rpt-mini-list"></div>
-                        </div>
-                    </div>
-
-                    <!-- Export -->
-                    <div style="margin-top:16px;text-align:center;padding-bottom:12px;">
-                        <button class="admin-btn approve" onclick="exportReportCSV()" style="min-width:200px;">📥 Exportar CSV</button>
                     </div>
                 </div>
             </div>
@@ -5813,7 +5965,7 @@
                     <div class="stu-field-row">
                         <div class="stu-field">
                             <label>Faixa</label>
-                            <select id="stuFaixa">
+                            <select id="stuFaixa" onchange="updateGrauOptions('stuFaixa','stuGrau')">
                                 <option value="Branca">Branca</option>
                                 <option value="Cinza">Cinza</option>
                                 <option value="Amarela">Amarela</option>
@@ -5944,12 +6096,8 @@
                         <div class="stu-field">
                             <label>Horário preferido</label>
                             <select id="stuHorario">
-                                <option value="">—</option>
-                                <option value="Manhã (6h-11h)">Manhã (6h-11h)</option>
-                                <option value="Almoço (11h-14h)">Almoço (11h-14h)</option>
-                                <option value="Tarde (14h-18h)">Tarde (14h-18h)</option>
-                                <option value="Noite (18h-22h)">Noite (18h-22h)</option>
-                                <option value="Flexível">Flexível</option>
+                                <option value="Manhã">Manhã (6h-11:59h)</option>
+                                <option value="Noite">Noite (18h-23:59h)</option>
                             </select>
                         </div>
                         <div class="stu-field">
@@ -5984,7 +6132,7 @@
                             <option value="grau">🟡 Grau na faixa</option>
                             <option value="faixa">🟣 Graduação de faixa</option>
                         </select>
-                        <select id="gradFaixa">
+                        <select id="gradFaixa" onchange="updateGrauOptions('gradFaixa','gradGrau')">
                             <option value="Branca">Branca</option>
                             <option value="Cinza">Cinza</option>
                             <option value="Amarela">Amarela</option>
@@ -5996,6 +6144,7 @@
                             <option value="Preta">Preta</option>
                         </select>
                         <select id="gradGrau">
+                            <option value="0">0º Grau</option>
                             <option value="1">1º Grau</option>
                             <option value="2">2º Grau</option>
                             <option value="3">3º Grau</option>
@@ -6131,7 +6280,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzb7IYW00KJuY7vrRk8wK8WsGbtyIhCZlWngaJS6k0vLsZaQQoRlpPDkXL0dx9pxg-P/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby3QEuqI7qkXeHywJR4GVfzQf_g9tblz9bf7kEF8_Nz0dLFedepdjZR0AUCi5nvBhVe/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -6324,6 +6473,8 @@
             return currentUser && (currentUser.admin === true || currentUser.admin === 'TRUE');
         }
 
+        var _currentViewMode = 'admin'; // 'admin' or 'aluno'
+
         function showAppScreen() {
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('headerUser').style.display = 'flex';
@@ -6331,21 +6482,45 @@
             document.getElementById('userInitial').textContent = currentUser.name.charAt(0).toUpperCase();
 
             if (isAdmin()) {
-                // ADMIN SCREEN
+                // Show mode switcher for admins
+                document.getElementById('modeSwitcher').classList.add('visible');
+                _currentViewMode = 'admin';
+                applyViewMode('admin');
+            } else {
+                // Student only
+                document.getElementById('modeSwitcher').classList.remove('visible');
+                _currentViewMode = 'aluno';
+                applyViewMode('aluno');
+            }
+        }
+
+        function switchViewMode(mode) {
+            if (mode === _currentViewMode) return;
+            _currentViewMode = mode;
+            applyViewMode(mode);
+        }
+
+        function applyViewMode(mode) {
+            var hdr = document.querySelector('.hdr');
+            var hdrTitle = document.querySelector('.hdr-title');
+            var hdrAvatar = document.querySelector('.hdr-avatar');
+            var modeAluno = document.getElementById('modeOptAluno');
+            var modeAdmin = document.getElementById('modeOptAdmin');
+
+            if (mode === 'admin') {
+                // ADMIN VIEW
                 document.getElementById('appScreen').style.display = 'none';
                 document.getElementById('bottomNav').style.display = 'none';
                 document.getElementById('adminScreen').style.display = 'block';
                 document.getElementById('adminNav').style.display = 'block';
                 document.getElementById('headerSubtitle').innerHTML = 'Administrador <span class="admin-header-badge">ADMIN</span>';
-                // Admin header color
-                document.querySelector('.hdr').style.background = 'var(--adm-bg-card)';
-                document.querySelector('.hdr').style.borderBottomColor = 'var(--adm-border)';
-                document.querySelector('.hdr-title').style.background = 'linear-gradient(135deg, var(--adm-primary-bright), var(--adm-primary))';
-                document.querySelector('.hdr-title').style.webkitBackgroundClip = 'text';
-                document.querySelector('.hdr-title').style.webkitTextFillColor = 'transparent';
-                document.querySelector('.hdr-avatar').style.background = 'var(--adm-primary-dim)';
-                document.querySelector('.hdr-avatar').style.color = 'var(--adm-primary-bright)';
-                document.querySelector('.hdr-avatar').style.borderColor = 'var(--adm-border-accent)';
+                // Admin header colors
+                if (hdr) { hdr.style.background = 'var(--adm-bg-card)'; hdr.style.borderBottomColor = 'var(--adm-border)'; }
+                if (hdrTitle) { hdrTitle.style.background = 'linear-gradient(135deg, var(--adm-primary-bright), var(--adm-primary))'; hdrTitle.style.webkitBackgroundClip = 'text'; hdrTitle.style.webkitTextFillColor = 'transparent'; }
+                if (hdrAvatar) { hdrAvatar.style.background = 'var(--adm-primary-dim)'; hdrAvatar.style.color = 'var(--adm-primary-bright)'; hdrAvatar.style.borderColor = 'var(--adm-border-accent)'; }
+                // Toggle buttons
+                if (modeAdmin) { modeAdmin.classList.add('active', 'admin-active'); }
+                if (modeAluno) { modeAluno.classList.remove('active'); }
                 // Fill admin profile info
                 document.getElementById('adminWelcomeName').textContent = currentUser.name.split(' ')[0];
                 document.getElementById('admPerfilName').textContent = currentUser.name;
@@ -6355,25 +6530,37 @@
                 document.getElementById('admDisplayName').textContent = currentUser.name;
                 document.getElementById('admDisplayFaixa').textContent = currentUser.faixa;
                 document.getElementById('admDisplayCount').textContent = currentUser.treinos || '0';
-                // Load dashboard
+                // Reset admin tab to painel
+                document.querySelectorAll('.adm-tab').forEach(function(t) { t.classList.remove('active'); });
+                var painelTab = document.getElementById('adm-painel');
+                if (painelTab) painelTab.classList.add('active');
+                document.querySelectorAll('#adminNav .bnav-btn').forEach(function(b) { b.classList.remove('active'); });
+                var firstAdmBtn = document.querySelector('#adminNav .bnav-btn');
+                if (firstAdmBtn) firstAdmBtn.classList.add('active');
                 loadAdminPanel();
             } else {
-                // STUDENT SCREEN
+                // STUDENT VIEW
                 document.getElementById('adminScreen').style.display = 'none';
                 document.getElementById('adminNav').style.display = 'none';
                 document.getElementById('appScreen').style.display = 'block';
                 document.getElementById('bottomNav').style.display = 'block';
                 document.getElementById('headerSubtitle').textContent = 'Checkin';
+                // Student header colors (reset)
+                if (hdr) { hdr.style.background = ''; hdr.style.borderBottomColor = ''; }
+                if (hdrTitle) { hdrTitle.style.background = ''; hdrTitle.style.webkitBackgroundClip = ''; hdrTitle.style.webkitTextFillColor = ''; }
+                if (hdrAvatar) { hdrAvatar.style.background = ''; hdrAvatar.style.color = ''; hdrAvatar.style.borderColor = ''; }
+                // Toggle buttons
+                if (modeAluno) { modeAluno.classList.add('active'); modeAluno.classList.remove('admin-active'); }
+                if (modeAdmin) { modeAdmin.classList.remove('active', 'admin-active'); }
+                // Load student data
                 document.getElementById('checkinInitial').textContent = currentUser.name.charAt(0).toUpperCase();
-                // Student header color (reset to gold)
-                document.querySelector('.hdr').style.background = '';
-                document.querySelector('.hdr').style.borderBottomColor = '';
-                document.querySelector('.hdr-title').style.background = '';
-                document.querySelector('.hdr-title').style.webkitBackgroundClip = '';
-                document.querySelector('.hdr-title').style.webkitTextFillColor = '';
-                document.querySelector('.hdr-avatar').style.background = '';
-                document.querySelector('.hdr-avatar').style.color = '';
-                document.querySelector('.hdr-avatar').style.borderColor = '';
+                // Reset student tab to treino and activate first nav btn
+                document.querySelectorAll('.tab-content').forEach(function(t) { t.classList.remove('active'); });
+                document.querySelectorAll('#bottomNav .bnav-btn').forEach(function(b) { b.classList.remove('active'); });
+                var treinoTab = document.getElementById('treino-tab');
+                if (treinoTab) treinoTab.classList.add('active');
+                var firstBtn = document.querySelector('#bottomNav .bnav-btn');
+                if (firstBtn) firstBtn.classList.add('active');
             }
         }
 
@@ -7151,6 +7338,27 @@
         };
         const BELT_ORDER = ['Branca', 'Azul', 'Roxa', 'Marrom', 'Preta'];
         const BELT_ACCUMULATED = { 'Branca': 0, 'Azul': 90, 'Roxa': 290, 'Marrom': 590, 'Preta': 790 };
+
+        /**
+         * Updates grau select options based on selected faixa.
+         * Preta (IBJJF): 0º-6º Grau
+         * Others: 0º-4º Grau
+         */
+        function updateGrauOptions(faixaSelectId, grauSelectId) {
+            var faixaSel = document.getElementById(faixaSelectId);
+            var grauSel = document.getElementById(grauSelectId);
+            if (!faixaSel || !grauSel) return;
+            var faixa = faixaSel.value;
+            var currentVal = grauSel.value;
+            var maxGrau = faixa === 'Preta' ? 6 : 4;
+            var html = '';
+            for (var g = 0; g <= maxGrau; g++) {
+                html += '<option value="' + g + '">' + g + 'º Grau</option>';
+            }
+            grauSel.innerHTML = html;
+            // Restore value if within range
+            if (parseInt(currentVal) <= maxGrau) grauSel.value = currentVal;
+        }
         const SEMESTER_MAX_CLASSES = 48;
         const GRAU_MIN_TREINOS = 22;
         const FREQ_MIN_APTO = 75;
@@ -7177,9 +7385,10 @@
 
         function renderHero(faixa, grau, totalTreinos, treinosSemestre, freq) {
             const cfg = BELT_CONFIG[faixa] || BELT_CONFIG['Branca'];
+            var maxGrau = faixa === 'Preta' ? 6 : 4;
             document.getElementById('evoHeroBelt').className = 'evo-hero-belt ' + cfg.class;
             document.getElementById('evoHeroTitle').textContent = 'Faixa ' + faixa + ' ' + cfg.emoji;
-            document.getElementById('evoHeroSub').textContent = grau + '/4 graus' + (cfg.next ? ' • Próxima: ' + cfg.next : ' • 🏆 Máxima');
+            document.getElementById('evoHeroSub').textContent = grau + 'º/' + maxGrau + 'º grau' + (faixa === 'Preta' ? ' · IBJJF' : (cfg.next ? ' • Próxima: ' + cfg.next : ' • 🏆 Máxima'));
 
             const statusEl = document.getElementById('evoHeroStatus');
             if (freq < FREQ_MIN_EVOLUCAO) statusEl.innerHTML = '<div class="evo-hero-status red">🔴 Não apto</div>';
@@ -7190,36 +7399,62 @@
             document.getElementById('evoStatSemestre').textContent = treinosSemestre;
         }
 
+        // IBJJF Preta grau requirements (years at each degree)
+        const PRETA_GRAU_ANOS = [0, 3, 3, 3, 5, 5, 5]; // 0º=0, 1º=3a, 2º=3a, 3º=3a, 4º=5a, 5º=5a, 6º=5a
+        const PRETA_GRAU_LABELS = ['Faixa Preta', '1º Grau', '2º Grau', '3º Grau', '4º Grau', '5º Grau', '6º Grau'];
+        const PRETA_GRAU_TITLES = ['', '', '', 'Mestre', 'Mestre', 'Mestre', 'Coral'];
+
         function renderSeals(grauAtual, treinosSemestre) {
+            const faixa = (currentUser && currentUser.faixa) || 'Branca';
             const row = document.getElementById('evoSealsRow');
             row.innerHTML = '';
-            const reqs = [GRAU_MIN_TREINOS, GRAU_MIN_TREINOS*2, GRAU_MIN_TREINOS*3, GRAU_MIN_TREINOS*4];
 
-            for (let i = 0; i < 4; i++) {
-                const min = reqs[i];
-                const hasEnoughTreinos = treinosSemestre >= min;
-                // Desbloqueado: atingiu o mínimo de treinos exigido
-                const isUnlocked = hasEnoughTreinos;
-                // Alvo pronto: treinos bateram mas grau ainda não foi registrado
-                const isReady = hasEnoughTreinos && (i + 1) > grauAtual;
-                const progress = Math.min(treinosSemestre, min);
+            if (faixa === 'Preta') {
+                // IBJJF: 7 seals (0º-6º grau), year-based
+                row.style.gridTemplateColumns = 'repeat(7, 1fr)';
+                for (let i = 0; i <= 6; i++) {
+                    let cls = 'locked', icon = '🔒', prog = '';
+                    if (i <= grauAtual) {
+                        cls = 'unlocked'; icon = '⭐'; prog = '✅ Conquistado';
+                    } else if (i === grauAtual + 1) {
+                        cls = 'current-target'; icon = '🎯'; prog = PRETA_GRAU_ANOS[i] + ' anos mín.';
+                    } else {
+                        cls = 'locked'; icon = '🔒'; prog = PRETA_GRAU_ANOS[i] + ' anos mín.';
+                    }
 
-                let cls = 'locked', icon = '🔒', lbl = '', prog = '';
-                if (isUnlocked && !isReady) {
-                    // Conquistado: treinos ok + grau já registrado
-                    cls = 'unlocked'; icon = '⭐'; lbl = 'unlocked'; prog = '✅ Conquistado';
-                } else if (isReady) {
-                    // Treinos bateram, aguardando professor registrar o grau
-                    cls = 'current-target'; icon = '✅'; lbl = 'current-target'; prog = '🎉 Apto!';
-                } else {
-                    // Bloqueado: treinos insuficientes
-                    cls = 'locked'; icon = '🔒'; lbl = ''; prog = progress + '/' + min;
+                    var title = PRETA_GRAU_TITLES[i];
+                    var labelHtml = PRETA_GRAU_LABELS[i] + (title ? '<br><span style="font-size:9px;color:var(--accent);">' + title + '</span>' : '');
+
+                    const seal = document.createElement('div');
+                    seal.className = 'evo-seal';
+                    seal.innerHTML = '<div class="evo-seal-circle ' + cls + '">' + icon + '</div><div class="evo-seal-label ' + (i <= grauAtual ? 'unlocked' : '') + '">' + labelHtml + '</div><div class="evo-seal-progress">' + prog + '</div>';
+                    row.appendChild(seal);
                 }
+            } else {
+                // Standard: 5 seals (0º-4º grau), treino-based
+                row.style.gridTemplateColumns = 'repeat(5, 1fr)';
+                const reqs = [0, GRAU_MIN_TREINOS, GRAU_MIN_TREINOS*2, GRAU_MIN_TREINOS*3, GRAU_MIN_TREINOS*4];
 
-                const seal = document.createElement('div');
-                seal.className = 'evo-seal';
-                seal.innerHTML = '<div class="evo-seal-circle ' + cls + '">' + icon + '</div><div class="evo-seal-label ' + lbl + '">' + (i+1) + 'º Grau</div><div class="evo-seal-progress">' + prog + '</div>';
-                row.appendChild(seal);
+                for (let i = 0; i <= 4; i++) {
+                    const min = reqs[i];
+                    const hasEnoughTreinos = treinosSemestre >= min;
+                    const isReady = hasEnoughTreinos && i > grauAtual;
+                    const progress = Math.min(treinosSemestre, min);
+
+                    let cls = 'locked', icon = '🔒', lbl = '', prog = '';
+                    if (hasEnoughTreinos && !isReady) {
+                        cls = 'unlocked'; icon = '⭐'; lbl = 'unlocked'; prog = '✅ Conquistado';
+                    } else if (isReady) {
+                        cls = 'current-target'; icon = '✅'; lbl = 'current-target'; prog = '🎉 Apto!';
+                    } else {
+                        cls = 'locked'; icon = '🔒'; lbl = ''; prog = progress + '/' + min;
+                    }
+
+                    const seal = document.createElement('div');
+                    seal.className = 'evo-seal';
+                    seal.innerHTML = '<div class="evo-seal-circle ' + cls + '">' + icon + '</div><div class="evo-seal-label ' + lbl + '">' + i + 'º Grau</div><div class="evo-seal-progress">' + prog + '</div>';
+                    row.appendChild(seal);
+                }
             }
         }
 
@@ -7244,7 +7479,7 @@
             document.getElementById('evoFaixaCriteriaTitle').textContent = faixa + ' → ' + cfg.next;
 
             const criteria = [
-                { label: '4 graus completos', detail: grau + '/4 graus', pass: grau >= 4 },
+                { label: '4º grau completo', detail: grau + 'º/4º grau', pass: grau >= 4 },
                 { label: 'Tempo mínimo ' + cfg.minMonths + ' meses', detail: tempoNaFaixa + '/' + cfg.minMonths + ' meses', pass: tempoNaFaixa >= cfg.minMonths },
                 { label: 'Mínimo ' + cfg.minTreinos + ' treinos', detail: totalTreinos + '/' + cfg.minTreinos, pass: totalTreinos >= cfg.minTreinos },
                 { label: 'Frequência ≥ 75%', detail: freq + '%', pass: freq >= 75 },
@@ -7924,7 +8159,7 @@
             if (!currentUser) return;
             document.getElementById('perfilAvatarInitial').textContent = (currentUser.name || '?')[0].toUpperCase();
             document.getElementById('perfilNome').textContent = currentUser.name || '—';
-            document.getElementById('perfilFaixaTag').textContent = (currentUser.faixa || 'Branca') + ' • ' + (currentUser.grau || 0) + '/4 graus • ' + (currentUser.treinos || 0) + ' treinos';
+            document.getElementById('perfilFaixaTag').textContent = (currentUser.faixa || 'Branca') + ' • ' + (currentUser.grau || 0) + 'º/4º grau • ' + (currentUser.treinos || 0) + ' treinos';
             
             // 1) Load avatar from localStorage first
             loadAvatarFromData(null);
@@ -9886,6 +10121,7 @@
             loadPendingAccounts();
             loadPendingResets();
             loadPendingCheckins();
+            loadPendingGraduacoes();
             loadAdminRanking();
         }
 
@@ -9975,59 +10211,156 @@
 
 
 
-        // --- ATTENDANCE REPORT ---
-        var reportData = null;
-        var reportSelectedCT = 'todos';
+        // --- PENDING GRADUATIONS ---
+        async function loadPendingGraduacoes() {
+            var container = document.getElementById('adminGradList');
+            if (!container) return;
+            container.innerHTML = '<div class="admin-empty">Carregando...</div>';
+            try {
+                var data = await secureFetch('getPendingGraduacoes', {});
+                if (data.success && data.pending && data.pending.length > 0) {
+                    var html = '';
+                    data.pending.forEach(function(g, idx) {
+                        var icon = g.tipo === 'grau' ? '🔵' : (g.tipo === 'faixa' ? '🥋' : '📅');
+                        var detail = '';
+                        if (g.tipo === 'grau') detail = g.faixa + ' · ' + g.grau + 'º Grau';
+                        else if (g.tipo === 'faixa') detail = 'Faixa ' + g.faixa;
+                        else if (g.tipo === 'inicio') detail = 'Início no BJJ';
+                        if (g.data) detail += ' · ' + g.data;
+                        if (g.obs) detail += ' · "' + g.obs + '"';
 
-        // ===== NEW REPORT SYSTEM =====
-        var _rptData = null;
-        var _rptPeriod = 'diario';
-        var _rptFilterCT = 'todos';
-
-        function switchReportPeriod(period, evt) {
-            _rptPeriod = period;
-            document.querySelectorAll('.rpt-period-btn').forEach(function(b) { b.classList.remove('active'); });
-            if (evt && evt.target) evt.target.classList.add('active');
-            document.querySelectorAll('.rpt-panel').forEach(function(p) { p.style.display = 'none'; });
-            var panel = document.getElementById('rpt-' + period);
-            if (panel) panel.style.display = 'block';
-            if (_rptData) renderNewReport(_rptData);
+                        html += '<div class="admin-card" id="gradCard' + idx + '">' +
+                            '<div class="admin-card-top">' +
+                                '<div class="admin-card-avatar" style="font-size:18px;">' + icon + '</div>' +
+                                '<div class="admin-card-info">' +
+                                    '<div class="admin-card-name">' + escapeHtml(g.name) + '</div>' +
+                                    '<div class="admin-card-meta">' + escapeHtml(g.email) + '</div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="admin-card-detail">' + escapeHtml(g.tipoLabel) + ' · ' + escapeHtml(detail) + '</div>' +
+                            '<div class="admin-card-actions">' +
+                                '<button class="admin-btn approve" onclick="approveGraduacao(' + g.rowIndex + ',' + idx + ')">✓ Aprovar</button>' +
+                                '<button class="admin-btn reject" onclick="rejectGraduacao(' + g.rowIndex + ',' + idx + ',\'' + escapeHtml(g.name).replace(/'/g, "\\'") + '\')">✕ Rejeitar</button>' +
+                            '</div>' +
+                        '</div>';
+                    });
+                    container.innerHTML = html;
+                    var badge = document.getElementById('adminGradBadge');
+                    if (badge) { badge.textContent = data.pending.length; badge.style.display = 'inline-block'; }
+                    var countEl = document.getElementById('adminPendingGradCount');
+                    if (countEl) countEl.textContent = data.pending.length;
+                } else {
+                    container.innerHTML = '<div class="admin-empty">Nenhuma graduação pendente 🎉</div>';
+                    var badge2 = document.getElementById('adminGradBadge');
+                    if (badge2) badge2.style.display = 'none';
+                    var countEl2 = document.getElementById('adminPendingGradCount');
+                    if (countEl2) countEl2.textContent = '0';
+                }
+            } catch (err) {
+                console.error('loadPendingGraduacoes:', err);
+                container.innerHTML = '<div class="admin-empty" style="color:#E85D5D;">Erro ao carregar</div>';
+            }
         }
 
-        function switchReportCT(ct) {
-            _rptFilterCT = ct;
-            document.querySelectorAll('.rpt-ct-btn').forEach(function(b) { b.classList.remove('active'); });
-            document.querySelectorAll('.rpt-ct-btn').forEach(function(b) {
-                if (b.getAttribute('data-ct') === ct) b.classList.add('active');
-            });
-            if (_rptData) renderNewReport(_rptData);
+        async function approveGraduacao(rowIndex, idx) {
+            var card = document.getElementById('gradCard' + idx);
+            if (card) card.style.opacity = '0.5';
+            try {
+                var data = await secureFetch('addGraduacao', { rowIndex: rowIndex });
+                if (data.success) {
+                    if (card) { card.style.background = 'rgba(45,138,78,0.1)'; card.innerHTML = '<div class="admin-empty" style="color:#2d8a4e">✅ Graduação aprovada!</div>'; }
+                    setTimeout(loadPendingGraduacoes, 1500);
+                } else {
+                    alert(data.message || 'Erro ao aprovar');
+                    if (card) card.style.opacity = '1';
+                }
+            } catch (err) { alert('Erro de conexão'); if (card) card.style.opacity = '1'; }
+        }
+
+        async function rejectGraduacao(rowIndex, idx, name) {
+            if (!confirm('Rejeitar graduação de ' + name + '?')) return;
+            var card = document.getElementById('gradCard' + idx);
+            if (card) card.style.opacity = '0.5';
+            try {
+                var data = await secureFetch('rejectGraduacao', { rowIndex: rowIndex });
+                if (data.success) {
+                    if (card) { card.style.background = 'rgba(232,93,93,0.1)'; card.innerHTML = '<div class="admin-empty" style="color:var(--coral)">❌ Graduação rejeitada</div>'; }
+                    setTimeout(loadPendingGraduacoes, 1500);
+                } else { alert(data.message || 'Erro'); if (card) card.style.opacity = '1'; }
+            } catch (err) { alert('Erro de conexão'); if (card) card.style.opacity = '1'; }
+        }
+
+        // --- ATTENDANCE REPORT ---
+        var _rptData = null;
+        var _rptFilterCT = '';
+
+        function initReportDates() {
+            var now = new Date();
+            var todayStr = now.getFullYear() + '-' + ('0'+(now.getMonth()+1)).slice(-2) + '-' + ('0'+now.getDate()).slice(-2);
+            document.getElementById('rptDateFrom').value = todayStr;
+            document.getElementById('rptDateTo').value = todayStr;
+        }
+
+        function setRptQuickPeriod(period, btn) {
+            document.querySelectorAll('.rpt-quick-btn').forEach(function(b) { b.classList.remove('active'); });
+            if (btn) btn.classList.add('active');
+            var now = new Date();
+            var from = new Date(now), to = new Date(now);
+            if (period === 'semana') { from.setDate(now.getDate() - now.getDay()); }
+            else if (period === 'mes') { from = new Date(now.getFullYear(), now.getMonth(), 1); }
+            else if (period === 'ano') { from = new Date(now.getFullYear(), 0, 1); }
+            document.getElementById('rptDateFrom').value = fmtDateISO(from);
+            document.getElementById('rptDateTo').value = fmtDateISO(to);
+            generateReport();
+        }
+
+        function fmtDateISO(d) {
+            return d.getFullYear() + '-' + ('0'+(d.getMonth()+1)).slice(-2) + '-' + ('0'+d.getDate()).slice(-2);
+        }
+
+        function fmtDateBR(isoStr) {
+            if (!isoStr) return '';
+            var p = isoStr.split('-');
+            if (p.length === 3) return p[2] + '/' + p[1] + '/' + p[0];
+            return isoStr;
         }
 
         async function loadNewReportData() {
+            initReportDates();
+            generateReport();
+        }
+
+        async function generateReport() {
             var loading = document.getElementById('rptLoading');
+            var content = document.getElementById('rptContent');
             if (loading) loading.style.display = 'block';
-            document.querySelectorAll('.rpt-panel').forEach(function(p) { p.style.display = 'none'; });
+            if (content) content.style.display = 'none';
+
+            var dateFrom = document.getElementById('rptDateFrom').value;
+            var dateTo = document.getElementById('rptDateTo').value;
+            var filterCT = document.getElementById('rptCTSelect').value || '';
+
             try {
-                var data = await secureFetch('getReportData', {});
+                var data = await secureFetch('getReportData', { dateFrom: dateFrom, dateTo: dateTo, filterCT: filterCT });
                 if (loading) loading.style.display = 'none';
                 if (data.success) {
                     _rptData = data;
-                    // Render CT filter bar
-                    var filterBar = document.getElementById('rptCTFilterBar');
-                    if (filterBar && data.allCTs) {
-                        var fh = '<button class="rpt-ct-btn' + (_rptFilterCT === 'todos' ? ' active' : '') + '" data-ct="todos" onclick="switchReportCT(\'todos\')">Todos</button>';
+                    // Populate CT select
+                    var ctSel = document.getElementById('rptCTSelect');
+                    if (ctSel && data.allCTs) {
+                        var curVal = ctSel.value;
+                        var opts = '<option value="">Todos os CTs</option>';
                         data.allCTs.forEach(function(ct) {
-                            fh += '<button class="rpt-ct-btn' + (_rptFilterCT === ct ? ' active' : '') + '" data-ct="' + ct + '" onclick="switchReportCT(\'' + ct.replace(/'/g,"\\'") + '\')">' + escapeHtml(ct) + '</button>';
+                            opts += '<option value="' + escapeHtml(ct) + '"' + (ct === curVal ? ' selected' : '') + '>' + escapeHtml(ct) + '</option>';
                         });
-                        filterBar.innerHTML = fh;
+                        ctSel.innerHTML = opts;
                     }
-                    var panel = document.getElementById('rpt-' + _rptPeriod);
-                    if (panel) panel.style.display = 'block';
-                    renderNewReport(data);
+                    if (content) content.style.display = 'block';
+                    renderReport(data);
                 }
             } catch(e) {
-                if (loading) loading.textContent = 'Erro ao carregar';
-                console.error('loadNewReportData:', e);
+                if (loading) { loading.style.display = 'block'; loading.textContent = 'Erro ao carregar relatório'; }
+                console.error('generateReport:', e);
             }
         }
 
@@ -10037,7 +10370,7 @@
             }).join('');
         }
 
-        function rptBarChart(containerId, dataObj, prefix, labelMap) {
+        function rptBarChart(containerId, dataObj, prefix) {
             var el = document.getElementById(containerId);
             if (!el) return;
             var keys = Object.keys(dataObj);
@@ -10046,7 +10379,7 @@
             var h = '';
             keys.forEach(function(k) {
                 var pct = Math.max(Math.round(dataObj[k] / max * 100), 4);
-                var lbl = labelMap && labelMap[k] ? labelMap[k] : ((prefix||'') + k);
+                var lbl = (prefix||'') + k;
                 h += '<div class="rpt-bar-row"><div class="rpt-bar-label">' + lbl + '</div><div class="rpt-bar-track"><div class="rpt-bar-fill" style="width:' + pct + '%;"><span class="rpt-bar-val">' + dataObj[k] + '</span></div></div></div>';
             });
             el.innerHTML = h;
@@ -10063,175 +10396,186 @@
             el.innerHTML = h;
         }
 
-        function renderNewReport(data) {
+        function renderReport(data) {
             var s = data.summary;
-            var now = new Date();
-            var MONTHS = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-            var DAY_MAP = {dom:'Dom',seg:'Seg',ter:'Ter',qua:'Qua',qui:'Qui',sex:'Sex',sab:'Sáb'};
-            var ct = _rptFilterCT;
-            var filtered = ct !== 'todos';
-            var ctLabel = filtered ? ' · ' + ct : '';
+            var ctLabel = data.filterCT ? ' · ' + data.filterCT : '';
 
-            // Filter helper
-            function byCT(arr) { return filtered ? arr.filter(function(r) { return r.ct === ct; }) : arr; }
-            function countByCT(obj) {
-                if (!filtered) return obj;
-                var r = {}; r[ct] = obj[ct] || 0; return r;
+            // Period label
+            var periodEl = document.getElementById('rptPeriodLabel');
+            if (periodEl) periodEl.textContent = fmtDateBR(data.dateFrom) + ' até ' + fmtDateBR(data.dateTo) + ctLabel;
+
+            // Summary stats
+            var totalFaltas = 0;
+            (data.faltasAlunos || []).forEach(function(f) { totalFaltas += f.faltas; });
+            var statsEl = document.getElementById('rptSummaryStats');
+            if (statsEl) statsEl.innerHTML = rptStatCards([
+                {num: s.totalPeriodo, label:'Check-ins no período', cls:'ok'},
+                {num: s.totalAlunos, label:'Alunos total'},
+                {num: s.ativos, label:'Ativos', cls:'ok'},
+                {num: (data.alertas5 || []).length, label:'🚨 Alertas 5+', cls: (data.alertas5||[]).length > 0 ? 'warn' : ''}
+            ]);
+
+            // ===== ALERTS (5+ faltas) =====
+            var alertSection = document.getElementById('rptAlertSection');
+            var alertEl = document.getElementById('rptAlerts');
+            if (alertSection && alertEl) {
+                if (data.alertas5 && data.alertas5.length > 0) {
+                    alertSection.style.display = '';
+                    var ah = '';
+                    data.alertas5.forEach(function(a) {
+                        ah += '<div class="rpt-alert-row">' +
+                            '<div class="rpt-alert-icon">🚨</div>' +
+                            '<div class="rpt-alert-info">' +
+                                '<div class="rpt-alert-name">' + escapeHtml(a.name) + '</div>' +
+                                '<div class="rpt-alert-meta">' + escapeHtml(a.ct||'') + ' · ' + escapeHtml(a.faixa||'') + ' · ' + escapeHtml(a.turno||'Flexível') + ' · ' + a.esperadas + ' aulas esperadas</div>' +
+                            '</div>' +
+                            '<div class="rpt-alert-badge">' + a.faltas + ' faltas</div>' +
+                        '</div>';
+                    });
+                    alertEl.innerHTML = ah;
+                } else {
+                    alertSection.style.display = 'none';
+                }
             }
 
-            // Filtered daily
-            var fRecords = byCT(data.daily.records || []);
-            var fAbsent = byCT(data.daily.absent || []);
-            var fHourly = {};
-            if (filtered) {
-                fRecords.forEach(function(r) {
-                    var hk = r.hora ? r.hora.substring(0,2) : '??';
-                    fHourly[hk] = (fHourly[hk] || 0) + 1;
-                });
-            } else { fHourly = data.daily.hourly || {}; }
-
-            // Filtered insights
-            var fRisk = byCT(data.insights.emRisco || []);
-            var fInactive = byCT(data.insights.inativos || []);
-            var fPromo = byCT(data.insights.elegiveisPromo || []);
-
-            // Filtered counts
-            var fTotalHoje = filtered ? fRecords.length : s.totalHoje;
-            var fTotalSemana = filtered ? (data.weekly.byCT || {})[ct] || 0 : s.totalSemana;
-            var fTotalMes = filtered ? (data.monthly.byCT || {})[ct] || 0 : s.totalMes;
-            var fTotalAno = filtered ? Object.values(data.yearly.byMonth || {}).reduce(function(a,b){return a+b;},0) : s.totalAno;
-            var fAlunos = filtered ? (s.ctStudentCount || {})[ct] || 0 : s.totalAlunos;
-
-            // ===== DAILY =====
-            var dd = document.getElementById('rptDailyDate');
-            if (dd) dd.textContent = now.toLocaleDateString('pt-BR', {weekday:'long', day:'numeric', month:'long'}) + ctLabel;
-            var ds = document.getElementById('rptDailyStats');
-            if (ds) ds.innerHTML = rptStatCards([
-                {num: fTotalHoje, label:'Check-ins', cls:'ok'},
-                {num: fAbsent.length, label:'Ausentes', cls: fAbsent.length > 0 ? 'warn' : ''},
-                {num: filtered ? 1 : Object.keys(data.daily.byCT||{}).length, label: filtered ? 'CT' : 'CTs ativos'},
-                {num: filtered ? fAlunos : s.ativos, label: filtered ? 'Alunos CT' : 'Ativos total', cls:'ok'}
-            ]);
-            rptBarChart('rptDailyHourly', fHourly, '');
-            rptBarChart('rptDailyCT', filtered ? countByCT(data.daily.byCT||{}) : data.daily.byCT || {}, '');
-            var pb = document.getElementById('rptDailyPresentBadge');
-            if (pb) pb.textContent = fRecords.length;
-            rptMiniList('rptDailyPresent',
-                fRecords.map(function(r) { return {name:r.name, meta:r.ct+' · '+r.faixa, tag:r.hora||'-', tagCls:'green'}; }),
-                'Nenhum check-in' + ctLabel);
-            var ab = document.getElementById('rptDailyAbsentBadge');
-            if (ab) ab.textContent = fAbsent.length;
-            rptMiniList('rptDailyAbsent',
-                fAbsent.map(function(a) { return {name:a.name, meta:a.ct+' · '+a.faixa, tag:'Ausente', tagCls:'red'}; }),
-                'Todos presentes! 🎉');
-
-            // ===== WEEKLY =====
-            var wd = document.getElementById('rptWeeklyDate');
-            if (wd) wd.textContent = 'Semana atual' + ctLabel;
-            var ws = document.getElementById('rptWeeklyStats');
-            if (ws) ws.innerHTML = rptStatCards([
-                {num: fTotalSemana, label:'Check-ins', cls:'ok'},
-                {num: fTotalSemana > 0 ? Math.round(fTotalSemana / Math.max(now.getDay()+1,1) * 10) / 10 : 0, label:'Média/dia'},
-                {num: fRisk.length, label:'Em risco', cls: fRisk.length > 0 ? 'warn' : ''},
-                {num: s.novos30d, label:'Novos 30d', cls:'ok'}
-            ]);
-            rptBarChart('rptWeeklyDays', data.weekly.byDay || {}, '', DAY_MAP);
-            rptBarChart('rptWeeklyCT', filtered ? countByCT(data.weekly.byCT||{}) : data.weekly.byCT || {}, '');
-
-            // ===== MONTHLY =====
-            var md = document.getElementById('rptMonthlyDate');
-            if (md) md.textContent = MONTHS[now.getMonth()] + ' ' + now.getFullYear() + ctLabel;
-            var ms = document.getElementById('rptMonthlyStats');
-            if (ms) ms.innerHTML = rptStatCards([
-                {num: fTotalMes, label:'Check-ins', cls:'ok'},
-                {num: fTotalMes > 0 ? Math.round(fTotalMes / now.getDate() * 10) / 10 : 0, label:'Média/dia'},
-                {num: fInactive.length, label:'Inativos', cls: fInactive.length > 0 ? 'warn' : ''},
-                {num: fPromo.length, label:'Promoção', cls: fPromo.length > 0 ? 'ok' : ''}
-            ]);
-            rptBarChart('rptMonthlyWeeks', data.monthly.byWeek || {}, 'Sem ');
-            rptBarChart('rptMonthlyCT', filtered ? countByCT(data.monthly.byCT||{}) : data.monthly.byCT || {}, '');
-            rptMiniList('rptMonthlyRisk',
-                fRisk.map(function(r) { return {name:r.name, meta:r.ct+' · '+r.faixa, tag:r.dias+' dias', tagCls:'yellow'}; }),
-                'Nenhum aluno em risco 💪');
-            rptMiniList('rptMonthlyPromo',
-                fPromo.map(function(p) { return {name:p.name, meta:p.faixa+' → '+p.proxFaixa+' · '+p.treinos+' treinos', tag:'Elegível', tagCls:'blue'}; }),
-                'Nenhum elegível no momento');
-
-            // ===== ANNUAL =====
-            var ad = document.getElementById('rptAnnualDate');
-            if (ad) ad.textContent = now.getFullYear().toString() + ctLabel;
-            var as2 = document.getElementById('rptAnnualStats');
-            if (as2) as2.innerHTML = rptStatCards([
-                {num: filtered ? fTotalAno : s.totalAno, label:'No ano', cls:'ok'},
-                {num: fAlunos, label:'Alunos'},
-                {num: filtered ? fAlunos - fInactive.length : s.ativos, label:'Ativos', cls:'ok'},
-                {num: fInactive.length, label:'Inativos', cls: fInactive.length > 0 ? 'warn' : ''}
-            ]);
-            rptBarChart('rptAnnualMonths', data.yearly.byMonth || {}, '');
-
-            // Belt distribution
-            var beltsEl = document.getElementById('rptAnnualBelts');
-            if (beltsEl && s.faixaCount) {
-                var bColors = {Branca:'#d1d5db',Azul:'#3b82f6',Roxa:'#8b5cf6',Marrom:'#92400e',Preta:'#374151'};
-                var bKeys = Object.keys(s.faixaCount);
-                var bMax = Math.max.apply(null, bKeys.map(function(k){return s.faixaCount[k];})) || 1;
-                var bh = '';
-                bKeys.forEach(function(k) {
-                    var pct = Math.max(Math.round(s.faixaCount[k] / bMax * 100), 4);
-                    bh += '<div class="rpt-bar-row"><div class="rpt-bar-label">' + k + '</div><div class="rpt-bar-track"><div class="rpt-bar-fill belt" style="width:' + pct + '%;background:' + (bColors[k]||'var(--adm-primary)') + ';"><span class="rpt-bar-val">' + s.faixaCount[k] + '</span></div></div></div>';
-                });
-                beltsEl.innerHTML = bh;
+            // ===== HOURLY SUMMARY (presentes + ausentes por horário) =====
+            var hourlyEl = document.getElementById('rptHourlySummary');
+            if (hourlyEl) {
+                var hs = data.hourlySummary || {};
+                var hKeys = Object.keys(hs).sort();
+                if (hKeys.length === 0) {
+                    hourlyEl.innerHTML = '<div class="admin-empty">Sem dados de horário</div>';
+                } else {
+                    var hh = '';
+                    hKeys.forEach(function(slot) {
+                        var info = hs[slot];
+                        hh += '<div class="rpt-hourly-slot">';
+                        hh += '<div class="rpt-hourly-header">';
+                        hh += '<div class="rpt-hourly-time">🕐 ' + slot + '</div>';
+                        hh += '<div class="rpt-hourly-badges">';
+                        hh += '<div class="rpt-hourly-badge green">✅ ' + info.presentes + '</div>';
+                        hh += '<div class="rpt-hourly-badge red">❌ ' + info.ausentes + '</div>';
+                        hh += '</div></div>';
+                        hh += '<div class="rpt-hourly-detail">';
+                        hh += '<div class="rpt-hourly-columns">';
+                        // Presentes column
+                        hh += '<div class="rpt-hourly-col">';
+                        hh += '<div class="rpt-hourly-group-title">✅ Presentes (' + info.presentes + ')</div>';
+                        if (info.presentesList && info.presentesList.length > 0) {
+                            info.presentesList.forEach(function(p) {
+                                hh += '<div class="rpt-hourly-name">' + escapeHtml(p.name) + ' <span style="color:var(--adm-text-3);font-size:10px;">' + escapeHtml(p.faixa||'') + '</span></div>';
+                            });
+                        } else {
+                            hh += '<div class="rpt-hourly-name" style="color:var(--adm-text-3);">Nenhum</div>';
+                        }
+                        hh += '</div>';
+                        // Ausentes column
+                        hh += '<div class="rpt-hourly-col">';
+                        hh += '<div class="rpt-hourly-group-title">❌ Ausentes (' + info.ausentes + ')</div>';
+                        if (info.ausentesList && info.ausentesList.length > 0) {
+                            info.ausentesList.forEach(function(a) {
+                                hh += '<div class="rpt-hourly-name" style="color:#f87171;">' + escapeHtml(a.name) + ' <span style="font-size:10px;">' + escapeHtml(a.faixa||'') + '</span></div>';
+                            });
+                        } else {
+                            hh += '<div class="rpt-hourly-name" style="color:var(--adm-text-3);">Nenhum</div>';
+                        }
+                        hh += '</div>';
+                        hh += '</div></div></div>';
+                    });
+                    hourlyEl.innerHTML = hh;
+                }
             }
 
-            rptMiniList('rptAnnualInactive',
-                fInactive.slice(0,25).map(function(i2) { return {name:i2.name, meta:i2.ct+' · '+i2.faixa, tag:i2.dias+' dias', tagCls:'red'}; }),
+            // ===== FALTAS ACUMULADAS =====
+            var faltasBadge = document.getElementById('rptFaltasBadge');
+            var faltasEl = document.getElementById('rptFaltasList');
+            var faltasArr = data.faltasAlunos || [];
+            if (faltasBadge) faltasBadge.textContent = faltasArr.filter(function(f){return f.faltas > 0;}).length;
+            if (faltasEl) {
+                var faltasFiltered = faltasArr.filter(function(f){return f.faltas > 0;});
+                if (faltasFiltered.length === 0) {
+                    faltasEl.innerHTML = '<div class="admin-empty">Nenhuma falta no período 🎉</div>';
+                } else {
+                    var fh = '';
+                    faltasFiltered.forEach(function(f) {
+                        var badgeCls = f.faltas >= 5 ? 'danger' : (f.faltas >= 3 ? 'warn' : 'info');
+                        fh += '<div class="rpt-aluno-row">' +
+                            '<div class="rpt-aluno-status absent">❌</div>' +
+                            '<div class="rpt-aluno-info">' +
+                                '<div class="rpt-aluno-name">' + escapeHtml(f.name) + '</div>' +
+                                '<div class="rpt-aluno-detail">' + escapeHtml(f.ct||'') + ' · ' + escapeHtml(f.faixa||'') + ' · ' + escapeHtml(f.turno||'Flexível') + ' · ' + f.presentes + '/' + f.esperadas + ' aulas (' + f.pctPresenca + '%)</div>' +
+                            '</div>' +
+                            '<div class="rpt-aluno-badge ' + badgeCls + '">' + f.faltas + ' falta' + (f.faltas !== 1 ? 's' : '') + '</div>' +
+                        '</div>';
+                    });
+                    faltasEl.innerHTML = fh;
+                }
+            }
+
+            // ===== CT Chart =====
+            rptBarChart('rptCTChart', data.ctPresent || {}, '');
+
+            // ===== Insights =====
+            rptMiniList('rptRisk',
+                (data.insights.emRisco || []).map(function(r) { return {name:r.name, meta:r.ct+' · '+r.faixa, tag:r.dias+' dias', tagCls:'yellow'}; }),
+                'Nenhum em risco 💪');
+            rptMiniList('rptInactive',
+                (data.insights.inativos || []).slice(0,25).map(function(i2) { return {name:i2.name, meta:i2.ct+' · '+i2.faixa, tag:i2.dias+' dias', tagCls:'red'}; }),
                 'Nenhum inativo 🎉');
+            rptMiniList('rptPromo',
+                (data.insights.elegiveisPromo || []).map(function(p) { return {name:p.name, meta:p.faixa+' → '+p.proxFaixa+' · '+p.treinos+' treinos', tag:'Elegível', tagCls:'blue'}; }),
+                'Nenhum elegível no momento');
+        }
+
+        function toggleRptSection(el) {
+            el.classList.toggle('open');
+            var content = el.nextElementSibling;
+            if (content) content.style.display = el.classList.contains('open') ? '' : 'none';
         }
 
         function exportReportCSV() {
-            if (!_rptData) { showMessage('rptLoading','Carregue o relat\u00f3rio primeiro','warning'); return; }
+            if (!_rptData) { alert('Gere o relatório primeiro'); return; }
             var d = _rptData;
             var s = d.summary;
-            var ct = _rptFilterCT;
-            var filtered = ct !== 'todos';
-            function byCT(arr) { return filtered ? arr.filter(function(r) { return r.ct === ct; }) : arr; }
             var csv = '\uFEFF';
-            csv += 'RELAT\u00d3RIO ACADEMIA - ' + new Date().toLocaleString('pt-BR') + '\n';
-            if (filtered) csv += 'FILTRO: ' + ct + '\n';
-            csv += '\nRESUMO GERAL\n';
+            csv += 'RELAT\u00d3RIO ACADEMIA - Per\u00edodo: ' + fmtDateBR(d.dateFrom) + ' a ' + fmtDateBR(d.dateTo) + '\n';
+            csv += 'Gerado em: ' + new Date().toLocaleString('pt-BR') + '\n\n';
+            csv += 'RESUMO\n';
             csv += 'Total Alunos,' + s.totalAlunos + '\n';
             csv += 'Ativos,' + s.ativos + '\n';
-            csv += 'Em Risco,' + s.emRisco + '\n';
             csv += 'Inativos,' + s.inativos + '\n';
-            csv += 'Check-ins Hoje,' + s.totalHoje + '\n';
-            csv += 'Check-ins Semana,' + s.totalSemana + '\n';
-            csv += 'Check-ins M\u00eas,' + s.totalMes + '\n';
-            csv += 'Check-ins Ano,' + s.totalAno + '\n\n';
-            csv += 'PRESEN\u00c7AS HOJE\nNome,CT,Faixa,Hora\n';
-            byCT(d.daily.records||[]).forEach(function(r) {
-                csv += '"' + (r.name||'') + '","' + (r.ct||'') + '","' + (r.faixa||'') + '","' + (r.hora||'') + '"\n';
+            csv += 'Check-ins no per\u00edodo,' + s.totalPeriodo + '\n';
+            csv += 'Alertas 5+ faltas,' + (d.alertas5||[]).length + '\n\n';
+
+            csv += 'PRESEN\u00c7A POR HOR\u00c1RIO\nHor\u00e1rio,Presentes,Ausentes\n';
+            var hs = d.hourlySummary || {};
+            Object.keys(hs).sort().forEach(function(slot) {
+                csv += slot + ',' + hs[slot].presentes + ',' + hs[slot].ausentes + '\n';
             });
-            csv += '\nAUSENTES HOJE\nNome,CT,Faixa\n';
-            byCT(d.daily.absent||[]).forEach(function(a) {
-                csv += '"' + (a.name||'') + '","' + (a.ct||'') + '","' + (a.faixa||'') + '"\n';
+
+            csv += '\nFALTAS ACUMULADAS\nNome,CT,Faixa,Esperadas,Presentes,Faltas,Frequ\u00eancia\n';
+            (d.faltasAlunos||[]).forEach(function(f) {
+                csv += '"' + f.name + '","' + (f.ct||'') + '","' + (f.faixa||'') + '",' + f.esperadas + ',' + f.presentes + ',' + f.faltas + ',' + f.pctPresenca + '%\n';
             });
+
+            csv += '\nALERTAS 5+ FALTAS\nNome,CT,Faixa,Faltas,Esperadas\n';
+            (d.alertas5||[]).forEach(function(a) {
+                csv += '"' + a.name + '","' + (a.ct||'') + '","' + (a.faixa||'') + '",' + a.faltas + ',' + a.esperadas + '\n';
+            });
+
             csv += '\nEM RISCO (15-30 dias)\nNome,CT,Faixa,Dias\n';
-            byCT(d.insights.emRisco||[]).forEach(function(r) {
-                csv += '"' + (r.name||'') + '","' + (r.ct||'') + '","' + (r.faixa||'') + '",' + r.dias + '\n';
+            (d.insights.emRisco||[]).forEach(function(r) {
+                csv += '"' + r.name + '","' + (r.ct||'') + '","' + (r.faixa||'') + '",' + r.dias + '\n';
             });
             csv += '\nINATIVOS (+30 dias)\nNome,CT,Faixa,Dias\n';
-            byCT(d.insights.inativos||[]).forEach(function(i2) {
-                csv += '"' + (i2.name||'') + '","' + (i2.ct||'') + '","' + (i2.faixa||'') + '",' + i2.dias + '\n';
+            (d.insights.inativos||[]).forEach(function(i2) {
+                csv += '"' + i2.name + '","' + (i2.ct||'') + '","' + (i2.faixa||'') + '",' + i2.dias + '\n';
             });
-            csv += '\nELEG\u00cdVEIS PROMO\u00c7\u00c3O\nNome,Faixa,Pr\u00f3xima,Treinos,Graus,CT\n';
-            byCT(d.insights.elegiveisPromo||[]).forEach(function(p) {
-                csv += '"' + (p.name||'') + '","' + (p.faixa||'') + '","' + (p.proxFaixa||'') + '",' + p.treinos + ',' + p.grau + ',"' + (p.ct||'') + '"\n';
-            });
-            var suffix = filtered ? '_' + ct.replace(/\s/g,'_') : '';
+
             var blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
             var link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = 'relatorio' + suffix + '_' + new Date().toISOString().slice(0,10) + '.csv';
+            link.download = 'relatorio_' + (d.dateFrom||'') + '_' + (d.dateTo||'') + '.csv';
             link.click();
         }
 
@@ -10835,6 +11179,7 @@
             // Core fields
             document.getElementById('stuName').value = s.name || '';
             document.getElementById('stuFaixa').value = s.faixa || 'Branca';
+            updateGrauOptions('stuFaixa', 'stuGrau');
             document.getElementById('stuGrau').value = s.grau || '0';
 
             // Populate CT dropdown
