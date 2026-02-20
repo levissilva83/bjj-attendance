@@ -5812,6 +5812,44 @@
                         <div id="adminCTScheduleList"><div class="admin-empty">Carregando...</div></div>
                     </div>
 
+                    <!-- Graduation Config per CT -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">🎓 Aulas por Grau (Graduação)</div>
+                            <button class="admin-refresh-btn" onclick="loadGradConfig()">↻</button>
+                        </div>
+                        <p style="font-size:11px;color:var(--adm-text-3);margin-bottom:12px;">Configure a quantidade de aulas necessárias por grau (borrachinha) para cada faixa. Valores podem variar por CT.</p>
+                        <div style="margin-bottom:12px;">
+                            <select id="gradConfigCT" onchange="onGradConfigCTChange()" style="width:100%;padding:10px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:13px;">
+                                <option value="Padrão">📌 Padrão (todos os CTs)</option>
+                            </select>
+                        </div>
+                        <div id="gradConfigGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                            <div class="grad-cfg-item">
+                                <label style="font-size:11px;color:var(--adm-text-3);margin-bottom:4px;display:block;">⚪ Branca (aulas/grau)</label>
+                                <input type="number" id="gradCfgBranca" min="1" max="999" value="30" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:14px;font-weight:700;text-align:center;">
+                            </div>
+                            <div class="grad-cfg-item">
+                                <label style="font-size:11px;color:var(--adm-text-3);margin-bottom:4px;display:block;">🔵 Azul (aulas/grau)</label>
+                                <input type="number" id="gradCfgAzul" min="1" max="999" value="78" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:14px;font-weight:700;text-align:center;">
+                            </div>
+                            <div class="grad-cfg-item">
+                                <label style="font-size:11px;color:var(--adm-text-3);margin-bottom:4px;display:block;">🟣 Roxa (aulas/grau)</label>
+                                <input type="number" id="gradCfgRoxa" min="1" max="999" value="108" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:14px;font-weight:700;text-align:center;">
+                            </div>
+                            <div class="grad-cfg-item">
+                                <label style="font-size:11px;color:var(--adm-text-3);margin-bottom:4px;display:block;">🟤 Marrom (aulas/grau)</label>
+                                <input type="number" id="gradCfgMarrom" min="1" max="999" value="130" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:14px;font-weight:700;text-align:center;">
+                            </div>
+                        </div>
+                        <div style="margin-top:8px;padding:8px;background:rgba(20,184,166,0.05);border:1px dashed rgba(20,184,166,0.2);border-radius:8px;">
+                            <div style="font-size:10px;color:var(--adm-text-3);margin-bottom:4px;">📊 Resumo: total de aulas para exame de faixa (4 graus)</div>
+                            <div id="gradCfgSummary" style="font-size:11px;color:var(--adm-text-2);"></div>
+                        </div>
+                        <div id="gradConfigMsg" style="margin-top:8px;"></div>
+                        <button onclick="saveGradConfig()" style="margin-top:10px;width:100%;padding:12px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;">💾 Salvar Configuração</button>
+                    </div>
+
                     <!-- Admin Check-in -->
                     <div class="admin-section">
                         <div class="admin-section-header">
@@ -6280,7 +6318,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby3QEuqI7qkXeHywJR4GVfzQf_g9tblz9bf7kEF8_Nz0dLFedepdjZR0AUCi5nvBhVe/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw7uLEUWnPboLSx2QpzKpsOB6B3wDNHe4a5tWH2qDyk2JOqLMoGVRRV7B44dOWImbqK/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -6480,6 +6518,9 @@
             document.getElementById('headerUser').style.display = 'flex';
             document.getElementById('headerUserName').textContent = currentUser.name.split(' ')[0];
             document.getElementById('userInitial').textContent = currentUser.name.charAt(0).toUpperCase();
+
+            // Load graduation config (for seals display)
+            if (!_gradConfigLoaded) loadGradConfig();
 
             if (isAdmin()) {
                 // Show mode switcher for admins
@@ -7329,15 +7370,17 @@
         }
 
         // ===== EVOLUÇÃO =====
+        // Alliance graduation: aulas por grau progressivo por faixa
         const BELT_CONFIG = {
-            'Branca': { order: 0, emoji: '⚪', class: 'branca', next: 'Azul', minMonths: 12, minTreinos: 90 },
-            'Azul':   { order: 1, emoji: '🔵', class: 'azul',   next: 'Roxa', minMonths: 24, minTreinos: 200 },
-            'Roxa':   { order: 2, emoji: '🟣', class: 'roxa',   next: 'Marrom', minMonths: 24, minTreinos: 300 },
-            'Marrom': { order: 3, emoji: '🟤', class: 'marrom', next: 'Preta', minMonths: 18, minTreinos: 200 },
-            'Preta':  { order: 4, emoji: '⚫', class: 'preta',  next: null, minMonths: 0, minTreinos: 0 }
+            'Branca': { order: 0, emoji: '⚪', class: 'branca', next: 'Azul', minMonths: 12, minTreinos: 120, aulasGrau: 30 },
+            'Azul':   { order: 1, emoji: '🔵', class: 'azul',   next: 'Roxa', minMonths: 24, minTreinos: 310, aulasGrau: 78 },
+            'Roxa':   { order: 2, emoji: '🟣', class: 'roxa',   next: 'Marrom', minMonths: 24, minTreinos: 430, aulasGrau: 108 },
+            'Marrom': { order: 3, emoji: '🟤', class: 'marrom', next: 'Preta', minMonths: 18, minTreinos: 520, aulasGrau: 130 },
+            'Preta':  { order: 4, emoji: '⚫', class: 'preta',  next: null, minMonths: 0, minTreinos: 0, aulasGrau: 0 }
         };
         const BELT_ORDER = ['Branca', 'Azul', 'Roxa', 'Marrom', 'Preta'];
-        const BELT_ACCUMULATED = { 'Branca': 0, 'Azul': 90, 'Roxa': 290, 'Marrom': 590, 'Preta': 790 };
+        // Acumulado: total de aulas até alcançar cada faixa (Alliance)
+        const BELT_ACCUMULATED = { 'Branca': 0, 'Azul': 120, 'Roxa': 430, 'Marrom': 860, 'Preta': 1380 };
 
         /**
          * Updates grau select options based on selected faixa.
@@ -7360,7 +7403,6 @@
             if (parseInt(currentVal) <= maxGrau) grauSel.value = currentVal;
         }
         const SEMESTER_MAX_CLASSES = 48;
-        const GRAU_MIN_TREINOS = 22;
         const FREQ_MIN_APTO = 75;
         const FREQ_MIN_EVOLUCAO = 60;
 
@@ -7376,7 +7418,7 @@
             const tempoNaFaixa = currentUser.tempoNaFaixa || 0;
 
             renderHero(faixa, grau, totalTreinos, treinosSemestre, freq);
-            renderSeals(grau, treinosSemestre);
+            renderSeals(faixa, grau, totalTreinos);
             renderFrequencyNew(freq, treinosSemestre);
             renderFaixaCriteria(faixa, grau, totalTreinos, freq, tempoNaFaixa, avaliacao, compromisso);
             renderIBJJFRoadmap(faixa, grau, totalTreinos);
@@ -7404,8 +7446,7 @@
         const PRETA_GRAU_LABELS = ['Faixa Preta', '1º Grau', '2º Grau', '3º Grau', '4º Grau', '5º Grau', '6º Grau'];
         const PRETA_GRAU_TITLES = ['', '', '', 'Mestre', 'Mestre', 'Mestre', 'Coral'];
 
-        function renderSeals(grauAtual, treinosSemestre) {
-            const faixa = (currentUser && currentUser.faixa) || 'Branca';
+        function renderSeals(faixa, grauAtual, totalTreinos) {
             const row = document.getElementById('evoSealsRow');
             row.innerHTML = '';
 
@@ -7431,15 +7472,17 @@
                     row.appendChild(seal);
                 }
             } else {
-                // Standard: 5 seals (0º-4º grau), treino-based
+                // Alliance: 5 seals (0º-4º grau), aulas progressivas por faixa/CT
                 row.style.gridTemplateColumns = 'repeat(5, 1fr)';
-                const reqs = [0, GRAU_MIN_TREINOS, GRAU_MIN_TREINOS*2, GRAU_MIN_TREINOS*3, GRAU_MIN_TREINOS*4];
+                var studentCT = (currentUser && currentUser.ct) || '';
+                var aulasGrau = getAulasGrau(faixa, studentCT);
+                const reqs = [0, aulasGrau, aulasGrau*2, aulasGrau*3, aulasGrau*4];
 
                 for (let i = 0; i <= 4; i++) {
                     const min = reqs[i];
-                    const hasEnoughTreinos = treinosSemestre >= min;
+                    const hasEnoughTreinos = totalTreinos >= min;
                     const isReady = hasEnoughTreinos && i > grauAtual;
-                    const progress = Math.min(treinosSemestre, min);
+                    const progress = Math.min(totalTreinos, min);
 
                     let cls = 'locked', icon = '🔒', lbl = '', prog = '';
                     if (hasEnoughTreinos && !isReady) {
@@ -7452,7 +7495,7 @@
 
                     const seal = document.createElement('div');
                     seal.className = 'evo-seal';
-                    seal.innerHTML = '<div class="evo-seal-circle ' + cls + '">' + icon + '</div><div class="evo-seal-label ' + lbl + '">' + i + 'º Grau</div><div class="evo-seal-progress">' + prog + '</div>';
+                    seal.innerHTML = '<div class="evo-seal-circle ' + cls + '">' + icon + '</div><div class="evo-seal-label ' + lbl + '">' + i + 'º Grau<br><span style="font-size:9px;color:var(--text-3);">' + (min > 0 ? min + ' aulas' : 'Inicial') + '</span></div><div class="evo-seal-progress">' + prog + '</div>';
                     row.appendChild(seal);
                 }
             }
@@ -7478,10 +7521,14 @@
             }
             document.getElementById('evoFaixaCriteriaTitle').textContent = faixa + ' → ' + cfg.next;
 
+            var studentCT = (currentUser && currentUser.ct) || '';
+            var aulasGrau = getAulasGrau(faixa, studentCT);
+            var minTreinos = aulasGrau * 4; // 4 graus completos
+
             const criteria = [
                 { label: '4º grau completo', detail: grau + 'º/4º grau', pass: grau >= 4 },
                 { label: 'Tempo mínimo ' + cfg.minMonths + ' meses', detail: tempoNaFaixa + '/' + cfg.minMonths + ' meses', pass: tempoNaFaixa >= cfg.minMonths },
-                { label: 'Mínimo ' + cfg.minTreinos + ' treinos', detail: totalTreinos + '/' + cfg.minTreinos, pass: totalTreinos >= cfg.minTreinos },
+                { label: 'Mínimo ' + minTreinos + ' aulas', detail: totalTreinos + '/' + minTreinos, pass: totalTreinos >= minTreinos },
                 { label: 'Frequência ≥ 75%', detail: freq + '%', pass: freq >= 75 },
                 { label: 'Avaliação técnica', detail: avaliacao ? 'Aprovada' : 'Pendente', pass: avaliacao, pending: !avaliacao },
                 { label: 'Compromisso validado', detail: compromisso ? 'Validado' : 'Pendente', pass: compromisso, pending: !compromisso }
@@ -7498,7 +7545,7 @@
                 listEl.innerHTML += '<div class="evo-criteria-item"><div class="evo-criteria-check ' + st + '">' + icon + '</div><div class="evo-criteria-text"><div class="evo-criteria-label">' + c.label + '</div><div class="evo-criteria-detail">' + c.detail + '</div></div></div>';
             });
 
-            const allPass = grau >= 4 && tempoNaFaixa >= cfg.minMonths && totalTreinos >= cfg.minTreinos && freq >= 75 && avaliacao && compromisso;
+            const allPass = grau >= 4 && tempoNaFaixa >= cfg.minMonths && totalTreinos >= minTreinos && freq >= 75 && avaliacao && compromisso;
             const btn = document.getElementById('evoExamBtn');
             if (allPass) {
                 btn.className = 'evo-exam-btn active';
@@ -7515,10 +7562,10 @@
         /* ===== IBJJF FULL BELT SYSTEM ===== */
         var IBJJF_BELTS = [
             { id: 'branca',  name: 'Branca',  cls: 'branca',  age: '16+', graus: 4, minMonths: 0,  minTreinos: 0 },
-            { id: 'azul',    name: 'Azul',    cls: 'azul',    age: '16+', graus: 4, minMonths: 24, minTreinos: 90 },
-            { id: 'roxa',    name: 'Roxa',    cls: 'roxa',    age: '16+', graus: 4, minMonths: 24, minTreinos: 200 },
-            { id: 'marrom',  name: 'Marrom',  cls: 'marrom',  age: '18+', graus: 4, minMonths: 18, minTreinos: 300 },
-            { id: 'preta',   name: 'Preta',   cls: 'preta',   age: '19+', graus: 6, minMonths: 36, minTreinos: 200 }
+            { id: 'azul',    name: 'Azul',    cls: 'azul',    age: '16+', graus: 4, minMonths: 24, minTreinos: 120 },
+            { id: 'roxa',    name: 'Roxa',    cls: 'roxa',    age: '16+', graus: 4, minMonths: 24, minTreinos: 430 },
+            { id: 'marrom',  name: 'Marrom',  cls: 'marrom',  age: '18+', graus: 4, minMonths: 18, minTreinos: 860 },
+            { id: 'preta',   name: 'Preta',   cls: 'preta',   age: '19+', graus: 6, minMonths: 36, minTreinos: 1380 }
         ];
 
         var FAIXA_TO_IBJJF = { 'Branca': 'branca', 'Azul': 'azul', 'Roxa': 'roxa', 'Marrom': 'marrom', 'Preta': 'preta' };
@@ -10106,7 +10153,7 @@
             if (tabName === 'adm-alunos') loadStudentsList();
             if (tabName === 'adm-relatorios') loadNewReportData();
             if (tabName === 'adm-campeonato') initCampAdmin();
-            if (tabName === 'adm-sistema') { loadSystemHealth(); loadAdminCTs(); loadAdminProfile(); }
+            if (tabName === 'adm-sistema') { loadSystemHealth(); loadAdminCTs(); loadAdminProfile(); loadGradConfig(); }
         }
 
         function loadAdminProfile() {
@@ -10580,6 +10627,117 @@
         }
 
         // ===== SYSTEM HEALTH =====
+        // --- GRADUATION CONFIG ---
+        var _gradConfigs = []; // cached configs from backend
+        var _gradConfigLoaded = false;
+
+        async function loadGradConfig() {
+            try {
+                var data = await secureFetch('getGradConfig', {});
+                if (data.success && data.configs) {
+                    _gradConfigs = data.configs;
+                    _gradConfigLoaded = true;
+                    // Populate CT dropdown
+                    var sel = document.getElementById('gradConfigCT');
+                    if (!sel) return;
+                    var currentVal = sel.value;
+                    sel.innerHTML = '<option value="Padrão">📌 Padrão (todos os CTs)</option>';
+                    // Add CTs from allCTs if available
+                    if (typeof allCTs !== 'undefined' && allCTs && allCTs.length > 0) {
+                        allCTs.forEach(function(ct) {
+                            var name = typeof ct === 'string' ? ct : ct.name || ct.toString();
+                            sel.innerHTML += '<option value="' + escapeHtml(name) + '">🏢 ' + escapeHtml(name) + '</option>';
+                        });
+                    } else {
+                        // Get CTs from configs
+                        _gradConfigs.forEach(function(c) {
+                            if (c.ct !== 'Padrão') {
+                                sel.innerHTML += '<option value="' + escapeHtml(c.ct) + '">🏢 ' + escapeHtml(c.ct) + '</option>';
+                            }
+                        });
+                    }
+                    if (currentVal) sel.value = currentVal;
+                    onGradConfigCTChange();
+                }
+            } catch (err) { console.error('loadGradConfig:', err); }
+        }
+
+        function onGradConfigCTChange() {
+            var ct = document.getElementById('gradConfigCT').value;
+            // Find config for this CT, fallback to Padrão
+            var cfg = _gradConfigs.find(function(c) { return c.ct === ct; });
+            if (!cfg) cfg = _gradConfigs.find(function(c) { return c.ct === 'Padrão'; });
+            if (!cfg) cfg = { branca: 30, azul: 78, roxa: 108, marrom: 130 };
+
+            document.getElementById('gradCfgBranca').value = cfg.branca;
+            document.getElementById('gradCfgAzul').value = cfg.azul;
+            document.getElementById('gradCfgRoxa').value = cfg.roxa;
+            document.getElementById('gradCfgMarrom').value = cfg.marrom;
+            updateGradCfgSummary();
+        }
+
+        function updateGradCfgSummary() {
+            var b = parseInt(document.getElementById('gradCfgBranca').value) || 30;
+            var a = parseInt(document.getElementById('gradCfgAzul').value) || 78;
+            var r = parseInt(document.getElementById('gradCfgRoxa').value) || 108;
+            var m = parseInt(document.getElementById('gradCfgMarrom').value) || 130;
+            var html = '⚪ Branca: <b>' + (b*4) + '</b> aulas (4×' + b + ') · ';
+            html += '🔵 Azul: <b>' + (a*4) + '</b> aulas (4×' + a + ') · ';
+            html += '🟣 Roxa: <b>' + (r*4) + '</b> aulas (4×' + r + ') · ';
+            html += '🟤 Marrom: <b>' + (m*4) + '</b> aulas (4×' + m + ')';
+            document.getElementById('gradCfgSummary').innerHTML = html;
+        }
+
+        // Auto-update summary on input change
+        ['gradCfgBranca','gradCfgAzul','gradCfgRoxa','gradCfgMarrom'].forEach(function(id) {
+            var el = document.getElementById(id);
+            if (el) el.addEventListener('input', updateGradCfgSummary);
+        });
+
+        async function saveGradConfig() {
+            var ct = document.getElementById('gradConfigCT').value;
+            var payload = {
+                ct: ct,
+                branca: parseInt(document.getElementById('gradCfgBranca').value) || 30,
+                azul: parseInt(document.getElementById('gradCfgAzul').value) || 78,
+                roxa: parseInt(document.getElementById('gradCfgRoxa').value) || 108,
+                marrom: parseInt(document.getElementById('gradCfgMarrom').value) || 130
+            };
+            var msgEl = document.getElementById('gradConfigMsg');
+            msgEl.innerHTML = '<div style="color:var(--adm-primary);font-size:12px;">Salvando...</div>';
+            try {
+                var data = await secureFetch('saveGradConfig', payload);
+                if (data.success) {
+                    msgEl.innerHTML = '<div style="color:#2d8a4e;font-size:12px;">✅ Configuração salva para ' + escapeHtml(ct) + '!</div>';
+                    loadGradConfig(); // refresh cache
+                } else {
+                    msgEl.innerHTML = '<div style="color:#E85D5D;font-size:12px;">❌ ' + (data.message || 'Erro') + '</div>';
+                }
+            } catch (err) {
+                msgEl.innerHTML = '<div style="color:#E85D5D;font-size:12px;">❌ Erro de conexão</div>';
+            }
+            setTimeout(function() { msgEl.innerHTML = ''; }, 4000);
+        }
+
+        /**
+         * Returns aulas/grau for a given faixa and CT.
+         * Checks CT-specific config first, then falls back to Padrão, then hardcoded defaults.
+         */
+        function getAulasGrau(faixa, ct) {
+            var faixaKey = faixa.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            // Try CT-specific config
+            if (ct && _gradConfigs.length > 0) {
+                var ctCfg = _gradConfigs.find(function(c) { return c.ct === ct; });
+                if (ctCfg && ctCfg[faixaKey]) return ctCfg[faixaKey];
+            }
+            // Fallback to Padrão
+            var padrao = _gradConfigs.find(function(c) { return c.ct === 'Padrão'; });
+            if (padrao && padrao[faixaKey]) return padrao[faixaKey];
+            // Hardcoded defaults
+            var defaults = { branca: 30, azul: 78, roxa: 108, marrom: 130 };
+            return defaults[faixaKey] || 30;
+        }
+
         async function loadSystemHealth() {
             var issuesDiv = document.getElementById('sysHealthIssues');
             if (issuesDiv) issuesDiv.innerHTML = '<div class="admin-empty">Verificando sistema...</div>';
