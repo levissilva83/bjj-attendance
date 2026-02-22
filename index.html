@@ -1665,6 +1665,125 @@
         .teorica-progress { display: flex; gap: 2px; margin: 12px 0 6px; }
         .teorica-progress-dot { flex: 1; height: 4px; border-radius: 2px; }
 
+        /* ===== GAMES HUB ===== */
+        .games-container { padding: 14px; max-width: 480px; margin: 0 auto; }
+        .games-xp-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+        .games-xp-left { flex: 1; }
+        .games-level { font-family: 'Sora'; font-size: 12px; font-weight: 800; color: var(--accent); margin-bottom: 3px; }
+        .games-xp-track { width: 100%; height: 6px; background: var(--bg-elevated); border-radius: 3px; overflow: hidden; }
+        .games-xp-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--gold-light)); border-radius: 3px; transition: width 0.5s; width: 0; }
+        .games-xp-label { font-size: 10px; color: var(--text-3); margin-top: 2px; }
+        .games-streak { font-family: 'Sora'; font-size: 16px; font-weight: 800; color: #FF6B35; background: rgba(255,107,53,0.1); padding: 8px 12px; border-radius: 12px; border: 1px solid rgba(255,107,53,0.2); }
+        .games-curio { display: flex; gap: 12px; padding: 12px; background: linear-gradient(135deg,rgba(99,102,241,0.1),rgba(139,92,246,0.06)); border: 1px solid rgba(99,102,241,0.2); border-radius: 14px; margin-bottom: 14px; cursor: pointer; }
+        .games-curio:active { transform: scale(0.98); }
+        .games-curio-icon { font-size: 26px; }
+        .games-curio-body { flex: 1; }
+        .games-curio-tag { font-size: 9px; font-weight: 800; color: #818CF8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
+        .games-curio-text { font-size: 12px; color: var(--text-1); line-height: 1.5; }
+        .games-curio-tap { font-size: 10px; color: var(--text-3); margin-top: 4px; }
+        .games-subtabs { display: flex; gap: 4px; margin-bottom: 14px; }
+        .games-subtab { flex: 1; padding: 8px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-3); border-radius: 10px; font-size: 12px; font-weight: 700; cursor: pointer; text-align: center; }
+        .games-subtab.active { background: var(--accent-dim); color: var(--accent); border-color: var(--accent); }
+        .games-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+        .game-card { padding: 14px 10px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; text-align: center; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; }
+        .game-card:active { transform: scale(0.97); }
+        .game-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+        .gc-quiz::before { background: linear-gradient(90deg,#818CF8,#6366F1); }
+        .gc-words::before { background: linear-gradient(90deg,#34D399,#10B981); }
+        .gc-memory::before { background: linear-gradient(90deg,#F472B6,#EC4899); }
+        .gc-forca::before { background: linear-gradient(90deg,#FB923C,#F97316); }
+        .gc-speed::before { background: linear-gradient(90deg,#FBBF24,#F59E0B); }
+        .gc-cross::before { background: linear-gradient(90deg,#60A5FA,#3B82F6); }
+        .game-card-icon { font-size: 28px; margin-bottom: 4px; }
+        .game-card-name { font-size: 13px; font-weight: 700; color: var(--text-1); }
+        .game-card-desc { font-size: 10px; color: var(--text-3); margin-top: 2px; }
+        .game-card-xp { font-size: 10px; color: var(--accent); font-weight: 700; margin-top: 4px; }
+        .games-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; }
+        .games-stat { text-align: center; padding: 10px 4px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; }
+        .games-stat-v { font-family: 'Sora'; font-size: 15px; font-weight: 800; color: var(--accent); }
+        .games-stat-l { font-size: 9px; color: var(--text-3); margin-top: 2px; }
+        /* Game screens */
+        .game-topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+        .game-back { background: none; border: none; color: var(--text-3); font-size: 13px; cursor: pointer; }
+        .game-topbar-title { font-size: 12px; font-weight: 700; color: var(--accent); text-transform: uppercase; }
+        .game-topbar-info { font-family: 'Sora'; font-size: 14px; font-weight: 800; color: var(--text-1); }
+        .game-progress { width: 100%; height: 4px; background: var(--bg-elevated); border-radius: 2px; margin-bottom: 14px; overflow: hidden; }
+        .game-progress-fill { height: 100%; background: linear-gradient(90deg,var(--accent),#FF6B35); border-radius: 2px; transition: width 0.3s; width: 0; }
+        /* Quiz question */
+        .gq-card { padding: 14px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; }
+        .gq-num { font-size: 10px; color: var(--accent); font-weight: 700; margin-bottom: 6px; }
+        .gq-text { font-size: 14px; color: var(--text-1); font-weight: 600; line-height: 1.5; margin-bottom: 12px; }
+        .gq-opts { display: flex; flex-direction: column; gap: 7px; }
+        .gq-opt { padding: 11px 13px; background: var(--bg-elevated); border: 1.5px solid var(--border); border-radius: 10px; font-size: 13px; color: var(--text-2); cursor: pointer; transition: all 0.2s; }
+        .gq-opt:active { transform: scale(0.98); }
+        .gq-opt.correct { border-color: #2d8a4e; background: rgba(45,138,78,0.12); color: #4ade80; }
+        .gq-opt.wrong { border-color: #E85D5D; background: rgba(232,93,93,0.12); color: #fca5a5; }
+        .gq-opt.disabled { pointer-events: none; opacity: 0.6; }
+        .gq-explain { margin-top: 10px; padding: 10px; background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.15); border-radius: 8px; font-size: 11px; color: var(--text-2); line-height: 1.4; }
+        .gq-xp { text-align: center; margin-top: 6px; font-size: 12px; font-weight: 700; }
+        .gq-xp.gain { color: #4ade80; } .gq-xp.loss { color: #fca5a5; }
+        /* Memory game */
+        .mem-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; }
+        .mem-card { aspect-ratio: 1; background: var(--bg-elevated); border: 2px solid var(--border); border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 10px; font-weight: 700; color: var(--text-3); text-align: center; padding: 4px; transition: all 0.3s; user-select: none; line-height: 1.2; }
+        .mem-card.flipped { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+        .mem-card.matched { background: rgba(45,138,78,0.15); border-color: #2d8a4e; color: #4ade80; pointer-events: none; }
+        .mem-card.hidden-card { font-size: 20px; }
+        /* Forca */
+        .forca-word { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin: 16px 0; }
+        .forca-letter { width: 28px; height: 36px; border-bottom: 3px solid var(--accent); display: flex; align-items: center; justify-content: center; font-family: 'Sora'; font-size: 18px; font-weight: 800; color: var(--text-1); text-transform: uppercase; }
+        .forca-letter.space { border: none; width: 14px; }
+        .forca-hint { text-align: center; font-size: 12px; color: var(--text-3); margin-bottom: 14px; font-style: italic; }
+        .forca-keyboard { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; }
+        .forca-key { width: 30px; height: 34px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-elevated); color: var(--text-2); font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; text-transform: uppercase; }
+        .forca-key.used-right { background: rgba(45,138,78,0.2); border-color: #2d8a4e; color: #4ade80; pointer-events: none; }
+        .forca-key.used-wrong { background: rgba(232,93,93,0.15); border-color: #E85D5D; color: #fca5a5; pointer-events: none; opacity: 0.5; }
+        .forca-lives { text-align: center; font-size: 22px; margin-bottom: 12px; letter-spacing: 4px; }
+        /* Caça-palavras */
+        .cp-grid-wrap { overflow-x: auto; margin-bottom: 10px; -webkit-overflow-scrolling: touch; }
+        .cp-grid { display: inline-grid; gap: 0; user-select: none; touch-action: none; }
+        .cp-cell { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-family: 'Sora'; font-size: 12px; font-weight: 700; color: var(--text-2); cursor: pointer; border: 1px solid rgba(255,255,255,0.03); text-transform: uppercase; border-radius: 3px; }
+        .cp-cell.selecting { background: rgba(212,165,41,0.2); color: var(--accent); }
+        .cp-cell.found { background: rgba(45,138,78,0.2); color: #4ade80; }
+        .cp-words { display: flex; flex-wrap: wrap; gap: 6px; }
+        .cp-word { font-size: 11px; font-weight: 600; color: var(--text-3); padding: 4px 8px; border: 1px solid var(--border); border-radius: 6px; }
+        .cp-word.found { text-decoration: line-through; color: #4ade80; border-color: #2d8a4e; background: rgba(45,138,78,0.1); }
+        /* Cruzadas */
+        .cz-grid-wrap { display: flex; justify-content: center; margin-bottom: 10px; }
+        .cz-grid { display: inline-grid; gap: 1px; background: rgba(255,255,255,0.05); }
+        .cz-cell { width: 30px; height: 30px; background: var(--bg-card); display: flex; align-items: center; justify-content: center; position: relative; }
+        .cz-cell.black { background: transparent; }
+        .cz-cell input { width: 100%; height: 100%; text-align: center; border: 1.5px solid var(--border); background: var(--bg-elevated); color: var(--text-1); font-family: 'Sora'; font-size: 14px; font-weight: 700; text-transform: uppercase; border-radius: 3px; padding: 0; }
+        .cz-cell input:focus { border-color: var(--accent); outline: none; background: var(--accent-dim); }
+        .cz-cell input.correct { background: rgba(45,138,78,0.15); border-color: #2d8a4e; color: #4ade80; }
+        .cz-cell-num { position: absolute; top: 1px; left: 2px; font-size: 7px; color: var(--text-3); font-weight: 700; z-index: 1; }
+        .cz-clues { margin-top: 8px; }
+        .cz-clue-title { font-size: 11px; font-weight: 700; color: var(--accent); margin: 8px 0 4px; }
+        .cz-clue { font-size: 11px; color: var(--text-2); margin-bottom: 3px; padding-left: 4px; }
+        .cz-clue.solved { color: #4ade80; text-decoration: line-through; }
+        /* Relâmpago */
+        .rl-timer { text-align: center; font-family: 'Sora'; font-size: 36px; font-weight: 800; margin-bottom: 8px; }
+        .rl-timer.warning { color: #F97316; } .rl-timer.danger { color: #E85D5D; }
+        /* Result */
+        .gresult { text-align: center; padding: 20px 0; }
+        .gresult-emoji { font-size: 48px; margin-bottom: 6px; }
+        .gresult-score { font-family: 'Sora'; font-size: 34px; font-weight: 800; }
+        .gresult-score.great { color: #4ade80; } .gresult-score.good { color: var(--accent); } .gresult-score.bad { color: #fca5a5; }
+        .gresult-label { font-size: 13px; color: var(--text-3); margin: 4px 0 14px; }
+        .gresult-stats { display: flex; justify-content: center; gap: 20px; margin-bottom: 14px; }
+        .gresult-sv { font-family: 'Sora'; font-size: 18px; font-weight: 800; }
+        .gresult-sl { font-size: 10px; color: var(--text-3); }
+        .gresult-btns { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+        .gresult-btn { padding: 10px 20px; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; }
+        .gresult-btn.primary { background: var(--accent); color: #000; }
+        .gresult-btn.secondary { background: var(--bg-card); color: var(--text-2); border: 1px solid var(--border); }
+        /* Ranking */
+        .grank-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 6px; }
+        .grank-pos { font-family: 'Sora'; font-size: 14px; font-weight: 800; min-width: 28px; text-align: center; }
+        .grank-pos.gold { color: #FBBF24; } .grank-pos.silver { color: #94A3B8; } .grank-pos.bronze { color: #D97706; }
+        .grank-name { flex: 1; font-size: 13px; font-weight: 600; color: var(--text-1); }
+        .grank-xp { font-family: 'Sora'; font-size: 12px; font-weight: 800; color: var(--accent); }
+        .grank-me { border-color: var(--accent); background: var(--accent-dim); }
+
         /* Admin Exam Schedule */
         .adm-exam-slot {
             display: flex; align-items: center; justify-content: space-between; padding: 10px 12px;
@@ -5472,6 +5591,107 @@
                     </div>
                 </div>
 
+                <!-- JOGOS TAB -->
+                <div id="quiz-tab" class="tab-content">
+                    <div class="games-container">
+                        <!-- HOME -->
+                        <div id="gamesHome">
+                            <div class="games-xp-header">
+                                <div class="games-xp-left">
+                                    <div class="games-level" id="gLevel">Nível 1</div>
+                                    <div class="games-xp-track"><div class="games-xp-fill" id="gXpFill"></div></div>
+                                    <div class="games-xp-label" id="gXpLabel">0 / 100 XP</div>
+                                </div>
+                                <div class="games-streak" id="gStreak">🔥 0</div>
+                            </div>
+
+                            <!-- Curiosidade -->
+                            <div class="games-curio" onclick="nextCuriosidade()">
+                                <div class="games-curio-icon">💡</div>
+                                <div class="games-curio-body">
+                                    <div class="games-curio-tag">CURIOSIDADE BJJ</div>
+                                    <div class="games-curio-text" id="gCurioText">Carregando...</div>
+                                    <div class="games-curio-tap">toque para outra →</div>
+                                </div>
+                            </div>
+
+                            <!-- Sub tabs -->
+                            <div class="games-subtabs">
+                                <button class="games-subtab active" onclick="switchGamesSubtab('jogos',this)">🎮 Jogos</button>
+                                <button class="games-subtab" onclick="switchGamesSubtab('ranking',this)">🏆 Ranking</button>
+                            </div>
+
+                            <!-- JOGOS GRID -->
+                            <div id="gSubJogos">
+                                <div class="games-grid">
+                                    <div class="game-card gc-quiz" onclick="startGame('quiz')">
+                                        <div class="game-card-icon">🧠</div>
+                                        <div class="game-card-name">Quiz</div>
+                                        <div class="game-card-desc">Teste seus conhecimentos</div>
+                                        <div class="game-card-xp">+10 XP/acerto</div>
+                                    </div>
+                                    <div class="game-card gc-words" onclick="startGame('cacapalavras')">
+                                        <div class="game-card-icon">🔍</div>
+                                        <div class="game-card-name">Caça-Palavras</div>
+                                        <div class="game-card-desc">Encontre termos BJJ</div>
+                                        <div class="game-card-xp">+5 XP/palavra</div>
+                                    </div>
+                                    <div class="game-card gc-memory" onclick="startGame('memoria')">
+                                        <div class="game-card-icon">🃏</div>
+                                        <div class="game-card-name">Memória</div>
+                                        <div class="game-card-desc">Combine as posições</div>
+                                        <div class="game-card-xp">+8 XP/par</div>
+                                    </div>
+                                    <div class="game-card gc-forca" onclick="startGame('forca')">
+                                        <div class="game-card-icon">💀</div>
+                                        <div class="game-card-name">Forca</div>
+                                        <div class="game-card-desc">Descubra o termo</div>
+                                        <div class="game-card-xp">+15 XP/palavra</div>
+                                    </div>
+                                    <div class="game-card gc-speed" onclick="startGame('relampago')">
+                                        <div class="game-card-icon">⚡</div>
+                                        <div class="game-card-name">Relâmpago</div>
+                                        <div class="game-card-desc">30s para responder!</div>
+                                        <div class="game-card-xp">+5 XP/acerto</div>
+                                    </div>
+                                    <div class="game-card gc-cross" onclick="startGame('cruzadas')">
+                                        <div class="game-card-icon">✏️</div>
+                                        <div class="game-card-name">Cruzadas</div>
+                                        <div class="game-card-desc">Palavras cruzadas BJJ</div>
+                                        <div class="game-card-xp">+20 XP/jogo</div>
+                                    </div>
+                                </div>
+                                <!-- Stats -->
+                                <div class="games-stats">
+                                    <div class="games-stat"><div class="games-stat-v" id="gStatXp">0</div><div class="games-stat-l">XP Total</div></div>
+                                    <div class="games-stat"><div class="games-stat-v" id="gStatGames">0</div><div class="games-stat-l">Jogos</div></div>
+                                    <div class="games-stat"><div class="games-stat-v" id="gStatAcc">0%</div><div class="games-stat-l">Precisão</div></div>
+                                    <div class="games-stat"><div class="games-stat-v" id="gStatStrk">0</div><div class="games-stat-l">Melhor 🔥</div></div>
+                                </div>
+                            </div>
+
+                            <!-- RANKING -->
+                            <div id="gSubRanking" style="display:none;">
+                                <div id="gRankingContent"><div style="text-align:center;padding:20px;color:var(--text-3);font-size:12px;">Carregando ranking...</div></div>
+                            </div>
+                        </div>
+
+                        <!-- GAME SCREEN (shared) -->
+                        <div id="gameScreen" style="display:none;">
+                            <div class="game-topbar">
+                                <button class="game-back" onclick="exitGame()">← Sair</button>
+                                <div class="game-topbar-title" id="gameTitle">Quiz</div>
+                                <div class="game-topbar-info" id="gameInfo">0/10</div>
+                            </div>
+                            <div class="game-progress"><div class="game-progress-fill" id="gameProgressFill"></div></div>
+                            <div id="gameContent"></div>
+                        </div>
+
+                        <!-- RESULT SCREEN -->
+                        <div id="gameResult" style="display:none;"></div>
+                    </div>
+                </div>
+
             </div>
             <!-- end appScreen -->
 
@@ -6056,6 +6276,10 @@
                     <span class="bnav-icon">🏆</span>
                     <span class="bnav-label">Ranking</span>
                 </button>
+                <button class="bnav-btn" onclick="switchTab('quiz-tab', event)">
+                    <span class="bnav-icon">🎮</span>
+                    <span class="bnav-label">Jogos</span>
+                </button>
                 <button class="bnav-btn" onclick="switchTab('perfil', event)">
                     <span class="bnav-icon">👤</span>
                     <span class="bnav-label">Perfil</span>
@@ -6464,7 +6688,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwBqj4PGam5X-RZIfywlkUWeyhv3RfQeOAOD9efYaY9Qdt10vDRU_p-w_aV1J3tdtwI/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyA4BoNwZpyIM9-a5_4righjQvB51IrwdrutJ5Kx7JV1XLNvGav8bovIDln_V9Si0gb/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -6855,6 +7079,7 @@
                 if (activeSub) triggerSubTabLoad(activeSub.id);
             }
             if (tabName === 'perfil') loadProfile();
+            if (tabName === 'quiz-tab') initGamesHub();
         }
 
         function switchSubTab(parentId, subId, evt) {
@@ -11376,6 +11601,616 @@
             html += '<div style="font-size:11px;color:var(--text-3);margin-top:4px;">Vá na aba Selos e clique em "Solicitar Exame Prático" para agendar.</div>';
             html += '</div>';
             document.getElementById('praticaContent').innerHTML = html;
+        }
+
+
+        // ═══════════════════════════════════════════════════
+        // 🎮 GAMES HUB - BJJ KNOWLEDGE
+        // ═══════════════════════════════════════════════════
+
+        // === QUIZ BANK (160 questions, 4 categories) ===
+        var QUIZ_BANK = {
+          regras: [
+            {q:'Qual o tempo de luta para faixa branca adulto IBJJF?',o:['3 min','5 min','6 min','8 min'],c:1,e:'Faixa branca adulto: 5 minutos.'},
+            {q:'Qual o tempo de luta para faixa preta adulto?',o:['8 min','10 min','6 min','12 min'],c:1,e:'Faixa preta adulto: 10 minutos.'},
+            {q:'Heel hook é permitido para faixa roxa no gi?',o:['Sim','Não','Somente na final','Com autorização'],c:1,e:'Heel hook é proibido no gi para todas as faixas IBJJF.'},
+            {q:'Chave de tornozelo reta é permitida para qual faixa mínima?',o:['Branca','Azul','Roxa','Marrom'],c:0,e:'Straight ankle lock é permitido desde a faixa branca.'},
+            {q:'Slam (levantar e jogar) é permitido na IBJJF?',o:['Sim','Não','Apenas na preta','Depende'],c:1,e:'Slam é proibido em todas as categorias.'},
+            {q:'Quantas penalidades geram desqualificação?',o:['2','3','4','5'],c:2,e:'4 penalidades = desqualificação.'},
+            {q:'Quem pode aplicar toe hold no gi?',o:['Qualquer faixa','A partir da azul','A partir da roxa','A partir da marrom'],c:3,e:'Toe hold no gi: apenas da faixa marrom em diante.'},
+            {q:'O kimono deve ser de que cor na IBJJF?',o:['Qualquer cor','Branco, azul ou preto','Branco apenas','Branco ou azul'],c:1,e:'IBJJF aceita branco, azul ou preto.'},
+            {q:'Atleta atrasado é desqualificado após quantos minutos?',o:['3 min','5 min','10 min','Não é desqualificado'],c:1,e:'5 minutos de atraso = W.O.'},
+            {q:'Wrist lock é permitido a partir de qual faixa?',o:['Branca','Azul','Roxa','Marrom'],c:1,e:'Wrist lock é permitido a partir da faixa azul.'},
+            {q:'Idade mínima para faixa preta na IBJJF?',o:['16','18','19','21'],c:2,e:'19 anos é a idade mínima.'},
+            {q:'É permitido prender dedos dentro da manga?',o:['Sim','Não, é ilegal','Apenas no-gi','Depende'],c:1,e:'Colocar dedos dentro da manga/barra é proibido.'},
+            {q:'Passagem de guarda precisa controlar quantos segundos?',o:['Imediato','3 segundos','5 segundos','Até o árbitro marcar'],c:1,e:'3 segundos de controle para pontuar.'},
+            {q:'O que é "stalling" na competição?',o:['Atacar sem parar','Evitar a luta','Sair da área','Recusar finalização'],c:1,e:'Stalling: evitar engajamento = penalidade.'},
+            {q:'Pode falar com treinador durante a luta?',o:['Sim, sempre','Não','Só no intervalo','Apenas visual'],c:0,e:'O técnico pode dar instruções verbais.'},
+            {q:'Can opener é permitido?',o:['Sim','Não, é cervical','Apenas na preta','Depende'],c:1,e:'Can opener é considerado cervical — proibido.'},
+            {q:'Faixa azul pode fazer knee bar no gi?',o:['Sim','Não','Só no-gi','Apenas masters'],c:1,e:'Knee bar no gi: apenas da marrom em diante.'},
+            {q:'O que acontece em "double guard pull"?',o:['Ambos puxam guarda','Raspagem dupla','Queda dupla','Passagem dupla'],c:0,e:'Ambos puxam guarda simultaneamente.'},
+            {q:'Pode usar joelheira rígida na IBJJF?',o:['Sim','Não','Com atestado','Apenas masters'],c:1,e:'Joelheiras rígidas/acolchoadas grossas são proibidas.'},
+            {q:'Tempo mínimo na roxa para promoção à marrom?',o:['1 ano','18 meses','2 anos','3 anos'],c:1,e:'Mínimo 18 meses na faixa roxa.'}
+          ],
+          pontuacao: [
+            {q:'Quantos pontos vale uma raspagem?',o:['1','2','3','4'],c:1,e:'Raspagem = 2 pontos.'},
+            {q:'Quantos pontos vale a montada?',o:['2','3','4','5'],c:2,e:'Montada = 4 pontos.'},
+            {q:'Quantos pontos vale a passagem de guarda?',o:['2','3','4','5'],c:1,e:'Passagem = 3 pontos.'},
+            {q:'Quantos pontos vale a posição de costas?',o:['2','3','4','5'],c:2,e:'Costas com ganchos = 4 pontos.'},
+            {q:'Quantos pontos vale um takedown?',o:['1','2','3','4'],c:1,e:'Takedown = 2 pontos.'},
+            {q:'Quantos pontos vale knee on belly?',o:['1','2','3','4'],c:1,e:'Knee on belly = 2 pontos.'},
+            {q:'O que é uma "vantagem"?',o:['Meio ponto','Tentativa quase bem-sucedida','Penalidade','Ponto extra'],c:1,e:'Vantagem = tentativa quase concretizada.'},
+            {q:'Quantos segundos de controle para pontuar?',o:['1','3','5','Imediato'],c:1,e:'3 segundos de estabilização.'},
+            {q:'Raspagem que termina na guarda gera pontos?',o:['Sim, 2','Não, só vantagem','Sim, 1','Depende'],c:1,e:'Se cai na guarda do oponente: só vantagem.'},
+            {q:'Side control por si só pontua?',o:['Sim, 2','Sim, 3','Não pontua isoladamente','4 pontos'],c:2,e:'Side control não pontua — os pontos vêm da passagem (3).'},
+            {q:'Body triangle das costas pontua?',o:['Sim','Não','Só vantagem','Depende'],c:0,e:'Body triangle = controle de costas = 4 pontos.'},
+            {q:'Queda→montada: quantos pontos possíveis?',o:['2','4','6','7'],c:2,e:'2 (queda) + 4 (montada) = 6 pontos.'},
+            {q:'Qual a pontuação máxima de queda→montada→costas?',o:['6','8','10','12'],c:2,e:'Queda(2)+Montada(4)+Costas(4)=10 pontos.'},
+            {q:'Montada e costas valem quantos pontos cada?',o:['2','3','4','5'],c:2,e:'Ambas valem 4 pontos.'},
+            {q:'Technical mount dá quantos pontos?',o:['2','3','4','Só vantagem'],c:2,e:'Technical mount = montada = 4 pontos.'},
+            {q:'Guard pull dá pontos ao oponente?',o:['Sim, 2','Não','Sim, vantagem','Depende'],c:1,e:'Guard pull não dá pontos para ninguém.'},
+            {q:'Tentativa de finalização sem sucesso gera o quê?',o:['Nada','Vantagem','Penalidade','1 ponto'],c:1,e:'Tentativa clara de finalização = vantagem.'},
+            {q:'Back mount sem ganchos dá pontos?',o:['Sim, 4','Não, precisa ganchos','Sim, 2','Vantagem'],c:1,e:'Precisa ganchos ou body triangle para 4 pontos.'},
+            {q:'Penalidade equivale a quantos pontos no placar?',o:['0 — é desempate','1','2','Depende'],c:0,e:'Penalidades são critério de desempate, não somam no placar.'},
+            {q:'Sweep do 50/50 gera pontos?',o:['Sim, 2 de raspagem','Não','Vantagem','Depende'],c:0,e:'Sweep do 50/50 = 2 pontos se chegar em posição dominante.'}
+          ],
+          posicoes: [
+            {q:'O que é "guarda fechada"?',o:['Pernas cruzadas nas costas do oponente','Qualquer guarda','Posição de pé','Controle lateral'],c:0,e:'Pernas cruzadas na lombar controlando postura.'},
+            {q:'O que é "meia-guarda"?',o:['Metade da fechada','Controle de apenas uma perna','Guarda com um braço','Posição neutra'],c:1,e:'Uma perna do oponente entre as suas.'},
+            {q:'O que é "cem-quilos" (side control)?',o:['Controle lateral perpendicular','Montada pesada','Costas','Guarda fechada'],c:0,e:'Peito-a-peito, perpendicular, sem pernas envolvidas.'},
+            {q:'O que é "spider guard"?',o:['Pés nos bíceps, controle de mangas','Guarda fechada variante','Meia-guarda','Costas'],c:0,e:'Pés nos bíceps com controle de mangas.'},
+            {q:'O que é "De La Riva guard"?',o:['Gancho externo na perna, controle tornozelo','Guarda fechada por trás','Montada invertida','Posição de pé'],c:0,e:'Gancho por fora da coxa + controle de tornozelo.'},
+            {q:'O que é "X-guard"?',o:['Pernas em X sob o oponente','Guarda cruzada','Posição defensiva','Variante de cem-quilos'],c:0,e:'Deitado com pernas em X controlando uma perna.'},
+            {q:'O que é "guarda borboleta"?',o:['Sentado com ganchos nas coxas internas','De costas','Posição aérea','Meia-guarda modificada'],c:0,e:'Sentado com pés enganchados nas coxas.'},
+            {q:'O que é "50/50"?',o:['Ambos entrelaçados simetricamente','Empate de pontos','Metade guarda','Posição neutra'],c:0,e:'Ambos entrelaçados com uma perna cada.'},
+            {q:'O que é "lasso guard"?',o:['Pé enrolado no braço + controle manga','Guarda com corda','Laço no pescoço','Tipo de passagem'],c:0,e:'Pé sobre o bíceps e enrola, manga controlada.'},
+            {q:'O que é "worm guard"?',o:['Lapela enrolada na perna do oponente','Tipo minhoca','Guarda rasteira','Cobra'],c:0,e:'Lapela por baixo da perna — criada por Keenan Cornelius.'},
+            {q:'O que é "turtle" (tartaruga)?',o:['Quatro apoios de bruços','Tipo de guarda','Finalização','Montada variante'],c:0,e:'De joelhos e cotovelos, protegendo pescoço.'},
+            {q:'O que é "deep half guard"?',o:['Corpo todo sob o oponente na meia-guarda','Guarda profunda','Side control invertido','Deitado'],c:0,e:'Mergulhando sob a perna, shoulder no quadril.'},
+            {q:'O que é "S-mount" / "technical mount"?',o:['Montada com pé no quadril e outro no ombro','Montada normal','Side control','Posição em S'],c:0,e:'Perna ao lado da cabeça, outra embaixo — ótimo para armbar.'},
+            {q:'O que é "crucifix"?',o:['Controle de ambos os braços','Posição religiosa','Tipo de guard','Finalização de pescoço'],c:0,e:'Braços controlados com pernas e braço.'},
+            {q:'O que é "knee shield"?',o:['Joelho como barreira na meia-guarda','Proteção de joelho','KOB variante','Posição de pé'],c:0,e:'Joelho entre você e o passador.'},
+            {q:'O que é "single leg X" (SLX)?',o:['Pernas cruzando uma perna do oponente','Queda','Leg lock position','Passagem'],c:0,e:'Deitado com pernas em X numa perna — sweeps e leg locks.'},
+            {q:'O que é "dog fight"?',o:['Ambos de joelhos disputando underhook','Briga de cachorro','Finalização','Posição de pé'],c:0,e:'Ambos em single-knee com underhook — transição da meia-guarda.'},
+            {q:'O que é "saddle" (411)?',o:['Triângulo na perna para leg locks','Assento','Montada confortável','Guarda'],c:0,e:'Triângulo interno na perna — principal posição de ataque leg lock.'},
+            {q:'O que é "leg drag"?',o:['Arrastar perna cruzando corpo para passar','Chave de perna','Raspagem','Defesa'],c:0,e:'Perna arrastada cruzando o corpo para consolidar passagem.'},
+            {q:'O que é "headquarters position"?',o:['Joelho entre as pernas como base para passar','Comando','Base militar','Defesa total'],c:0,e:'Joelho central como base para passar ambos os lados.'}
+          ],
+          curiosidades: [
+            {q:'Quem derrotou Hélio Gracie em 1951?',o:['Mitsuyo Maeda','Masahiko Kimura','Rickson Gracie','Gene LeBell'],c:1,e:'Kimura venceu Hélio — o golpe recebeu seu nome.'},
+            {q:'Quem foi o primeiro campeão do UFC (1993)?',o:['Ken Shamrock','Royce Gracie','Dan Severn','Mark Coleman'],c:1,e:'Royce Gracie venceu o UFC 1 usando BJJ.'},
+            {q:'Em que ano o primeiro UFC aconteceu?',o:['1990','1993','1995','2000'],c:1,e:'UFC 1: 12/nov/1993, Denver, Colorado.'},
+            {q:'O BJJ veio de qual arte marcial?',o:['Karatê','Judô/Jiu-Jitsu japonês','Muay Thai','Wrestling'],c:1,e:'Mitsuyo Maeda trouxe Judô/JJ japonês ao Brasil.'},
+            {q:'Quantos títulos mundiais Roger Gracie tem?',o:['5','8','10','14'],c:2,e:'Roger Gracie: 10 títulos mundiais IBJJF.'},
+            {q:'Quem fundou a Alliance?',o:['Fabio Gurgel, Jacaré e Paiva','Família Gracie','Rickson Gracie','De La Riva'],c:0,e:'Alliance fundada em 1993 — uma das maiores equipes.'},
+            {q:'O que é ADCC?',o:['Abu Dhabi Combat Club — maior no-gi','Academia de combate','Federação','Torneio amador'],c:0,e:'ADCC: campeonato submission wrestling mais prestigiado.'},
+            {q:'Qual cor da faixa mais alta no BJJ?',o:['Preta','Coral','Vermelha','Branca'],c:2,e:'Faixa vermelha (9º/10º grau): mais alta.'},
+            {q:'Quantos anos em média para faixa preta?',o:['3-5','5-7','8-12','15+'],c:2,e:'Em média 8-12 anos de treino consistente.'},
+            {q:'O que significa "Oss"?',o:['Olá em japonês','Respeito, perseverança e humildade','Comando de luta','Nome de técnica'],c:1,e:'Oss = paciência, respeito e determinação.'},
+            {q:'O BJJ é esporte olímpico?',o:['Sim','Não, mas há campanha','Sim, desde 2024','Apenas no-gi'],c:1,e:'BJJ ainda não é olímpico — há esforços para inclusão.'},
+            {q:'Quem popularizou a guarda De La Riva?',o:['Roger Gracie','Ricardo De La Riva','Rolls Gracie','Renzo Gracie'],c:1,e:'Ricardo De La Riva nos anos 80.'},
+            {q:'O que é "flow rolling"?',o:['Treino livre leve focando transições','Competição','Aquecimento','Exercício cardio'],c:0,e:'Sparring cooperativo em ritmo baixo.'},
+            {q:'Quem é Gordon Ryan?',o:['Maior campeão no-gi atual','Fundador BJJ','Árbitro IBJJF','Judoca olímpico'],c:0,e:'Considerado maior grappler no-gi da história moderna.'},
+            {q:'O que é "Gracie Challenge"?',o:['Torneio interno','Desafios abertos a qualquer lutador','Academia','Treino'],c:1,e:'Gracies desafiavam lutadores para provar eficácia do BJJ.'},
+            {q:'Quem é Danaher e por que é famoso?',o:['Coach de leg lock revolution','Lutador UFC','Fundador IBJJF','Árbitro'],c:0,e:'John Danaher revolucionou o BJJ moderno com leg locks.'},
+            {q:'Qual significado literal de Jiu-Jitsu?',o:['Arte dura','Arte suave','Arte de guerra','Arte marcial'],c:1,e:'Jiu-Jitsu = "arte suave" em japonês.'},
+            {q:'Quem trouxe o Jiu-Jitsu ao Brasil?',o:['Carlos Gracie','Mitsuyo Maeda','Hélio Gracie','Jigoro Kano'],c:1,e:'Mitsuyo Maeda em 1914.'},
+            {q:'O que é "mat burn"?',o:['Queimadura de fricção pelo tatame','Finalização','Aquecimento','Exercício'],c:0,e:'Abrasão na pele pelo atrito com tatame — muito comum.'},
+            {q:'O BJJ é chamado de "xadrez humano" por quê?',o:['Aspecto estratégico','Jogado em quadrado','Cor das faixas','Número de peças'],c:0,e:'Exige pensar vários movimentos à frente.'}
+          ]
+        };
+
+        var CURIOSIDADES_LIST = [
+          'O Jiu-Jitsu chegou ao Brasil em 1914 pelas mãos de Mitsuyo Maeda.',
+          'Royce Gracie venceu o UFC 1 sendo o menor lutador do torneio.',
+          'A faixa vermelha (10º grau) só foi concedida a pouquíssimos mestres.',
+          '"Jiu-Jitsu" significa "arte suave" em japonês.',
+          'Hélio Gracie adaptou o JJ japonês enfatizando alavanca e técnica.',
+          'A kimura leva o nome de quem derrotou Hélio em 1951.',
+          'Um faixa preta treina em média 10.000+ horas na vida.',
+          'Roger Gracie finalizou TODOS os oponentes no Mundial de 2009.',
+          'A guarda De La Riva foi popularizada nos anos 80 no Rio de Janeiro.',
+          'O açaí é símbolo icônico da cultura do BJJ brasileiro.',
+          'O primeiro Mundial IBJJF foi em 1996 no Rio de Janeiro.',
+          'John Danaher, PhD em filosofia, revolucionou o BJJ com leg locks.',
+          'A Alliance é a equipe com mais títulos mundiais IBJJF.',
+          'Em 3 segundos o mata-leão pode causar inconsciência.',
+          'Existem mais de 600 técnicas catalogadas no BJJ.',
+          'A IBJJF foi fundada por Carlos Gracie Jr. em 2002.',
+          'Rolls Gracie integrou wrestling, judô e sambo ao BJJ.',
+          'O berimbolo foi popularizado pelos irmãos Mendes.',
+          'Worm guard: criada por Keenan Cornelius usando lapela.',
+          'O BJJ é praticado em mais de 150 países.',
+          'Hélio Gracie treinou até os 95 anos de idade.',
+          'Gordon Ryan domina o ADCC como maior no-gi da atualidade.',
+          'O shaka 🤙 representa a irmandade do Jiu-Jitsu.',
+          'Existem mais de 10.000 academias de BJJ no mundo.',
+          'Carlos Gracie criou a "Gracie Diet" baseada em combinações de alimentos.',
+          'O UFC foi criado em 1993 para mostrar que o BJJ funcionava.',
+          'A faixa coral (7º grau) leva 31+ anos de faixa preta.',
+          'Rickson Gracie é considerado invicto em centenas de lutas.',
+          'Na montada, chance de finalizar é 3x maior que outras posições.',
+          'Mitsuyo Maeda lutou mais de 2.000 lutas pelo mundo.'
+        ];
+
+        // === MEMORY GAME PAIRS ===
+        var MEMORY_PAIRS = [
+          ['Montada','4 pontos'],['Raspagem','2 pontos'],['Passagem','3 pontos'],['Costas','4 pontos'],
+          ['Takedown','2 pontos'],['KOB','2 pontos'],['Armbar','Chave braço'],['Kimura','Chave ombro'],
+          ['Triângulo','Estrangulam.'],['Mata-leão','Pelas costas'],['Guilhotina','Frontal'],['Guarda','De baixo'],
+          ['DLR','Gancho externo'],['Spider','Pés bíceps'],['Butterfly','Ganchos'],['Meia-guarda','Uma perna']
+        ];
+
+        // === FORCA WORDS ===
+        var FORCA_WORDS = [
+          {w:'RASPAGEM',h:'Inverter de baixo para cima'},
+          {w:'MONTADA',h:'Posição sentado sobre o oponente'},
+          {w:'PASSAGEM',h:'Sair da guarda para posição dominante'},
+          {w:'KIMURA',h:'Chave de ombro com controle do pulso'},
+          {w:'TRIÂNGULO',h:'Estrangulamento com as pernas'},
+          {w:'GUILHOTINA',h:'Estrangulamento frontal pelo pescoço'},
+          {w:'ARMBAR',h:'Chave de braço reta'},
+          {w:'TAKEDOWN',h:'Derrubar o oponente ao chão'},
+          {w:'BERIMBOLO',h:'Inversão para tomar as costas'},
+          {w:'AMERICANA',h:'Chave de ombro da montada'},
+          {w:'ESTRANGULAMENTO',h:'Cortar circulação ou respiração'},
+          {w:'FINALIZAÇÃO',h:'Submissão que encerra a luta'},
+          {w:'GUARDA',h:'Posição de baixo com controle'},
+          {w:'COSTAS',h:'Posição mais dominante no BJJ'},
+          {w:'UNDERHOOK',h:'Braço por baixo da axila'},
+          {w:'SWEEP',h:'Raspagem em inglês'},
+          {w:'HEELHOOK',h:'Chave de calcanhar'},
+          {w:'ANKLELOCK',h:'Chave de tornozelo'},
+          {w:'HALFGUARD',h:'Meia-guarda em inglês'},
+          {w:'DELARIVA',h:'Guarda com gancho externo na perna'}
+        ];
+
+        // === CAÇA-PALAVRAS ===
+        var CP_WORDS_BANK = [
+          ['KIMURA','ARMBAR','GUARDA','MOUNT','SWEEP','CHOKE','GUARD','CROSS','SPIDER','HOOKS'],
+          ['TRIANGLE','BRIDGE','ESCAPE','SUBMIT','TURTLE','CLOCK','NORTH','SOUTH','FRAME','GRIPS'],
+          ['BERIMBOLO','TAKEDOWN','HALFGUARD','BACKMOUNT','SIDECONTROL','KNEEBAR','POSITION','ALLIANCE','TATAME','MATALEAO']
+        ];
+
+        // === CROSSWORD PUZZLES ===
+        var CROSSWORDS = [
+          { size:8, words: [
+            {w:'KIMURA',r:0,c:0,d:'H',h:'Chave de ombro (nome do judoca)'},
+            {w:'ARMBAR',r:0,c:0,d:'V',h:'Chave de braço reta'},
+            {w:'GUARDA',r:2,c:1,d:'H',h:'Posição de controle de baixo'},
+            {w:'MOUNT',r:0,c:5,d:'V',h:'Posição sentado sobre oponente'},
+            {w:'SWEEP',r:4,c:0,d:'H',h:'Raspagem em inglês'},
+            {w:'CHOKE',r:6,c:2,d:'H',h:'Estrangulamento em inglês'}
+          ]},
+          { size:8, words: [
+            {w:'PASSAGEM',r:0,c:0,d:'H',h:'Sair da guarda do oponente'},
+            {w:'PONTE',r:0,c:0,d:'V',h:'Movimento fundamental de fuga'},
+            {w:'COSTAS',r:2,c:2,d:'H',h:'Posição mais dominante'},
+            {w:'TATAME',r:0,c:4,d:'V',h:'Onde se treina Jiu-Jitsu'},
+            {w:'FAIXA',r:4,c:0,d:'H',h:'Indicador de graduação'},
+            {w:'BASE',r:6,c:3,d:'H',h:'Equilíbrio e postura estável'}
+          ]}
+        ];
+
+        // ═══ STATE ═══
+        var _gs = { xp:0, level:1, streak:0, bestStreak:0, gamesPlayed:0, totalCorrect:0, totalAnswered:0, curioIdx:0 };
+        var _game = null; // current game state
+        var _rlTimer = null; // relampago timer
+
+        function loadGS() { try { var s = localStorage.getItem('bjj_gs2'); if(s) Object.assign(_gs, JSON.parse(s)); } catch(e){} }
+        function saveGS() { try { localStorage.setItem('bjj_gs2', JSON.stringify(_gs)); } catch(e){} }
+
+        function getLvl(xp) {
+          var lvls = [0,100,250,500,850,1300,1800,2500,3500,5000,7000,10000,15000,20000];
+          for(var i=lvls.length-1;i>=0;i--) if(xp>=lvls[i]) return {l:i+1,cur:xp-lvls[i],nxt:(lvls[i+1]||lvls[i]+3000)-lvls[i]};
+          return {l:1,cur:0,nxt:100};
+        }
+
+        function addXP(n) { _gs.xp += n; var info = getLvl(_gs.xp); _gs.level = info.l; saveGS(); }
+
+        function updateGamesUI() {
+          var info = getLvl(_gs.xp); _gs.level = info.l;
+          var $ = function(id){return document.getElementById(id);};
+          if($('gLevel')) $('gLevel').textContent='Nível '+info.l;
+          if($('gXpFill')) $('gXpFill').style.width=Math.min(100,(info.cur/info.nxt)*100)+'%';
+          if($('gXpLabel')) $('gXpLabel').textContent=info.cur+' / '+info.nxt+' XP';
+          if($('gStreak')) $('gStreak').textContent='🔥 '+_gs.streak;
+          if($('gStatXp')) $('gStatXp').textContent=_gs.xp;
+          if($('gStatGames')) $('gStatGames').textContent=_gs.gamesPlayed;
+          if($('gStatAcc')) $('gStatAcc').textContent=_gs.totalAnswered>0?Math.round((_gs.totalCorrect/_gs.totalAnswered)*100)+'%':'0%';
+          if($('gStatStrk')) $('gStatStrk').textContent=_gs.bestStreak;
+        }
+
+        var _ghInited = false;
+        function initGamesHub() { if(!_ghInited){loadGS();_ghInited=true;} updateGamesUI(); showCuriosidade(); }
+
+        function showCuriosidade() { var el=document.getElementById('gCurioText'); if(el) el.textContent=CURIOSIDADES_LIST[_gs.curioIdx%CURIOSIDADES_LIST.length]; }
+        function nextCuriosidade() { _gs.curioIdx=(_gs.curioIdx+1)%CURIOSIDADES_LIST.length; showCuriosidade(); }
+
+        function switchGamesSubtab(tab, btn) {
+          document.querySelectorAll('.games-subtab').forEach(function(b){b.classList.remove('active');});
+          btn.classList.add('active');
+          document.getElementById('gSubJogos').style.display=tab==='jogos'?'block':'none';
+          document.getElementById('gSubRanking').style.display=tab==='ranking'?'block':'none';
+          if(tab==='ranking') loadGamesRanking();
+        }
+
+        function showScreen(s) {
+          document.getElementById('gamesHome').style.display=s==='home'?'block':'none';
+          document.getElementById('gameScreen').style.display=s==='game'?'block':'none';
+          document.getElementById('gameResult').style.display=s==='result'?'block':'none';
+        }
+
+        function exitGame() { if(_rlTimer){clearInterval(_rlTimer);_rlTimer=null;} saveGS(); _game=null; showScreen('home'); updateGamesUI(); }
+
+        // ═══════════════════════════════════
+        // START GAME ROUTER
+        // ═══════════════════════════════════
+        function startGame(type) {
+          showScreen('game');
+          if(type==='quiz') startQuizGame();
+          else if(type==='cacapalavras') startCacaPalavras();
+          else if(type==='memoria') startMemoria();
+          else if(type==='forca') startForca();
+          else if(type==='relampago') startRelampago();
+          else if(type==='cruzadas') startCruzadas();
+        }
+
+        // ═══════════════════════════════════
+        // 🧠 QUIZ
+        // ═══════════════════════════════════
+        function startQuizGame() {
+          var allQ=[]; Object.keys(QUIZ_BANK).forEach(function(k){QUIZ_BANK[k].forEach(function(q){allQ.push(q);});});
+          allQ.sort(function(){return Math.random()-0.5;});
+          _game={type:'quiz',qs:allQ.slice(0,10),cur:0,score:0,xpEarned:0};
+          document.getElementById('gameTitle').textContent='🧠 Quiz';
+          renderQuizQ();
+        }
+        function renderQuizQ() {
+          var g=_game; if(!g||g.cur>=g.qs.length){finishGame();return;}
+          var q=g.qs[g.cur];
+          document.getElementById('gameInfo').textContent=g.score+'/'+g.qs.length;
+          document.getElementById('gameProgressFill').style.width=(g.cur/g.qs.length*100)+'%';
+          var h='<div class="gq-card"><div class="gq-num">Pergunta '+(g.cur+1)+' de '+g.qs.length+'</div>';
+          h+='<div class="gq-text">'+q.q+'</div><div class="gq-opts">';
+          q.o.forEach(function(o,i){h+='<div class="gq-opt" id="go_'+g.cur+'_'+i+'" onclick="answerQuizG('+i+')">'+o+'</div>';});
+          h+='</div></div>';
+          document.getElementById('gameContent').innerHTML=h;
+        }
+        function answerQuizG(idx) {
+          var g=_game,q=g.qs[g.cur],ok=idx===q.c,xp=ok?10:2;
+          if(ok){g.score++;_gs.streak++;if(_gs.streak>_gs.bestStreak)_gs.bestStreak=_gs.streak;_gs.totalCorrect++;}
+          else{_gs.streak=0;}
+          g.xpEarned+=xp;addXP(xp);_gs.totalAnswered++;
+          var cel=document.getElementById('go_'+g.cur+'_'+q.c);if(cel)cel.classList.add('correct');
+          if(!ok){var wel=document.getElementById('go_'+g.cur+'_'+idx);if(wel)wel.classList.add('wrong');}
+          q.o.forEach(function(_,i){var el=document.getElementById('go_'+g.cur+'_'+i);if(el)el.classList.add('disabled');});
+          var card=document.querySelector('.gq-card');
+          if(card&&q.e) card.insertAdjacentHTML('beforeend','<div class="gq-explain">💡 '+q.e+'</div><div class="gq-xp '+(ok?'gain':'loss')+'">'+(ok?'✅':'❌')+' +'+xp+' XP</div>');
+          saveGS();setTimeout(function(){g.cur++;renderQuizQ();},1800);
+        }
+
+        // ═══════════════════════════════════
+        // 🔍 CAÇA-PALAVRAS
+        // ═══════════════════════════════════
+        function startCacaPalavras() {
+          var set=CP_WORDS_BANK[Math.floor(Math.random()*CP_WORDS_BANK.length)];
+          var words=set.slice(0,8).map(function(w){return w.toUpperCase();});
+          var size=10; var grid=[];
+          for(var r=0;r<size;r++){grid[r]=[];for(var c=0;c<size;c++)grid[r][c]='';}
+          var placed=[];
+          words.forEach(function(w){
+            var dirs=[[0,1],[1,0],[1,1]];
+            for(var attempt=0;attempt<50;attempt++){
+              var d=dirs[Math.floor(Math.random()*dirs.length)];
+              var maxR=size-(d[0]*(w.length-1)),maxC=size-(d[1]*(w.length-1));
+              if(maxR<=0||maxC<=0)continue;
+              var sr=Math.floor(Math.random()*maxR),sc=Math.floor(Math.random()*maxC),fits=true;
+              for(var i=0;i<w.length;i++){var nr=sr+d[0]*i,nc=sc+d[1]*i;if(grid[nr][nc]!==''&&grid[nr][nc]!==w[i]){fits=false;break;}}
+              if(fits){for(var i=0;i<w.length;i++){var nr=sr+d[0]*i,nc=sc+d[1]*i;grid[nr][nc]=w[i];}placed.push(w);break;}
+            }
+          });
+          var letters='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+          for(var r=0;r<size;r++)for(var c=0;c<size;c++)if(!grid[r][c])grid[r][c]=letters[Math.floor(Math.random()*26)];
+
+          _game={type:'cp',grid:grid,size:size,words:placed,found:[],selecting:[],xpEarned:0};
+          document.getElementById('gameTitle').textContent='🔍 Caça-Palavras';
+          document.getElementById('gameInfo').textContent='0/'+placed.length;
+          document.getElementById('gameProgressFill').style.width='0%';
+          renderCP();
+        }
+        function renderCP() {
+          var g=_game,h='<div class="cp-grid-wrap"><div class="cp-grid" style="grid-template-columns:repeat('+g.size+',28px);">';
+          for(var r=0;r<g.size;r++)for(var c=0;c<g.size;c++){
+            var cls='cp-cell',id='cp_'+r+'_'+c;
+            if(g.found.some(function(f){return f.some(function(p){return p[0]===r&&p[1]===c;});})) cls+=' found';
+            h+='<div class="'+cls+'" id="'+id+'" onpointerdown="cpDown('+r+','+c+')" onpointerenter="cpMove('+r+','+c+')" onpointerup="cpUp()">'+g.grid[r][c]+'</div>';
+          }
+          h+='</div></div><div class="cp-words">';
+          g.words.forEach(function(w){var f=g.found.some(function(fp){var fw='';fp.forEach(function(p){fw+=g.grid[p[0]][p[1]];});return fw===w;});
+            h+='<span class="cp-word'+(f?' found':'')+'">'+w+'</span>';});
+          h+='</div>';
+          document.getElementById('gameContent').innerHTML=h;
+        }
+        var _cpDragging=false;
+        function cpDown(r,c){_cpDragging=true;_game.selecting=[[r,c]];highlightCPSel();}
+        function cpMove(r,c){if(!_cpDragging||!_game)return;var sel=_game.selecting;if(sel.length>0){var s=sel[0],dr=r-s[0],dc=c-s[1];
+          if(dr===0||dc===0||Math.abs(dr)===Math.abs(dc)){var len=Math.max(Math.abs(dr),Math.abs(dc))+1,sd=dr?dr/Math.abs(dr):0,sc2=dc?dc/Math.abs(dc):0;
+            _game.selecting=[];for(var i=0;i<len;i++)_game.selecting.push([s[0]+sd*i,s[1]+sc2*i]);highlightCPSel();}}}
+        function cpUp(){_cpDragging=false;if(!_game)return;var sel=_game.selecting,word='';
+          sel.forEach(function(p){word+=_game.grid[p[0]][p[1]];});
+          var rev=word.split('').reverse().join('');
+          if(_game.words.indexOf(word)>=0&&!alreadyFound(word)){_game.found.push(sel);var xp=5;_game.xpEarned+=xp;addXP(xp);_gs.totalCorrect++;_gs.totalAnswered++;_gs.streak++;if(_gs.streak>_gs.bestStreak)_gs.bestStreak=_gs.streak;}
+          else if(_game.words.indexOf(rev)>=0&&!alreadyFound(rev)){_game.found.push(sel);var xp=5;_game.xpEarned+=xp;addXP(xp);_gs.totalCorrect++;_gs.totalAnswered++;}
+          _game.selecting=[];
+          document.getElementById('gameInfo').textContent=_game.found.length+'/'+_game.words.length;
+          document.getElementById('gameProgressFill').style.width=(_game.found.length/_game.words.length*100)+'%';
+          renderCP(); if(_game.found.length>=_game.words.length){saveGS();setTimeout(finishGame,600);}
+        }
+        function alreadyFound(w){return _game.found.some(function(f){var fw='';f.forEach(function(p){fw+=_game.grid[p[0]][p[1]];});return fw===w||fw===w.split('').reverse().join('');});}
+        function highlightCPSel(){document.querySelectorAll('.cp-cell.selecting').forEach(function(e){e.classList.remove('selecting');});
+          if(_game)_game.selecting.forEach(function(p){var el=document.getElementById('cp_'+p[0]+'_'+p[1]);if(el)el.classList.add('selecting');});}
+
+        // ═══════════════════════════════════
+        // 🃏 MEMÓRIA
+        // ═══════════════════════════════════
+        function startMemoria() {
+          var pairs=MEMORY_PAIRS.slice().sort(function(){return Math.random()-0.5;}).slice(0,8);
+          var cards=[];
+          pairs.forEach(function(p,i){cards.push({id:i*2,pairId:i,text:p[0],flipped:false,matched:false});cards.push({id:i*2+1,pairId:i,text:p[1],flipped:false,matched:false});});
+          cards.sort(function(){return Math.random()-0.5;});
+          _game={type:'mem',cards:cards,flipped:[],pairs:pairs.length,matched:0,moves:0,xpEarned:0};
+          document.getElementById('gameTitle').textContent='🃏 Memória';
+          document.getElementById('gameInfo').textContent='0/'+pairs.length;
+          document.getElementById('gameProgressFill').style.width='0%';
+          renderMemoria();
+        }
+        function renderMemoria() {
+          var g=_game,h='<div class="mem-grid">';
+          g.cards.forEach(function(c){
+            var cls='mem-card'+(c.flipped?' flipped':'')+(c.matched?' matched':(!c.flipped?' hidden-card':''));
+            h+='<div class="'+cls+'" onclick="flipMem('+c.id+')">'+(c.flipped||c.matched?c.text:'?')+'</div>';
+          });
+          h+='</div>'; document.getElementById('gameContent').innerHTML=h;
+        }
+        function flipMem(id) {
+          var g=_game; if(g.flipped.length>=2)return;
+          var card=g.cards.find(function(c){return c.id===id;});
+          if(!card||card.flipped||card.matched)return;
+          card.flipped=true; g.flipped.push(card); renderMemoria();
+          if(g.flipped.length===2){g.moves++;
+            var a=g.flipped[0],b=g.flipped[1];
+            if(a.pairId===b.pairId){a.matched=b.matched=true;g.matched++;var xp=8;g.xpEarned+=xp;addXP(xp);_gs.totalCorrect++;_gs.totalAnswered++;_gs.streak++;if(_gs.streak>_gs.bestStreak)_gs.bestStreak=_gs.streak;
+              g.flipped=[];document.getElementById('gameInfo').textContent=g.matched+'/'+g.pairs;document.getElementById('gameProgressFill').style.width=(g.matched/g.pairs*100)+'%';
+              renderMemoria();if(g.matched>=g.pairs){saveGS();setTimeout(finishGame,500);}
+            } else {_gs.streak=0;_gs.totalAnswered++;setTimeout(function(){a.flipped=b.flipped=false;g.flipped=[];renderMemoria();},800);}
+          }
+        }
+
+        // ═══════════════════════════════════
+        // 💀 FORCA
+        // ═══════════════════════════════════
+        function startForca() {
+          var fw=FORCA_WORDS[Math.floor(Math.random()*FORCA_WORDS.length)];
+          _game={type:'forca',word:fw.w,hint:fw.h,guessed:[],lives:6,maxLives:6,won:false,xpEarned:0};
+          document.getElementById('gameTitle').textContent='💀 Forca';
+          document.getElementById('gameInfo').textContent='';
+          document.getElementById('gameProgressFill').style.width='100%';
+          renderForca();
+        }
+        function renderForca() {
+          var g=_game,h='';
+          // Lives
+          h+='<div class="forca-lives">';for(var i=0;i<g.maxLives;i++)h+=i<g.lives?'❤️':'🖤';h+='</div>';
+          // Word
+          h+='<div class="forca-word">';
+          for(var i=0;i<g.word.length;i++){
+            var ch=g.word[i]; if(ch===' '){h+='<div class="forca-letter space"></div>';continue;}
+            var revealed=g.guessed.indexOf(ch.toUpperCase())>=0;
+            h+='<div class="forca-letter">'+(revealed?ch:'')+'</div>';
+          }
+          h+='</div>';
+          // Hint
+          h+='<div class="forca-hint">Dica: '+g.hint+'</div>';
+          // Keyboard
+          h+='<div class="forca-keyboard">';
+          'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(function(l){
+            var used=g.guessed.indexOf(l)>=0;
+            var inWord=g.word.toUpperCase().indexOf(l)>=0;
+            var cls='forca-key'+(used?(inWord?' used-right':' used-wrong'):'');
+            h+='<div class="'+cls+'" onclick="guessForca(\''+l+'\')">'+l+'</div>';
+          });
+          h+='</div>';
+          document.getElementById('gameContent').innerHTML=h;
+        }
+        function guessForca(l) {
+          var g=_game;if(g.guessed.indexOf(l)>=0||g.lives<=0||g.won)return;
+          g.guessed.push(l);
+          if(g.word.toUpperCase().indexOf(l)===-1){g.lives--;_gs.streak=0;}
+          // Check win
+          var allRevealed=true;
+          for(var i=0;i<g.word.length;i++){if(g.word[i]!==' '&&g.guessed.indexOf(g.word[i].toUpperCase())===-1){allRevealed=false;break;}}
+          if(allRevealed){g.won=true;var xp=15;g.xpEarned+=xp;addXP(xp);_gs.totalCorrect++;_gs.totalAnswered++;_gs.streak++;if(_gs.streak>_gs.bestStreak)_gs.bestStreak=_gs.streak;saveGS();renderForca();setTimeout(finishGame,800);return;}
+          if(g.lives<=0){_gs.totalAnswered++;saveGS();renderForca();setTimeout(finishGame,800);return;}
+          document.getElementById('gameProgressFill').style.width=(g.lives/g.maxLives*100)+'%';
+          renderForca();
+        }
+
+        // ═══════════════════════════════════
+        // ⚡ RELÂMPAGO (30s speed quiz)
+        // ═══════════════════════════════════
+        function startRelampago() {
+          var allQ=[];Object.keys(QUIZ_BANK).forEach(function(k){QUIZ_BANK[k].forEach(function(q){allQ.push(q);});});
+          allQ.sort(function(){return Math.random()-0.5;});
+          _game={type:'rl',qs:allQ,cur:0,score:0,time:30,xpEarned:0};
+          document.getElementById('gameTitle').textContent='⚡ Relâmpago';
+          document.getElementById('gameInfo').textContent='0 acertos';
+          document.getElementById('gameProgressFill').style.width='100%';
+          renderRlQ();
+          _rlTimer=setInterval(function(){
+            _game.time--;
+            var el=document.querySelector('.rl-timer');
+            if(el){el.textContent=_game.time+'s';el.className='rl-timer'+(_game.time<=10?(_game.time<=5?' danger':' warning'):'');}
+            document.getElementById('gameProgressFill').style.width=(_game.time/30*100)+'%';
+            if(_game.time<=0){clearInterval(_rlTimer);_rlTimer=null;finishGame();}
+          },1000);
+        }
+        function renderRlQ() {
+          var g=_game;if(!g||g.cur>=g.qs.length){clearInterval(_rlTimer);_rlTimer=null;finishGame();return;}
+          var q=g.qs[g.cur];
+          var h='<div class="rl-timer">'+g.time+'s</div>';
+          h+='<div class="gq-card"><div class="gq-text">'+q.q+'</div><div class="gq-opts">';
+          q.o.forEach(function(o,i){h+='<div class="gq-opt" id="rl_'+g.cur+'_'+i+'" onclick="answerRl('+i+')">'+o+'</div>';});
+          h+='</div></div>';
+          document.getElementById('gameContent').innerHTML=h;
+        }
+        function answerRl(idx) {
+          var g=_game,q=g.qs[g.cur],ok=idx===q.c;
+          if(ok){g.score++;var xp=5;g.xpEarned+=xp;addXP(xp);_gs.totalCorrect++;_gs.streak++;if(_gs.streak>_gs.bestStreak)_gs.bestStreak=_gs.streak;}
+          else{_gs.streak=0;}
+          _gs.totalAnswered++;
+          var cel=document.getElementById('rl_'+g.cur+'_'+q.c);if(cel)cel.classList.add('correct');
+          if(!ok){var w=document.getElementById('rl_'+g.cur+'_'+idx);if(w)w.classList.add('wrong');}
+          q.o.forEach(function(_,i){var el=document.getElementById('rl_'+g.cur+'_'+i);if(el)el.classList.add('disabled');});
+          document.getElementById('gameInfo').textContent=g.score+' acertos';
+          saveGS();setTimeout(function(){g.cur++;renderRlQ();},600);
+        }
+
+        // ═══════════════════════════════════
+        // ✏️ CRUZADAS
+        // ═══════════════════════════════════
+        function startCruzadas() {
+          var cz=CROSSWORDS[Math.floor(Math.random()*CROSSWORDS.length)];
+          var grid=[];for(var r=0;r<cz.size;r++){grid[r]=[];for(var c=0;c<cz.size;c++)grid[r][c]=null;}
+          var cluesH=[],cluesV=[],num=1;
+          cz.words.forEach(function(w){
+            w.num=num++;
+            for(var i=0;i<w.w.length;i++){var rr=w.r+(w.d==='V'?i:0),cc=w.c+(w.d==='H'?i:0);if(rr<cz.size&&cc<cz.size)grid[rr][cc]={letter:w.w[i],num:i===0?w.num:grid[rr][cc]?grid[rr][cc].num:null};}
+            if(w.d==='H')cluesH.push(w); else cluesV.push(w);
+          });
+          _game={type:'cz',grid:grid,size:cz.size,words:cz.words,solved:[],xpEarned:0};
+          document.getElementById('gameTitle').textContent='✏️ Cruzadas';
+          document.getElementById('gameInfo').textContent='0/'+cz.words.length;
+          document.getElementById('gameProgressFill').style.width='0%';
+          renderCZ(cluesH,cluesV);
+        }
+        function renderCZ(cluesH,cluesV) {
+          var g=_game,h='<div class="cz-grid-wrap"><div class="cz-grid" style="grid-template-columns:repeat('+g.size+',30px);">';
+          for(var r=0;r<g.size;r++)for(var c=0;c<g.size;c++){
+            var cell=g.grid[r][c];
+            if(!cell){h+='<div class="cz-cell black"></div>';}
+            else{h+='<div class="cz-cell">'+(cell.num?'<span class="cz-cell-num">'+cell.num+'</span>':'')+'<input maxlength="1" id="cz_'+r+'_'+c+'" oninput="checkCZ('+r+','+c+',this)"></div>';}
+          }
+          h+='</div></div><div class="cz-clues">';
+          if(cluesH.length){h+='<div class="cz-clue-title">→ Horizontal</div>';cluesH.forEach(function(c){h+='<div class="cz-clue" id="czClue_'+c.num+'">'+c.num+'. '+c.h+'</div>';});}
+          if(cluesV.length){h+='<div class="cz-clue-title">↓ Vertical</div>';cluesV.forEach(function(c){h+='<div class="cz-clue" id="czClue_'+c.num+'">'+c.num+'. '+c.h+'</div>';});}
+          h+='</div>';
+          document.getElementById('gameContent').innerHTML=h;
+        }
+        function checkCZ(r,c,input) {
+          var g=_game; input.value=input.value.toUpperCase().replace(/[^A-ZÀ-Ü]/g,'');
+          // Check if any word is complete
+          g.words.forEach(function(w){
+            if(g.solved.indexOf(w.num)>=0)return;
+            var complete=true;
+            for(var i=0;i<w.w.length;i++){
+              var rr=w.r+(w.d==='V'?i:0),cc=w.c+(w.d==='H'?i:0);
+              var inp=document.getElementById('cz_'+rr+'_'+cc);
+              if(!inp||inp.value.toUpperCase()!==w.w[i].toUpperCase()){complete=false;break;}
+            }
+            if(complete){
+              g.solved.push(w.num);
+              for(var i=0;i<w.w.length;i++){var rr=w.r+(w.d==='V'?i:0),cc=w.c+(w.d==='H'?i:0);var inp=document.getElementById('cz_'+rr+'_'+cc);if(inp){inp.classList.add('correct');inp.readOnly=true;}}
+              var clue=document.getElementById('czClue_'+w.num);if(clue)clue.classList.add('solved');
+              var xp=4;g.xpEarned+=xp;addXP(xp);_gs.totalCorrect++;_gs.totalAnswered++;_gs.streak++;if(_gs.streak>_gs.bestStreak)_gs.bestStreak=_gs.streak;
+              document.getElementById('gameInfo').textContent=g.solved.length+'/'+g.words.length;
+              document.getElementById('gameProgressFill').style.width=(g.solved.length/g.words.length*100)+'%';
+              if(g.solved.length>=g.words.length){saveGS();setTimeout(finishGame,600);}
+            }
+          });
+          // Auto-advance to next input
+          if(input.value.length===1){var next=findNextCZInput(r,c);if(next)next.focus();}
+        }
+        function findNextCZInput(r,c) {
+          var g=_game;
+          for(var cc=c+1;cc<g.size;cc++){var el=document.getElementById('cz_'+r+'_'+cc);if(el&&!el.readOnly)return el;}
+          for(var rr=r+1;rr<g.size;rr++)for(var cc2=0;cc2<g.size;cc2++){var el=document.getElementById('cz_'+rr+'_'+cc2);if(el&&!el.readOnly)return el;}
+          return null;
+        }
+
+        // ═══════════════════════════════════
+        // 🏁 FINISH / RESULT
+        // ═══════════════════════════════════
+        function finishGame() {
+          if(!_game)return; if(_rlTimer){clearInterval(_rlTimer);_rlTimer=null;}
+          _gs.gamesPlayed++; saveGS();
+          // Sync to backend
+          syncGameScore();
+
+          var g=_game,score=0,total=0,emoji='🏆',msg='Parabéns!';
+          if(g.type==='quiz'){score=g.score;total=g.qs.length;}
+          else if(g.type==='cp'){score=g.found.length;total=g.words.length;}
+          else if(g.type==='mem'){score=g.matched;total=g.pairs;msg='Em '+g.moves+' jogadas!';}
+          else if(g.type==='forca'){score=g.won?1:0;total=1;msg=g.won?'Você descobriu: '+g.word:'A palavra era: '+g.word;}
+          else if(g.type==='rl'){score=g.score;total=g.cur;msg='Em 30 segundos!';}
+          else if(g.type==='cz'){score=g.solved.length;total=g.words.length;}
+
+          var pct=total>0?Math.round(score/total*100):0;
+          emoji=pct>=80?'🏆':pct>=60?'💪':pct>=30?'📚':'🤔';
+          var cls=pct>=70?'great':pct>=50?'good':'bad';
+          var label=pct>=80?'Excelente!':pct>=60?'Muito bem!':pct>=30?'Continue praticando!':'Não desista!';
+          var names={quiz:'Quiz',cp:'Caça-Palavras',mem:'Memória',forca:'Forca',rl:'Relâmpago',cz:'Cruzadas'};
+
+          var h='<div class="gresult"><div class="gresult-emoji">'+emoji+'</div>';
+          h+='<div class="gresult-score '+cls+'">'+score+(total>0?'/'+total:'')+'</div>';
+          h+='<div class="gresult-label">'+label+(g.type==='rl'||g.type==='mem'||g.type==='forca'?' · '+msg:'')+'</div>';
+          h+='<div class="gresult-stats">';
+          h+='<div><div class="gresult-sv" style="color:#4ade80;">+'+g.xpEarned+'</div><div class="gresult-sl">XP</div></div>';
+          h+='<div><div class="gresult-sv" style="color:#FF6B35;">🔥'+_gs.streak+'</div><div class="gresult-sl">Sequência</div></div>';
+          h+='<div><div class="gresult-sv" style="color:var(--accent);">Lv.'+_gs.level+'</div><div class="gresult-sl">Nível</div></div>';
+          h+='</div><div class="gresult-btns">';
+          h+='<button class="gresult-btn primary" onclick="startGame(\''+g.type+'\')">🔄 Jogar</button>';
+          h+='<button class="gresult-btn secondary" onclick="exitGame()">← Menu</button>';
+          h+='</div></div>';
+
+          document.getElementById('gameResult').innerHTML=h;
+          showScreen('result');
+        }
+
+        // ═══════════════════════════════════
+        // 🏆 RANKING + BACKEND SYNC
+        // ═══════════════════════════════════
+        async function syncGameScore() {
+          if(!currentUser)return;
+          try{await secureFetch('saveGameScore',{xp:_gs.xp,level:_gs.level,gamesPlayed:_gs.gamesPlayed,bestStreak:_gs.bestStreak});}catch(e){}
+        }
+
+        async function loadGamesRanking() {
+          var container=document.getElementById('gRankingContent');
+          container.innerHTML='<div style="text-align:center;padding:20px;color:var(--text-3);font-size:12px;">Carregando ranking...</div>';
+          try {
+            var data = await secureFetch('getGameRanking',{});
+            if(data.success && data.ranking && data.ranking.length>0) {
+              var myEmail = currentUser ? currentUser.email : '';
+              var h='';
+              data.ranking.forEach(function(p,i){
+                var pos=i+1;
+                var posCls=pos===1?'gold':pos===2?'silver':pos===3?'bronze':'';
+                var medal=pos===1?'🥇':pos===2?'🥈':pos===3?'🥉':pos;
+                var isMe=p.email===myEmail;
+                h+='<div class="grank-item'+(isMe?' grank-me':'')+'">';
+                h+='<div class="grank-pos '+posCls+'">'+medal+'</div>';
+                h+='<div class="grank-name">'+(p.nome||'Aluno')+(isMe?' <span style="font-size:10px;color:var(--accent);">(você)</span>':'')+'</div>';
+                h+='<div class="grank-xp">'+p.xp+' XP</div>';
+                h+='</div>';
+              });
+              container.innerHTML=h;
+            } else {
+              container.innerHTML='<div style="text-align:center;padding:20px;color:var(--text-3);font-size:12px;">Jogue para aparecer no ranking!</div>';
+            }
+          } catch(e) {
+            container.innerHTML='<div style="text-align:center;padding:20px;color:var(--text-3);font-size:12px;">Erro ao carregar ranking</div>';
+          }
         }
 
         async function loadSystemHealth() {
