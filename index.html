@@ -1694,6 +1694,7 @@
         .gc-forca::before { background: linear-gradient(90deg,#FB923C,#F97316); }
         .gc-speed::before { background: linear-gradient(90deg,#FBBF24,#F59E0B); }
         .gc-cross::before { background: linear-gradient(90deg,#60A5FA,#3B82F6); }
+        .gc-english::before { background: linear-gradient(90deg,#F472B6,#A855F7); }
         .game-card-icon { font-size: 28px; margin-bottom: 4px; }
         .game-card-name { font-size: 13px; font-weight: 700; color: var(--text-1); }
         .game-card-desc { font-size: 10px; color: var(--text-3); margin-top: 2px; }
@@ -1738,15 +1739,19 @@
         .forca-key.used-right { background: rgba(45,138,78,0.2); border-color: #2d8a4e; color: #4ade80; pointer-events: none; }
         .forca-key.used-wrong { background: rgba(232,93,93,0.15); border-color: #E85D5D; color: #fca5a5; pointer-events: none; opacity: 0.5; }
         .forca-lives { text-align: center; font-size: 22px; margin-bottom: 12px; letter-spacing: 4px; }
-        /* Caça-palavras */
-        .cp-grid-wrap { overflow-x: auto; margin-bottom: 10px; -webkit-overflow-scrolling: touch; }
-        .cp-grid { display: inline-grid; gap: 0; user-select: none; touch-action: none; }
-        .cp-cell { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-family: 'Sora'; font-size: 12px; font-weight: 700; color: var(--text-2); cursor: pointer; border: 1px solid rgba(255,255,255,0.03); text-transform: uppercase; border-radius: 3px; }
-        .cp-cell.selecting { background: rgba(212,165,41,0.2); color: var(--accent); }
-        .cp-cell.found { background: rgba(45,138,78,0.2); color: #4ade80; }
-        .cp-words { display: flex; flex-wrap: wrap; gap: 6px; }
-        .cp-word { font-size: 11px; font-weight: 600; color: var(--text-3); padding: 4px 8px; border: 1px solid var(--border); border-radius: 6px; }
-        .cp-word.found { text-decoration: line-through; color: #4ade80; border-color: #2d8a4e; background: rgba(45,138,78,0.1); }
+        /* Associação */
+        .assoc-container { display: flex; gap: 8px; }
+        .assoc-col { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+        .assoc-col-title { font-size: 10px; font-weight: 800; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.5px; text-align: center; margin-bottom: 4px; }
+        .assoc-item { padding: 10px 8px; background: var(--bg-elevated); border: 2px solid var(--border); border-radius: 10px; font-size: 11px; font-weight: 600; color: var(--text-2); cursor: pointer; text-align: center; transition: all 0.2s; min-height: 38px; display: flex; align-items: center; justify-content: center; line-height: 1.3; }
+        .assoc-item:active { transform: scale(0.97); }
+        .assoc-item.selected { border-color: var(--accent); background: var(--accent-dim); color: var(--accent); }
+        .assoc-item.matched { border-color: #2d8a4e; background: rgba(45,138,78,0.12); color: #4ade80; pointer-events: none; opacity: 0.7; }
+        .assoc-item.wrong { border-color: #E85D5D; background: rgba(232,93,93,0.1); color: #fca5a5; }
+        .assoc-score-bar { display: flex; justify-content: center; gap: 4px; margin-bottom: 10px; }
+        .assoc-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--bg-elevated); border: 1px solid var(--border); }
+        .assoc-dot.correct { background: #2d8a4e; border-color: #2d8a4e; }
+        .assoc-dot.wrong { background: #E85D5D; border-color: #E85D5D; }
         /* Cruzadas */
         .cz-grid-wrap { display: flex; justify-content: center; margin-bottom: 10px; }
         .cz-grid { display: inline-grid; gap: 1px; background: rgba(255,255,255,0.05); }
@@ -1783,6 +1788,26 @@
         .grank-name { flex: 1; font-size: 13px; font-weight: 600; color: var(--text-1); }
         .grank-xp { font-family: 'Sora'; font-size: 12px; font-weight: 800; color: var(--accent); }
         .grank-me { border-color: var(--accent); background: var(--accent-dim); }
+        /* BJJ English */
+        .eng-mode-btns { display: flex; gap: 6px; margin-bottom: 14px; }
+        .eng-mode-btn { flex: 1; padding: 10px 6px; border: 1.5px solid var(--border); background: var(--bg-card); border-radius: 10px; font-size: 11px; font-weight: 700; color: var(--text-3); cursor: pointer; text-align: center; transition: all 0.2s; }
+        .eng-mode-btn.active { border-color: #A855F7; background: rgba(168,85,247,0.1); color: #C084FC; }
+        .eng-card { padding: 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; }
+        .eng-flag { font-size: 24px; text-align: center; margin-bottom: 4px; }
+        .eng-label { font-size: 10px; font-weight: 700; color: #A855F7; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; margin-bottom: 6px; }
+        .eng-term { font-family: 'Sora'; font-size: 22px; font-weight: 800; color: var(--text-1); text-align: center; margin-bottom: 4px; }
+        .eng-pron { font-size: 11px; color: var(--text-3); text-align: center; font-style: italic; margin-bottom: 12px; }
+        .eng-q { font-size: 13px; color: var(--text-2); text-align: center; margin-bottom: 14px; font-weight: 600; }
+        .eng-opts { display: flex; flex-direction: column; gap: 7px; }
+        .eng-opt { padding: 11px 13px; background: var(--bg-elevated); border: 1.5px solid var(--border); border-radius: 10px; font-size: 13px; color: var(--text-2); cursor: pointer; transition: all 0.2s; text-align: center; }
+        .eng-opt:active { transform: scale(0.98); }
+        .eng-opt.correct { border-color: #2d8a4e; background: rgba(45,138,78,0.12); color: #4ade80; }
+        .eng-opt.wrong { border-color: #E85D5D; background: rgba(232,93,93,0.12); color: #fca5a5; }
+        .eng-opt.disabled { pointer-events: none; opacity: 0.6; }
+        .eng-context { margin-top: 12px; padding: 10px; background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.15); border-radius: 8px; }
+        .eng-context-title { font-size: 9px; font-weight: 800; color: #A855F7; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+        .eng-context-phrase { font-size: 12px; color: var(--text-1); line-height: 1.5; }
+        .eng-context-trad { font-size: 11px; color: var(--text-3); font-style: italic; margin-top: 2px; }
 
         /* Admin Exam Schedule */
         .adm-exam-slot {
@@ -5630,11 +5655,11 @@
                                         <div class="game-card-desc">Teste seus conhecimentos</div>
                                         <div class="game-card-xp">+10 XP/acerto</div>
                                     </div>
-                                    <div class="game-card gc-words" onclick="startGame('cacapalavras')">
-                                        <div class="game-card-icon">🔍</div>
-                                        <div class="game-card-name">Caça-Palavras</div>
-                                        <div class="game-card-desc">Encontre termos BJJ</div>
-                                        <div class="game-card-xp">+5 XP/palavra</div>
+                                    <div class="game-card gc-words" onclick="startGame('associacao')">
+                                        <div class="game-card-icon">🔗</div>
+                                        <div class="game-card-name">Associação</div>
+                                        <div class="game-card-desc">Conecte golpe → descrição</div>
+                                        <div class="game-card-xp">+6 XP/par</div>
                                     </div>
                                     <div class="game-card gc-memory" onclick="startGame('memoria')">
                                         <div class="game-card-icon">🃏</div>
@@ -5659,6 +5684,12 @@
                                         <div class="game-card-name">Cruzadas</div>
                                         <div class="game-card-desc">Palavras cruzadas BJJ</div>
                                         <div class="game-card-xp">+20 XP/jogo</div>
+                                    </div>
+                                    <div class="game-card gc-english" onclick="startGame('english')">
+                                        <div class="game-card-icon">🇺🇸</div>
+                                        <div class="game-card-name">BJJ English</div>
+                                        <div class="game-card-desc">Aprenda termos em inglês</div>
+                                        <div class="game-card-xp">+8 XP/acerto</div>
                                     </div>
                                 </div>
                                 <!-- Stats -->
@@ -11736,40 +11767,75 @@
         // === MEMORY GAME PAIRS ===
         var MEMORY_PAIRS = [
           ['Montada','4 pontos'],['Raspagem','2 pontos'],['Passagem','3 pontos'],['Costas','4 pontos'],
-          ['Takedown','2 pontos'],['KOB','2 pontos'],['Armbar','Chave braço'],['Kimura','Chave ombro'],
-          ['Triângulo','Estrangulam.'],['Mata-leão','Pelas costas'],['Guilhotina','Frontal'],['Guarda','De baixo'],
-          ['DLR','Gancho externo'],['Spider','Pés bíceps'],['Butterfly','Ganchos'],['Meia-guarda','Uma perna']
+          ['Queda','2 pontos'],['Joelho barriga','2 pontos'],['Chave de braço','Extensão do cotovelo'],['Kimura','Rotação do ombro'],
+          ['Triângulo','Pernas no pescoço'],['Mata-leão','Pelas costas'],['Guilhotina','Pelo pescoço frontal'],['Guarda fechada','Pernas cruzadas'],
+          ['Meia-guarda','Uma perna presa'],['Cem-quilos','Controle lateral'],['Americana','Ombro da montada'],['Omoplata','Ombro com perna']
         ];
 
         // === FORCA WORDS ===
         var FORCA_WORDS = [
-          {w:'RASPAGEM',h:'Inverter de baixo para cima'},
-          {w:'MONTADA',h:'Posição sentado sobre o oponente'},
-          {w:'PASSAGEM',h:'Sair da guarda para posição dominante'},
-          {w:'KIMURA',h:'Chave de ombro com controle do pulso'},
-          {w:'TRIÂNGULO',h:'Estrangulamento com as pernas'},
-          {w:'GUILHOTINA',h:'Estrangulamento frontal pelo pescoço'},
-          {w:'ARMBAR',h:'Chave de braço reta'},
-          {w:'TAKEDOWN',h:'Derrubar o oponente ao chão'},
-          {w:'BERIMBOLO',h:'Inversão para tomar as costas'},
-          {w:'AMERICANA',h:'Chave de ombro da montada'},
-          {w:'ESTRANGULAMENTO',h:'Cortar circulação ou respiração'},
+          {w:'RASPAGEM',h:'Inverter posição de baixo para cima'},
+          {w:'MONTADA',h:'Sentado sobre o tronco do oponente'},
+          {w:'PASSAGEM',h:'Ultrapassar a guarda do oponente'},
+          {w:'KIMURA',h:'Chave de ombro com rotação externa'},
+          {w:'TRIANGULO',h:'Estrangulamento com as pernas formando triângulo'},
+          {w:'GUILHOTINA',h:'Estrangulamento frontal abraçando o pescoço'},
+          {w:'AMERICANA',h:'Chave de ombro com rotação interna'},
+          {w:'OMOPLATA',h:'Chave de ombro usando a perna'},
+          {w:'BERIMBOLO',h:'Inversão giratória para tomar as costas'},
           {w:'FINALIZAÇÃO',h:'Submissão que encerra a luta'},
-          {w:'GUARDA',h:'Posição de baixo com controle'},
-          {w:'COSTAS',h:'Posição mais dominante no BJJ'},
-          {w:'UNDERHOOK',h:'Braço por baixo da axila'},
-          {w:'SWEEP',h:'Raspagem em inglês'},
-          {w:'HEELHOOK',h:'Chave de calcanhar'},
-          {w:'ANKLELOCK',h:'Chave de tornozelo'},
-          {w:'HALFGUARD',h:'Meia-guarda em inglês'},
-          {w:'DELARIVA',h:'Guarda com gancho externo na perna'}
+          {w:'GUARDA',h:'Posição de controle usando as pernas'},
+          {w:'COSTAS',h:'Posição mais dominante — ganchos nos quadris'},
+          {w:'ESTRANGULAMENTO',h:'Cortar circulação sanguínea do pescoço'},
+          {w:'RASPAGEM',h:'Sweep — reverter a posição para ficar por cima'},
+          {w:'JOELHADA',h:'Knee on belly — joelho na barriga'},
+          {w:'QUEDA',h:'Takedown — derrubar ao chão'},
+          {w:'PEGADA',h:'Grip — controle com as mãos no kimono'},
+          {w:'FAIXA',h:'Indicador de graduação no Jiu-Jitsu'},
+          {w:'TATAME',h:'Superfície onde se treina Jiu-Jitsu'},
+          {w:'PONTE',h:'Bridge — movimento de fuga fundamental'},
+          {w:'ALAVANCA',h:'Princípio base do Jiu-Jitsu — força mecânica'},
+          {w:'GANCHO',h:'Hook — pé enganchado para controle'},
+          {w:'POSTURA',h:'Manter coluna ereta dentro da guarda'},
+          {w:'CHAVE',h:'Lock — técnica de articulação'},
+          {w:'GRAVATA',h:'Estrangulamento pela lateral do pescoço'}
         ];
 
-        // === CAÇA-PALAVRAS ===
-        var CP_WORDS_BANK = [
-          ['KIMURA','ARMBAR','GUARDA','MOUNT','SWEEP','CHOKE','GUARD','CROSS','SPIDER','HOOKS'],
-          ['TRIANGLE','BRIDGE','ESCAPE','SUBMIT','TURTLE','CLOCK','NORTH','SOUTH','FRAME','GRIPS'],
-          ['BERIMBOLO','TAKEDOWN','HALFGUARD','BACKMOUNT','SIDECONTROL','KNEEBAR','POSITION','ALLIANCE','TATAME','MATALEAO']
+        // === ASSOCIAÇÃO PAIRS (golpe PT → descrição) ===
+        var ASSOC_BANK = [
+          // Finalizações
+          {t:'Mata-leão',d:'Estrangulamento pelas costas com braço sob o queixo'},
+          {t:'Guilhotina',d:'Estrangulamento frontal abraçando o pescoço'},
+          {t:'Triângulo',d:'Estrangulamento com as pernas cruzadas no pescoço'},
+          {t:'Kimura',d:'Chave de ombro com rotação externa do braço'},
+          {t:'Americana',d:'Chave de ombro com rotação interna do braço'},
+          {t:'Omoplata',d:'Chave de ombro usando a perna por cima do braço'},
+          {t:'Chave de braço',d:'Hiperextensão do cotovelo com quadril'},
+          {t:'Chave de tornozelo',d:'Pressão no tornozelo com antebraço'},
+          {t:'Chave de joelho',d:'Hiperextensão lateral do joelho'},
+          {t:'Chave de calcanhar',d:'Torção do calcanhar — ataque ao joelho'},
+          {t:'Gravata',d:'Estrangulamento lateral com controle da cabeça'},
+          {t:'Ezequiel',d:'Estrangulamento com a manga do kimono'},
+          {t:'Gogoplata',d:'Canela pressionando a garganta pela guarda'},
+          {t:'Mão de vaca',d:'Chave de punho torcendo o pulso'},
+          // Posições
+          {t:'Montada',d:'Sentado sobre o tronco do oponente — 4 pontos'},
+          {t:'Costas',d:'Ganchos nos quadris, abraçando por trás — 4 pontos'},
+          {t:'Cem-quilos',d:'Controle lateral peito-a-peito perpendicular'},
+          {t:'Norte-sul',d:'Controle com corpos invertidos cabeça-pé'},
+          {t:'Joelho na barriga',d:'Joelho pressionando o abdômen — 2 pontos'},
+          {t:'Meia-guarda',d:'Controle de apenas uma perna do passador'},
+          {t:'Guarda fechada',d:'Pernas cruzadas na lombar do oponente'},
+          {t:'Guarda aberta',d:'Pernas livres com ganchos e controle de distância'},
+          {t:'Tartaruga',d:'De quatro apoios protegendo pescoço e braços'},
+          {t:'Montada técnica',d:'Uma perna ao lado da cabeça — variação da montada'},
+          // Movimentos
+          {t:'Raspagem',d:'Inverter posição de baixo para cima — 2 pontos'},
+          {t:'Passagem de guarda',d:'Ultrapassar as pernas do oponente — 3 pontos'},
+          {t:'Queda',d:'Derrubar o oponente da posição de pé — 2 pontos'},
+          {t:'Ponte',d:'Elevar quadril para escapar ou derrubar'},
+          {t:'Fuga de quadril',d:'Mover quadril lateralmente para criar espaço'},
+          {t:'Berimbolo',d:'Inversão giratória para tomar as costas'}
         ];
 
         // === CROSSWORD PUZZLES ===
@@ -11790,6 +11856,112 @@
             {w:'FAIXA',r:4,c:0,d:'H',h:'Indicador de graduação'},
             {w:'BASE',r:6,c:3,d:'H',h:'Equilíbrio e postura estável'}
           ]}
+        ];
+
+        // === BJJ ENGLISH VOCABULARY ===
+        var ENGLISH_BANK = [
+          // --- Finalizações ---
+          {en:'Rear Naked Choke',pt:'Mata-leão',pron:'rír nêi-kid tchôuk',
+           ctx:'He got the rear naked choke from back mount.',trad:'Ele pegou o mata-leão das costas.',cat:'Finalização'},
+          {en:'Guillotine',pt:'Guilhotina',pron:'gí-lo-tín',
+           ctx:'Watch out for the guillotine when you shoot!',trad:'Cuidado com a guilhotina quando entrar na queda!',cat:'Finalização'},
+          {en:'Triangle Choke',pt:'Triângulo',pron:'trái-ân-gol tchôuk',
+           ctx:'She locked a tight triangle choke from closed guard.',trad:'Ela travou um triângulo apertado da guarda fechada.',cat:'Finalização'},
+          {en:'Armbar',pt:'Chave de braço',pron:'árm-bar',
+           ctx:'The armbar is one of the first submissions you learn.',trad:'A chave de braço é uma das primeiras finalizações que você aprende.',cat:'Finalização'},
+          {en:'Kimura',pt:'Kimura (chave de ombro)',pron:'ki-mú-ra',
+           ctx:'I caught the kimura from half guard.',trad:'Peguei a kimura da meia-guarda.',cat:'Finalização'},
+          {en:'Americana',pt:'Americana (chave de ombro)',pron:'ame-ri-ká-na',
+           ctx:'Americana works great from mount and side control.',trad:'A americana funciona bem da montada e do cem-quilos.',cat:'Finalização'},
+          {en:'Omoplata',pt:'Omoplata',pron:'omo-plá-ta',
+           ctx:'The omoplata is a shoulder lock using your legs.',trad:'A omoplata é uma chave de ombro usando as pernas.',cat:'Finalização'},
+          {en:'Ankle Lock',pt:'Chave de tornozelo',pron:'ân-kol lók',
+           ctx:'Straight ankle lock is legal at white belt.',trad:'A chave de tornozelo reta é permitida na faixa branca.',cat:'Finalização'},
+          {en:'Heel Hook',pt:'Chave de calcanhar',pron:'ríl rúk',
+           ctx:"The heel hook attacks the knee — be careful!",trad:'A chave de calcanhar ataca o joelho — cuidado!',cat:'Finalização'},
+          {en:'Knee Bar',pt:'Chave de joelho',pron:'ní bar',
+           ctx:'Knee bar is only allowed from brown belt in gi.',trad:'A chave de joelho só é permitida da marrom no gi.',cat:'Finalização'},
+          {en:'Wrist Lock',pt:'Chave de punho',pron:'ríst lók',
+           ctx:'He surprised me with a sneaky wrist lock.',trad:'Ele me surpreendeu com uma chave de punho sorrateira.',cat:'Finalização'},
+          {en:'Ezekiel Choke',pt:'Ezequiel',pron:'i-zí-ki-el tchôuk',
+           ctx:'The Ezekiel choke uses the sleeve of the gi.',trad:'O ezequiel usa a manga do kimono.',cat:'Finalização'},
+          {en:'Cross Collar Choke',pt:'Estrangulamento cruzado',pron:'króss kó-lar tchôuk',
+           ctx:'Roger Gracie is famous for his cross collar choke from mount.',trad:'Roger Gracie é famoso pelo estrangulamento cruzado da montada.',cat:'Finalização'},
+          {en:'Bow and Arrow Choke',pt:'Estrangulamento arco e flecha',pron:'bôu end á-rou tchôuk',
+           ctx:'Bow and arrow is one of the strongest chokes from the back.',trad:'O arco e flecha é um dos estrangulamentos mais fortes das costas.',cat:'Finalização'},
+          // --- Posições ---
+          {en:'Closed Guard',pt:'Guarda fechada',pron:'klôuzd gárd',
+           ctx:'Keep your posture when inside the closed guard.',trad:'Mantenha a postura dentro da guarda fechada.',cat:'Posição'},
+          {en:'Open Guard',pt:'Guarda aberta',pron:'ôu-pen gárd',
+           ctx:'There are many types of open guard in modern BJJ.',trad:'Existem muitos tipos de guarda aberta no BJJ moderno.',cat:'Posição'},
+          {en:'Half Guard',pt:'Meia-guarda',pron:'ráf gárd',
+           ctx:'From half guard, fight for the underhook.',trad:'Da meia-guarda, lute pelo underhook.',cat:'Posição'},
+          {en:'Mount',pt:'Montada',pron:'máunt',
+           ctx:'Mount is worth 4 points in IBJJF rules.',trad:'A montada vale 4 pontos nas regras da IBJJF.',cat:'Posição'},
+          {en:'Side Control',pt:'Cem-quilos / Controle lateral',pron:'sáid kon-trôul',
+           ctx:'Maintain heavy pressure in side control.',trad:'Mantenha pressão pesada no cem-quilos.',cat:'Posição'},
+          {en:'Back Mount',pt:'Costas / Pegada de costas',pron:'bék máunt',
+           ctx:'Back mount with hooks is the strongest position.',trad:'As costas com ganchos é a posição mais forte.',cat:'Posição'},
+          {en:'Knee on Belly',pt:'Joelho na barriga',pron:'ní on bé-li',
+           ctx:'Knee on belly is worth 2 points and creates a lot of pressure.',trad:'Joelho na barriga vale 2 pontos e cria muita pressão.',cat:'Posição'},
+          {en:'North-South',pt:'Norte-sul',pron:'nórth sáuth',
+           ctx:'In north-south, your chest is on his chest but inverted.',trad:'No norte-sul, seu peito está no peito dele, mas invertido.',cat:'Posição'},
+          {en:'Turtle',pt:'Tartaruga / Quatro apoios',pron:'târ-tol',
+           ctx:'When someone is in turtle, attack the neck or take the back.',trad:'Quando alguém está de quatro apoios, ataque o pescoço ou pegue as costas.',cat:'Posição'},
+          {en:'Spider Guard',pt:'Guarda aranha',pron:'spái-der gárd',
+           ctx:'Spider guard controls distance with feet on the biceps.',trad:'A guarda aranha controla distância com os pés nos bíceps.',cat:'Posição'},
+          {en:'Butterfly Guard',pt:'Guarda borboleta',pron:'bâ-ter-flái gárd',
+           ctx:'Butterfly guard is great for sweeps.',trad:'A guarda borboleta é ótima para raspagens.',cat:'Posição'},
+          {en:'De La Riva Guard',pt:'Guarda De La Riva',pron:'de-la-rí-va gárd',
+           ctx:'Hook the outside of his leg for De La Riva guard.',trad:'Ganche do lado de fora da perna dele para a guarda De La Riva.',cat:'Posição'},
+          // --- Movimentos ---
+          {en:'Sweep',pt:'Raspagem',pron:'suíp',
+           ctx:'A sweep is when you reverse from bottom to top — 2 points.',trad:'Uma raspagem é quando você inverte de baixo para cima — 2 pontos.',cat:'Movimento'},
+          {en:'Guard Pass',pt:'Passagem de guarda',pron:'gárd péss',
+           ctx:'Guard passing is one of the most important skills.',trad:'Passagem de guarda é uma das habilidades mais importantes.',cat:'Movimento'},
+          {en:'Takedown',pt:'Queda',pron:'têik-dáun',
+           ctx:'A clean takedown scores 2 points.',trad:'Uma queda limpa vale 2 pontos.',cat:'Movimento'},
+          {en:'Bridge',pt:'Ponte / Upa',pron:'brídj',
+           ctx:'Use the bridge to escape from mount.',trad:'Use a ponte para escapar da montada.',cat:'Movimento'},
+          {en:'Hip Escape',pt:'Fuga de quadril',pron:'ríp es-kêip',
+           ctx:'Hip escape is the most fundamental BJJ movement.',trad:'A fuga de quadril é o movimento mais fundamental do BJJ.',cat:'Movimento'},
+          {en:'Shrimp',pt:'Fuga de quadril (camarão)',pron:'shrímp',
+           ctx:'Shrimping is the first drill every white belt learns.',trad:'O camarão é o primeiro exercício que todo faixa branca aprende.',cat:'Movimento'},
+          {en:'Pull Guard',pt:'Puxar guarda',pron:'pul gárd',
+           ctx:'Many competitors prefer to pull guard instead of wrestling.',trad:'Muitos competidores preferem puxar guarda em vez de lutar em pé.',cat:'Movimento'},
+          {en:'Back Take',pt:'Pegada de costas',pron:'bék têik',
+           ctx:'The back take from turtle scores 4 points.',trad:'A pegada de costas da tartaruga vale 4 pontos.',cat:'Movimento'},
+          {en:'Berimbolo',pt:'Berimbolo',pron:'be-rim-bô-lo',
+           ctx:'The berimbolo is an inversion to take the back.',trad:'O berimbolo é uma inversão para pegar as costas.',cat:'Movimento'},
+          // --- Conceitos ---
+          {en:'Submission',pt:'Finalização',pron:'sub-mí-shon',
+           ctx:'A submission ends the fight immediately.',trad:'Uma finalização encerra a luta imediatamente.',cat:'Conceito'},
+          {en:'Tap / Tap Out',pt:'Bater / Desistir',pron:'tép / tép áut',
+           ctx:"If you're caught in a submission, tap before you get hurt.",trad:'Se pegaram você numa finalização, bata antes de se machucar.',cat:'Conceito'},
+          {en:'Roll / Sparring',pt:'Rolar / Treino livre',pron:'rôul / spá-ring',
+           ctx:"Let's roll for 5 minutes.",trad:'Vamos rolar 5 minutos.',cat:'Conceito'},
+          {en:'Drill',pt:'Repetição / Exercício técnico',pron:'dríl',
+           ctx:'Drill the technique 10 times on each side.',trad:'Repita a técnica 10 vezes de cada lado.',cat:'Conceito'},
+          {en:'Grip',pt:'Pegada',pron:'gríp',
+           ctx:'A strong grip on the collar controls the fight.',trad:'Uma pegada forte na gola controla a luta.',cat:'Conceito'},
+          {en:'Underhook',pt:'Gancho por baixo',pron:'ân-der-rúk',
+           ctx:'The underhook is key in half guard.',trad:'O underhook é fundamental na meia-guarda.',cat:'Conceito'},
+          {en:'Frame',pt:'Enquadramento / Bloqueio',pron:'frêim',
+           ctx:'Use frames to create distance and prevent pressure.',trad:'Use enquadramentos para criar distância e evitar pressão.',cat:'Conceito'},
+          {en:'Hooks',pt:'Ganchos',pron:'rúks',
+           ctx:'You need hooks to score back mount points.',trad:'Você precisa dos ganchos para pontuar posição de costas.',cat:'Conceito'},
+          {en:'Posture',pt:'Postura',pron:'pós-tcher',
+           ctx:'Keep your posture up inside the guard.',trad:'Mantenha sua postura dentro da guarda.',cat:'Conceito'},
+          {en:'Pressure',pt:'Pressão',pron:'pré-sher',
+           ctx:'Top pressure is essential for a good guard pass.',trad:'Pressão por cima é essencial para uma boa passagem.',cat:'Conceito'},
+          {en:'Scramble',pt:'Disputa caótica',pron:'skrém-bol',
+           ctx:'In a scramble, the fastest athlete usually wins position.',trad:'Numa disputa caótica, o atleta mais rápido geralmente ganha posição.',cat:'Conceito'},
+          {en:'Transition',pt:'Transição',pron:'tran-zí-shon',
+           ctx:'Smooth transitions between positions are the mark of a good fighter.',trad:'Transições suaves entre posições são a marca de um bom lutador.',cat:'Conceito'},
+          {en:'Open Mat',pt:'Treino livre',pron:'ôu-pen mét',
+           ctx:'Open mat on Saturday — come train whatever you want.',trad:'Treino livre no sábado — venha treinar o que quiser.',cat:'Conceito'},
+          {en:'Warm-up',pt:'Aquecimento',pron:'uórm-âp',
+           ctx:"We always start class with a warm-up.",trad:'Sempre começamos a aula com aquecimento.',cat:'Conceito'}
         ];
 
         // ═══ STATE ═══
@@ -11849,11 +12021,12 @@
         function startGame(type) {
           showScreen('game');
           if(type==='quiz') startQuizGame();
-          else if(type==='cacapalavras') startCacaPalavras();
+          else if(type==='associacao') startAssociacao();
           else if(type==='memoria') startMemoria();
           else if(type==='forca') startForca();
           else if(type==='relampago') startRelampago();
           else if(type==='cruzadas') startCruzadas();
+          else if(type==='english') startEnglish();
         }
 
         // ═══════════════════════════════════
@@ -11890,66 +12063,95 @@
           saveGS();setTimeout(function(){g.cur++;renderQuizQ();},1800);
         }
 
-        // ═══════════════════════════════════
-        // 🔍 CAÇA-PALAVRAS
-        // ═══════════════════════════════════
-        function startCacaPalavras() {
-          var set=CP_WORDS_BANK[Math.floor(Math.random()*CP_WORDS_BANK.length)];
-          var words=set.slice(0,8).map(function(w){return w.toUpperCase();});
-          var size=10; var grid=[];
-          for(var r=0;r<size;r++){grid[r]=[];for(var c=0;c<size;c++)grid[r][c]='';}
-          var placed=[];
-          words.forEach(function(w){
-            var dirs=[[0,1],[1,0],[1,1]];
-            for(var attempt=0;attempt<50;attempt++){
-              var d=dirs[Math.floor(Math.random()*dirs.length)];
-              var maxR=size-(d[0]*(w.length-1)),maxC=size-(d[1]*(w.length-1));
-              if(maxR<=0||maxC<=0)continue;
-              var sr=Math.floor(Math.random()*maxR),sc=Math.floor(Math.random()*maxC),fits=true;
-              for(var i=0;i<w.length;i++){var nr=sr+d[0]*i,nc=sc+d[1]*i;if(grid[nr][nc]!==''&&grid[nr][nc]!==w[i]){fits=false;break;}}
-              if(fits){for(var i=0;i<w.length;i++){var nr=sr+d[0]*i,nc=sc+d[1]*i;grid[nr][nc]=w[i];}placed.push(w);break;}
-            }
-          });
-          var letters='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-          for(var r=0;r<size;r++)for(var c=0;c<size;c++)if(!grid[r][c])grid[r][c]=letters[Math.floor(Math.random()*26)];
 
-          _game={type:'cp',grid:grid,size:size,words:placed,found:[],selecting:[],xpEarned:0};
-          document.getElementById('gameTitle').textContent='🔍 Caça-Palavras';
-          document.getElementById('gameInfo').textContent='0/'+placed.length;
+        // ═══════════════════════════════════
+        // 🔗 ASSOCIAÇÃO
+        // ═══════════════════════════════════
+        function startAssociacao() {
+          var pool = ASSOC_BANK.slice().sort(function(){return Math.random()-0.5;}).slice(0,6);
+          var leftItems = pool.map(function(p,i){return {id:i,text:p.t,matched:false};});
+          var rightItems = pool.map(function(p,i){return {id:i,text:p.d,matched:false};});
+          rightItems.sort(function(){return Math.random()-0.5;});
+          _game = {type:'associacao',pairs:pool,left:leftItems,right:rightItems,total:pool.length,matched:0,
+            selectedLeft:null,selectedRight:null,attempts:0,xpEarned:0,results:[]};
+          document.getElementById('gameTitle').textContent='🔗 Associação';
+          document.getElementById('gameInfo').textContent='0/'+pool.length;
           document.getElementById('gameProgressFill').style.width='0%';
-          renderCP();
+          renderAssoc();
         }
-        function renderCP() {
-          var g=_game,h='<div class="cp-grid-wrap"><div class="cp-grid" style="grid-template-columns:repeat('+g.size+',28px);">';
-          for(var r=0;r<g.size;r++)for(var c=0;c<g.size;c++){
-            var cls='cp-cell',id='cp_'+r+'_'+c;
-            if(g.found.some(function(f){return f.some(function(p){return p[0]===r&&p[1]===c;});})) cls+=' found';
-            h+='<div class="'+cls+'" id="'+id+'" onpointerdown="cpDown('+r+','+c+')" onpointerenter="cpMove('+r+','+c+')" onpointerup="cpUp()">'+g.grid[r][c]+'</div>';
+        function renderAssoc() {
+          var g=_game;
+          var h='<div class="assoc-score-bar">';
+          for(var i=0;i<g.total;i++){
+            var cls='assoc-dot';
+            if(i<g.results.length) cls+=g.results[i]?' correct':' wrong';
+            h+='<div class="'+cls+'"></div>';
           }
-          h+='</div></div><div class="cp-words">';
-          g.words.forEach(function(w){var f=g.found.some(function(fp){var fw='';fp.forEach(function(p){fw+=g.grid[p[0]][p[1]];});return fw===w;});
-            h+='<span class="cp-word'+(f?' found':'')+'">'+w+'</span>';});
-          h+='</div>';
+          h+='</div><div class="assoc-container">';
+          h+='<div class="assoc-col"><div class="assoc-col-title">Termo</div>';
+          g.left.forEach(function(item){
+            var cls='assoc-item';
+            if(item.matched) cls+=' matched';
+            else if(g.selectedLeft!==null && g.selectedLeft===item.id) cls+=' selected';
+            h+='<div class="'+cls+'" id="aL_'+item.id+'" onclick="assocTapLeft('+item.id+')">'+item.text+'</div>';
+          });
+          h+='</div><div class="assoc-col"><div class="assoc-col-title">Descrição</div>';
+          g.right.forEach(function(item){
+            var cls='assoc-item';
+            if(item.matched) cls+=' matched';
+            else if(g.selectedRight!==null && g.selectedRight===item.id) cls+=' selected';
+            h+='<div class="'+cls+'" id="aR_'+item.id+'" onclick="assocTapRight('+item.id+')">'+item.text+'</div>';
+          });
+          h+='</div></div>';
           document.getElementById('gameContent').innerHTML=h;
         }
-        var _cpDragging=false;
-        function cpDown(r,c){_cpDragging=true;_game.selecting=[[r,c]];highlightCPSel();}
-        function cpMove(r,c){if(!_cpDragging||!_game)return;var sel=_game.selecting;if(sel.length>0){var s=sel[0],dr=r-s[0],dc=c-s[1];
-          if(dr===0||dc===0||Math.abs(dr)===Math.abs(dc)){var len=Math.max(Math.abs(dr),Math.abs(dc))+1,sd=dr?dr/Math.abs(dr):0,sc2=dc?dc/Math.abs(dc):0;
-            _game.selecting=[];for(var i=0;i<len;i++)_game.selecting.push([s[0]+sd*i,s[1]+sc2*i]);highlightCPSel();}}}
-        function cpUp(){_cpDragging=false;if(!_game)return;var sel=_game.selecting,word='';
-          sel.forEach(function(p){word+=_game.grid[p[0]][p[1]];});
-          var rev=word.split('').reverse().join('');
-          if(_game.words.indexOf(word)>=0&&!alreadyFound(word)){_game.found.push(sel);var xp=5;_game.xpEarned+=xp;addXP(xp);_gs.totalCorrect++;_gs.totalAnswered++;_gs.streak++;if(_gs.streak>_gs.bestStreak)_gs.bestStreak=_gs.streak;}
-          else if(_game.words.indexOf(rev)>=0&&!alreadyFound(rev)){_game.found.push(sel);var xp=5;_game.xpEarned+=xp;addXP(xp);_gs.totalCorrect++;_gs.totalAnswered++;}
-          _game.selecting=[];
-          document.getElementById('gameInfo').textContent=_game.found.length+'/'+_game.words.length;
-          document.getElementById('gameProgressFill').style.width=(_game.found.length/_game.words.length*100)+'%';
-          renderCP(); if(_game.found.length>=_game.words.length){saveGS();setTimeout(finishGame,600);}
+        function assocTapLeft(id) {
+          var g=_game; if(!g) return;
+          var item=g.left.find(function(i){return i.id===id;});
+          if(!item||item.matched) return;
+          g.selectedLeft=id;
+          if(g.selectedRight!==null) { checkAssocMatch(); return; }
+          renderAssoc();
         }
-        function alreadyFound(w){return _game.found.some(function(f){var fw='';f.forEach(function(p){fw+=_game.grid[p[0]][p[1]];});return fw===w||fw===w.split('').reverse().join('');});}
-        function highlightCPSel(){document.querySelectorAll('.cp-cell.selecting').forEach(function(e){e.classList.remove('selecting');});
-          if(_game)_game.selecting.forEach(function(p){var el=document.getElementById('cp_'+p[0]+'_'+p[1]);if(el)el.classList.add('selecting');});}
+        function assocTapRight(id) {
+          var g=_game; if(!g) return;
+          var item=g.right.find(function(i){return i.id===id;});
+          if(!item||item.matched) return;
+          g.selectedRight=id;
+          if(g.selectedLeft!==null) { checkAssocMatch(); return; }
+          renderAssoc();
+        }
+        function checkAssocMatch() {
+          var g=_game;
+          g.attempts++; _gs.totalAnswered++;
+          var leftId=g.selectedLeft, rightId=g.selectedRight;
+          var isMatch = leftId===rightId;
+          if(isMatch){
+            g.matched++;
+            g.left.find(function(i){return i.id===leftId;}).matched=true;
+            g.right.find(function(i){return i.id===rightId;}).matched=true;
+            g.results.push(true);
+            var xp=6; g.xpEarned+=xp; addXP(xp);
+            _gs.totalCorrect++;_gs.streak++;
+            if(_gs.streak>_gs.bestStreak) _gs.bestStreak=_gs.streak;
+            g.selectedLeft=null; g.selectedRight=null;
+            document.getElementById('gameInfo').textContent=g.matched+'/'+g.total;
+            document.getElementById('gameProgressFill').style.width=(g.matched/g.total*100)+'%';
+            renderAssoc();
+            if(g.matched>=g.total){saveGS();setTimeout(finishGame,600);}
+          } else {
+            _gs.streak=0; g.results.push(false);
+            var lEl=document.getElementById('aL_'+leftId);
+            var rEl=document.getElementById('aR_'+rightId);
+            if(lEl)lEl.classList.add('wrong'); if(rEl)rEl.classList.add('wrong');
+            setTimeout(function(){
+              g.selectedLeft=null; g.selectedRight=null;
+              renderAssoc();
+            },700);
+          }
+          saveGS();
+        }
+
 
         // ═══════════════════════════════════
         // 🃏 MEMÓRIA
@@ -12139,6 +12341,106 @@
         }
 
         // ═══════════════════════════════════
+        // 🇺🇸 BJJ ENGLISH
+        // ═══════════════════════════════════
+        var _engMode = 'pt2en'; // 'pt2en' or 'en2pt'
+
+        function startEnglish() {
+          var pool = ENGLISH_BANK.slice().sort(function(){return Math.random()-0.5;}).slice(0,10);
+          _game = {type:'english',qs:pool,cur:0,score:0,xpEarned:0,mode:_engMode};
+          document.getElementById('gameTitle').textContent='🇺🇸 BJJ English';
+          document.getElementById('gameInfo').textContent='0/'+pool.length;
+          document.getElementById('gameProgressFill').style.width='0%';
+          renderEngQ();
+        }
+
+        function renderEngQ() {
+          var g=_game;
+          if(!g||g.cur>=g.qs.length){finishGame();return;}
+          var item=g.qs[g.cur], mode=g.mode;
+          document.getElementById('gameInfo').textContent=g.score+'/'+g.qs.length;
+          document.getElementById('gameProgressFill').style.width=(g.cur/g.qs.length*100)+'%';
+
+          // Generate wrong options
+          var allOthers=ENGLISH_BANK.filter(function(x){return x.en!==item.en;}).sort(function(){return Math.random()-0.5;}).slice(0,3);
+          var options=[];
+          if(mode==='pt2en'){
+            // Show PT term, guess EN
+            options.push({text:item.en,correct:true});
+            allOthers.forEach(function(x){options.push({text:x.en,correct:false});});
+          } else {
+            // Show EN term, guess PT
+            options.push({text:item.pt,correct:true});
+            allOthers.forEach(function(x){options.push({text:x.pt,correct:false});});
+          }
+          options.sort(function(){return Math.random()-0.5;});
+
+          var h='';
+          // Mode selector
+          h+='<div class="eng-mode-btns">';
+          h+='<div class="eng-mode-btn'+(mode==='pt2en'?' active':'')+'" onclick="switchEngMode(\'pt2en\')">🇧🇷 → 🇺🇸 Como se diz?</div>';
+          h+='<div class="eng-mode-btn'+(mode==='en2pt'?' active':'')+'" onclick="switchEngMode(\'en2pt\')">🇺🇸 → 🇧🇷 O que significa?</div>';
+          h+='</div>';
+
+          h+='<div class="eng-card">';
+          h+='<div class="eng-flag">'+(mode==='pt2en'?'🇧🇷':'🇺🇸')+'</div>';
+          h+='<div class="eng-label">'+(mode==='pt2en'?'Como se diz em inglês?':'O que significa?')+'</div>';
+          h+='<div class="eng-term">'+(mode==='pt2en'?item.pt:item.en)+'</div>';
+          if(mode==='en2pt') h+='<div class="eng-pron">Pronúncia: /'+item.pron+'/</div>';
+          h+='<div class="eng-q">'+item.cat+'</div>';
+          h+='<div class="eng-opts">';
+          options.forEach(function(o,i){
+            h+='<div class="eng-opt" id="eng_'+g.cur+'_'+i+'" onclick="answerEng('+i+','+o.correct+')">'+o.text+'</div>';
+          });
+          h+='</div></div>';
+          document.getElementById('gameContent').innerHTML=h;
+        }
+
+        function switchEngMode(mode) {
+          _engMode=mode;
+          if(_game&&_game.type==='english'){_game.mode=mode; renderEngQ();}
+        }
+
+        function answerEng(idx, isCorrect) {
+          var g=_game, item=g.qs[g.cur];
+          var xp=isCorrect?8:2;
+          if(isCorrect){g.score++;_gs.totalCorrect++;_gs.streak++;if(_gs.streak>_gs.bestStreak)_gs.bestStreak=_gs.streak;}
+          else{_gs.streak=0;}
+          g.xpEarned+=xp; addXP(xp); _gs.totalAnswered++;
+
+          // Highlight
+          var opts=document.querySelectorAll('.eng-opt');
+          opts.forEach(function(el,i){
+            el.classList.add('disabled');
+            var elId='eng_'+g.cur+'_'+i;
+            var optEl=document.getElementById(elId);
+            // The correct one gets green
+          });
+          // Find correct option element
+          var allOptEls=document.querySelectorAll('.eng-opt');
+          allOptEls.forEach(function(el){
+            var correctText=(g.mode==='pt2en')?item.en:item.pt;
+            if(el.textContent===correctText) el.classList.add('correct');
+          });
+          var clickedEl=document.getElementById('eng_'+g.cur+'_'+idx);
+          if(!isCorrect && clickedEl) clickedEl.classList.add('wrong');
+
+          // Show context phrase
+          var card=document.querySelector('.eng-card');
+          if(card){
+            var ctx='<div class="eng-context">';
+            ctx+='<div class="eng-context-title">📖 Como usar</div>';
+            ctx+='<div class="eng-context-phrase">"'+item.ctx+'"</div>';
+            ctx+='<div class="eng-context-trad">'+item.trad+'</div>';
+            if(g.mode==='pt2en') ctx+='<div class="eng-pron" style="margin-top:6px;text-align:left;">🔊 /'+item.pron+'/</div>';
+            ctx+='</div>';
+            card.insertAdjacentHTML('beforeend',ctx);
+          }
+          saveGS();
+          setTimeout(function(){g.cur++;renderEngQ();},2500);
+        }
+
+        // ═══════════════════════════════════
         // 🏁 FINISH / RESULT
         // ═══════════════════════════════════
         function finishGame() {
@@ -12149,21 +12451,22 @@
 
           var g=_game,score=0,total=0,emoji='🏆',msg='Parabéns!';
           if(g.type==='quiz'){score=g.score;total=g.qs.length;}
-          else if(g.type==='cp'){score=g.found.length;total=g.words.length;}
+          else if(g.type==='associacao'){score=g.matched;total=g.total;msg='Em '+g.attempts+' tentativas!';}
           else if(g.type==='mem'){score=g.matched;total=g.pairs;msg='Em '+g.moves+' jogadas!';}
           else if(g.type==='forca'){score=g.won?1:0;total=1;msg=g.won?'Você descobriu: '+g.word:'A palavra era: '+g.word;}
           else if(g.type==='rl'){score=g.score;total=g.cur;msg='Em 30 segundos!';}
           else if(g.type==='cz'){score=g.solved.length;total=g.words.length;}
+          else if(g.type==='english'){score=g.score;total=g.qs.length;}
 
           var pct=total>0?Math.round(score/total*100):0;
           emoji=pct>=80?'🏆':pct>=60?'💪':pct>=30?'📚':'🤔';
           var cls=pct>=70?'great':pct>=50?'good':'bad';
           var label=pct>=80?'Excelente!':pct>=60?'Muito bem!':pct>=30?'Continue praticando!':'Não desista!';
-          var names={quiz:'Quiz',cp:'Caça-Palavras',mem:'Memória',forca:'Forca',rl:'Relâmpago',cz:'Cruzadas'};
+          var names={quiz:'Quiz',associacao:'Associação',mem:'Memória',forca:'Forca',rl:'Relâmpago',cz:'Cruzadas',english:'BJJ English'};
 
           var h='<div class="gresult"><div class="gresult-emoji">'+emoji+'</div>';
           h+='<div class="gresult-score '+cls+'">'+score+(total>0?'/'+total:'')+'</div>';
-          h+='<div class="gresult-label">'+label+(g.type==='rl'||g.type==='mem'||g.type==='forca'?' · '+msg:'')+'</div>';
+          h+='<div class="gresult-label">'+label+(msg&&g.type!=='quiz'&&g.type!=='cz'&&g.type!=='english'?' · '+msg:'')+'</div>';
           h+='<div class="gresult-stats">';
           h+='<div><div class="gresult-sv" style="color:#4ade80;">+'+g.xpEarned+'</div><div class="gresult-sl">XP</div></div>';
           h+='<div><div class="gresult-sv" style="color:#FF6B35;">🔥'+_gs.streak+'</div><div class="gresult-sl">Sequência</div></div>';
