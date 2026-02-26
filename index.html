@@ -6257,7 +6257,7 @@
                         <!-- CONFIGURAR EVENTO -->
                         <div class="admin-section">
                             <div class="admin-section-header">
-                                <div class="admin-section-title">📅 Configurar Próximo Evento</div>
+                                <div class="admin-section-title">📅 Configurar Evento por CT</div>
                             </div>
                             <div style="padding:12px;">
                                 <div class="ct-detail-row">
@@ -6266,34 +6266,41 @@
                                         <input type="text" id="campEventoEdicao" placeholder="Ex: 2026-1">
                                     </div>
                                     <div class="ct-detail-field">
-                                        <label>📆 Data do Evento</label>
-                                        <input type="date" id="campEventoData">
+                                        <label>📍 CT</label>
+                                        <select id="campEventoCT" onchange="loadCampEventoForCT()">
+                                            <option value="">Selecione o CT</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="ct-detail-row">
+                                    <div class="ct-detail-field">
+                                        <label>📆 Data do Evento</label>
+                                        <input type="date" id="campEventoData">
+                                    </div>
                                     <div class="ct-detail-field">
                                         <label>💰 Valor (R$)</label>
                                         <input type="number" id="campEventoValor" value="100" min="0" step="10">
                                     </div>
+                                </div>
+                                <div class="ct-detail-row">
                                     <div class="ct-detail-field">
                                         <label>📱 Chave Pix</label>
                                         <input type="text" id="campEventoPix" placeholder="Chave Pix ou telefone">
                                     </div>
-                                </div>
-                                <div class="ct-detail-row">
                                     <div class="ct-detail-field">
                                         <label>📝 Observações</label>
-                                        <input type="text" id="campEventoObs" placeholder="Informações extras para os alunos">
+                                        <input type="text" id="campEventoObs" placeholder="Informações extras">
                                     </div>
                                 </div>
                                 <div class="ct-detail-row" style="align-items:center;">
                                     <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-2);cursor:pointer;">
                                         <input type="checkbox" id="campEventoAtivo" checked style="width:18px;height:18px;accent-color:var(--accent);">
-                                        Evento ativo (visível para alunos)
+                                        Evento ativo (visível para alunos deste CT)
                                     </label>
                                 </div>
                                 <div id="campEventoMsg" style="margin:8px 0;"></div>
                                 <button class="ct-schedule-save" onclick="saveCampEvento()" style="width:100%;padding:14px;font-size:14px;border-radius:12px;">📅 Salvar Evento</button>
+                                <div id="campEventosCadastrados" style="margin-top:12px;"></div>
                             </div>
                         </div>
 
@@ -6881,7 +6888,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw9_qr4ZznYX7retjmVHJIMRNPz9g6qGQNkTHiU51ZNQJpJyoupt1fvUoGapexbX_o/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyLy-vdeBBSG689O05XBa94UIKs7wNE0vbTxNndIw_tT9Xhc18uD1bTL6S4yRNCoDjn/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -10708,16 +10715,56 @@
 
         // Admin: carregar config do evento nos inputs
         async function loadCampEventoAdmin() {
+          // Populate CT selector
+          var ctSel = document.getElementById('campEventoCT');
+          if (ctSel) {
+            ctSel.innerHTML = '<option value="">Selecione o CT</option>';
+            if (allCTs && allCTs.length > 0) {
+              allCTs.forEach(function(ct) {
+                var name = typeof ct === 'string' ? ct : ct.name || ct.toString();
+                ctSel.innerHTML += '<option value="' + escapeHtml(name) + '">' + escapeHtml(name) + '</option>';
+              });
+            }
+          }
+          // Load all events list
           try {
             var data = await secureFetch('getCampEvento', {});
-            if (data.success && data.evento) {
+            if (data.success && data.eventos) {
+              renderCampEventosList(data.eventos);
+            }
+          } catch(err) { console.log('loadCampEvento:', err); }
+        }
+
+        function renderCampEventosList(eventos) {
+          var container = document.getElementById('campEventosCadastrados');
+          if (!container) return;
+          if (!eventos || eventos.length === 0) { container.innerHTML = '<div style="text-align:center;color:var(--text-3);font-size:11px;padding:8px;">Nenhum evento cadastrado</div>'; return; }
+          var h = '<div style="font-size:11px;font-weight:700;color:var(--text-2);margin-bottom:6px;">📋 Eventos ativos:</div>';
+          eventos.forEach(function(e) {
+            var dt = '';
+            try { var d = new Date(e.dataEvento); dt = !isNaN(d) ? d.toLocaleDateString('pt-BR') : e.dataEvento; } catch(x) { dt = e.dataEvento; }
+            h += '<div style="display:flex;align-items:center;gap:6px;padding:6px 8px;background:var(--bg-elevated);border-radius:8px;margin-bottom:4px;font-size:11px;">';
+            h += '<span style="font-weight:700;color:var(--accent);">' + escapeHtml(e.ct) + '</span>';
+            h += '<span style="color:var(--text-2);">' + dt + '</span>';
+            h += '<span style="color:var(--text-3);">R$' + (e.valor||100) + '</span>';
+            h += '<span style="color:var(--text-3);font-size:10px;">' + escapeHtml(e.edicao) + '</span>';
+            h += '</div>';
+          });
+          container.innerHTML = h;
+        }
+
+        async function loadCampEventoForCT() {
+          var ct = (document.getElementById('campEventoCT').value || '').trim();
+          if (!ct) return;
+          try {
+            var data = await secureFetch('getCampEvento', { ct: ct });
+            if (data.success && data.evento && data.evento.ct === ct) {
               var e = data.evento;
               var edEl = document.getElementById('campEventoEdicao');
               var dtEl = document.getElementById('campEventoData');
               var vlEl = document.getElementById('campEventoValor');
               var pxEl = document.getElementById('campEventoPix');
               var obEl = document.getElementById('campEventoObs');
-              var atEl = document.getElementById('campEventoAtivo');
               if (edEl) edEl.value = e.edicao || '';
               if (dtEl && e.dataEvento) {
                 var d = new Date(e.dataEvento);
@@ -10727,26 +10774,27 @@
               if (vlEl) vlEl.value = e.valor || 100;
               if (pxEl) pxEl.value = e.chavePix || '';
               if (obEl) obEl.value = e.observacoes || '';
-              if (atEl) atEl.checked = true;
             }
-          } catch(err) { console.log('loadCampEvento:', err); }
+          } catch(err) { console.log('loadCampEventoForCT:', err); }
         }
 
         // Admin: salvar evento
         async function saveCampEvento() {
           var edicao = (document.getElementById('campEventoEdicao').value || '').trim();
+          var ct = (document.getElementById('campEventoCT').value || '').trim();
           var dataEvento = (document.getElementById('campEventoData').value || '').trim();
           var valor = parseFloat(document.getElementById('campEventoValor').value) || 100;
           var chavePix = (document.getElementById('campEventoPix').value || '').trim();
           var obs = (document.getElementById('campEventoObs').value || '').trim();
           var ativo = document.getElementById('campEventoAtivo').checked;
 
-          if (!edicao || !dataEvento) { showMessage('campEventoMsg', 'Preencha edição e data', 'danger'); return; }
+          if (!edicao || !ct || !dataEvento) { showMessage('campEventoMsg', 'Preencha edição, CT e data', 'danger'); return; }
 
           showMessage('campEventoMsg', 'Salvando...', 'info');
           try {
-            var data = await secureFetch('saveCampEvento', { edicao:edicao, dataEvento:dataEvento, valor:valor, chavePix:chavePix, observacoes:obs, ativo:ativo });
-            showMessage('campEventoMsg', data.success ? '✅ Evento salvo!' : data.message, data.success ? 'success' : 'danger');
+            var data = await secureFetch('saveCampEvento', { edicao:edicao, ct:ct, dataEvento:dataEvento, valor:valor, chavePix:chavePix, observacoes:obs, ativo:ativo });
+            showMessage('campEventoMsg', data.success ? '✅ Evento salvo para ' + ct + '!' : data.message, data.success ? 'success' : 'danger');
+            if (data.success) loadCampEventoAdmin();
           } catch(err) { showMessage('campEventoMsg', 'Erro: ' + err.message, 'danger'); }
         }
 
@@ -11539,6 +11587,112 @@
                 pt.classList.add('active');
                 loadPratica();
             }
+        }
+
+        // ═══════════════════════════════════════════════════
+        // 📅 EXAM CALENDAR (STUDENT)
+        // ═══════════════════════════════════════════════════
+        var _selectedExamSlot = null;
+        var _examInfo = null;
+
+        async function openExamCalendar() {
+          _selectedExamSlot = null;
+          document.getElementById('examModalOverlay').style.display = 'flex';
+          var btn = document.getElementById('examConfirmBtn');
+          if (btn) { btn.textContent = 'Selecione um horário'; btn.disabled = true; btn.classList.add('disabled'); }
+          document.getElementById('examSlotsList').innerHTML = '<div style="text-align:center;color:var(--text-3);font-size:12px;padding:20px;">Carregando...</div>';
+          document.getElementById('examRequestStatus').innerHTML = '';
+
+          try {
+            var data = await secureFetch('getExamSlots', {});
+            if (!data.success) { document.getElementById('examSlotsList').innerHTML = '<div style="text-align:center;color:#f87171;font-size:12px;padding:20px;">Erro ao carregar</div>'; return; }
+
+            _examInfo = data.examInfo || { valor: 150, tentativa: 1, hasPending: false, bloqueado: false };
+
+            // Fee info banner
+            var feeHtml = '<div style="padding:10px;background:rgba(212,165,41,0.08);border:1px solid rgba(212,165,41,0.15);border-radius:10px;margin-bottom:10px;text-align:center;">';
+            feeHtml += '<div style="font-size:10px;color:var(--text-3);margin-bottom:2px;">Taxa do exame</div>';
+            feeHtml += '<div style="font-size:22px;font-weight:800;color:#4ade80;">R$ ' + _examInfo.valor + ',00</div>';
+            if (_examInfo.tentativa > 1) feeHtml += '<div style="font-size:10px;color:var(--accent);">' + _examInfo.tentativa + 'ª tentativa (valor reduzido)</div>';
+            feeHtml += '</div>';
+
+            // Blocked?
+            if (_examInfo.bloqueado) {
+              feeHtml += '<div style="padding:12px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.2);border-radius:10px;text-align:center;color:#f87171;font-size:12px;">';
+              feeHtml += '⏳ Aguarde mais <strong>' + _examInfo.diasRestantes + ' dias</strong> para solicitar novo exame (mínimo 2 meses após reprovação).';
+              feeHtml += '</div>';
+              document.getElementById('examSlotsList').innerHTML = feeHtml;
+              return;
+            }
+
+            if (_examInfo.hasPending) {
+              feeHtml += '<div style="padding:12px;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.2);border-radius:10px;text-align:center;color:#FBbf24;font-size:12px;">';
+              feeHtml += '⏳ Você já possui uma solicitação pendente. Aguarde a resposta do professor.';
+              feeHtml += '</div>';
+              document.getElementById('examSlotsList').innerHTML = feeHtml;
+              return;
+            }
+
+            var slots = data.slots || [];
+            if (slots.length === 0) {
+              document.getElementById('examSlotsList').innerHTML = feeHtml + '<div style="text-align:center;color:var(--text-3);font-size:12px;padding:20px;">Nenhum horário disponível. Aguarde o professor criar vagas.</div>';
+              return;
+            }
+
+            var h = feeHtml;
+            slots.forEach(function(s) {
+              var vagasLivres = s.vagas - s.vagasUsadas;
+              var disabled = vagasLivres <= 0 || s.userRequested;
+              var dt = '';
+              try { var d = new Date(s.date + 'T12:00:00'); dt = d.toLocaleDateString('pt-BR', {day:'2-digit',month:'short',year:'numeric'}); } catch(x) { dt = s.date; }
+              h += '<div class="exam-slot' + (disabled ? ' disabled' : '') + '" onclick="' + (disabled ? '' : 'selectExamSlot(\'' + s.date + '\',\'' + s.time + '\',this)') + '" style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:var(--bg-elevated);border:1.5px solid var(--border);border-radius:10px;margin-bottom:6px;cursor:' + (disabled ? 'default' : 'pointer') + ';opacity:' + (disabled ? '0.5' : '1') + ';">';
+              h += '<div><div style="font-size:13px;font-weight:700;color:var(--text-1);">📅 ' + dt + ' — ' + s.time + '</div>';
+              h += '<div style="font-size:10px;color:var(--text-3);">' + (s.ct || 'Todos') + ' · ' + vagasLivres + '/' + s.vagas + ' vagas</div></div>';
+              if (s.userRequested) h += '<div style="font-size:10px;color:#FBbf24;font-weight:700;">Solicitado ✓</div>';
+              h += '</div>';
+            });
+            document.getElementById('examSlotsList').innerHTML = h;
+
+            // Add hint about WhatsApp comprovante
+            document.getElementById('examRequestStatus').innerHTML = '<div style="font-size:10px;color:var(--text-3);text-align:center;margin-top:4px;">📲 Após solicitar, envie o comprovante de pagamento ao professor via WhatsApp</div>';
+
+          } catch(err) { document.getElementById('examSlotsList').innerHTML = '<div style="color:#f87171;text-align:center;font-size:12px;padding:20px;">Erro: ' + err.message + '</div>'; }
+        }
+
+        function closeExamCalendar() {
+          document.getElementById('examModalOverlay').style.display = 'none';
+        }
+
+        function selectExamSlot(date, time, el) {
+          _selectedExamSlot = { date: date, time: time };
+          document.querySelectorAll('.exam-slot').forEach(function(s) { s.style.borderColor = 'var(--border)'; });
+          if (el) el.style.borderColor = 'var(--accent)';
+          var btn = document.getElementById('examConfirmBtn');
+          if (btn) { btn.textContent = '💳 Solicitar Exame — R$ ' + (_examInfo ? _examInfo.valor : 150) + ',00'; btn.disabled = false; btn.classList.remove('disabled'); }
+        }
+
+        async function confirmExamRequest() {
+          if (!_selectedExamSlot) return;
+          var valor = _examInfo ? _examInfo.valor : 150;
+          if (!confirm('Confirmar solicitação de exame?\n\nTaxa: R$ ' + valor + ',00\nApós confirmar, envie o comprovante de pagamento ao professor via WhatsApp.')) return;
+
+          var btn = document.getElementById('examConfirmBtn');
+          if (btn) { btn.textContent = 'Enviando...'; btn.disabled = true; }
+
+          try {
+            var data = await secureFetch('requestExam', { date: _selectedExamSlot.date, time: _selectedExamSlot.time });
+            var statusEl = document.getElementById('examRequestStatus');
+            if (data.success) {
+              if (statusEl) statusEl.innerHTML = '<div style="padding:10px;background:rgba(45,138,78,0.1);border:1px solid rgba(45,138,78,0.2);border-radius:8px;text-align:center;color:#4ade80;font-size:12px;">✅ ' + data.message + '</div>';
+              if (btn) btn.textContent = '✅ Solicitação enviada';
+              setTimeout(function() { closeExamCalendar(); }, 3000);
+            } else {
+              if (statusEl) statusEl.innerHTML = '<div style="padding:10px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.2);border-radius:8px;text-align:center;color:#f87171;font-size:12px;">❌ ' + data.message + '</div>';
+              if (btn) { btn.textContent = 'Tentar novamente'; btn.disabled = false; }
+            }
+          } catch(err) {
+            if (btn) { btn.textContent = 'Erro - Tente novamente'; btn.disabled = false; }
+          }
         }
 
         function updateSealsUI(grau, faixa) {
