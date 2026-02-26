@@ -1808,6 +1808,42 @@
         .eng-context-title { font-size: 9px; font-weight: 800; color: #A855F7; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
         .eng-context-phrase { font-size: 12px; color: var(--text-1); line-height: 1.5; }
         .eng-context-trad { font-size: 11px; color: var(--text-3); font-style: italic; margin-top: 2px; }
+        /* Manual IBJJF */
+        .manual-search-box { position: relative; margin-bottom: 10px; }
+        .manual-search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 14px; }
+        .manual-search-box input { width: 100%; padding: 11px 36px 11px 38px; background: var(--bg-elevated); border: 1.5px solid var(--border); border-radius: 12px; font-size: 13px; color: var(--text-1); outline: none; box-sizing: border-box; }
+        .manual-search-box input:focus { border-color: var(--accent); }
+        .manual-search-box input::placeholder { color: var(--text-3); }
+        .manual-search-clear { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-3); font-size: 16px; cursor: pointer; padding: 4px; }
+        .manual-cats { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 8px; -webkit-overflow-scrolling: touch; }
+        .manual-cat-btn { white-space: nowrap; padding: 6px 10px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-3); border-radius: 8px; font-size: 11px; font-weight: 600; cursor: pointer; flex-shrink: 0; }
+        .manual-cat-btn.active { background: var(--accent-dim); color: var(--accent); border-color: var(--accent); }
+        .manual-count { font-size: 10px; color: var(--text-3); margin-bottom: 8px; }
+        .manual-rule { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 8px; }
+        .manual-rule-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; cursor: pointer; }
+        .manual-rule-icon { font-size: 18px; flex-shrink: 0; }
+        .manual-rule-title { font-size: 13px; font-weight: 700; color: var(--text-1); flex: 1; line-height: 1.3; }
+        .manual-rule-cat { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; flex-shrink: 0; }
+        .manual-rule-cat.pontuacao { background: rgba(74,222,128,0.12); color: #4ade80; }
+        .manual-rule-cat.tempo { background: rgba(96,165,250,0.12); color: #60A5FA; }
+        .manual-rule-cat.tecnicas { background: rgba(251,146,60,0.12); color: #FB923C; }
+        .manual-rule-cat.faltas { background: rgba(248,113,113,0.12); color: #F87171; }
+        .manual-rule-cat.faixas { background: rgba(168,85,247,0.12); color: #A855F7; }
+        .manual-rule-cat.uniforme { background: rgba(212,165,41,0.12); color: var(--accent); }
+        .manual-rule-body { font-size: 12px; color: var(--text-2); line-height: 1.6; }
+        .manual-rule-body.collapsed { display: none; }
+        .manual-rule-detail { margin-top: 8px; padding: 8px 10px; background: var(--bg-elevated); border-radius: 8px; font-size: 11px; line-height: 1.5; }
+        .manual-rule-belt { display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; margin: 2px 2px 2px 0; }
+        .manual-rule-belt.branca { background: rgba(255,255,255,0.15); color: #fff; }
+        .manual-rule-belt.azul { background: rgba(59,130,246,0.2); color: #60A5FA; }
+        .manual-rule-belt.roxa { background: rgba(168,85,247,0.2); color: #C084FC; }
+        .manual-rule-belt.marrom { background: rgba(180,120,60,0.2); color: #D4A03C; }
+        .manual-rule-belt.preta { background: rgba(255,255,255,0.08); color: #94A3B8; }
+        .manual-highlight { background: rgba(212,165,41,0.2); color: var(--accent); border-radius: 2px; padding: 0 2px; }
+        .manual-empty { text-align: center; padding: 30px 16px; color: var(--text-3); }
+        .manual-empty-icon { font-size: 36px; margin-bottom: 8px; }
+        .manual-empty-text { font-size: 13px; }
+        .manual-empty-hint { font-size: 11px; margin-top: 6px; }
 
         /* Admin Exam Schedule */
         .adm-exam-slot {
@@ -4223,6 +4259,35 @@
         }
         .camp-final-prize { font-size: 13px; color: var(--text-2); padding: 5px 0; line-height: 1.5; }
         .camp-final-prize strong { color: #fff; }
+        /* Camp Inscrição */
+        .camp-insc-card { padding: 14px; background: var(--bg-elevated); border: 1.5px solid var(--border); border-radius: 12px; margin-top: 10px; }
+        .camp-insc-event { text-align: center; margin-bottom: 12px; }
+        .camp-insc-date { font-size: 18px; font-weight: 800; color: var(--accent); }
+        .camp-insc-edicao { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+        .camp-insc-valor { font-size: 28px; font-weight: 800; color: #4ade80; text-align: center; margin: 8px 0; }
+        .camp-insc-pix { font-size: 12px; color: var(--text-2); background: rgba(212,165,41,0.08); border: 1px solid rgba(212,165,41,0.15); border-radius: 8px; padding: 8px 10px; margin: 8px 0; text-align: center; }
+        .camp-insc-obs { font-size: 11px; color: var(--text-3); text-align: center; margin: 6px 0; font-style: italic; }
+        .camp-insc-status { text-align: center; padding: 10px; border-radius: 10px; font-size: 13px; font-weight: 700; margin-top: 10px; }
+        .camp-insc-status.pendente { background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.2); color: #FBbf24; }
+        .camp-insc-status.aprovado { background: rgba(45,138,78,0.1); border: 1px solid rgba(45,138,78,0.2); color: #4ade80; }
+        .camp-insc-status.rejeitado { background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.2); color: #F87171; }
+        .camp-insc-btn { width: 100%; padding: 13px; background: linear-gradient(135deg,#4ade80,#22c55e); color: #000; font-size: 14px; font-weight: 800; border: none; border-radius: 10px; cursor: pointer; margin-top: 10px; }
+        .camp-insc-btn:active { transform: scale(0.98); }
+        .camp-insc-btn:disabled { opacity: 0.5; cursor: default; }
+        .camp-insc-hint { font-size: 11px; color: var(--text-3); text-align: center; margin-top: 8px; line-height: 1.5; }
+        /* Admin inscription rows */
+        .insc-row { display: flex; align-items: center; gap: 8px; padding: 10px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 6px; }
+        .insc-info { flex: 1; min-width: 0; }
+        .insc-name { font-size: 13px; font-weight: 700; color: var(--text-1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .insc-meta { font-size: 10px; color: var(--text-3); margin-top: 2px; }
+        .insc-badge { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 6px; white-space: nowrap; }
+        .insc-badge.pendente { background: rgba(251,191,36,0.15); color: #FBbf24; }
+        .insc-badge.aprovado { background: rgba(45,138,78,0.15); color: #4ade80; }
+        .insc-badge.rejeitado { background: rgba(248,113,113,0.15); color: #F87171; }
+        .insc-actions { display: flex; gap: 4px; flex-shrink: 0; }
+        .insc-act-btn { padding: 6px 10px; border: none; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; }
+        .insc-act-btn.approve { background: rgba(45,138,78,0.2); color: #4ade80; }
+        .insc-act-btn.reject { background: rgba(248,113,113,0.2); color: #F87171; }
 
         /* Hall da Fama */
         .camp-hall { margin-bottom: 16px; }
@@ -5453,6 +5518,15 @@
                                         </div>
                                     </div>
 
+                                    <!-- Inscrição -->
+                                    <div class="camp-section">
+                                        <div class="camp-section-icon">💰</div>
+                                        <div class="camp-section-title">Inscrição</div>
+                                        <div id="campInscricaoAluno">
+                                            <div style="text-align:center;color:var(--text-3);font-size:12px;padding:10px;">Carregando informações do evento...</div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
 
@@ -5643,6 +5717,7 @@
                             <!-- Sub tabs -->
                             <div class="games-subtabs">
                                 <button class="games-subtab active" onclick="switchGamesSubtab('jogos',this)">🎮 Jogos</button>
+                                <button class="games-subtab" onclick="switchGamesSubtab('manual',this)">📖 Manual</button>
                                 <button class="games-subtab" onclick="switchGamesSubtab('ranking',this)">🏆 Ranking</button>
                             </div>
 
@@ -5704,6 +5779,26 @@
                             <!-- RANKING -->
                             <div id="gSubRanking" style="display:none;">
                                 <div id="gRankingContent"><div style="text-align:center;padding:20px;color:var(--text-3);font-size:12px;">Carregando ranking...</div></div>
+                            </div>
+
+                            <!-- MANUAL IBJJF -->
+                            <div id="gSubManual" style="display:none;">
+                                <div class="manual-search-box">
+                                    <span class="manual-search-icon">🔍</span>
+                                    <input type="text" id="manualSearch" placeholder="Pesquisar regras... ex: kimura faixa azul" oninput="filterManual()">
+                                    <button class="manual-search-clear" id="manualClearBtn" onclick="clearManualSearch()" style="display:none;">✕</button>
+                                </div>
+                                <div class="manual-cats" id="manualCats">
+                                    <button class="manual-cat-btn active" onclick="filterManualCat('todos',this)">Todos</button>
+                                    <button class="manual-cat-btn" onclick="filterManualCat('pontuacao',this)">Pontuação</button>
+                                    <button class="manual-cat-btn" onclick="filterManualCat('tempo',this)">Tempo</button>
+                                    <button class="manual-cat-btn" onclick="filterManualCat('tecnicas',this)">Técnicas</button>
+                                    <button class="manual-cat-btn" onclick="filterManualCat('faltas',this)">Faltas</button>
+                                    <button class="manual-cat-btn" onclick="filterManualCat('faixas',this)">Faixas</button>
+                                    <button class="manual-cat-btn" onclick="filterManualCat('uniforme',this)">Uniforme</button>
+                                </div>
+                                <div class="manual-count" id="manualCount"></div>
+                                <div id="manualResults"></div>
                             </div>
                         </div>
 
@@ -5957,10 +6052,10 @@
 
                         <div class="admin-stats" id="rptSummaryStats"></div>
 
-                        <!-- 🚨 ALERTS (5+ faltas) -->
+                        <!-- 🚨 ALERTS (4+ faltas) -->
                         <div class="admin-section" id="rptAlertSection" style="display:none;">
                             <div class="admin-section-header">
-                                <div class="admin-section-title">🚨 Alertas · Alunos com 5+ Faltas</div>
+                                <div class="admin-section-title">🚨 Alertas · Alunos com 4+ Faltas</div>
                             </div>
                             <div id="rptAlerts" class="rpt-mini-list"></div>
                         </div>
@@ -5994,9 +6089,15 @@
                         <!-- Insights -->
                         <div class="admin-section">
                             <div class="admin-section-header">
-                                <div class="admin-section-title">⚠️ Em Risco (15-30 dias)</div>
+                                <div class="admin-section-title">⚠️ Em Risco (15-30 dias sem treinar)</div>
                             </div>
                             <div id="rptRisk" class="rpt-mini-list"></div>
+                        </div>
+                        <div class="admin-section">
+                            <div class="admin-section-header">
+                                <div class="admin-section-title">📉 Baixa Presença (≤10%)</div>
+                            </div>
+                            <div id="rptLowAttendance" class="rpt-mini-list"></div>
                         </div>
                         <div class="admin-section">
                             <div class="admin-section-header">
@@ -6150,6 +6251,67 @@
                             </div>
                             <div id="campAdminList" style="padding:12px;">
                                 <div style="text-align:center;color:var(--text-3);font-size:12px;padding:8px;">Nenhum campeão cadastrado</div>
+                            </div>
+                        </div>
+
+                        <!-- CONFIGURAR EVENTO -->
+                        <div class="admin-section">
+                            <div class="admin-section-header">
+                                <div class="admin-section-title">📅 Configurar Próximo Evento</div>
+                            </div>
+                            <div style="padding:12px;">
+                                <div class="ct-detail-row">
+                                    <div class="ct-detail-field">
+                                        <label>📅 Edição</label>
+                                        <input type="text" id="campEventoEdicao" placeholder="Ex: 2026-1">
+                                    </div>
+                                    <div class="ct-detail-field">
+                                        <label>📆 Data do Evento</label>
+                                        <input type="date" id="campEventoData">
+                                    </div>
+                                </div>
+                                <div class="ct-detail-row">
+                                    <div class="ct-detail-field">
+                                        <label>💰 Valor (R$)</label>
+                                        <input type="number" id="campEventoValor" value="100" min="0" step="10">
+                                    </div>
+                                    <div class="ct-detail-field">
+                                        <label>📱 Chave Pix</label>
+                                        <input type="text" id="campEventoPix" placeholder="Chave Pix ou telefone">
+                                    </div>
+                                </div>
+                                <div class="ct-detail-row">
+                                    <div class="ct-detail-field">
+                                        <label>📝 Observações</label>
+                                        <input type="text" id="campEventoObs" placeholder="Informações extras para os alunos">
+                                    </div>
+                                </div>
+                                <div class="ct-detail-row" style="align-items:center;">
+                                    <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-2);cursor:pointer;">
+                                        <input type="checkbox" id="campEventoAtivo" checked style="width:18px;height:18px;accent-color:var(--accent);">
+                                        Evento ativo (visível para alunos)
+                                    </label>
+                                </div>
+                                <div id="campEventoMsg" style="margin:8px 0;"></div>
+                                <button class="ct-schedule-save" onclick="saveCampEvento()" style="width:100%;padding:14px;font-size:14px;border-radius:12px;">📅 Salvar Evento</button>
+                            </div>
+                        </div>
+
+                        <!-- INSCRIÇÕES / PAGAMENTOS -->
+                        <div class="admin-section">
+                            <div class="admin-section-header">
+                                <div class="admin-section-title">💳 Inscrições & Pagamentos</div>
+                                <button class="adm-refresh-btn" onclick="loadInscricoesCamp()">↻</button>
+                            </div>
+                            <div style="padding:12px;">
+                                <div class="ct-detail-row" style="margin-bottom:10px;">
+                                    <div class="ct-detail-field">
+                                        <label>Filtrar Edição</label>
+                                        <input type="text" id="campInscFiltro" placeholder="Ex: 2026-1" oninput="loadInscricoesCamp()">
+                                    </div>
+                                </div>
+                                <div id="campInscStats" style="margin-bottom:10px;"></div>
+                                <div id="campInscList"></div>
                             </div>
                         </div>
                     </div>
@@ -6719,7 +6881,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyA4BoNwZpyIM9-a5_4righjQvB51IrwdrutJ5Kx7JV1XLNvGav8bovIDln_V9Si0gb/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw9_qr4ZznYX7retjmVHJIMRNPz9g6qGQNkTHiU51ZNQJpJyoupt1fvUoGapexbX_o/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -7131,7 +7293,7 @@
             if (subId === 'sub-ranking') loadRanking();
             if (subId === 'sub-evolucao') { loadEvolucao(); loadMyGraduacoes(); }
             if (subId === 'sub-presencas') loadPresencas();
-            if (subId === 'sub-campeonato') loadChampions();
+            if (subId === 'sub-campeonato') { loadChampions(); loadCampEventoAluno(); }
         }
 
         
@@ -7570,6 +7732,8 @@
                         showMessage('attendanceMessage', '✅ Presença registrada com sucesso!', 'success');
                         // Atualizar alarme para estado motivacional
                         if (allCTs && allCTs.length > 0) checkTreinoAlarm(allCTs);
+                    } else if (data.status === 'JA_REGISTRADO') {
+                        showMessage('attendanceMessage', data.message || '✅ Você já fez check-in hoje!', 'success');
                     } else {
                         showMessage('attendanceMessage', data.message || '⏳ Check-in pendente de aprovação.', 'warning');
                     }
@@ -10167,6 +10331,8 @@
 
             loadStudentsForPlacar();
             loadChampionsAdmin();
+            loadCampEventoAdmin();
+            loadInscricoesCamp();
         }
 
         function onCampPlacarCTChange() {
@@ -10538,6 +10704,184 @@
             }
         }
 
+        // ===== CAMPEONATO EVENTO & INSCRIÇÕES =====
+
+        // Admin: carregar config do evento nos inputs
+        async function loadCampEventoAdmin() {
+          try {
+            var data = await secureFetch('getCampEvento', {});
+            if (data.success && data.evento) {
+              var e = data.evento;
+              var edEl = document.getElementById('campEventoEdicao');
+              var dtEl = document.getElementById('campEventoData');
+              var vlEl = document.getElementById('campEventoValor');
+              var pxEl = document.getElementById('campEventoPix');
+              var obEl = document.getElementById('campEventoObs');
+              var atEl = document.getElementById('campEventoAtivo');
+              if (edEl) edEl.value = e.edicao || '';
+              if (dtEl && e.dataEvento) {
+                var d = new Date(e.dataEvento);
+                if (!isNaN(d)) dtEl.value = d.toISOString().split('T')[0];
+                else dtEl.value = e.dataEvento;
+              }
+              if (vlEl) vlEl.value = e.valor || 100;
+              if (pxEl) pxEl.value = e.chavePix || '';
+              if (obEl) obEl.value = e.observacoes || '';
+              if (atEl) atEl.checked = true;
+            }
+          } catch(err) { console.log('loadCampEvento:', err); }
+        }
+
+        // Admin: salvar evento
+        async function saveCampEvento() {
+          var edicao = (document.getElementById('campEventoEdicao').value || '').trim();
+          var dataEvento = (document.getElementById('campEventoData').value || '').trim();
+          var valor = parseFloat(document.getElementById('campEventoValor').value) || 100;
+          var chavePix = (document.getElementById('campEventoPix').value || '').trim();
+          var obs = (document.getElementById('campEventoObs').value || '').trim();
+          var ativo = document.getElementById('campEventoAtivo').checked;
+
+          if (!edicao || !dataEvento) { showMessage('campEventoMsg', 'Preencha edição e data', 'danger'); return; }
+
+          showMessage('campEventoMsg', 'Salvando...', 'info');
+          try {
+            var data = await secureFetch('saveCampEvento', { edicao:edicao, dataEvento:dataEvento, valor:valor, chavePix:chavePix, observacoes:obs, ativo:ativo });
+            showMessage('campEventoMsg', data.success ? '✅ Evento salvo!' : data.message, data.success ? 'success' : 'danger');
+          } catch(err) { showMessage('campEventoMsg', 'Erro: ' + err.message, 'danger'); }
+        }
+
+        // Admin: carregar inscrições
+        async function loadInscricoesCamp() {
+          var filtro = (document.getElementById('campInscFiltro') || {}).value || '';
+          var container = document.getElementById('campInscList');
+          var statsEl = document.getElementById('campInscStats');
+          if (!container) return;
+
+          try {
+            var data = await secureFetch('getInscricoesCamp', { edicao: filtro.trim() });
+            if (!data.success) { container.innerHTML = '<div class="admin-empty">' + (data.message||'Erro') + '</div>'; return; }
+
+            var list = data.inscricoes || [];
+            var pendentes = list.filter(function(i){return i.status==='PENDENTE';}).length;
+            var aprovados = list.filter(function(i){return i.status==='APROVADO';}).length;
+            var rejeitados = list.filter(function(i){return i.status==='REJEITADO';}).length;
+
+            if (statsEl) {
+              statsEl.innerHTML = '<div style="display:flex;gap:8px;flex-wrap:wrap;">' +
+                '<div style="flex:1;text-align:center;padding:8px;background:var(--bg-elevated);border-radius:8px;"><div style="font-size:18px;font-weight:800;color:var(--text-1);">'+list.length+'</div><div style="font-size:10px;color:var(--text-3);">Total</div></div>' +
+                '<div style="flex:1;text-align:center;padding:8px;background:rgba(251,191,36,0.08);border-radius:8px;"><div style="font-size:18px;font-weight:800;color:#FBbf24;">'+pendentes+'</div><div style="font-size:10px;color:var(--text-3);">Pendentes</div></div>' +
+                '<div style="flex:1;text-align:center;padding:8px;background:rgba(45,138,78,0.08);border-radius:8px;"><div style="font-size:18px;font-weight:800;color:#4ade80;">'+aprovados+'</div><div style="font-size:10px;color:var(--text-3);">Aprovados</div></div>' +
+              '</div>';
+            }
+
+            if (list.length === 0) { container.innerHTML = '<div class="admin-empty">Nenhuma inscrição encontrada</div>'; return; }
+
+            // Sort: PENDENTE first
+            list.sort(function(a,b){ var o={PENDENTE:0,APROVADO:1,REJEITADO:2}; return (o[a.status]||9)-(o[b.status]||9); });
+
+            var h = '';
+            list.forEach(function(insc) {
+              var statusCls = insc.status.toLowerCase();
+              h += '<div class="insc-row">';
+              h += '<div class="insc-info">';
+              h += '<div class="insc-name">' + escapeHtml(insc.nome || insc.email) + '</div>';
+              h += '<div class="insc-meta">' + escapeHtml(insc.ct||'') + ' · ' + escapeHtml(insc.faixa||'') + ' · ' + escapeHtml(insc.edicao||'') + ' · ' + (insc.dataInscricao||'') + '</div>';
+              h += '</div>';
+              h += '<div class="insc-badge ' + statusCls + '">' + insc.status + '</div>';
+              if (insc.status === 'PENDENTE') {
+                h += '<div class="insc-actions">';
+                h += '<button class="insc-act-btn approve" onclick="aprovarInscricao(\'' + escapeHtml(insc.email) + '\',\'' + escapeHtml(insc.edicao) + '\')">✅</button>';
+                h += '<button class="insc-act-btn reject" onclick="rejeitarInscricao(\'' + escapeHtml(insc.email) + '\',\'' + escapeHtml(insc.edicao) + '\')">❌</button>';
+                h += '</div>';
+              }
+              h += '</div>';
+            });
+            container.innerHTML = h;
+          } catch(err) { container.innerHTML = '<div class="admin-empty">Erro: ' + err.message + '</div>'; }
+        }
+
+        async function aprovarInscricao(email, edicao) {
+          try {
+            var data = await secureFetch('aprovarInscricao', { targetEmail: email, edicao: edicao });
+            if (data.success) loadInscricoesCamp();
+            else alert(data.message);
+          } catch(err) { alert('Erro: ' + err.message); }
+        }
+
+        async function rejeitarInscricao(email, edicao) {
+          if (!confirm('Rejeitar inscrição?')) return;
+          try {
+            var data = await secureFetch('rejeitarInscricao', { targetEmail: email, edicao: edicao });
+            if (data.success) loadInscricoesCamp();
+            else alert(data.message);
+          } catch(err) { alert('Erro: ' + err.message); }
+        }
+
+        // Aluno: carregar evento e status de inscrição
+        async function loadCampEventoAluno() {
+          var container = document.getElementById('campInscricaoAluno');
+          if (!container) return;
+
+          try {
+            var data = await secureFetch('getCampEvento', {});
+            if (!data.success || !data.evento) {
+              container.innerHTML = '<div class="camp-section-text">📅 Nenhum evento programado no momento.<br>Fique atento aos comunicados do professor!</div>';
+              return;
+            }
+
+            var e = data.evento;
+            var dataFormatada = '';
+            try {
+              var d = new Date(e.dataEvento);
+              if (!isNaN(d)) dataFormatada = d.toLocaleDateString('pt-BR', {day:'2-digit',month:'long',year:'numeric'});
+              else dataFormatada = e.dataEvento;
+            } catch(x) { dataFormatada = e.dataEvento; }
+
+            var h = '<div class="camp-insc-card">';
+            h += '<div class="camp-insc-event">';
+            h += '<div class="camp-insc-date">📅 ' + dataFormatada + '</div>';
+            h += '<div class="camp-insc-edicao">Edição: ' + escapeHtml(e.edicao) + '</div>';
+            h += '</div>';
+            h += '<div class="camp-insc-valor">R$ ' + (e.valor || 100).toFixed(2).replace('.', ',') + '</div>';
+
+            if (e.chavePix) {
+              h += '<div class="camp-insc-pix">💳 Pix: <strong>' + escapeHtml(e.chavePix) + '</strong></div>';
+            }
+            if (e.observacoes) {
+              h += '<div class="camp-insc-obs">' + escapeHtml(e.observacoes) + '</div>';
+            }
+
+            // Show status if already inscribed
+            if (data.inscrito) {
+              var st = data.inscrito.status || 'PENDENTE';
+              var stCls = st.toLowerCase();
+              var stIcon = st === 'APROVADO' ? '✅' : st === 'REJEITADO' ? '❌' : '⏳';
+              var stMsg = st === 'APROVADO' ? 'Pagamento confirmado! Você está inscrito.' :
+                          st === 'REJEITADO' ? 'Pagamento não aprovado. Fale com o professor.' :
+                          'Aguardando aprovação do professor.';
+              h += '<div class="camp-insc-status ' + stCls + '">' + stIcon + ' ' + stMsg + '</div>';
+              if (st === 'PENDENTE') {
+                h += '<div class="camp-insc-hint">📲 Envie o comprovante de pagamento ao professor via WhatsApp</div>';
+              }
+            } else {
+              h += '<button class="camp-insc-btn" onclick="confirmarPagamentoCamp(\'' + escapeHtml(e.edicao) + '\')">💳 Já Fiz o Pagamento</button>';
+              h += '<div class="camp-insc-hint">📲 Após o pagamento, envie o comprovante ao professor via WhatsApp</div>';
+            }
+
+            h += '</div>';
+            container.innerHTML = h;
+          } catch(err) { container.innerHTML = '<div class="camp-section-text">Erro ao carregar evento</div>'; }
+        }
+
+        async function confirmarPagamentoCamp(edicao) {
+          if (!confirm('Confirmar que você realizou o pagamento de R$100,00?\n\nLembre-se de enviar o comprovante ao professor via WhatsApp.')) return;
+          try {
+            var data = await secureFetch('inscricaoCamp', { edicao: edicao });
+            alert(data.message);
+            loadCampEventoAluno();
+          } catch(err) { alert('Erro: ' + err.message); }
+        }
+
         // ===== ADMIN PANEL =====
         let adminCheckinFilter = 'hoje';
         let adminPendingCheckins = [];
@@ -10640,6 +10984,8 @@
                         localStorage.setItem('bjjUser', JSON.stringify(currentUser));
                         document.getElementById('admDisplayCount').textContent = currentUser.treinos;
                         showMessage('admAttendanceMessage', '✅ Presença registrada!', 'success');
+                    } else if (data.status === 'JA_REGISTRADO') {
+                        showMessage('admAttendanceMessage', data.message || '✅ Já fez check-in hoje!', 'success');
                     } else {
                         showMessage('admAttendanceMessage', data.message || '⏳ Pendente de aprovação', 'warning');
                     }
@@ -10879,10 +11225,10 @@
                 {num: s.totalPeriodo, label:'Check-ins no período', cls:'ok'},
                 {num: s.totalAlunos, label:'Alunos total'},
                 {num: s.ativos, label:'Ativos', cls:'ok'},
-                {num: (data.alertas5 || []).length, label:'🚨 Alertas 5+', cls: (data.alertas5||[]).length > 0 ? 'warn' : ''}
+                {num: (data.alertas5 || []).length, label:'🚨 Alertas 4+', cls: (data.alertas5||[]).length > 0 ? 'warn' : ''}
             ]);
 
-            // ===== ALERTS (5+ faltas) =====
+            // ===== ALERTS (4+ faltas) =====
             var alertSection = document.getElementById('rptAlertSection');
             var alertEl = document.getElementById('rptAlerts');
             if (alertSection && alertEl) {
@@ -10984,8 +11330,16 @@
 
             // ===== Insights =====
             rptMiniList('rptRisk',
-                (data.insights.emRisco || []).map(function(r) { return {name:r.name, meta:r.ct+' · '+r.faixa, tag:r.dias+' dias', tagCls:'yellow'}; }),
+                (data.insights.emRisco || []).map(function(r) {
+                  var tag = r.faltas + ' aula' + (r.faltas !== 1 ? 's' : '') + ' perdida' + (r.faltas !== 1 ? 's' : '');
+                  return {name:r.name, meta:r.ct+' · '+r.faixa+' · '+r.presentes+'/'+r.esperadas+' aulas ('+r.pctPresenca+'%)', tag:tag, tagCls:'yellow'};
+                }),
                 'Nenhum em risco 💪');
+            rptMiniList('rptLowAttendance',
+                (data.insights.baixaPresenca || []).map(function(b) {
+                  return {name:b.name, meta:b.ct+' · '+b.faixa+' · '+b.presentes+'/'+b.esperadas+' aulas', tag:b.pctPresenca+'%', tagCls:'red'};
+                }),
+                'Nenhum com baixa presença 🎉');
             rptMiniList('rptInactive',
                 (data.insights.inativos || []).slice(0,25).map(function(i2) { return {name:i2.name, meta:i2.ct+' · '+i2.faixa, tag:i2.dias+' dias', tagCls:'red'}; }),
                 'Nenhum inativo 🎉');
@@ -11012,7 +11366,7 @@
             csv += 'Ativos,' + s.ativos + '\n';
             csv += 'Inativos,' + s.inativos + '\n';
             csv += 'Check-ins no per\u00edodo,' + s.totalPeriodo + '\n';
-            csv += 'Alertas 5+ faltas,' + (d.alertas5||[]).length + '\n\n';
+            csv += 'Alertas 4+ faltas,' + (d.alertas5||[]).length + '\n\n';
 
             csv += 'PRESEN\u00c7A POR HOR\u00c1RIO\nHor\u00e1rio,Presentes,Ausentes\n';
             var hs = d.hourlySummary || {};
@@ -11025,14 +11379,18 @@
                 csv += '"' + f.name + '","' + (f.ct||'') + '","' + (f.faixa||'') + '",' + f.esperadas + ',' + f.presentes + ',' + f.faltas + ',' + f.pctPresenca + '%\n';
             });
 
-            csv += '\nALERTAS 5+ FALTAS\nNome,CT,Faixa,Faltas,Esperadas\n';
+            csv += '\nALERTAS 4+ FALTAS\nNome,CT,Faixa,Faltas,Esperadas\n';
             (d.alertas5||[]).forEach(function(a) {
                 csv += '"' + a.name + '","' + (a.ct||'') + '","' + (a.faixa||'') + '",' + a.faltas + ',' + a.esperadas + '\n';
             });
 
-            csv += '\nEM RISCO (15-30 dias)\nNome,CT,Faixa,Dias\n';
+            csv += '\nEM RISCO (15-30 dias)\nNome,CT,Faixa,Aulas Perdidas,Aulas Esperadas,Presentes,Presença %\n';
             (d.insights.emRisco||[]).forEach(function(r) {
-                csv += '"' + r.name + '","' + (r.ct||'') + '","' + (r.faixa||'') + '",' + r.dias + '\n';
+                csv += '"' + r.name + '","' + (r.ct||'') + '","' + (r.faixa||'') + '",' + r.faltas + ',' + r.esperadas + ',' + r.presentes + ',' + r.pctPresenca + '%\n';
+            });
+            csv += '\nBAIXA PRESENÇA (≤10%)\nNome,CT,Faixa,Presentes,Esperadas,Presença %\n';
+            (d.insights.baixaPresenca||[]).forEach(function(b) {
+                csv += '"' + b.name + '","' + (b.ct||'') + '","' + (b.faixa||'') + '",' + b.presentes + ',' + b.esperadas + ',' + b.pctPresenca + '%\n';
             });
             csv += '\nINATIVOS (+30 dias)\nNome,CT,Faixa,Dias\n';
             (d.insights.inativos||[]).forEach(function(i2) {
@@ -12004,7 +12362,9 @@
           btn.classList.add('active');
           document.getElementById('gSubJogos').style.display=tab==='jogos'?'block':'none';
           document.getElementById('gSubRanking').style.display=tab==='ranking'?'block':'none';
+          document.getElementById('gSubManual').style.display=tab==='manual'?'block':'none';
           if(tab==='ranking') loadGamesRanking();
+          if(tab==='manual') initManual();
         }
 
         function showScreen(s) {
@@ -12425,7 +12785,7 @@
           var clickedEl=document.getElementById('eng_'+g.cur+'_'+idx);
           if(!isCorrect && clickedEl) clickedEl.classList.add('wrong');
 
-          // Show context phrase
+          // Show context phrase + next button
           var card=document.querySelector('.eng-card');
           if(card){
             var ctx='<div class="eng-context">';
@@ -12434,10 +12794,262 @@
             ctx+='<div class="eng-context-trad">'+item.trad+'</div>';
             if(g.mode==='pt2en') ctx+='<div class="eng-pron" style="margin-top:6px;text-align:left;">🔊 /'+item.pron+'/</div>';
             ctx+='</div>';
+            ctx+='<div style="text-align:center;margin-top:12px;"><button class="gresult-btn primary" onclick="nextEngQ()" style="width:100%;padding:12px;font-size:14px;">Próxima →</button></div>';
             card.insertAdjacentHTML('beforeend',ctx);
           }
           saveGS();
-          setTimeout(function(){g.cur++;renderEngQ();},2500);
+        }
+
+        function nextEngQ() {
+          if(_game && _game.type==='english'){_game.cur++;renderEngQ();}
+        }
+
+        // ═══════════════════════════════════
+        // 📖 MANUAL IBJJF
+        // ═══════════════════════════════════
+        var IBJJF_RULES = [
+          // ===== PONTUAÇÃO =====
+          {cat:'pontuacao',icon:'🏅',title:'Takedown / Queda — 2 pontos',
+           body:'Derrubar o oponente da posição em pé para o chão, ficando em posição dominante (por cima). Se ambos caem e quem derrubou fica na guarda, não pontua — apenas vantagem.',
+           tags:'queda takedown derrubar ponto 2'},
+          {cat:'pontuacao',icon:'🏅',title:'Raspagem / Sweep — 2 pontos',
+           body:'Inverter a posição de baixo (guarda) para cima, chegando em posição dominante sobre o oponente. Deve iniciar da guarda. Se cair na guarda do oponente após raspar, recebe apenas vantagem.',
+           tags:'raspagem sweep inverter guarda 2 pontos'},
+          {cat:'pontuacao',icon:'🏅',title:'Passagem de guarda — 3 pontos',
+           body:'Ultrapassar as pernas do oponente e estabilizar em posição dominante (cem-quilos, norte-sul, montada) por 3 segundos. O passador deve controlar o oponente sem que ele consiga recompor a guarda.',
+           tags:'passagem guard pass 3 pontos pernas controle'},
+          {cat:'pontuacao',icon:'🏅',title:'Montada / Mount — 4 pontos',
+           body:'Sentar sobre o tronco do oponente com ambos os joelhos no chão, ou montada técnica (um joelho no chão, perna ao lado da cabeça). Estabilizar 3 segundos. Montada lateral (S-mount) também vale 4 pontos.',
+           tags:'montada mount 4 pontos montar sentado technical'},
+          {cat:'pontuacao',icon:'🏅',title:'Pegada de costas / Back mount — 4 pontos',
+           body:'Controlar o oponente pelas costas com ambos os ganchos (pés) nos quadris internos, OU com body triangle. O controle deve ser mantido por 3 segundos. É a posição mais dominante do Jiu-Jitsu.',
+           tags:'costas back mount ganchos hooks body triangle 4 pontos'},
+          {cat:'pontuacao',icon:'🏅',title:'Joelho na barriga / Knee on belly — 2 pontos',
+           body:'Posicionar o joelho no abdômen do oponente com a outra perna esticada, controlando com pegada na gola e calça/faixa. Manter por 3 segundos. Pode ser aplicado dos dois lados.',
+           tags:'joelho barriga knee belly KOB 2 pontos'},
+          {cat:'pontuacao',icon:'🏅',title:'Vantagem (advantage)',
+           body:'Não é ponto. É critério de desempate. Concedida por: tentativa quase bem-sucedida de pontuação, tentativa clara de finalização, ou quase-passagem. Vantagens desempatam ANTES da decisão dos árbitros.',
+           tags:'vantagem advantage desempate tentativa critério'},
+          {cat:'pontuacao',icon:'🏅',title:'Critérios de desempate',
+           body:'Ordem: 1º) Submissão; 2º) Pontos; 3º) Vantagens; 4º) Penalidades do oponente (mais penalidades = desvantagem); 5º) Se tudo empatar, decisão do árbitro por combatividade.',
+           tags:'desempate empate critério decisão árbitro'},
+          {cat:'pontuacao',icon:'🏅',title:'Regra dos 3 segundos',
+           body:'Para que qualquer posição pontue, o atleta deve manter controle estabilizado por no mínimo 3 segundos. Se o oponente escapa antes de 3s, é concedida apenas vantagem.',
+           tags:'3 segundos estabilização controle tempo mínimo'},
+          {cat:'pontuacao',icon:'🏅',title:'Guard pull não pontua',
+           body:'Puxar guarda (guard pull) não dá pontos para nenhum dos atletas. Se ambos puxam guarda simultaneamente (double guard pull), o árbitro manda um levantar após 20 segundos.',
+           tags:'guard pull puxar guarda double não pontua'},
+
+          // ===== TEMPO =====
+          {cat:'tempo',icon:'⏱️',title:'Tempo de luta por faixa — Adulto',
+           body:'<b>Faixa branca:</b> 5 min<br><b>Faixa azul:</b> 6 min<br><b>Faixa roxa:</b> 7 min<br><b>Faixa marrom:</b> 8 min<br><b>Faixa preta:</b> 10 min<br>Finais da preta podem ter até 10 min.',
+           detail:'Juvenil e Master possuem tempos diferenciados. Master 1-6 na preta: 6 min.',
+           tags:'tempo luta minutos duração faixa branca azul roxa marrom preta adulto'},
+          {cat:'tempo',icon:'⏱️',title:'Tempo de luta — Juvenil',
+           body:'<b>Juvenil 1 (15 anos):</b> 5 min<br><b>Juvenil 2 (16-17 anos):</b> 5 min (branca/azul), 6 min (roxa)<br>Juvenil não pode competir na faixa marrom ou preta.',
+           tags:'juvenil tempo adolescente 15 16 17 anos'},
+          {cat:'tempo',icon:'⏱️',title:'Tempo de luta — Master',
+           body:'<b>Master 1 (30+):</b> 6 min preta<br><b>Master 2 (36+):</b> 5 min<br><b>Master 3 (41+):</b> 5 min<br><b>Master 4 (46+):</b> 5 min<br><b>Master 5 (51+):</b> 5 min<br><b>Master 6 (56+):</b> 5 min',
+           tags:'master veterano idade 30 36 41 46 51 56 tempo'},
+          {cat:'tempo',icon:'⏱️',title:'Atraso e W.O.',
+           body:'Atleta que não se apresentar no tatame em até 5 minutos após ser chamado é desclassificado por W.O. (walkover). O árbitro chama pelo nome e inicia a contagem.',
+           tags:'atraso wo walkover desclassificação 5 minutos chamada'},
+
+          // ===== TÉCNICAS PERMITIDAS/PROIBIDAS =====
+          {cat:'tecnicas',icon:'🥋',title:'Técnicas permitidas — Faixa Branca',
+           body:'<span class="manual-rule-belt branca">BRANCA</span> Permitidas: chave de braço reta (armbar), estrangulamentos (mata-leão, guilhotina, triângulo, ezequiel, cross choke), chave de tornozelo reta (straight ankle lock). Todas as raspagens e passagens.',
+           detail:'Proibidas na branca: kimura do cem-quilos quando o oponente está de barriga para baixo, heel hook, knee bar, toe hold, calf slicer, bicep slicer, wrist lock, can opener, cervicais.',
+           tags:'branca permitido proibido técnica armbar estrangulamento tornozelo ankle lock'},
+          {cat:'tecnicas',icon:'🥋',title:'Técnicas liberadas — Faixa Azul',
+           body:'<span class="manual-rule-belt azul">AZUL</span> Todas da branca + chave de punho (wrist lock). Continua proibido: heel hook, knee bar, toe hold, calf slicer, bicep slicer no gi.',
+           tags:'azul permitido wrist lock chave punho liberado'},
+          {cat:'tecnicas',icon:'🥋',title:'Técnicas liberadas — Faixa Roxa',
+           body:'<span class="manual-rule-belt roxa">ROXA</span> Todas da azul + bicep slicer (chave de bíceps) e calf slicer (chave de panturrilha). No-gi: knee bar. Heel hook segue proibido no gi.',
+           tags:'roxa permitido bicep slicer calf slicer chave bíceps panturrilha'},
+          {cat:'tecnicas',icon:'🥋',title:'Técnicas liberadas — Faixa Marrom',
+           body:'<span class="manual-rule-belt marrom">MARROM</span> Todas da roxa + knee bar no gi + toe hold (chave de dedos do pé). Heel hook continua proibido no gi. No-gi com heel hook liberado (marrom e preta).',
+           tags:'marrom permitido knee bar toe hold chave joelho dedos'},
+          {cat:'tecnicas',icon:'🥋',title:'Técnicas liberadas — Faixa Preta',
+           body:'<span class="manual-rule-belt preta">PRETA</span> Todas as técnicas da marrom. No gi com heel hook liberado. No gi: todas as leg locks liberadas. Gi: heel hook permanece proibido em todas as faixas.',
+           tags:'preta permitido tudo heel hook nogi gi leg lock'},
+          {cat:'tecnicas',icon:'🥋',title:'Heel Hook — Regra especial',
+           body:'O heel hook (chave de calcanhar) é <b>PROIBIDO no gi</b> para TODAS as faixas, sem exceção. No no-gi (sem kimono), é permitido apenas para faixa marrom e preta. Ataca o ligamento do joelho.',
+           detail:'O heel hook é considerado uma das técnicas mais perigosas por atacar ligamentos cruzados e colaterais do joelho. Mesmo no treino, deve ser aplicado com extremo cuidado.',
+           tags:'heel hook calcanhar proibido gi nogi perigo joelho ligamento todas faixas'},
+          {cat:'tecnicas',icon:'🥋',title:'Reaping / Reap — Regra',
+           body:'O "reap" (envolver a perna do oponente com a sua perna por fora, pressionando o joelho para dentro) é proibido no gi para faixa branca até roxa. Permitido da marrom em diante no gi. No no-gi, permitido da marrom.',
+           detail:'Reaping pode causar lesão grave no joelho. Atenção: a perna não pode cruzar a linha média da coxa do oponente fazendo pressão para dentro.',
+           tags:'reaping reap perna joelho proibido cruzar envolver branca azul roxa'},
+          {cat:'tecnicas',icon:'🥋',title:'Slam — Proibido',
+           body:'Levantar o oponente e jogá-lo ao chão (slam) é <b>PROIBIDO em todas as faixas</b>, tanto gi quanto no-gi. Resulta em desqualificação imediata.',
+           detail:'Mesmo se o oponente estiver aplicando triângulo ou armbar do alto, não é permitido bater com ele no chão. Deve-se abaixar controladamente.',
+           tags:'slam levantar jogar proibido desqualificação todas faixas'},
+          {cat:'tecnicas',icon:'🥋',title:'Cervicais — Proibido',
+           body:'Técnicas que atacam diretamente a coluna cervical são proibidas em todas as faixas: can opener, neck crank, twister (no gi branca a roxa), full nelson, spinal lock.',
+           tags:'cervical can opener neck crank twister coluna proibido'},
+          {cat:'tecnicas',icon:'🥋',title:'Chave de tornozelo reta (Ankle Lock)',
+           body:'Permitida desde a faixa branca. Aplicada com o antebraço na região do tendão de Aquiles, sem torção do calcanhar. Diferente do heel hook — não envolve rotação.',
+           tags:'ankle lock tornozelo permitido branca tendão aquiles reta straight'},
+          {cat:'tecnicas',icon:'🥋',title:'Kimura e Americana',
+           body:'Kimura (rotação externa do ombro) e Americana (rotação interna) são permitidas desde a faixa branca. Atacam a articulação do ombro. A kimura pode ser aplicada de diversas posições.',
+           tags:'kimura americana ombro permitido branca rotação chave'},
+          {cat:'tecnicas',icon:'🥋',title:'Omoplata',
+           body:'Permitida desde a faixa branca. Chave de ombro usando a perna sobre o braço do oponente. Além de finalização, pode ser usada como raspagem e controle de posição.',
+           tags:'omoplata permitido branca perna ombro'},
+          {cat:'tecnicas',icon:'🥋',title:'Estrangulamentos — Todos',
+           body:'Todos os estrangulamentos são permitidos desde a faixa branca: mata-leão (RNC), guilhotina, triângulo, ezequiel, cross choke, clock choke, bow and arrow, loop choke, baseball choke, brabo/darce.',
+           detail:'Estrangulamentos podem ser sanguíneos (artéria) ou respiratórios (traqueia). Ambos são legais. Ao sentir o estrangulamento, bata (tap) imediatamente.',
+           tags:'estrangulamento choke mata-leão guilhotina triângulo ezequiel cross permitido branca'},
+
+          // ===== FALTAS E PENALIDADES =====
+          {cat:'faltas',icon:'🚫',title:'Penalidades — Sistema',
+           body:'As penalidades são cumulativas: <b>1ª penalidade</b> = advertência. <b>2ª</b> = vantagem ao oponente. <b>3ª</b> = 2 pontos ao oponente. <b>4ª penalidade</b> = DESQUALIFICAÇÃO.',
+           tags:'penalidade falta advertência desqualificação cumulativa sistema'},
+          {cat:'faltas',icon:'🚫',title:'Stalling — Evitar a luta',
+           body:'Stalling (falta de combatividade) acontece quando o atleta evita o engajamento: fugir da área, ficar estático na guarda sem atacar, segurar sem progredir. Gera penalidade.',
+           detail:'O árbitro deve comandar "Lute!" (Combatam!) antes de aplicar penalidade por stalling.',
+           tags:'stalling combatividade evitar falta parar estático fugir lute'},
+          {cat:'faltas',icon:'🚫',title:'Dedos dentro da manga ou barra',
+           body:'É PROIBIDO inserir os dedos dentro da manga ou barra da calça do oponente. Também é proibido colocar dedos dentro do cinto ou gola de forma a travar. Penalidade imediata.',
+           tags:'dedos dentro manga barra proibido pegada grip ilegal'},
+          {cat:'faltas',icon:'🚫',title:'Sair da área de luta',
+           body:'Se mais de 50% do corpo de ambos atletas estiver fora da área de luta, o árbitro para e reinicia no centro. Se um atleta fugir da área intencionalmente, recebe penalidade.',
+           tags:'área fora tatame sair borda limite fugir'},
+          {cat:'faltas',icon:'🚫',title:'Falar durante a luta',
+           body:'O atleta NÃO pode conversar com o oponente. Porém, técnicos/treinadores PODEM dar instruções verbais. Ofensas verbais ao oponente ou árbitro geram desqualificação.',
+           tags:'falar conversar técnico treinador instruções verbal ofensa'},
+          {cat:'faltas',icon:'🚫',title:'Desqualificação imediata',
+           body:'Causas: slam, técnica proibida da faixa, ofensa verbal, agressão ao árbitro, uso de substância escorregadia, uniforme irregular após aviso, 4 penalidades acumuladas.',
+           tags:'desqualificação imediata slam ofensa agressão irregular'},
+          {cat:'faltas',icon:'🚫',title:'Fleeing the submission / Fugir da finalização',
+           body:'Sair da área de luta ou se jogar fora do tatame para escapar de uma finalização é penalidade grave. Se ficar claro que foi intencional, pode ser desqualificação.',
+           tags:'fugir finalização sair área escape ilegal submission'},
+
+          // ===== FAIXAS E GRADUAÇÃO =====
+          {cat:'faixas',icon:'🥋',title:'Sistema de faixas — Adulto',
+           body:'<span class="manual-rule-belt branca">BRANCA</span> <span class="manual-rule-belt azul">AZUL</span> <span class="manual-rule-belt roxa">ROXA</span> <span class="manual-rule-belt marrom">MARROM</span> <span class="manual-rule-belt preta">PRETA</span><br><br>Cada faixa possui 4 graus (listras) antes da promoção. A progressão depende de tempo mínimo, frequência de treino e habilidade técnica.',
+           tags:'faixa sistema graduação branca azul roxa marrom preta grau listra progressão'},
+          {cat:'faixas',icon:'🥋',title:'Tempo mínimo em cada faixa',
+           body:'<b>Branca → Azul:</b> sem mínimo oficial (recomendado 1-2 anos)<br><b>Azul → Roxa:</b> mínimo 2 anos<br><b>Roxa → Marrom:</b> mínimo 18 meses<br><b>Marrom → Preta:</b> mínimo 1 ano<br><b>Total mínimo até preta:</b> ~4,5 anos (raro; média 8-12 anos)',
+           tags:'tempo mínimo anos promoção azul roxa marrom preta quanto demora'},
+          {cat:'faixas',icon:'🥋',title:'Idade mínima por faixa',
+           body:'<b>Azul:</b> 16 anos<br><b>Roxa:</b> 16 anos<br><b>Marrom:</b> 18 anos<br><b>Preta:</b> 19 anos<br>Menores de 16 usam sistema infantil/juvenil com faixas intermediárias (branca, cinza, amarela, laranja, verde).',
+           tags:'idade mínima anos faixa juvenil infantil criança adolescente 16 18 19'},
+          {cat:'faixas',icon:'🥋',title:'Faixas infantis (4-15 anos)',
+           body:'<span class="manual-rule-belt branca">BRANCA</span> → Cinza → Amarela → Laranja → Verde<br><br>Cada uma com 4 graus. Ao completar 16 anos, a criança é convertida para o sistema adulto (geralmente para azul ou roxa, dependendo do nível).',
+           tags:'infantil criança juvenil cinza amarela laranja verde menor idade'},
+          {cat:'faixas',icon:'🥋',title:'Graus da faixa preta',
+           body:'<b>1º ao 6º grau:</b> faixa preta com listras<br><b>7º grau:</b> faixa coral (preta/vermelha)<br><b>8º grau:</b> faixa coral (preta/vermelha)<br><b>9º grau:</b> faixa vermelha<br><b>10º grau:</b> faixa vermelha (reservada aos pioneiros - Gracie)<br><br>Tempo mínimo entre graus da preta: 3 anos (1º-3º), 5 anos (4º-6º), 7 anos (7º+).',
+           tags:'grau preta coral vermelha 7 8 9 10 listras tempo'},
+          {cat:'faixas',icon:'🥋',title:'Quem pode graduar',
+           body:'Apenas faixas pretas com registro na IBJJF podem graduar alunos. O professor deve ter no mínimo 2 graus acima do aluno. Faixa preta pode graduar até marrom. Coral pode graduar até preta.',
+           tags:'professor graduar promover quem registro IBJJF autoridade'},
+
+          // ===== UNIFORME =====
+          {cat:'uniforme',icon:'👔',title:'Kimono (Gi) — Cores permitidas',
+           body:'A IBJJF aceita kimonos nas cores: <b>branco, azul ou preto</b>. Não são permitidas outras cores (vermelho, verde, cinza, etc). A calça deve ser da mesma cor da jaqueta.',
+           tags:'kimono gi cor branco azul preto permitido uniforme'},
+          {cat:'uniforme',icon:'👔',title:'Kimono — Tamanho e medidas',
+           body:'A jaqueta deve chegar até as coxas e as mangas devem estar a no máximo 5cm acima do punho. A calça deve chegar até no máximo 5cm acima do tornozelo. O kimono não pode ser excessivamente largo ou apertado.',
+           detail:'Há verificação com régua antes das lutas: o atleta deve conseguir fazer uma pegada normal. Gola não pode ser excessivamente grossa.',
+           tags:'medida tamanho manga calça punho tornozelo gola grossura verificação'},
+          {cat:'uniforme',icon:'👔',title:'Faixa — Uso obrigatório',
+           body:'A faixa da graduação atual deve ser usada durante toda a luta, amarrada com nó duplo. Se soltar durante a luta, o árbitro para para reamarrar. A cor deve corresponder à categoria inscrita.',
+           tags:'faixa amarrar nó obrigatório soltar reamarrar'},
+          {cat:'uniforme',icon:'👔',title:'No-Gi — Uniforme',
+           body:'Sem kimono: usar rash guard (camisa compressão) justo ao corpo e shorts ou calça justa sem bolsos, zíperes ou partes soltas. Homens: rash guard + shorts/spats. Mulheres: rash guard + shorts/spats.',
+           detail:'Cores do rash guard: pelo menos 50% da cor deve ser branco, preto ou a cor da faixa do atleta. Shorts até o joelho, sem bolsos.',
+           tags:'no-gi sem kimono nogi rash guard shorts spats uniforme compressão'},
+          {cat:'uniforme',icon:'👔',title:'Proibições de uniforme',
+           body:'Proibido: joelheiras rígidas/acolchoadas grossas, protetores auriculares rígidos, anéis, colares, piercings, chinelos no tatame. Permitido: protetor bucal, fita atlética (tape) nos dedos.',
+           tags:'proibido joelheira anel piercing acessório protetor bucal tape'}
+        ];
+
+        var _manualCatFilter = 'todos';
+        var _manualInited = false;
+
+        function initManual() {
+          if(!_manualInited){_manualInited=true;renderManual();}
+        }
+
+        function filterManual() {
+          var clearBtn=document.getElementById('manualClearBtn');
+          var q=document.getElementById('manualSearch').value;
+          if(clearBtn) clearBtn.style.display=q.length>0?'block':'none';
+          renderManual();
+        }
+
+        function clearManualSearch() {
+          document.getElementById('manualSearch').value='';
+          document.getElementById('manualClearBtn').style.display='none';
+          renderManual();
+        }
+
+        function filterManualCat(cat,btn) {
+          _manualCatFilter=cat;
+          document.querySelectorAll('.manual-cat-btn').forEach(function(b){b.classList.remove('active');});
+          btn.classList.add('active');
+          renderManual();
+        }
+
+        function toggleManualRule(id) {
+          var el=document.getElementById('mr_body_'+id);
+          if(el) el.classList.toggle('collapsed');
+        }
+
+        function renderManual() {
+          var q=(document.getElementById('manualSearch').value||'').toLowerCase().trim();
+          var words=q.split(/\s+/).filter(function(w){return w.length>1;});
+          var cat=_manualCatFilter;
+          var results=[];
+
+          IBJJF_RULES.forEach(function(rule,idx){
+            // Category filter
+            if(cat!=='todos' && rule.cat!==cat) return;
+            // Text search
+            if(words.length>0){
+              var searchable=(rule.title+' '+rule.body+' '+(rule.tags||'')+' '+(rule.detail||'')).toLowerCase();
+              var match=words.every(function(w){return searchable.indexOf(w)>=0;});
+              if(!match) return;
+            }
+            results.push({rule:rule,idx:idx});
+          });
+
+          // Count
+          var countEl=document.getElementById('manualCount');
+          if(countEl) countEl.textContent=results.length+' regra'+(results.length!==1?'s':'')+' encontrada'+(results.length!==1?'s':'');
+
+          var container=document.getElementById('manualResults');
+          if(results.length===0){
+            container.innerHTML='<div class="manual-empty"><div class="manual-empty-icon">🔍</div><div class="manual-empty-text">Nenhuma regra encontrada</div><div class="manual-empty-hint">Tente: "heel hook", "tempo faixa preta", "penalidade"</div></div>';
+            return;
+          }
+
+          var h='';
+          results.forEach(function(r){
+            var rule=r.rule, idx=r.idx;
+            var bodyText=rule.body;
+            // Highlight search words
+            if(words.length>0){
+              words.forEach(function(w){
+                var regex=new RegExp('('+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
+                bodyText=bodyText.replace(regex,'<span class="manual-highlight">$1</span>');
+              });
+            }
+            h+='<div class="manual-rule">';
+            h+='<div class="manual-rule-header" onclick="toggleManualRule('+idx+')">';
+            h+='<div class="manual-rule-icon">'+rule.icon+'</div>';
+            h+='<div class="manual-rule-title">'+rule.title+'</div>';
+            h+='<div class="manual-rule-cat '+rule.cat+'">'+rule.cat+'</div>';
+            h+='</div>';
+            h+='<div class="manual-rule-body" id="mr_body_'+idx+'">';
+            h+=bodyText;
+            if(rule.detail){
+              h+='<div class="manual-rule-detail">ℹ️ '+rule.detail+'</div>';
+            }
+            h+='</div></div>';
+          });
+          container.innerHTML=h;
         }
 
         // ═══════════════════════════════════
