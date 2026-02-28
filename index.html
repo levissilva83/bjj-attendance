@@ -3641,6 +3641,60 @@
         }
         .subtab-content { display: none; }
         .subtab-content.active { display: block; }
+        /* Cronograma Aulas */
+        .crono-filter-bar { display: flex; gap: 4px; margin-bottom: 10px; overflow-x: auto; padding-bottom: 2px; }
+        .crono-filter-btn { padding: 5px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-elevated); color: var(--text-2); font-size: 11px; font-weight: 600; white-space: nowrap; cursor: pointer; }
+        .crono-filter-btn.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+        .crono-card { padding: 12px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 8px; position: relative; overflow: hidden; }
+        .crono-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; border-radius: 3px 0 0 3px; }
+        .crono-card.status-presente::before, .crono-card.status-presente_hoje::before { background: #4ade80; }
+        .crono-card.status-ausente::before { background: #f87171; }
+        .crono-card.status-hoje::before { background: var(--accent); animation: crono-pulse 2s infinite; }
+        .crono-card.status-futuro::before { background: #38bdf8; }
+        @keyframes crono-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        .crono-date-row { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+        .crono-date { font-size: 11px; font-weight: 700; color: var(--text-2); }
+        .crono-horario { font-size: 10px; color: var(--text-3); }
+        .crono-status-badge { font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 6px; margin-left: auto; }
+        .crono-status-badge.presente, .crono-status-badge.presente_hoje { background: rgba(74,222,128,0.12); color: #4ade80; }
+        .crono-status-badge.ausente { background: rgba(248,113,113,0.12); color: #f87171; }
+        .crono-status-badge.hoje { background: rgba(212,165,41,0.12); color: var(--accent); }
+        .crono-status-badge.futuro { background: rgba(56,189,248,0.12); color: #38bdf8; }
+        .crono-tema { font-size: 14px; font-weight: 800; color: var(--text-1); margin-bottom: 4px; font-family: 'Sora', sans-serif; }
+        .crono-desc { font-size: 11px; color: var(--text-2); line-height: 1.5; margin-bottom: 6px; }
+        .crono-tecnicas { display: flex; flex-wrap: wrap; gap: 4px; }
+        .crono-tec-chip { padding: 3px 8px; background: rgba(212,165,41,0.06); border: 1px solid rgba(212,165,41,0.12); border-radius: 6px; font-size: 10px; color: var(--accent); font-weight: 600; }
+        .crono-modulo { font-size: 9px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; margin-bottom: 2px; }
+        .crono-kpi-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-bottom: 12px; }
+        .crono-kpi { text-align: center; padding: 8px 4px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 8px; }
+        .crono-kpi-num { font-size: 18px; font-weight: 800; font-family: 'Sora', sans-serif; }
+        .crono-kpi-lbl { font-size: 8px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.3px; }
+        .crono-card.status-estudou::before { background: #a78bfa; }
+        .crono-status-badge.estudou { background: rgba(167,139,250,0.12); color: #a78bfa; }
+        .crono-progress { height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; margin: 8px 0 4px; overflow: hidden; }
+        .crono-progress-fill { height: 100%; border-radius: 2px; transition: width 0.3s; }
+        .crono-progress-label { font-size: 9px; color: var(--text-3); display: flex; justify-content: space-between; }
+        .crono-expand-btn { display: flex; align-items: center; gap: 4px; margin-top: 8px; padding: 6px 10px; background: rgba(212,165,41,0.05); border: 1px dashed rgba(212,165,41,0.15); border-radius: 8px; font-size: 11px; color: var(--accent); font-weight: 700; cursor: pointer; width: 100%; justify-content: center; border-style: dashed; }
+        .crono-validate-area { margin-top: 10px; display: none; }
+        .crono-validate-area.open { display: block; }
+        .crono-tec-row { display: flex; align-items: center; gap: 6px; padding: 8px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 4px; }
+        .crono-tec-row .tec-name { flex: 1; font-size: 12px; color: var(--text-1); font-weight: 600; }
+        .crono-tec-toggle { display: flex; gap: 3px; flex-shrink: 0; }
+        .crono-tec-toggle button { width: 30px; height: 26px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-elevated); font-size: 12px; cursor: pointer; opacity: 0.4; transition: all 0.2s; }
+        .crono-tec-toggle button.active { opacity: 1; transform: scale(1.1); }
+        .crono-tec-toggle button.ok { border-color: rgba(74,222,128,0.3); }
+        .crono-tec-toggle button.ok.active { background: rgba(74,222,128,0.15); border-color: #4ade80; }
+        .crono-tec-toggle button.rev { border-color: rgba(251,191,36,0.3); }
+        .crono-tec-toggle button.rev.active { background: rgba(251,191,36,0.15); border-color: #fbbf24; }
+        .crono-save-btn { width: 100%; padding: 10px; margin-top: 8px; background: linear-gradient(135deg, var(--accent), #c5932e); color: #000; border: none; border-radius: 10px; font-weight: 800; font-size: 12px; cursor: pointer; }
+        .crono-save-btn:disabled { opacity: 0.4; }
+        .crono-estudou-btn { display: flex; align-items: center; gap: 6px; margin-top: 8px; padding: 10px; background: rgba(167,139,250,0.08); border: 1px solid rgba(167,139,250,0.2); border-radius: 10px; font-size: 12px; color: #a78bfa; font-weight: 700; cursor: pointer; width: 100%; justify-content: center; }
+        .crono-estudou-btn.done { background: rgba(167,139,250,0.15); border-color: #a78bfa; }
+        .crono-hero { padding: 14px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 12px; text-align: center; }
+        .crono-hero-pct { font-size: 32px; font-weight: 900; font-family: 'Sora', sans-serif; }
+        .crono-hero-label { font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.5px; }
+        .crono-hero-bar { height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; margin: 8px auto 0; max-width: 200px; overflow: hidden; }
+        .crono-hero-fill { height: 100%; background: linear-gradient(90deg, var(--accent), #4ade80); border-radius: 3px; transition: width 0.5s; }
 
         /* ===== ONDE TREINAR / GUIDE (legacy) ===== */
 
@@ -5065,6 +5119,7 @@
                         <button class="subtab-btn active" onclick="switchSubTab('treino-tab','sub-checkin',event)">✍️ Check-in</button>
                         <button class="subtab-btn" onclick="switchSubTab('treino-tab','sub-evolucao',event)">📈 Evolução</button>
                         <button class="subtab-btn" onclick="switchSubTab('treino-tab','sub-presencas',event)">📅 Presenças</button>
+                        <button class="subtab-btn" onclick="switchSubTab('treino-tab','sub-aulas',event)">📚 Aulas</button>
                     </div>
 
                     <!-- SUB: CHECK-IN -->
@@ -5343,6 +5398,29 @@
 
                             <!-- Monthly List -->
                             <div class="prs-list" id="prsList"></div>
+                        </div>
+                    </div>
+
+                    <!-- SUBTAB: AULAS (Cronograma) -->
+                    <div id="sub-aulas" class="subtab-content">
+                        <div style="padding:12px 0;">
+                            <!-- Hero progress -->
+                            <div class="crono-hero" id="cronoHero" style="display:none;"></div>
+
+                            <!-- KPI bar -->
+                            <div class="crono-kpi-bar" id="cronoKPIs"></div>
+
+                            <!-- Filter bar -->
+                            <div class="crono-filter-bar" id="cronoFilterBar">
+                                <button class="crono-filter-btn active" onclick="filterCrono('todas',this)">📋 Todas</button>
+                                <button class="crono-filter-btn" onclick="filterCrono('proximas',this)">📅 Próximas</button>
+                                <button class="crono-filter-btn" onclick="filterCrono('presentes',this)">✅ Aprendi</button>
+                                <button class="crono-filter-btn" onclick="filterCrono('ausentes',this)">❌ Perdi</button>
+                                <button class="crono-filter-btn" onclick="filterCrono('revisar',this)">🔄 Revisar</button>
+                            </div>
+
+                            <!-- Aulas list -->
+                            <div id="cronoList"><div style="text-align:center;color:var(--text-3);font-size:12px;padding:20px;">Carregando cronograma...</div></div>
                         </div>
                     </div>
 
@@ -6011,6 +6089,69 @@
                             <div id="exameConfigCats" style="margin-bottom:10px;"></div>
                             <button onclick="saveExameConfig()" style="width:100%;padding:10px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;">💾 Salvar Configuração</button>
                             <div id="exameConfigMsg" style="margin-top:6px;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Cronograma de Aulas -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">📚 Cronograma de Aulas</div>
+                            <button class="admin-refresh-btn" onclick="loadAdminCronograma()">↻</button>
+                        </div>
+                        <div style="padding:12px;">
+                            <div style="font-size:11px;color:var(--adm-text-3);margin-bottom:8px;font-weight:600;">➕ Cadastrar Aula</div>
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px;">
+                                <div>
+                                    <label style="font-size:10px;color:var(--adm-text-3);">Data</label>
+                                    <input type="date" id="cronoAdmData" style="width:100%;padding:8px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                                </div>
+                                <div>
+                                    <label style="font-size:10px;color:var(--adm-text-3);">CT</label>
+                                    <select id="cronoAdmCT" style="width:100%;padding:8px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px;">
+                                <div>
+                                    <label style="font-size:10px;color:var(--adm-text-3);">Horário</label>
+                                    <input type="time" id="cronoAdmHorario" style="width:100%;padding:8px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                                </div>
+                                <div>
+                                    <label style="font-size:10px;color:var(--adm-text-3);">Módulo (opcional)</label>
+                                    <input type="text" id="cronoAdmModulo" placeholder="Ex: Guarda" style="width:100%;padding:8px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                                </div>
+                            </div>
+                            <div style="margin-bottom:6px;">
+                                <label style="font-size:10px;color:var(--adm-text-3);">Tema da Aula</label>
+                                <input type="text" id="cronoAdmTema" placeholder="Ex: Raspagem de quadril + variações" style="width:100%;padding:8px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                            </div>
+                            <div style="margin-bottom:6px;">
+                                <label style="font-size:10px;color:var(--adm-text-3);">Descrição (opcional)</label>
+                                <textarea id="cronoAdmDesc" placeholder="Detalhes, dicas de estudo..." rows="2" style="width:100%;padding:8px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;resize:vertical;"></textarea>
+                            </div>
+                            <div style="margin-bottom:8px;">
+                                <label style="font-size:10px;color:var(--adm-text-3);">Técnicas</label>
+                                <div style="display:flex;gap:4px;margin-bottom:4px;">
+                                    <select id="cronoAdmBankFaixa" onchange="updateCronoBank()" style="width:120px;padding:6px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:10px;">
+                                        <option value="Azul">Banco: Azul</option>
+                                        <option value="Roxa">Banco: Roxa</option>
+                                        <option value="Marrom">Banco: Marrom</option>
+                                        <option value="Preta">Banco: Preta</option>
+                                    </select>
+                                    <select id="cronoAdmBankCat" onchange="updateCronoBankTecnicas()" style="flex:1;padding:6px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:10px;">
+                                        <option value="">Categoria...</option>
+                                    </select>
+                                </div>
+                                <div id="cronoAdmBankChips" style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:4px;max-height:120px;overflow-y:auto;"></div>
+                                <input type="text" id="cronoAdmTecnicas" placeholder="Técnicas selecionadas (ou digite manual)" style="width:100%;padding:8px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                            </div>
+                            <button onclick="saveCronogramaAula()" style="width:100%;padding:10px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;">📚 Salvar Aula</button>
+                            <div id="cronoAdmMsg" style="margin-top:6px;"></div>
+                        </div>
+                        <!-- Aulas cadastradas -->
+                        <div style="padding:0 12px 12px;">
+                            <div style="font-size:11px;color:var(--adm-text-3);margin-bottom:6px;font-weight:600;">📋 Aulas Cadastradas</div>
+                            <div id="cronoAdmList"><div class="admin-empty">Nenhuma aula cadastrada</div></div>
                         </div>
                     </div>
 
@@ -6960,7 +7101,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwKpFr16S8a2HHgIZuvkaV1HoDMSU_qLSCELuJd1hewyDMGKh6Ct4bxeOWC3FyZ0Xq2/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw8LXjUNRVSq7xL1oW_a_fGxv8-zctkYXzQM_JQWQE-D_doc7eRGlEu2Du4-DJX41NP/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -7373,6 +7514,7 @@
             if (subId === 'sub-evolucao') { loadEvolucao(); loadMyGraduacoes(); }
             if (subId === 'sub-presencas') loadPresencas();
             if (subId === 'sub-campeonato') { loadChampions(); loadCampEventoAluno(); }
+            if (subId === 'sub-aulas') loadCronograma();
         }
 
         
@@ -11045,6 +11187,7 @@
             loadAdminExamSchedule();
             loadAdminRanking();
             loadExameConfig();
+            loadAdminCronograma();
             // Populate exam CT select
             populateAdmExamCTSelect();
         }
@@ -12178,6 +12321,438 @@
                 { q:'Qual o significado filosófico da faixa preta no BJJ?', opts:['Fim da jornada','Início do verdadeiro aprendizado e responsabilidade de transmitir a arte','Status social','Apenas habilidade técnica'], c:1 }
             ]
         };
+
+        // ═══════════════════════════════════════════════════
+        // 📚 CRONOGRAMA DE AULAS
+        // ═══════════════════════════════════════════════════
+        var _cronoAulas = [];
+        var _cronoFilter = 'todas';
+
+        async function loadCronograma() {
+            var listEl = document.getElementById('cronoList');
+            if (listEl) listEl.innerHTML = '<div style="text-align:center;color:var(--text-3);font-size:12px;padding:20px;">Carregando...</div>';
+            try {
+                var data = await secureFetch('getCronogramaAulas', { email: currentUser.email });
+                if (data.success) {
+                    _cronoAulas = data.aulas || [];
+                    renderCronoHero();
+                    renderCronoKPIs();
+                    renderCronoList();
+                }
+            } catch(e) { console.error('loadCronograma:', e); if (listEl) listEl.innerHTML = '<div class="admin-empty">Erro ao carregar</div>'; }
+        }
+
+        function renderCronoHero() {
+            var el = document.getElementById('cronoHero');
+            if (!el) return;
+            // Calculate overall mastery
+            var totalTec = 0;
+            var totalDominadas = 0;
+            var totalRevisar = 0;
+            _cronoAulas.forEach(function(a) {
+                if (a.totalTec > 0 && (a.status === 'presente' || a.status === 'presente_hoje' || a.status === 'estudou')) {
+                    totalTec += a.totalTec;
+                    totalDominadas += a.dominadas || 0;
+                    totalRevisar += a.revisar || 0;
+                }
+            });
+            if (totalTec === 0) { el.style.display = 'none'; return; }
+            el.style.display = 'block';
+            var pct = Math.round(totalDominadas / totalTec * 100);
+            var color = pct >= 70 ? '#4ade80' : pct >= 40 ? '#fbbf24' : '#f87171';
+            el.innerHTML =
+                '<div class="crono-hero-pct" style="color:' + color + ';">' + pct + '%</div>' +
+                '<div class="crono-hero-label">Domínio das Técnicas</div>' +
+                '<div class="crono-hero-bar"><div class="crono-hero-fill" style="width:' + pct + '%;"></div></div>' +
+                '<div style="display:flex;justify-content:center;gap:14px;margin-top:8px;font-size:10px;">' +
+                '<span style="color:#4ade80;">✅ ' + totalDominadas + ' dominadas</span>' +
+                '<span style="color:#fbbf24;">🔄 ' + totalRevisar + ' revisar</span>' +
+                '<span style="color:var(--text-3);">📊 ' + totalTec + ' total</span>' +
+                '</div>';
+        }
+
+        function renderCronoKPIs() {
+            var el = document.getElementById('cronoKPIs');
+            if (!el) return;
+            var total = _cronoAulas.length;
+            var presentes = _cronoAulas.filter(function(a) { return a.status === 'presente' || a.status === 'presente_hoje' || a.status === 'estudou'; }).length;
+            var ausentes = _cronoAulas.filter(function(a) { return a.status === 'ausente'; }).length;
+            var proximas = _cronoAulas.filter(function(a) { return a.status === 'futuro' || a.status === 'hoje'; }).length;
+            el.innerHTML =
+                '<div class="crono-kpi"><div class="crono-kpi-num" style="color:var(--text-1);">' + total + '</div><div class="crono-kpi-lbl">Total</div></div>' +
+                '<div class="crono-kpi"><div class="crono-kpi-num" style="color:#4ade80;">' + presentes + '</div><div class="crono-kpi-lbl">Presente</div></div>' +
+                '<div class="crono-kpi"><div class="crono-kpi-num" style="color:#f87171;">' + ausentes + '</div><div class="crono-kpi-lbl">Perdi</div></div>' +
+                '<div class="crono-kpi"><div class="crono-kpi-num" style="color:#38bdf8;">' + proximas + '</div><div class="crono-kpi-lbl">Próximas</div></div>';
+        }
+
+        function filterCrono(filter, btn) {
+            _cronoFilter = filter;
+            document.querySelectorAll('.crono-filter-btn').forEach(function(b) { b.classList.remove('active'); });
+            if (btn) btn.classList.add('active');
+            renderCronoList();
+        }
+
+        function renderCronoList() {
+            var el = document.getElementById('cronoList');
+            if (!el) return;
+            var aulas = _cronoAulas;
+            if (_cronoFilter === 'proximas') aulas = aulas.filter(function(a) { return a.status === 'futuro' || a.status === 'hoje'; });
+            else if (_cronoFilter === 'presentes') aulas = aulas.filter(function(a) { return a.status === 'presente' || a.status === 'presente_hoje' || a.status === 'estudou'; });
+            else if (_cronoFilter === 'ausentes') aulas = aulas.filter(function(a) { return a.status === 'ausente'; });
+            else if (_cronoFilter === 'revisar') aulas = aulas.filter(function(a) { return a.revisar > 0 || (a.totalTec > 0 && a.dominadas < a.totalTec && (a.status === 'presente' || a.status === 'presente_hoje')); });
+
+            if (aulas.length === 0) {
+                var msgs = { todas: 'Nenhuma aula cadastrada para seu CT', proximas: 'Nenhuma aula futura planejada', presentes: 'Nenhuma aula com presença', ausentes: 'Nenhuma aula perdida 🎉', revisar: 'Nenhuma técnica para revisar 🎉' };
+                el.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-3);font-size:12px;">' + (msgs[_cronoFilter] || msgs.todas) + '</div>';
+                return;
+            }
+
+            var h = '';
+            var lastDateGroup = '';
+            aulas.forEach(function(a, idx) {
+                // Date group header
+                var dateGroup = a.data;
+                if (dateGroup !== lastDateGroup) {
+                    var dt;
+                    try { var parts = dateGroup.split('-'); dt = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2])); } catch(x) { dt = new Date(); }
+                    var dayNames = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+                    var dayLabel = dayNames[dt.getDay()] || '';
+                    var dateLabel = ('0' + dt.getDate()).slice(-2) + '/' + ('0' + (dt.getMonth() + 1)).slice(-2);
+                    var isToday = a.status === 'hoje' || a.status === 'presente_hoje';
+                    h += '<div style="font-size:10px;font-weight:700;color:' + (isToday ? 'var(--accent)' : 'var(--text-3)') + ';text-transform:uppercase;letter-spacing:0.5px;margin:12px 0 6px;padding-left:2px;">';
+                    h += (isToday ? '⭐ HOJE — ' : '') + dayLabel + ', ' + dateLabel;
+                    h += '</div>';
+                    lastDateGroup = dateGroup;
+                }
+
+                var statusLabels = { presente: '✅ Aprendi', presente_hoje: '✅ Presente', ausente: '❌ Perdi', estudou: '📖 Estudei', hoje: '⭐ Hoje', futuro: '📅 Próxima' };
+                var statusLabel = statusLabels[a.status] || a.status;
+                var aulaId = 'aula_' + idx;
+
+                h += '<div class="crono-card status-' + a.status + '" id="card_' + aulaId + '">';
+                // Header row
+                h += '<div class="crono-date-row">';
+                if (a.horario) h += '<span class="crono-horario">🕐 ' + a.horario + '</span>';
+                if (a.modulo) h += '<span class="crono-modulo" style="margin-left:6px;">' + escapeHtml(a.modulo) + '</span>';
+                h += '<span class="crono-status-badge ' + a.status + '">' + statusLabel + '</span>';
+                h += '</div>';
+                h += '<div class="crono-tema">' + escapeHtml(a.tema) + '</div>';
+                if (a.descricao) h += '<div class="crono-desc">' + escapeHtml(a.descricao) + '</div>';
+
+                // Techniques summary chips (collapsed view)
+                if (a.tecnicas && a.tecnicas.length > 0) {
+                    h += '<div class="crono-tecnicas">';
+                    a.tecnicas.forEach(function(tec, ti) {
+                        var val = a.validacao && a.validacao[ti.toString()];
+                        var chipExtra = '';
+                        if (val === 1) chipExtra = ' style="background:rgba(74,222,128,0.1);border-color:rgba(74,222,128,0.2);color:#4ade80;"';
+                        else if (val === 0) chipExtra = ' style="background:rgba(251,191,36,0.1);border-color:rgba(251,191,36,0.2);color:#fbbf24;"';
+                        var icon = val === 1 ? '✅' : val === 0 ? '🔄' : '🥋';
+                        h += '<span class="crono-tec-chip"' + chipExtra + '>' + icon + ' ' + escapeHtml(tec) + '</span>';
+                    });
+                    h += '</div>';
+
+                    // Progress bar
+                    if (a.totalTec > 0 && (a.status !== 'futuro' && a.status !== 'hoje')) {
+                        var pct = a.totalTec > 0 ? Math.round(a.dominadas / a.totalTec * 100) : 0;
+                        var barColor = pct >= 70 ? '#4ade80' : pct >= 40 ? '#fbbf24' : 'var(--text-3)';
+                        h += '<div class="crono-progress"><div class="crono-progress-fill" style="width:' + pct + '%;background:' + barColor + ';"></div></div>';
+                        h += '<div class="crono-progress-label"><span>Domínio: ' + a.dominadas + '/' + a.totalTec + '</span><span>' + pct + '%</span></div>';
+                    }
+                }
+
+                // Action areas by status
+                var canValidate = a.tecnicas && a.tecnicas.length > 0 && (a.status === 'presente' || a.status === 'presente_hoje' || a.status === 'estudou');
+                var canStudy = a.status === 'ausente' && a.tecnicas && a.tecnicas.length > 0;
+
+                if (canValidate) {
+                    h += '<button class="crono-expand-btn" onclick="toggleCronoValidate(\'' + aulaId + '\')">';
+                    h += '🎯 Validar Técnicas <span style="font-size:9px;opacity:0.7;margin-left:4px;">▼</span>';
+                    h += '</button>';
+                    h += '<div class="crono-validate-area" id="validate_' + aulaId + '">';
+                    h += renderTecnicaValidation(a, idx);
+                    h += '</div>';
+                }
+
+                if (canStudy) {
+                    h += '<button class="crono-estudou-btn' + (a.estudou ? ' done' : '') + '" onclick="marcarEstudou(' + idx + ',this)" id="estudou_' + aulaId + '">';
+                    h += a.estudou ? '📖 Já estudei este conteúdo' : '📖 Estudei por conta própria';
+                    h += '</button>';
+                    if (!a.estudou) {
+                        h += '<div style="margin-top:6px;padding:6px 10px;background:rgba(248,113,113,0.06);border:1px dashed rgba(248,113,113,0.15);border-radius:6px;font-size:10px;color:#f87171;">';
+                        h += '💡 Peça ao professor para repassar ou estude com um colega</div>';
+                    }
+                }
+
+                if (a.status === 'hoje' || a.status === 'futuro') {
+                    h += '<div style="margin-top:8px;padding:8px 10px;background:rgba(56,189,248,0.06);border:1px dashed rgba(56,189,248,0.15);border-radius:8px;font-size:11px;color:#38bdf8;">';
+                    h += '📖 <strong>Prepare-se!</strong> Estude as técnicas acima antes da aula</div>';
+                }
+
+                h += '</div>';
+            });
+            el.innerHTML = h;
+        }
+
+        function renderTecnicaValidation(aula, aulaIdx) {
+            var h = '';
+            if (!aula.tecnicas) return h;
+            h += '<div style="font-size:10px;color:var(--text-3);margin-bottom:6px;font-weight:600;">Avalie cada técnica:</div>';
+            aula.tecnicas.forEach(function(tec, ti) {
+                var val = aula.validacao ? aula.validacao[ti.toString()] : undefined;
+                var okActive = val === 1 ? ' active' : '';
+                var revActive = val === 0 ? ' active' : '';
+                h += '<div class="crono-tec-row" id="tecRow_' + aulaIdx + '_' + ti + '">';
+                h += '<div class="tec-name">' + escapeHtml(tec) + '</div>';
+                h += '<div class="crono-tec-toggle">';
+                h += '<button class="ok' + okActive + '" onclick="toggleTecValidation(' + aulaIdx + ',' + ti + ',1,this)" title="Dominei">✅</button>';
+                h += '<button class="rev' + revActive + '" onclick="toggleTecValidation(' + aulaIdx + ',' + ti + ',0,this)" title="Revisar">🔄</button>';
+                h += '</div></div>';
+            });
+            h += '<button class="crono-save-btn" onclick="saveAulaValidacao(' + aulaIdx + ')" id="savebtn_' + aulaIdx + '">💾 Salvar Validação</button>';
+            h += '<div id="saveMsg_' + aulaIdx + '" style="margin-top:4px;text-align:center;font-size:11px;"></div>';
+            return h;
+        }
+
+        function toggleCronoValidate(aulaId) {
+            var area = document.getElementById('validate_' + aulaId);
+            if (area) area.classList.toggle('open');
+        }
+
+        // In-memory validation edits
+        var _cronoValidationEdits = {};
+
+        function toggleTecValidation(aulaIdx, tecIdx, value, btn) {
+            if (!_cronoValidationEdits[aulaIdx]) {
+                var aula = _cronoAulas[aulaIdx];
+                _cronoValidationEdits[aulaIdx] = aula.validacao ? JSON.parse(JSON.stringify(aula.validacao)) : {};
+            }
+            var cur = _cronoValidationEdits[aulaIdx][tecIdx.toString()];
+            if (cur === value) {
+                // Toggle off
+                delete _cronoValidationEdits[aulaIdx][tecIdx.toString()];
+            } else {
+                _cronoValidationEdits[aulaIdx][tecIdx.toString()] = value;
+            }
+            // Update UI
+            var row = document.getElementById('tecRow_' + aulaIdx + '_' + tecIdx);
+            if (row) {
+                var btns = row.querySelectorAll('.crono-tec-toggle button');
+                btns.forEach(function(b) { b.classList.remove('active'); });
+                var newVal = _cronoValidationEdits[aulaIdx][tecIdx.toString()];
+                if (newVal === 1) btns[0].classList.add('active');
+                else if (newVal === 0) btns[1].classList.add('active');
+            }
+        }
+
+        async function saveAulaValidacao(aulaIdx) {
+            var aula = _cronoAulas[aulaIdx];
+            if (!aula) return;
+            var validacoes = _cronoValidationEdits[aulaIdx] || aula.validacao || {};
+            var msgEl = document.getElementById('saveMsg_' + aulaIdx);
+            var btn = document.getElementById('savebtn_' + aulaIdx);
+            if (btn) btn.disabled = true;
+            if (msgEl) msgEl.innerHTML = '<span style="color:var(--accent);">Salvando...</span>';
+            try {
+                var data = await secureFetch('validateAulaTecnicas', {
+                    aulaData: aula.data,
+                    aulaCT: aula.ct,
+                    validacoes: JSON.stringify(validacoes)
+                });
+                if (data.success) {
+                    if (msgEl) msgEl.innerHTML = '<span style="color:#4ade80;">✅ Salvo!</span>';
+                    // Update local data
+                    aula.validacao = validacoes;
+                    var dom = 0, rev = 0;
+                    for (var k in validacoes) {
+                        if (validacoes[k] === 1) dom++;
+                        else if (validacoes[k] === 0) rev++;
+                    }
+                    aula.dominadas = dom;
+                    aula.revisar = rev;
+                    delete _cronoValidationEdits[aulaIdx];
+                    // Refresh hero
+                    renderCronoHero();
+                    renderCronoKPIs();
+                    // Refresh just the card progress
+                    setTimeout(function() { renderCronoList(); }, 800);
+                } else {
+                    if (msgEl) msgEl.innerHTML = '<span style="color:#f87171;">Erro: ' + (data.message || 'falha') + '</span>';
+                }
+            } catch(e) {
+                if (msgEl) msgEl.innerHTML = '<span style="color:#f87171;">Erro: ' + e.message + '</span>';
+            }
+            if (btn) btn.disabled = false;
+        }
+
+        async function marcarEstudou(aulaIdx, btn) {
+            var aula = _cronoAulas[aulaIdx];
+            if (!aula) return;
+            if (aula.estudou) return; // Already marked
+            if (btn) { btn.textContent = '⏳ Salvando...'; btn.disabled = true; }
+            try {
+                var data = await secureFetch('marcarEstudouSozinho', { aulaData: aula.data, aulaCT: aula.ct });
+                if (data.success) {
+                    aula.estudou = true;
+                    aula.status = 'estudou';
+                    renderCronoHero();
+                    renderCronoKPIs();
+                    renderCronoList();
+                } else {
+                    if (btn) { btn.textContent = '📖 Estudei por conta própria'; btn.disabled = false; }
+                }
+            } catch(e) {
+                if (btn) { btn.textContent = '📖 Estudei por conta própria'; btn.disabled = false; }
+            }
+        }
+
+        // ═══════════════════════════════════════════════════
+        // ADMIN: CRONOGRAMA DE AULAS
+        // ═══════════════════════════════════════════════════
+        var _admCronoAulas = [];
+
+        async function loadAdminCronograma() {
+            // Populate CT select
+            var sel = document.getElementById('cronoAdmCT');
+            if (sel && sel.options.length <= 1) {
+                sel.innerHTML = '';
+                if (typeof allCTs !== 'undefined' && allCTs && allCTs.length > 0) {
+                    allCTs.forEach(function(ct) {
+                        var name = typeof ct === 'string' ? ct : ct.name || ct.toString();
+                        sel.innerHTML += '<option value="' + escapeHtml(name) + '">' + escapeHtml(name) + '</option>';
+                    });
+                }
+            }
+            // Set today
+            var dtInput = document.getElementById('cronoAdmData');
+            if (dtInput && !dtInput.value) {
+                var now = new Date();
+                dtInput.value = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
+            }
+            // Init bank picker
+            updateCronoBank();
+            // Load existing
+            try {
+                var data = await secureFetch('getCronogramaAulas', {});
+                if (data.success) {
+                    _admCronoAulas = data.aulas || [];
+                    renderAdminCronoList();
+                }
+            } catch(e) { console.error('loadAdminCronograma:', e); }
+        }
+
+        function updateCronoBank() {
+            var faixa = (document.getElementById('cronoAdmBankFaixa') || {}).value || 'Azul';
+            var catSel = document.getElementById('cronoAdmBankCat');
+            if (!catSel) return;
+            var items = PROVA_PRATICA[faixa] || [];
+            var cats = {};
+            items.forEach(function(item) { if (!cats[item.cat]) cats[item.cat] = true; });
+            catSel.innerHTML = '<option value="">Todas categorias</option>';
+            Object.keys(cats).forEach(function(cat) {
+                catSel.innerHTML += '<option value="' + escapeHtml(cat) + '">' + escapeHtml(cat) + '</option>';
+            });
+            updateCronoBankTecnicas();
+        }
+
+        function updateCronoBankTecnicas() {
+            var faixa = (document.getElementById('cronoAdmBankFaixa') || {}).value || 'Azul';
+            var cat = (document.getElementById('cronoAdmBankCat') || {}).value || '';
+            var chipsEl = document.getElementById('cronoAdmBankChips');
+            if (!chipsEl) return;
+            var items = PROVA_PRATICA[faixa] || [];
+            if (cat) items = items.filter(function(item) { return item.cat === cat; });
+            // Get current selection
+            var currentTec = (document.getElementById('cronoAdmTecnicas') || {}).value || '';
+            var selected = currentTec ? currentTec.split(',').map(function(t) { return t.trim(); }) : [];
+            chipsEl.innerHTML = '';
+            if (items.length === 0) { chipsEl.innerHTML = '<span style="font-size:10px;color:var(--adm-text-3);">Nenhuma técnica</span>'; return; }
+            items.forEach(function(item, i) {
+                var isSelected = selected.indexOf(item.t) !== -1;
+                var btn = document.createElement('button');
+                btn.setAttribute('data-tec', item.t);
+                btn.style.cssText = 'padding:3px 8px;border-radius:6px;font-size:10px;cursor:pointer;border:1px solid ' + (isSelected ? 'var(--adm-primary)' : 'var(--adm-border)') + ';background:' + (isSelected ? 'rgba(212,165,41,0.15)' : 'var(--adm-bg-card)') + ';color:' + (isSelected ? 'var(--adm-primary-bright)' : 'var(--adm-text-2)') + ';font-weight:' + (isSelected ? '700' : '500');
+                btn.textContent = (isSelected ? '✅ ' : '') + item.t;
+                btn.addEventListener('click', function() { toggleCronoBankTec(this, item.t); });
+                chipsEl.appendChild(btn);
+            });
+        }
+
+        function toggleCronoBankTec(btn, tecName) {
+            var input = document.getElementById('cronoAdmTecnicas');
+            if (!input) return;
+            var current = input.value ? input.value.split(',').map(function(t) { return t.trim(); }).filter(function(t) { return t; }) : [];
+            var idx = current.indexOf(tecName);
+            if (idx !== -1) {
+                current.splice(idx, 1);
+            } else {
+                current.push(tecName);
+            }
+            input.value = current.join(', ');
+            updateCronoBankTecnicas(); // Refresh chips UI
+        }
+
+        function renderAdminCronoList() {
+            var el = document.getElementById('cronoAdmList');
+            if (!el) return;
+            if (_admCronoAulas.length === 0) {
+                el.innerHTML = '<div class="admin-empty">Nenhuma aula cadastrada</div>';
+                return;
+            }
+            // Show most recent 30
+            var aulas = _admCronoAulas.slice(0, 30);
+            var h = '';
+            aulas.forEach(function(a) {
+                var dt = '';
+                try { var parts = a.data.split('-'); dt = parts[2] + '/' + parts[1]; } catch(x) { dt = a.data; }
+                h += '<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);border-radius:8px;margin-bottom:4px;">';
+                h += '<div style="flex:1;min-width:0;">';
+                h += '<div style="font-size:12px;font-weight:700;color:var(--adm-text-1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + escapeHtml(a.tema) + '</div>';
+                h += '<div style="font-size:10px;color:var(--adm-text-3);">' + dt + (a.horario ? ' · ' + a.horario : '') + ' · ' + escapeHtml(a.ct) + (a.modulo ? ' · ' + a.modulo : '') + '</div>';
+                if (a.tecnicas && a.tecnicas.length > 0) {
+                    h += '<div style="font-size:9px;color:var(--adm-primary);margin-top:2px;">' + a.tecnicas.map(function(t) { return escapeHtml(t); }).join(', ') + '</div>';
+                }
+                h += '</div>';
+                h += '<button onclick="deleteCronogramaAula(' + a.rowIndex + ')" style="width:28px;height:28px;border-radius:50%;background:rgba(248,113,113,0.12);color:#f87171;border:none;font-size:13px;cursor:pointer;flex-shrink:0;" title="Remover">✕</button>';
+                h += '</div>';
+            });
+            if (_admCronoAulas.length > 30) h += '<div style="text-align:center;font-size:10px;color:var(--adm-text-3);padding:6px;">Mostrando 30 de ' + _admCronoAulas.length + '</div>';
+            el.innerHTML = h;
+        }
+
+        async function saveCronogramaAula() {
+            var data = (document.getElementById('cronoAdmData') || {}).value;
+            var ct = (document.getElementById('cronoAdmCT') || {}).value;
+            var horario = (document.getElementById('cronoAdmHorario') || {}).value || '';
+            var tema = (document.getElementById('cronoAdmTema') || {}).value;
+            var descricao = (document.getElementById('cronoAdmDesc') || {}).value || '';
+            var tecnicas = (document.getElementById('cronoAdmTecnicas') || {}).value || '';
+            var modulo = (document.getElementById('cronoAdmModulo') || {}).value || '';
+
+            if (!data || !ct || !tema) { showMessage('cronoAdmMsg', 'Preencha data, CT e tema', 'danger'); return; }
+
+            showMessage('cronoAdmMsg', 'Salvando...', 'info');
+            try {
+                var result = await secureFetch('saveCronogramaAula', { data: data, ct: ct, horario: horario, tema: tema, descricao: descricao, tecnicas: tecnicas, modulo: modulo });
+                showMessage('cronoAdmMsg', result.success ? '✅ Aula cadastrada!' : result.message, result.success ? 'success' : 'danger');
+                if (result.success) {
+                    // Clear fields except date and CT
+                    document.getElementById('cronoAdmTema').value = '';
+                    document.getElementById('cronoAdmDesc').value = '';
+                    document.getElementById('cronoAdmTecnicas').value = '';
+                    loadAdminCronograma();
+                }
+            } catch(e) { showMessage('cronoAdmMsg', 'Erro: ' + e.message, 'danger'); }
+        }
+
+        async function deleteCronogramaAula(rowIndex) {
+            if (!confirm('Remover esta aula do cronograma?')) return;
+            try {
+                var data = await secureFetch('deleteCronogramaAula', { rowIndex: rowIndex });
+                if (data.success) loadAdminCronograma();
+                else alert(data.message || 'Erro');
+            } catch(e) { alert('Erro: ' + e.message); }
+        }
 
         // ═══════════════════════════════════════════════════
         // CONTEÚDO PROVA PRÁTICA POR FAIXA (30 itens cada)
