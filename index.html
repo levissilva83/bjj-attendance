@@ -2857,6 +2857,45 @@
             align-self: flex-end; min-height: 42px;
         }
         .rpt-generate-btn:active { transform: scale(0.97); }
+        /* KPI Grid */
+        .rpt-kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 14px; }
+        .rpt-kpi { padding: 10px 8px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 10px; text-align: center; }
+        .rpt-kpi-val { font-size: 22px; font-weight: 800; font-family: 'Sora', sans-serif; line-height: 1.2; }
+        .rpt-kpi-label { font-size: 9px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.3px; margin-top: 2px; }
+        .rpt-kpi.green .rpt-kpi-val { color: #4ade80; }
+        .rpt-kpi.yellow .rpt-kpi-val { color: #fbbf24; }
+        .rpt-kpi.red .rpt-kpi-val { color: #f87171; }
+        .rpt-kpi.blue .rpt-kpi-val { color: #38bdf8; }
+        .rpt-kpi.accent .rpt-kpi-val { color: var(--accent); }
+        /* Central de Ações */
+        .rpt-acao-group { margin-bottom: 12px; }
+        .rpt-acao-header { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; padding: 6px 0; cursor: pointer; }
+        .rpt-acao-header .rpt-acao-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+        .rpt-acao-header .rpt-acao-arrow { font-size: 9px; color: var(--text-3); margin-left: auto; transition: transform 0.2s; }
+        .rpt-acao-header.open .rpt-acao-arrow { transform: rotate(90deg); }
+        .rpt-acao-list { overflow: hidden; }
+        .rpt-acao-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 4px; }
+        .rpt-acao-info { flex: 1; min-width: 0; }
+        .rpt-acao-name { font-size: 12px; font-weight: 700; color: var(--text-1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .rpt-acao-meta { font-size: 10px; color: var(--text-3); margin-top: 1px; }
+        .rpt-acao-motivo { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 6px; white-space: nowrap; flex-shrink: 0; }
+        .rpt-acao-motivo.urgente { background: rgba(248,113,113,0.12); color: #f87171; }
+        .rpt-acao-motivo.atencao { background: rgba(251,191,36,0.12); color: #fbbf24; }
+        .rpt-acao-motivo.preventivo { background: rgba(56,152,236,0.12); color: #38bdf8; }
+        .rpt-acao-whatsapp { width: 30px; height: 30px; border-radius: 50%; background: rgba(37,211,102,0.15); color: #25d366; border: none; font-size: 14px; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        /* Turno cards */
+        .rpt-turno-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .rpt-turno-card { padding: 12px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 10px; }
+        .rpt-turno-label { font-size: 12px; font-weight: 700; color: var(--text-1); margin-bottom: 6px; }
+        .rpt-turno-bar { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.06); overflow: hidden; margin: 6px 0; }
+        .rpt-turno-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+        .rpt-turno-stats { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-3); }
+        /* CT summary cards */
+        .rpt-ct-card { padding: 10px 12px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 6px; }
+        .rpt-ct-header { display: flex; justify-content: space-between; align-items: center; }
+        .rpt-ct-name { font-size: 13px; font-weight: 700; color: var(--text-1); }
+        .rpt-ct-pct { font-size: 16px; font-weight: 800; font-family: 'Sora', sans-serif; }
+        .rpt-ct-meta { display: flex; gap: 12px; font-size: 10px; color: var(--text-3); margin-top: 4px; }
         .rpt-quick-bar { display: flex; gap: 4px; margin-bottom: 14px; }
         .rpt-quick-btn {
             flex: 1; padding: 7px 6px; border-radius: 8px; border: 1px solid var(--adm-border);
@@ -5952,6 +5991,29 @@
                         <div id="admExamRequestsList"><div class="admin-empty">Nenhuma solicitação</div></div>
                     </div>
 
+                    <!-- Exam Content Config -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">🥋 Config. Exame Prático</div>
+                            <button class="admin-refresh-btn" onclick="loadExameConfig()">↻</button>
+                        </div>
+                        <div style="padding:12px;">
+                            <div style="font-size:11px;color:var(--adm-text-3);margin-bottom:8px;">Defina quantas técnicas serão sorteadas por categoria no dia do exame:</div>
+                            <div style="margin-bottom:8px;">
+                                <label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Faixa</label>
+                                <select id="exameConfigFaixa" onchange="onExameConfigFaixaChange()" style="width:100%;padding:8px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                                    <option value="Azul">Branca → Azul</option>
+                                    <option value="Roxa">Azul → Roxa</option>
+                                    <option value="Marrom">Roxa → Marrom</option>
+                                    <option value="Preta">Marrom → Preta</option>
+                                </select>
+                            </div>
+                            <div id="exameConfigCats" style="margin-bottom:10px;"></div>
+                            <button onclick="saveExameConfig()" style="width:100%;padding:10px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;">💾 Salvar Configuração</button>
+                            <div id="exameConfigMsg" style="margin-top:6px;"></div>
+                        </div>
+                    </div>
+
                     <!-- Recent Approved -->
                     <div class="admin-section">
                         <div class="admin-section-header">
@@ -6009,10 +6071,10 @@
                 <div class="admin-container">
                     <div class="adm-page-title">
                         <h2>Central de Relatórios</h2>
-                        <p>Selecione o período e CT para análise</p>
+                        <p>Métricas, análise por turno/CT e ações prioritárias</p>
                     </div>
 
-                    <!-- Date Range + CT Filter -->
+                    <!-- Filtros -->
                     <div class="rpt-filters">
                         <div class="rpt-date-range">
                             <div class="rpt-date-field">
@@ -6024,92 +6086,102 @@
                                 <input type="date" id="rptDateTo">
                             </div>
                         </div>
-                        <div class="rpt-date-field" style="min-width:120px;">
+                        <div class="rpt-date-field" style="min-width:100px;">
                             <label>CT</label>
                             <select id="rptCTSelect" onchange="_rptFilterCT=this.value">
-                                <option value="">Todos os CTs</option>
+                                <option value="">Todos</option>
                             </select>
                         </div>
-                        <button class="rpt-generate-btn" onclick="generateReport()">📊 Gerar Relatório</button>
+                        <div class="rpt-date-field" style="min-width:90px;">
+                            <label>Turno</label>
+                            <select id="rptTurnoSelect">
+                                <option value="">Todos</option>
+                                <option value="manha">🌅 Manhã</option>
+                                <option value="noite">🌙 Noite</option>
+                            </select>
+                        </div>
                     </div>
-
-                    <!-- Quick period buttons -->
-                    <div class="rpt-quick-bar">
-                        <button class="rpt-quick-btn active" onclick="setRptQuickPeriod('hoje',this)">Hoje</button>
-                        <button class="rpt-quick-btn" onclick="setRptQuickPeriod('semana',this)">Semana</button>
-                        <button class="rpt-quick-btn" onclick="setRptQuickPeriod('mes',this)">Mês</button>
-                        <button class="rpt-quick-btn" onclick="setRptQuickPeriod('ano',this)">Ano</button>
+                    <div style="display:flex;gap:4px;align-items:center;margin-bottom:14px;flex-wrap:wrap;">
+                        <div class="rpt-quick-bar" style="margin-bottom:0;flex:1;">
+                            <button class="rpt-quick-btn active" onclick="setRptQuickPeriod('hoje',this)">Hoje</button>
+                            <button class="rpt-quick-btn" onclick="setRptQuickPeriod('semana',this)">Semana</button>
+                            <button class="rpt-quick-btn" onclick="setRptQuickPeriod('mes',this)">Mês</button>
+                            <button class="rpt-quick-btn" onclick="setRptQuickPeriod('ano',this)">Ano</button>
+                        </div>
+                        <button class="rpt-generate-btn" onclick="generateReport()">📊 Gerar</button>
                     </div>
 
                     <div id="rptLoading" class="admin-empty" style="display:none;">Carregando relatório...</div>
                     <div id="rptContent" style="display:none;">
 
-                        <!-- Summary -->
+                        <!-- Header -->
                         <div class="rpt-header">
                             <div class="rpt-header-title">📋 Relatório</div>
                             <div class="rpt-header-date" id="rptPeriodLabel"></div>
                         </div>
 
-                        <div class="admin-stats" id="rptSummaryStats"></div>
+                        <!-- KPI Cards -->
+                        <div id="rptKPICards" class="rpt-kpi-grid"></div>
 
-                        <!-- 🚨 ALERTS (4+ faltas) -->
-                        <div class="admin-section" id="rptAlertSection" style="display:none;">
+                        <!-- 🚨 CENTRAL DE AÇÕES -->
+                        <div class="admin-section" id="rptAcoesSection" style="display:none;">
                             <div class="admin-section-header">
-                                <div class="admin-section-title">🚨 Alertas · Alunos com 4+ Faltas</div>
+                                <div class="admin-section-title">🎯 Central de Ações</div>
+                                <span style="font-size:10px;color:var(--text-3);" id="rptAcoesCount"></span>
                             </div>
-                            <div id="rptAlerts" class="rpt-mini-list"></div>
+                            <div id="rptAcoes" style="padding:0 12px 12px;"></div>
+                        </div>
+
+                        <!-- 📊 Visão por Turno -->
+                        <div class="admin-section" id="rptTurnoSection">
+                            <div class="admin-section-header">
+                                <div class="admin-section-title">📊 Visão por Turno</div>
+                            </div>
+                            <div id="rptTurnoCards" style="padding:12px;"></div>
+                        </div>
+
+                        <!-- 🏢 Visão por CT -->
+                        <div class="admin-section" id="rptCTSection">
+                            <div class="admin-section-header">
+                                <div class="admin-section-title">🏢 Visão por CT</div>
+                            </div>
+                            <div id="rptCTCards" style="padding:12px;"></div>
                         </div>
 
                         <!-- 📊 Presença por Horário -->
                         <div class="admin-section">
-                            <div class="admin-section-header">
-                                <div class="admin-section-title">📊 Presença por Horário</div>
+                            <div class="rpt-section-toggle open" onclick="toggleRptSection(this)">
+                                <div class="rpt-section-toggle-left">
+                                    <span>🕐</span>
+                                    <span class="rpt-section-toggle-title">Presença por Horário</span>
+                                </div>
+                                <span class="rpt-section-toggle-arrow">▶</span>
                             </div>
                             <div id="rptHourlySummary"></div>
                         </div>
 
                         <!-- ❌ Faltas Acumuladas -->
                         <div class="admin-section">
-                            <div class="rpt-section-toggle open" onclick="toggleRptSection(this)">
+                            <div class="rpt-section-toggle" onclick="toggleRptSection(this)">
                                 <div class="rpt-section-toggle-left">
                                     <span>❌</span>
                                     <span class="rpt-section-toggle-title">Faltas Acumuladas <span class="admin-badge" style="background:rgba(232,93,93,0.15);color:#f87171;" id="rptFaltasBadge">0</span></span>
                                 </div>
                                 <span class="rpt-section-toggle-arrow">▶</span>
                             </div>
-                            <div id="rptFaltasList" class="rpt-chamada"></div>
+                            <div id="rptFaltasList" class="rpt-chamada" style="display:none;"></div>
                         </div>
 
-                        <!-- 🏢 Check-ins por CT -->
+                        <!-- Insights sections -->
                         <div class="admin-section">
-                            <div class="admin-section-title">🏢 Check-ins por CT</div>
-                            <div id="rptCTChart" class="rpt-chart-area"></div>
-                        </div>
-
-                        <!-- Insights -->
-                        <div class="admin-section">
-                            <div class="admin-section-header">
-                                <div class="admin-section-title">⚠️ Em Risco (15-30 dias sem treinar)</div>
+                            <div class="rpt-section-toggle" onclick="toggleRptSection(this)">
+                                <div class="rpt-section-toggle-left">
+                                    <span>🥋</span>
+                                    <span class="rpt-section-toggle-title">Elegíveis para Promoção <span class="admin-badge" style="background:rgba(56,152,236,0.15);color:#38bdf8;" id="rptPromoBadge">0</span></span>
+                                </div>
+                                <span class="rpt-section-toggle-arrow">▶</span>
                             </div>
-                            <div id="rptRisk" class="rpt-mini-list"></div>
-                        </div>
-                        <div class="admin-section">
-                            <div class="admin-section-header">
-                                <div class="admin-section-title">📉 Baixa Presença (≤10%)</div>
-                            </div>
-                            <div id="rptLowAttendance" class="rpt-mini-list"></div>
-                        </div>
-                        <div class="admin-section">
-                            <div class="admin-section-header">
-                                <div class="admin-section-title">🔴 Inativos (+30 dias)</div>
-                            </div>
-                            <div id="rptInactive" class="rpt-mini-list"></div>
-                        </div>
-                        <div class="admin-section">
-                            <div class="admin-section-header">
-                                <div class="admin-section-title">🥋 Elegíveis para Promoção</div>
-                            </div>
-                            <div id="rptPromo" class="rpt-mini-list"></div>
+                            <div id="rptPromo" class="rpt-mini-list" style="display:none;"></div>
                         </div>
 
                         <!-- Export -->
@@ -6888,7 +6960,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyLy-vdeBBSG689O05XBa94UIKs7wNE0vbTxNndIw_tT9Xhc18uD1bTL6S4yRNCoDjn/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwKpFr16S8a2HHgIZuvkaV1HoDMSU_qLSCELuJd1hewyDMGKh6Ct4bxeOWC3FyZ0Xq2/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -7318,6 +7390,10 @@
                             ctSchedules[ct.name] = ct.schedule;
                         }
                     });
+                    // Populate admin selectors if admin
+                    if (isAdmin && isAdmin()) {
+                        populateAdmExamCTSelect();
+                    }
                     const regCT = document.getElementById('regCT');
                     if (regCT) {
                         data.cts.forEach(ct => {
@@ -10968,6 +11044,7 @@
             loadPendingGraduacoes();
             loadAdminExamSchedule();
             loadAdminRanking();
+            loadExameConfig();
             // Populate exam CT select
             populateAdmExamCTSelect();
         }
@@ -10975,6 +11052,7 @@
         function populateAdmExamCTSelect() {
             var sel = document.getElementById('admExamCT');
             if (!sel) return;
+            var curVal = sel.value;
             sel.innerHTML = '<option value="Todos">Todos</option>';
             if (typeof allCTs !== 'undefined' && allCTs && allCTs.length > 0) {
                 allCTs.forEach(function(ct) {
@@ -10982,6 +11060,154 @@
                     sel.innerHTML += '<option value="' + escapeHtml(name) + '">' + escapeHtml(name) + '</option>';
                 });
             }
+            if (curVal) sel.value = curVal;
+        }
+
+        // --- ADMIN EXAM SCHEDULE ---
+        async function loadAdminExamSchedule() {
+            try {
+                // Ensure CTs are loaded first
+                if (!allCTs || allCTs.length === 0) {
+                    try {
+                        var ctData = await secureFetch('getCTsList', {});
+                        if (ctData.success && ctData.cts) {
+                            allCTs = ctData.cts;
+                            ctSchedules = {};
+                            ctData.cts.forEach(function(ct) {
+                                if (typeof ct === 'object' && ct.schedule) ctSchedules[ct.name] = ct.schedule;
+                            });
+                        }
+                    } catch(e2) { console.log('loadCTs in exam:', e2); }
+                }
+                // Populate CT select
+                populateAdmExamCTSelect();
+
+                var data = await secureFetch('getExamSlots', {});
+                if (!data.success) return;
+
+                // Render slots
+                var slotsEl = document.getElementById('admExamSlotsList');
+                var slots = data.slots || [];
+                if (slotsEl) {
+                    if (slots.length === 0) {
+                        slotsEl.innerHTML = '<div class="admin-empty">Nenhum horário cadastrado</div>';
+                    } else {
+                        var h = '';
+                        slots.forEach(function(s) {
+                            var dt = '';
+                            try { var d = new Date(s.date + 'T12:00:00'); dt = d.toLocaleDateString('pt-BR', {day:'2-digit',month:'short',year:'numeric'}); } catch(x) { dt = s.date; }
+                            var vagasLivres = s.vagas - s.vagasUsadas;
+                            var pctUsed = s.vagas > 0 ? Math.round(s.vagasUsadas / s.vagas * 100) : 0;
+                            h += '<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);border-radius:8px;margin-bottom:4px;">';
+                            h += '<div style="flex:1;min-width:0;">';
+                            h += '<div style="font-size:12px;font-weight:700;color:var(--adm-text-1);">📅 ' + dt + ' — ' + s.time + '</div>';
+                            h += '<div style="font-size:10px;color:var(--adm-text-3);">' + escapeHtml(s.ct || 'Todos') + ' · ' + s.vagasUsadas + '/' + s.vagas + ' vagas usadas (' + pctUsed + '%)</div>';
+                            h += '</div>';
+                            h += '<button onclick="removeExamSlot(' + s.rowIndex + ')" style="width:28px;height:28px;border-radius:50%;background:rgba(248,113,113,0.12);color:#f87171;border:none;font-size:13px;cursor:pointer;" title="Remover">✕</button>';
+                            h += '</div>';
+                        });
+                        slotsEl.innerHTML = h;
+                    }
+                }
+
+                // Load requests
+                loadAdminExamRequests();
+            } catch(err) { console.error('loadAdminExamSchedule:', err); }
+        }
+
+        async function loadAdminExamRequests() {
+            try {
+                var data = await secureFetch('getExamRequests', {});
+                if (!data.success) return;
+
+                var reqEl = document.getElementById('admExamRequestsList');
+                var badge = document.getElementById('adminExamReqBadge');
+                var requests = data.requests || [];
+                var pendingCount = requests.filter(function(r) { return r.status === 'PENDENTE'; }).length;
+
+                if (badge) {
+                    if (pendingCount > 0) { badge.textContent = pendingCount; badge.style.display = ''; }
+                    else { badge.style.display = 'none'; }
+                }
+
+                if (reqEl) {
+                    if (requests.length === 0) {
+                        reqEl.innerHTML = '<div class="admin-empty">Nenhuma solicitação</div>';
+                    } else {
+                        var h = '';
+                        // Sort: PENDENTE first
+                        requests.sort(function(a, b) {
+                            if (a.status === 'PENDENTE' && b.status !== 'PENDENTE') return -1;
+                            if (a.status !== 'PENDENTE' && b.status === 'PENDENTE') return 1;
+                            return 0;
+                        });
+                        requests.forEach(function(r) {
+                            var dt = '';
+                            try { var d = new Date(r.date + 'T12:00:00'); dt = d.toLocaleDateString('pt-BR', {day:'2-digit',month:'short'}); } catch(x) { dt = r.date; }
+                            var statusColor = r.status === 'PENDENTE' ? '#fbbf24' : (r.status === 'APROVADO' ? '#4ade80' : '#f87171');
+                            var statusIcon = r.status === 'PENDENTE' ? '⏳' : (r.status === 'APROVADO' ? '✅' : '❌');
+                            h += '<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);border-radius:8px;margin-bottom:4px;">';
+                            h += '<div style="flex:1;min-width:0;">';
+                            h += '<div style="font-size:12px;font-weight:700;color:var(--adm-text-1);">' + escapeHtml(r.name || r.email) + '</div>';
+                            h += '<div style="font-size:10px;color:var(--adm-text-3);">' + escapeHtml(r.faixa||'') + ' → ' + escapeHtml(r.proxFaixa||'') + ' · ' + escapeHtml(r.ct||'') + ' · ' + dt + ' ' + r.time + '</div>';
+                            if (r.valor) h += '<div style="font-size:10px;color:#4ade80;font-weight:600;">R$ ' + r.valor + ',00' + (r.tentativa > 1 ? ' (' + r.tentativa + 'ª tentativa)' : '') + '</div>';
+                            h += '</div>';
+                            h += '<span style="font-size:10px;color:' + statusColor + ';font-weight:700;">' + statusIcon + ' ' + r.status + '</span>';
+                            if (r.status === 'PENDENTE') {
+                                h += '<div style="display:flex;gap:4px;flex-shrink:0;">';
+                                h += '<button onclick="approveExamReq(' + r.rowIndex + ')" style="width:28px;height:28px;border-radius:50%;background:rgba(74,222,128,0.15);color:#4ade80;border:none;font-size:13px;cursor:pointer;" title="Aprovar">✓</button>';
+                                h += '<button onclick="rejectExamReq(' + r.rowIndex + ')" style="width:28px;height:28px;border-radius:50%;background:rgba(248,113,113,0.12);color:#f87171;border:none;font-size:13px;cursor:pointer;" title="Reprovar">✕</button>';
+                                h += '</div>';
+                            }
+                            h += '</div>';
+                        });
+                        reqEl.innerHTML = h;
+                    }
+                }
+            } catch(err) { console.error('loadAdminExamRequests:', err); }
+        }
+
+        async function addExamSlot() {
+            var date = (document.getElementById('admExamDate') || {}).value;
+            var time = (document.getElementById('admExamTime') || {}).value;
+            var vagas = parseInt((document.getElementById('admExamVagas') || {}).value) || 5;
+            var ct = (document.getElementById('admExamCT') || {}).value || 'Todos';
+
+            if (!date || !time) { showMessage('admExamAddMsg', 'Preencha data e hora', 'danger'); return; }
+
+            showMessage('admExamAddMsg', 'Adicionando...', 'info');
+            try {
+                var data = await secureFetch('addExamSlot', { date: date, time: time, vagas: vagas, ct: ct });
+                showMessage('admExamAddMsg', data.success ? '✅ Horário adicionado!' : data.message, data.success ? 'success' : 'danger');
+                if (data.success) loadAdminExamSchedule();
+            } catch(err) { showMessage('admExamAddMsg', 'Erro: ' + err.message, 'danger'); }
+        }
+
+        async function removeExamSlot(rowIndex) {
+            if (!confirm('Remover este horário de exame?')) return;
+            try {
+                var data = await secureFetch('removeExamSlot', { rowIndex: rowIndex });
+                if (data.success) loadAdminExamSchedule();
+                else alert(data.message || 'Erro');
+            } catch(err) { alert('Erro: ' + err.message); }
+        }
+
+        async function approveExamReq(rowIndex) {
+            if (!confirm('Aprovar solicitação de exame?')) return;
+            try {
+                var data = await secureFetch('approveExamRequest', { rowIndex: rowIndex });
+                if (data.success) loadAdminExamRequests();
+                else alert(data.message || 'Erro');
+            } catch(err) { alert('Erro: ' + err.message); }
+        }
+
+        async function rejectExamReq(rowIndex) {
+            if (!confirm('Reprovar solicitação de exame?')) return;
+            try {
+                var data = await secureFetch('rejectExamRequest', { rowIndex: rowIndex });
+                if (data.success) loadAdminExamRequests();
+                else alert(data.message || 'Erro');
+            } catch(err) { alert('Erro: ' + err.message); }
         }
 
         // --- ADMIN OWN CHECK-IN ---
@@ -11260,50 +11486,133 @@
         function renderReport(data) {
             var s = data.summary;
             var ctLabel = data.filterCT ? ' · ' + data.filterCT : '';
+            var turnoFilter = (document.getElementById('rptTurnoSelect') || {}).value || '';
 
             // Period label
             var periodEl = document.getElementById('rptPeriodLabel');
             if (periodEl) periodEl.textContent = fmtDateBR(data.dateFrom) + ' até ' + fmtDateBR(data.dateTo) + ctLabel;
 
-            // Summary stats
-            var totalFaltas = 0;
-            (data.faltasAlunos || []).forEach(function(f) { totalFaltas += f.faltas; });
-            var statsEl = document.getElementById('rptSummaryStats');
-            if (statsEl) statsEl.innerHTML = rptStatCards([
-                {num: s.totalPeriodo, label:'Check-ins no período', cls:'ok'},
-                {num: s.totalAlunos, label:'Alunos total'},
-                {num: s.ativos, label:'Ativos', cls:'ok'},
-                {num: (data.alertas5 || []).length, label:'🚨 Alertas 4+', cls: (data.alertas5||[]).length > 0 ? 'warn' : ''}
-            ]);
+            // ===== KPI CARDS =====
+            var totalAcoes = 0;
+            if (data.acoes) totalAcoes = (data.acoes.urgente||[]).length + (data.acoes.atencao||[]).length + (data.acoes.preventivo||[]).length;
+            var kpiEl = document.getElementById('rptKPICards');
+            if (kpiEl) {
+                kpiEl.innerHTML =
+                    '<div class="rpt-kpi green"><div class="rpt-kpi-val">' + s.totalPeriodo + '</div><div class="rpt-kpi-label">Check-ins</div></div>' +
+                    '<div class="rpt-kpi accent"><div class="rpt-kpi-val">' + (s.freqMedia||0) + '%</div><div class="rpt-kpi-label">Freq. Média</div></div>' +
+                    '<div class="rpt-kpi blue"><div class="rpt-kpi-val">' + s.ativos + '/' + s.totalAlunos + '</div><div class="rpt-kpi-label">Ativos</div></div>' +
+                    '<div class="rpt-kpi' + (totalAcoes > 0 ? ' red' : '') + '"><div class="rpt-kpi-val">' + totalAcoes + '</div><div class="rpt-kpi-label">Ações</div></div>';
+            }
 
-            // ===== ALERTS (4+ faltas) =====
-            var alertSection = document.getElementById('rptAlertSection');
-            var alertEl = document.getElementById('rptAlerts');
-            if (alertSection && alertEl) {
-                if (data.alertas5 && data.alertas5.length > 0) {
-                    alertSection.style.display = '';
+            // ===== CENTRAL DE AÇÕES =====
+            var acoesSection = document.getElementById('rptAcoesSection');
+            var acoesEl = document.getElementById('rptAcoes');
+            var acoesCountEl = document.getElementById('rptAcoesCount');
+            if (acoesSection && acoesEl && data.acoes) {
+                var acoes = data.acoes;
+                var total = (acoes.urgente||[]).length + (acoes.atencao||[]).length + (acoes.preventivo||[]).length;
+                if (total > 0) {
+                    acoesSection.style.display = '';
+                    if (acoesCountEl) acoesCountEl.textContent = total + ' aluno' + (total !== 1 ? 's' : '');
                     var ah = '';
-                    data.alertas5.forEach(function(a) {
-                        ah += '<div class="rpt-alert-row">' +
-                            '<div class="rpt-alert-icon">🚨</div>' +
-                            '<div class="rpt-alert-info">' +
-                                '<div class="rpt-alert-name">' + escapeHtml(a.name) + '</div>' +
-                                '<div class="rpt-alert-meta">' + escapeHtml(a.ct||'') + ' · ' + escapeHtml(a.faixa||'') + ' · ' + escapeHtml(a.turno||'Flexível') + ' · ' + a.esperadas + ' aulas esperadas</div>' +
-                            '</div>' +
-                            '<div class="rpt-alert-badge">' + a.faltas + ' faltas</div>' +
-                        '</div>';
-                    });
-                    alertEl.innerHTML = ah;
+                    // Urgente
+                    if (acoes.urgente && acoes.urgente.length > 0) {
+                        ah += renderAcaoGroup('🔴 URGENTE — Direção entrar em contato', 'urgente', acoes.urgente, '#f87171', true);
+                    }
+                    // Atenção
+                    if (acoes.atencao && acoes.atencao.length > 0) {
+                        ah += renderAcaoGroup('🟡 ATENÇÃO — Professor conversar na aula', 'atencao', acoes.atencao, '#fbbf24', true);
+                    }
+                    // Preventivo
+                    if (acoes.preventivo && acoes.preventivo.length > 0) {
+                        ah += renderAcaoGroup('🟢 PREVENTIVO — Monitorar', 'preventivo', acoes.preventivo, '#38bdf8', false);
+                    }
+                    acoesEl.innerHTML = ah;
                 } else {
-                    alertSection.style.display = 'none';
+                    acoesSection.style.display = 'none';
                 }
             }
 
-            // ===== HOURLY SUMMARY (presentes + ausentes por horário) =====
+            // ===== VISÃO POR TURNO =====
+            var turnoEl = document.getElementById('rptTurnoCards');
+            if (turnoEl && data.turnoSummary) {
+                var ts = data.turnoSummary;
+                var th = '<div class="rpt-turno-grid">';
+                // Manhã
+                var mTotal = ts.manha.presentes + ts.manha.ausentes;
+                var mPct = mTotal > 0 ? Math.round(ts.manha.presentes / mTotal * 100) : 0;
+                th += '<div class="rpt-turno-card">';
+                th += '<div class="rpt-turno-label">🌅 Manhã</div>';
+                th += '<div style="font-size:20px;font-weight:800;color:#4ade80;">' + mPct + '%</div>';
+                th += '<div class="rpt-turno-bar"><div class="rpt-turno-fill" style="width:' + mPct + '%;background:#4ade80;"></div></div>';
+                th += '<div class="rpt-turno-stats"><span>✅ ' + ts.manha.presentes + ' presenças</span><span>❌ ' + ts.manha.ausentes + ' faltas</span></div>';
+                th += '<div style="font-size:10px;color:var(--text-3);margin-top:4px;">' + ts.manha.alunos + ' alunos</div>';
+                th += '</div>';
+                // Noite
+                var nTotal = ts.noite.presentes + ts.noite.ausentes;
+                var nPct = nTotal > 0 ? Math.round(ts.noite.presentes / nTotal * 100) : 0;
+                th += '<div class="rpt-turno-card">';
+                th += '<div class="rpt-turno-label">🌙 Noite</div>';
+                th += '<div style="font-size:20px;font-weight:800;color:#38bdf8;">' + nPct + '%</div>';
+                th += '<div class="rpt-turno-bar"><div class="rpt-turno-fill" style="width:' + nPct + '%;background:#38bdf8;"></div></div>';
+                th += '<div class="rpt-turno-stats"><span>✅ ' + ts.noite.presentes + ' presenças</span><span>❌ ' + ts.noite.ausentes + ' faltas</span></div>';
+                th += '<div style="font-size:10px;color:var(--text-3);margin-top:4px;">' + ts.noite.alunos + ' alunos</div>';
+                th += '</div>';
+                th += '</div>';
+                // Flexível
+                if (ts.flexivel.alunos > 0) {
+                    var fTotal = ts.flexivel.presentes + ts.flexivel.ausentes;
+                    var fPct = fTotal > 0 ? Math.round(ts.flexivel.presentes / fTotal * 100) : 0;
+                    th += '<div style="margin-top:8px;padding:8px 10px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;display:flex;justify-content:space-between;align-items:center;">';
+                    th += '<span style="font-size:11px;color:var(--text-2);">🔄 Sem turno definido</span>';
+                    th += '<span style="font-size:11px;color:var(--text-3);">' + ts.flexivel.alunos + ' alunos · ' + fPct + '% freq.</span>';
+                    th += '</div>';
+                }
+                turnoEl.innerHTML = th;
+            }
+
+            // ===== VISÃO POR CT =====
+            var ctCardsEl = document.getElementById('rptCTCards');
+            if (ctCardsEl && data.ctSummary) {
+                var ctKeys = Object.keys(data.ctSummary).sort();
+                if (ctKeys.length === 0) {
+                    ctCardsEl.innerHTML = '<div class="admin-empty">Sem dados por CT</div>';
+                } else {
+                    var ch = '';
+                    ctKeys.forEach(function(ctName) {
+                        var ct = data.ctSummary[ctName];
+                        var pct = ct.esperadas > 0 ? Math.round(ct.presentes / ct.esperadas * 100) : 0;
+                        var pctColor = pct >= 70 ? '#4ade80' : pct >= 40 ? '#fbbf24' : '#f87171';
+                        ch += '<div class="rpt-ct-card">';
+                        ch += '<div class="rpt-ct-header">';
+                        ch += '<div class="rpt-ct-name">🏢 ' + escapeHtml(ctName) + '</div>';
+                        ch += '<div class="rpt-ct-pct" style="color:' + pctColor + ';">' + pct + '%</div>';
+                        ch += '</div>';
+                        ch += '<div class="rpt-turno-bar"><div class="rpt-turno-fill" style="width:' + Math.min(pct, 100) + '%;background:' + pctColor + ';"></div></div>';
+                        ch += '<div class="rpt-ct-meta">';
+                        ch += '<span>👤 ' + ct.alunos + ' alunos</span>';
+                        ch += '<span>✅ ' + ct.presentes + ' presenças</span>';
+                        ch += '<span>❌ ' + ct.ausentes + ' faltas</span>';
+                        ch += '</div></div>';
+                    });
+                    ctCardsEl.innerHTML = ch;
+                }
+            }
+
+            // ===== PRESENÇA POR HORÁRIO (existing, filter by turno) =====
             var hourlyEl = document.getElementById('rptHourlySummary');
             if (hourlyEl) {
                 var hs = data.hourlySummary || {};
                 var hKeys = Object.keys(hs).sort();
+                // Filter by turno
+                if (turnoFilter) {
+                    hKeys = hKeys.filter(function(slot) {
+                        var hour = parseInt(slot.split(':')[0]);
+                        if (turnoFilter === 'manha') return hour < 12;
+                        if (turnoFilter === 'noite') return hour >= 17;
+                        return true;
+                    });
+                }
                 if (hKeys.length === 0) {
                     hourlyEl.innerHTML = '<div class="admin-empty">Sem dados de horário</div>';
                 } else {
@@ -11317,31 +11626,20 @@
                         hh += '<div class="rpt-hourly-badge green">✅ ' + info.presentes + '</div>';
                         hh += '<div class="rpt-hourly-badge red">❌ ' + info.ausentes + '</div>';
                         hh += '</div></div>';
-                        hh += '<div class="rpt-hourly-detail">';
-                        hh += '<div class="rpt-hourly-columns">';
-                        // Presentes column
-                        hh += '<div class="rpt-hourly-col">';
-                        hh += '<div class="rpt-hourly-group-title">✅ Presentes (' + info.presentes + ')</div>';
+                        hh += '<div class="rpt-hourly-detail"><div class="rpt-hourly-columns">';
+                        hh += '<div class="rpt-hourly-col"><div class="rpt-hourly-group-title">✅ Presentes (' + info.presentes + ')</div>';
                         if (info.presentesList && info.presentesList.length > 0) {
                             info.presentesList.forEach(function(p) {
                                 hh += '<div class="rpt-hourly-name">' + escapeHtml(p.name) + ' <span style="color:var(--adm-text-3);font-size:10px;">' + escapeHtml(p.faixa||'') + '</span></div>';
                             });
-                        } else {
-                            hh += '<div class="rpt-hourly-name" style="color:var(--adm-text-3);">Nenhum</div>';
-                        }
-                        hh += '</div>';
-                        // Ausentes column
-                        hh += '<div class="rpt-hourly-col">';
-                        hh += '<div class="rpt-hourly-group-title">❌ Ausentes (' + info.ausentes + ')</div>';
+                        } else { hh += '<div class="rpt-hourly-name" style="color:var(--adm-text-3);">Nenhum</div>'; }
+                        hh += '</div><div class="rpt-hourly-col"><div class="rpt-hourly-group-title">❌ Ausentes (' + info.ausentes + ')</div>';
                         if (info.ausentesList && info.ausentesList.length > 0) {
                             info.ausentesList.forEach(function(a) {
                                 hh += '<div class="rpt-hourly-name" style="color:#f87171;">' + escapeHtml(a.name) + ' <span style="font-size:10px;">' + escapeHtml(a.faixa||'') + '</span></div>';
                             });
-                        } else {
-                            hh += '<div class="rpt-hourly-name" style="color:var(--adm-text-3);">Nenhum</div>';
-                        }
-                        hh += '</div>';
-                        hh += '</div></div></div>';
+                        } else { hh += '<div class="rpt-hourly-name" style="color:var(--adm-text-3);">Nenhum</div>'; }
+                        hh += '</div></div></div></div>';
                     });
                     hourlyEl.innerHTML = hh;
                 }
@@ -11351,6 +11649,15 @@
             var faltasBadge = document.getElementById('rptFaltasBadge');
             var faltasEl = document.getElementById('rptFaltasList');
             var faltasArr = data.faltasAlunos || [];
+            // Filter by turno
+            if (turnoFilter) {
+                faltasArr = faltasArr.filter(function(f) {
+                    var t = (f.turno || '').toLowerCase();
+                    if (turnoFilter === 'manha') return t.indexOf('manh') >= 0;
+                    if (turnoFilter === 'noite') return t.indexOf('noite') >= 0;
+                    return true;
+                });
+            }
             if (faltasBadge) faltasBadge.textContent = faltasArr.filter(function(f){return f.faltas > 0;}).length;
             if (faltasEl) {
                 var faltasFiltered = faltasArr.filter(function(f){return f.faltas > 0;});
@@ -11373,27 +11680,40 @@
                 }
             }
 
-            // ===== CT Chart =====
-            rptBarChart('rptCTChart', data.ctPresent || {}, '');
-
-            // ===== Insights =====
-            rptMiniList('rptRisk',
-                (data.insights.emRisco || []).map(function(r) {
-                  var tag = r.faltas + ' aula' + (r.faltas !== 1 ? 's' : '') + ' perdida' + (r.faltas !== 1 ? 's' : '');
-                  return {name:r.name, meta:r.ct+' · '+r.faixa+' · '+r.presentes+'/'+r.esperadas+' aulas ('+r.pctPresenca+'%)', tag:tag, tagCls:'yellow'};
-                }),
-                'Nenhum em risco 💪');
-            rptMiniList('rptLowAttendance',
-                (data.insights.baixaPresenca || []).map(function(b) {
-                  return {name:b.name, meta:b.ct+' · '+b.faixa+' · '+b.presentes+'/'+b.esperadas+' aulas', tag:b.pctPresenca+'%', tagCls:'red'};
-                }),
-                'Nenhum com baixa presença 🎉');
-            rptMiniList('rptInactive',
-                (data.insights.inativos || []).slice(0,25).map(function(i2) { return {name:i2.name, meta:i2.ct+' · '+i2.faixa, tag:i2.dias+' dias', tagCls:'red'}; }),
-                'Nenhum inativo 🎉');
+            // ===== ELEGÍVEIS PROMOÇÃO =====
+            var promoBadge = document.getElementById('rptPromoBadge');
+            if (promoBadge) promoBadge.textContent = (data.insights.elegiveisPromo || []).length;
             rptMiniList('rptPromo',
-                (data.insights.elegiveisPromo || []).map(function(p) { return {name:p.name, meta:p.faixa+' → '+p.proxFaixa+' · '+p.treinos+' treinos', tag:'Elegível', tagCls:'blue'}; }),
+                (data.insights.elegiveisPromo || []).map(function(p) { return {name:p.name, meta:p.faixa+' → '+p.proxFaixa+' · '+p.treinos+' treinos · '+escapeHtml(p.ct||''), tag:'Elegível', tagCls:'blue'}; }),
                 'Nenhum elegível no momento');
+        }
+
+        function renderAcaoGroup(title, tipo, items, dotColor, defaultOpen) {
+            var h = '<div class="rpt-acao-group">';
+            h += '<div class="rpt-acao-header' + (defaultOpen ? ' open' : '') + '" onclick="toggleAcaoGroup(this)">';
+            h += '<div class="rpt-acao-dot" style="background:' + dotColor + ';"></div>';
+            h += '<span style="color:' + dotColor + ';">' + title + ' (' + items.length + ')</span>';
+            h += '<span class="rpt-acao-arrow">▶</span>';
+            h += '</div>';
+            h += '<div class="rpt-acao-list" style="' + (defaultOpen ? '' : 'display:none;') + '">';
+            items.forEach(function(item) {
+                h += '<div class="rpt-acao-row">';
+                h += '<div class="rpt-acao-info">';
+                h += '<div class="rpt-acao-name">' + escapeHtml(item.name) + '</div>';
+                h += '<div class="rpt-acao-meta">' + escapeHtml(item.ct||'') + ' · ' + escapeHtml(item.faixa||'') + '</div>';
+                h += '</div>';
+                h += '<div class="rpt-acao-motivo ' + tipo + '">' + escapeHtml(item.motivo) + '</div>';
+                h += '<button class="rpt-acao-whatsapp" title="Contatar via WhatsApp" onclick="alert(\'Entre em contato com ' + escapeHtml(item.name).replace(/'/g,"\\'") + ' via WhatsApp.\')">📲</button>';
+                h += '</div>';
+            });
+            h += '</div></div>';
+            return h;
+        }
+
+        function toggleAcaoGroup(el) {
+            el.classList.toggle('open');
+            var list = el.nextElementSibling;
+            if (list) list.style.display = el.classList.contains('open') ? '' : 'none';
         }
 
         function toggleRptSection(el) {
@@ -11407,14 +11727,42 @@
             var d = _rptData;
             var s = d.summary;
             var csv = '\uFEFF';
-            csv += 'RELAT\u00d3RIO ACADEMIA - Per\u00edodo: ' + fmtDateBR(d.dateFrom) + ' a ' + fmtDateBR(d.dateTo) + '\n';
+            csv += 'RELAT\u00d3RIO ACADEMIA - Per\u00edodo: ' + fmtDateBR(d.dateFrom) + ' a ' + fmtDateBR(d.dateTo) + (d.filterCT ? ' - CT: ' + d.filterCT : '') + '\n';
             csv += 'Gerado em: ' + new Date().toLocaleString('pt-BR') + '\n\n';
             csv += 'RESUMO\n';
             csv += 'Total Alunos,' + s.totalAlunos + '\n';
             csv += 'Ativos,' + s.ativos + '\n';
             csv += 'Inativos,' + s.inativos + '\n';
             csv += 'Check-ins no per\u00edodo,' + s.totalPeriodo + '\n';
-            csv += 'Alertas 4+ faltas,' + (d.alertas5||[]).length + '\n\n';
+            csv += 'Frequ\u00eancia M\u00e9dia,' + (s.freqMedia||0) + '%\n\n';
+
+            // Turno Summary
+            if (d.turnoSummary) {
+                csv += 'VIS\u00c3O POR TURNO\nTurno,Alunos,Presen\u00e7as,Faltas\n';
+                csv += 'Manh\u00e3,' + d.turnoSummary.manha.alunos + ',' + d.turnoSummary.manha.presentes + ',' + d.turnoSummary.manha.ausentes + '\n';
+                csv += 'Noite,' + d.turnoSummary.noite.alunos + ',' + d.turnoSummary.noite.presentes + ',' + d.turnoSummary.noite.ausentes + '\n';
+                csv += 'Flex\u00edvel,' + d.turnoSummary.flexivel.alunos + ',' + d.turnoSummary.flexivel.presentes + ',' + d.turnoSummary.flexivel.ausentes + '\n\n';
+            }
+
+            // CT Summary
+            if (d.ctSummary) {
+                csv += 'VIS\u00c3O POR CT\nCT,Alunos,Presen\u00e7as,Faltas,Esperadas\n';
+                Object.keys(d.ctSummary).forEach(function(ct) {
+                    var c = d.ctSummary[ct];
+                    csv += '"' + ct + '",' + c.alunos + ',' + c.presentes + ',' + c.ausentes + ',' + c.esperadas + '\n';
+                });
+                csv += '\n';
+            }
+
+            // Central de Ações
+            if (d.acoes) {
+                csv += 'CENTRAL DE A\u00c7\u00d5ES\n';
+                csv += 'Prioridade,Nome,CT,Faixa,Motivo\n';
+                (d.acoes.urgente||[]).forEach(function(a) { csv += 'URGENTE,"' + a.name + '","' + (a.ct||'') + '","' + (a.faixa||'') + '","' + a.motivo + '"\n'; });
+                (d.acoes.atencao||[]).forEach(function(a) { csv += 'ATEN\u00c7\u00c3O,"' + a.name + '","' + (a.ct||'') + '","' + (a.faixa||'') + '","' + a.motivo + '"\n'; });
+                (d.acoes.preventivo||[]).forEach(function(a) { csv += 'PREVENTIVO,"' + a.name + '","' + (a.ct||'') + '","' + (a.faixa||'') + '","' + a.motivo + '"\n'; });
+                csv += '\n';
+            }
 
             csv += 'PRESEN\u00c7A POR HOR\u00c1RIO\nHor\u00e1rio,Presentes,Ausentes\n';
             var hs = d.hourlySummary || {};
@@ -11422,24 +11770,11 @@
                 csv += slot + ',' + hs[slot].presentes + ',' + hs[slot].ausentes + '\n';
             });
 
-            csv += '\nFALTAS ACUMULADAS\nNome,CT,Faixa,Esperadas,Presentes,Faltas,Frequ\u00eancia\n';
+            csv += '\nFALTAS ACUMULADAS\nNome,CT,Faixa,Turno,Esperadas,Presentes,Faltas,Frequ\u00eancia\n';
             (d.faltasAlunos||[]).forEach(function(f) {
-                csv += '"' + f.name + '","' + (f.ct||'') + '","' + (f.faixa||'') + '",' + f.esperadas + ',' + f.presentes + ',' + f.faltas + ',' + f.pctPresenca + '%\n';
+                csv += '"' + f.name + '","' + (f.ct||'') + '","' + (f.faixa||'') + '","' + (f.turno||'') + '",' + f.esperadas + ',' + f.presentes + ',' + f.faltas + ',' + f.pctPresenca + '%\n';
             });
 
-            csv += '\nALERTAS 4+ FALTAS\nNome,CT,Faixa,Faltas,Esperadas\n';
-            (d.alertas5||[]).forEach(function(a) {
-                csv += '"' + a.name + '","' + (a.ct||'') + '","' + (a.faixa||'') + '",' + a.faltas + ',' + a.esperadas + '\n';
-            });
-
-            csv += '\nEM RISCO (15-30 dias)\nNome,CT,Faixa,Aulas Perdidas,Aulas Esperadas,Presentes,Presença %\n';
-            (d.insights.emRisco||[]).forEach(function(r) {
-                csv += '"' + r.name + '","' + (r.ct||'') + '","' + (r.faixa||'') + '",' + r.faltas + ',' + r.esperadas + ',' + r.presentes + ',' + r.pctPresenca + '%\n';
-            });
-            csv += '\nBAIXA PRESENÇA (≤10%)\nNome,CT,Faixa,Presentes,Esperadas,Presença %\n';
-            (d.insights.baixaPresenca||[]).forEach(function(b) {
-                csv += '"' + b.name + '","' + (b.ct||'') + '","' + (b.faixa||'') + '",' + b.presentes + ',' + b.esperadas + ',' + b.pctPresenca + '%\n';
-            });
             csv += '\nINATIVOS (+30 dias)\nNome,CT,Faixa,Dias\n';
             (d.insights.inativos||[]).forEach(function(i2) {
                 csv += '"' + i2.name + '","' + (i2.ct||'') + '","' + (i2.faixa||'') + '",' + i2.dias + '\n';
@@ -11849,36 +12184,59 @@
         // ═══════════════════════════════════════════════════
         var PROVA_PRATICA = {
             'Azul': [
-                { cat:'Posição', t:'Manter a guarda fechada por 1 minuto com controle de postura' },
-                { cat:'Posição', t:'Manter a montada por 1 minuto com controle efetivo' },
-                { cat:'Posição', t:'Manter cem-quilos (side control) por 1 minuto' },
-                { cat:'Posição', t:'Manter as costas (back mount) com ganchos por 1 minuto' },
-                { cat:'Raspagem', t:'Raspagem de tesoura (scissor sweep) da guarda fechada' },
-                { cat:'Raspagem', t:'Raspagem de quadril (hip bump sweep) da guarda fechada' },
-                { cat:'Raspagem', t:'Raspagem de pêndulo da guarda fechada' },
-                { cat:'Raspagem', t:'Raspagem de gancho (hook sweep) da guarda borboleta' },
-                { cat:'Passagem', t:'Passagem de guarda toreando (toreando pass)' },
-                { cat:'Passagem', t:'Passagem de guarda com empilhamento (stack pass)' },
-                { cat:'Passagem', t:'Passagem de guarda cortando joelho (knee cut)' },
-                { cat:'Finalização', t:'Armlock (chave de braço) da guarda fechada' },
-                { cat:'Finalização', t:'Armlock da montada' },
-                { cat:'Finalização', t:'Triângulo (triangle choke) da guarda fechada' },
-                { cat:'Finalização', t:'Kimura da guarda fechada' },
-                { cat:'Finalização', t:'Mata-leão (rear naked choke) das costas' },
-                { cat:'Finalização', t:'Guilhotina (guillotine) da guarda fechada' },
-                { cat:'Finalização', t:'Americana (americana lock) da montada' },
-                { cat:'Defesa', t:'Fuga da montada (upa/ponte e rolamento)' },
-                { cat:'Defesa', t:'Fuga da montada (fuga de quadril para meia-guarda)' },
-                { cat:'Defesa', t:'Fuga do cem-quilos (side control escape)' },
-                { cat:'Defesa', t:'Defesa do mata-leão (proteção do pescoço e escape)' },
-                { cat:'Defesa', t:'Defesa de armlock (empilhar e retirar braço)' },
-                { cat:'Defesa', t:'Defesa de guilhotina (postura e von Flue)' },
-                { cat:'Queda', t:'Queda com dupla de pernas (double leg takedown)' },
-                { cat:'Queda', t:'Queda com perna única (single leg takedown)' },
-                { cat:'Queda', t:'O-soto-gari (queda de judo adaptada)' },
-                { cat:'Queda', t:'Puxar guarda de forma segura' },
-                { cat:'Defesa Pessoal', t:'Defesa de soco em pé com clinch e queda' },
-                { cat:'Defesa Pessoal', t:'Defesa de agarre frontal com fuga e controle' }
+                // QUEDAS (3)
+                { cat:'Quedas', t:'Single Leg' },
+                { cat:'Quedas', t:'Double Leg' },
+                { cat:'Quedas', t:'Puxada para a Guarda' },
+                // RASPAGENS (7)
+                { cat:'Raspagens', t:'Raspa de Quadril' },
+                { cat:'Raspagens', t:'Raspa Tesourinha' },
+                { cat:'Raspagens', t:'Raspagem Meia Guarda' },
+                { cat:'Raspagens', t:'Raspagem Meia Guarda com Lapela' },
+                { cat:'Raspagens', t:'Raspagem Guarda Aranha' },
+                { cat:'Raspagens', t:'Raspagem Guarda Aranha: adversário em pé' },
+                { cat:'Raspagens', t:'Raspagem Guarda Laçada' },
+                // PASSAGENS DE GUARDA (6)
+                { cat:'Passagens de Guarda', t:'Passagem Guarda Fechada' },
+                { cat:'Passagens de Guarda', t:'Passagem Meia Guarda' },
+                { cat:'Passagens de Guarda', t:'Passagem Meia Guarda: joelho na costela' },
+                { cat:'Passagens de Guarda', t:'2 Passagens Guarda Aranha' },
+                { cat:'Passagens de Guarda', t:'Passagem Guarda Laçada' },
+                { cat:'Passagens de Guarda', t:'Passagem Guarda Laçada: engolindo o joelho' },
+                // PEGADA DE COSTAS (4)
+                { cat:'Pegada de Costas', t:'Pegada de Costas: Guarda Fechada' },
+                { cat:'Pegada de Costas', t:'Pegada de Costas: Meia Guarda' },
+                { cat:'Pegada de Costas', t:'Pegada de Costas: Montada' },
+                { cat:'Pegada de Costas', t:'Pegada de Costas: 4 Apoios' },
+                // FINALIZAÇÕES (18)
+                { cat:'Finalizações', t:'Guarda Fechada: Arm Lock' },
+                { cat:'Finalizações', t:'Guarda Fechada: Triângulo' },
+                { cat:'Finalizações', t:'Guarda Fechada: Kimura' },
+                { cat:'Finalizações', t:'Guarda Fechada: 4 Estrangulamentos' },
+                { cat:'Finalizações', t:'Montada: Arm Lock com variação para Chave de Ombro' },
+                { cat:'Finalizações', t:'Montada: Americana e Ezequiel' },
+                { cat:'Finalizações', t:'Montada: Katagatame' },
+                { cat:'Finalizações', t:'Controle Lateral: Kimura e Americana' },
+                { cat:'Finalizações', t:'Controle Lateral: Várias formas de pegar a Chave Violino' },
+                { cat:'Finalizações', t:'Controle Lateral: Estrangulamento' },
+                { cat:'Finalizações', t:'Costas: Chave de Braço e Triângulo' },
+                { cat:'Finalizações', t:'Costas: 3 Estrangulamentos + Variações do Arco e Flecha' },
+                { cat:'Finalizações', t:'Joelho na Barriga: Kimura, Arm Lock e Baseball' },
+                { cat:'Finalizações', t:'Norte Sul: 2 Estrangulamentos' },
+                { cat:'Finalizações', t:'Quatro Apoios: 4 Estrangulamentos' },
+                { cat:'Finalizações', t:'Guarda Aranha: Chave de Pé Reta' },
+                { cat:'Finalizações', t:'Guarda Laçada: Chave de Pé Reta' },
+                { cat:'Finalizações', t:'Chave de Pé Reta' },
+                // DEFESAS E ESCAPES (9)
+                { cat:'Defesas e Escapes', t:'Guarda Fechada: Arm Lock' },
+                { cat:'Defesas e Escapes', t:'Guarda Fechada: Triângulo' },
+                { cat:'Defesas e Escapes', t:'Guarda Fechada: Estrangulamento' },
+                { cat:'Defesas e Escapes', t:'Montada: Arm Lock' },
+                { cat:'Defesas e Escapes', t:'Controle Lateral: Estrangulamento' },
+                { cat:'Defesas e Escapes', t:'Controle Lateral: Reposição de Guarda' },
+                { cat:'Defesas e Escapes', t:'Controle Lateral: Inversão' },
+                { cat:'Defesas e Escapes', t:'Montada: Inversão' },
+                { cat:'Defesas e Escapes', t:'Montada: Reposição' }
             ],
             'Roxa': [
                 { cat:'Guarda', t:'Spider guard: manter e atacar com triângulo ou armlock' },
@@ -12102,8 +12460,18 @@
         }
 
         // ═══════════════════════════════════════════════════
-        // PROVA PRÁTICA (lista de estudo, 30 itens)
+        // PROVA PRÁTICA (lista de estudo + sorteio)
         // ═══════════════════════════════════════════════════
+        var _exameConfigs = []; // cached from backend
+        var _exameSorteio = null; // current sorted exam
+
+        async function loadExameConfigForStudent() {
+            try {
+                var data = await secureFetch('getExameConfig', {});
+                if (data.success) _exameConfigs = data.configs || [];
+            } catch(e) { console.log('loadExameConfig:', e); }
+        }
+
         function loadPratica() {
             var grau = parseInt(currentUser && currentUser.grau) || 0;
             var faixa = (currentUser && currentUser.faixa) || 'Branca';
@@ -12120,30 +12488,309 @@
                 document.getElementById('praticaContent').innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-3);font-size:12px;">Conteúdo não disponível para faixa ' + proxFaixa + '</div>';
                 return;
             }
-            var html = '<div class="pratica-header">';
-            html += '<div class="pratica-header-title">🥋 Prova Prática — Faixa ' + proxFaixa + '</div>';
-            html += '<div class="pratica-header-sub">Estude as ' + items.length + ' técnicas abaixo. Você será avaliado presencialmente no dia do exame agendado.</div>';
-            html += '</div>';
+            loadExameConfigForStudent().then(function() {
+                renderPraticaStudy(proxFaixa, items);
+            });
+        }
+
+        function renderPraticaStudy(proxFaixa, items) {
             // Group by category
             var cats = {};
-            items.forEach(function(item, idx) {
-                if (!cats[item.cat]) cats[item.cat] = [];
-                cats[item.cat].push({ idx: idx + 1, text: item.t });
+            var catOrder = [];
+            items.forEach(function(item) {
+                if (!cats[item.cat]) { cats[item.cat] = []; catOrder.push(item.cat); }
+                cats[item.cat].push(item.t);
             });
-            Object.keys(cats).forEach(function(cat) {
-                html += '<div style="font-size:10px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin:12px 0 6px;padding-left:4px;">' + cat + '</div>';
-                cats[cat].forEach(function(item) {
+
+            // Category icons
+            var catIcons = {
+                'Quedas': '⬇️', 'Raspagens': '🔄', 'Passagens': '➡️', 'Passagens de Guarda': '➡️',
+                'Pegada de Costas': '🔙', 'Finalizações': '🎯', 'Defesas': '🛡️', 'Defesas e Escapes': '🛡️',
+                'Guarda': '🦶', 'Raspagem': '🔄', 'Passagem': '➡️', 'Finalização': '🎯',
+                'Costas': '🔙', 'Defesa': '🛡️', 'Transição': '🔀', 'Queda': '⬇️', 'No-Gi': '💪',
+                'Sistema': '📐', 'Leg Lock': '🦵', 'Avançado': '🔥', 'Competição': '🏆',
+                'Ensino': '📚', 'Maestria': '👑', 'Defesa Pessoal': '🥊', 'Filosofia': '🧘', 'Gestão': '📋'
+            };
+
+            // Get config for this faixa
+            var faixaConfigs = {};
+            _exameConfigs.forEach(function(c) {
+                if (c.faixa === proxFaixa) faixaConfigs[c.categoria] = c.qtd;
+            });
+            var hasConfig = Object.keys(faixaConfigs).length > 0;
+
+            var html = '<div style="text-align:center;padding:16px 12px 8px;">';
+            html += '<div style="font-size:28px;margin-bottom:4px;">🥋</div>';
+            html += '<div style="font-size:16px;font-weight:800;color:var(--text-1);">Exame Prático — Faixa ' + proxFaixa + '</div>';
+            html += '<div style="font-size:12px;color:var(--text-3);margin-top:2px;">' + items.length + ' técnicas · ' + catOrder.length + ' categorias</div>';
+            html += '</div>';
+
+            // Overview grid — category summary cards
+            html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:0 8px 12px;">';
+            catOrder.forEach(function(cat) {
+                var icon = catIcons[cat] || '📌';
+                var total = cats[cat].length;
+                var cfgQtd = faixaConfigs[cat] || 0;
+                html += '<div style="padding:8px 6px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;text-align:center;">';
+                html += '<div style="font-size:16px;">' + icon + '</div>';
+                html += '<div style="font-size:10px;font-weight:700;color:var(--text-1);margin-top:2px;">' + total + '</div>';
+                html += '<div style="font-size:8px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.3px;">' + cat + '</div>';
+                if (hasConfig && cfgQtd > 0) {
+                    html += '<div style="font-size:8px;color:var(--accent);font-weight:700;margin-top:1px;">Sorteio: ' + cfgQtd + '</div>';
+                }
+                html += '</div>';
+            });
+            html += '</div>';
+
+            // Config summary (if professor configured)
+            if (hasConfig) {
+                var totalSorteio = 0;
+                catOrder.forEach(function(cat) { totalSorteio += (faixaConfigs[cat] || 0); });
+                if (totalSorteio > 0) {
+                    html += '<div style="padding:10px 12px;background:rgba(212,165,41,0.06);border:1px solid rgba(212,165,41,0.12);border-radius:10px;margin:0 8px 12px;text-align:center;">';
+                    html += '<div style="font-size:11px;color:var(--accent);font-weight:700;">📋 No dia do exame: <span style="font-size:14px;">' + totalSorteio + '</span> técnicas sorteadas</div>';
+                    html += '<div style="display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-top:6px;">';
+                    catOrder.forEach(function(cat) {
+                        var qtd = faixaConfigs[cat] || 0;
+                        if (qtd > 0) {
+                            html += '<span style="padding:2px 8px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:6px;font-size:10px;">';
+                            html += '<span style="color:var(--text-3);">' + cat + ':</span> <strong style="color:var(--accent);">' + qtd + '</strong>';
+                            html += '</span>';
+                        }
+                    });
+                    html += '</div></div>';
+                }
+            }
+
+            // Full study list by category with collapsible sections
+            var globalIdx = 0;
+            catOrder.forEach(function(cat) {
+                var catItems = cats[cat];
+                var configQtd = faixaConfigs[cat] || 0;
+                var icon = catIcons[cat] || '📌';
+
+                html += '<div style="margin:0 4px;">';
+                html += '<div class="rpt-section-toggle open" onclick="toggleRptSection(this)" style="padding:8px 10px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:10px;margin-bottom:2px;">';
+                html += '<div class="rpt-section-toggle-left" style="gap:6px;">';
+                html += '<span>' + icon + '</span>';
+                html += '<span class="rpt-section-toggle-title" style="font-size:12px;">' + cat + ' <span style="font-size:10px;color:var(--text-3);font-weight:400;">(' + catItems.length + ')</span></span>';
+                html += '</div>';
+                if (configQtd > 0) {
+                    html += '<span style="font-size:10px;color:var(--accent);font-weight:700;margin-right:8px;">sorteio: ' + configQtd + '</span>';
+                }
+                html += '<span class="rpt-section-toggle-arrow">▶</span>';
+                html += '</div>';
+                html += '<div style="padding:0 4px;">';
+                catItems.forEach(function(text) {
+                    globalIdx++;
                     html += '<div class="pratica-item">';
-                    html += '<div class="pratica-num">' + item.idx + '</div>';
-                    html += '<div class="pratica-text">' + item.text + '</div>';
+                    html += '<div class="pratica-num">' + globalIdx + '</div>';
+                    html += '<div class="pratica-text">' + text + '</div>';
                     html += '</div>';
                 });
+                html += '</div></div>';
             });
+
+            // Sortear button
+            if (hasConfig) {
+                html += '<div style="margin-top:16px;text-align:center;">';
+                html += '<button onclick="sortearExame(\'' + proxFaixa + '\')" style="padding:14px 28px;background:linear-gradient(135deg,var(--accent),#c5932e);color:#000;border:none;border-radius:12px;font-weight:800;font-size:14px;cursor:pointer;box-shadow:0 4px 12px rgba(212,165,41,0.3);">🎲 Simular Sorteio do Exame</button>';
+                html += '</div>';
+            }
+
             html += '<div style="margin-top:16px;padding:12px;background:rgba(212,165,41,0.05);border:1px dashed rgba(212,165,41,0.2);border-radius:8px;text-align:center;">';
-            html += '<div style="font-size:12px;color:var(--accent);font-weight:700;">📅 Exame prático requer agendamento</div>';
+            html += '<div style="font-size:12px;color:var(--accent);font-weight:700;">📅 Taxa: R$150 (1ª vez) / R$100 (2ª tentativa)</div>';
             html += '<div style="font-size:11px;color:var(--text-3);margin-top:4px;">Vá na aba Selos e clique em "Solicitar Exame Prático" para agendar.</div>';
             html += '</div>';
+
+            // Sorteio result area
+            html += '<div id="sorteioResult"></div>';
+
             document.getElementById('praticaContent').innerHTML = html;
+        }
+
+        function sortearExame(proxFaixa) {
+            var items = PROVA_PRATICA[proxFaixa];
+            if (!items) return;
+
+            var catIcons = {
+                'Quedas': '⬇️', 'Raspagens': '🔄', 'Passagens': '➡️', 'Passagens de Guarda': '➡️',
+                'Pegada de Costas': '🔙', 'Finalizações': '🎯', 'Defesas': '🛡️', 'Defesas e Escapes': '🛡️',
+                'Guarda': '🦶', 'Raspagem': '🔄', 'Passagem': '➡️', 'Finalização': '🎯',
+                'Costas': '🔙', 'Defesa': '🛡️', 'Transição': '🔀', 'Queda': '⬇️', 'No-Gi': '💪',
+                'Sistema': '📐', 'Leg Lock': '🦵', 'Avançado': '🔥', 'Competição': '🏆',
+                'Ensino': '📚', 'Maestria': '👑', 'Defesa Pessoal': '🥊', 'Filosofia': '🧘', 'Gestão': '📋'
+            };
+
+            // Group by category
+            var cats = {};
+            items.forEach(function(item) {
+                if (!cats[item.cat]) cats[item.cat] = [];
+                cats[item.cat].push(item.t);
+            });
+
+            // Get configs
+            var faixaConfigs = {};
+            _exameConfigs.forEach(function(c) {
+                if (c.faixa === proxFaixa) faixaConfigs[c.categoria] = c.qtd;
+            });
+
+            // Random selection
+            var sorteio = {};
+            var totalSorteadas = 0;
+            Object.keys(cats).forEach(function(cat) {
+                var qtd = faixaConfigs[cat] || 0;
+                if (qtd <= 0) return;
+                var pool = cats[cat].slice();
+                for (var i = pool.length - 1; i > 0; i--) {
+                    var j = Math.floor(Math.random() * (i + 1));
+                    var tmp = pool[i]; pool[i] = pool[j]; pool[j] = tmp;
+                }
+                sorteio[cat] = pool.slice(0, Math.min(qtd, pool.length));
+                totalSorteadas += sorteio[cat].length;
+            });
+
+            _exameSorteio = sorteio;
+
+            var el = document.getElementById('sorteioResult');
+            if (!el) return;
+            var h = '<div style="margin-top:20px;padding:14px;background:var(--bg-elevated);border:2px solid var(--accent);border-radius:14px;">';
+            h += '<div style="text-align:center;margin-bottom:12px;">';
+            h += '<div style="font-size:28px;">🎲</div>';
+            h += '<div style="font-size:16px;font-weight:800;color:var(--accent);">Exame Sorteado</div>';
+            h += '<div style="font-size:11px;color:var(--text-3);">' + totalSorteadas + ' técnicas · Faixa ' + proxFaixa + '</div>';
+            h += '</div>';
+
+            var num = 0;
+            Object.keys(sorteio).forEach(function(cat) {
+                var icon = catIcons[cat] || '📌';
+                h += '<div style="display:flex;align-items:center;gap:6px;margin:10px 0 6px;">';
+                h += '<span style="font-size:14px;">' + icon + '</span>';
+                h += '<span style="font-size:11px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">' + cat + ' (' + sorteio[cat].length + ')</span>';
+                h += '</div>';
+                sorteio[cat].forEach(function(text) {
+                    num++;
+                    h += '<div class="pratica-item" style="background:rgba(212,165,41,0.04);border-color:rgba(212,165,41,0.15);">';
+                    h += '<div class="pratica-num" style="background:rgba(212,165,41,0.2);color:var(--accent);">' + num + '</div>';
+                    h += '<div class="pratica-text" style="font-weight:700;">' + text + '</div>';
+                    h += '</div>';
+                });
+            });
+
+            h += '<div style="text-align:center;margin-top:14px;">';
+            h += '<button onclick="sortearExame(\'' + proxFaixa + '\')" style="padding:10px 20px;background:var(--bg-card);border:1px solid var(--accent);color:var(--accent);border-radius:10px;font-weight:700;font-size:12px;cursor:pointer;">🔄 Sortear Novamente</button>';
+            h += '</div></div>';
+            el.innerHTML = h;
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // ═══════════════════════════════════════════════════
+        // ADMIN: CONFIG EXAME PRÁTICO
+        // ═══════════════════════════════════════════════════
+        var _admExameConfigs = [];
+
+        async function loadExameConfig() {
+            try {
+                var data = await secureFetch('getExameConfig', {});
+                if (data.success) {
+                    _admExameConfigs = data.configs || [];
+                    onExameConfigFaixaChange();
+                }
+            } catch(e) { console.log('loadExameConfig:', e); }
+        }
+
+        function onExameConfigFaixaChange() {
+            var faixa = (document.getElementById('exameConfigFaixa') || {}).value || 'Azul';
+            var items = PROVA_PRATICA[faixa];
+            var container = document.getElementById('exameConfigCats');
+            if (!container || !items) return;
+
+            // Category icons
+            var catIcons = {
+                'Quedas': '⬇️', 'Raspagens': '🔄', 'Passagens': '➡️', 'Passagens de Guarda': '➡️',
+                'Pegada de Costas': '🔙', 'Finalizações': '🎯', 'Defesas': '🛡️', 'Defesas e Escapes': '🛡️',
+                'Guarda': '🦶', 'Raspagem': '🔄', 'Passagem': '➡️', 'Finalização': '🎯',
+                'Costas': '🔙', 'Defesa': '🛡️', 'Transição': '🔀', 'Queda': '⬇️', 'No-Gi': '💪',
+                'Sistema': '📐', 'Leg Lock': '🦵', 'Avançado': '🔥', 'Competição': '🏆',
+                'Ensino': '📚', 'Maestria': '👑', 'Defesa Pessoal': '🥊', 'Filosofia': '🧘', 'Gestão': '📋'
+            };
+
+            // Group by category
+            var cats = {};
+            var catOrder = [];
+            items.forEach(function(item) {
+                if (!cats[item.cat]) { cats[item.cat] = []; catOrder.push(item.cat); }
+                cats[item.cat].push(item.t);
+            });
+
+            // Get existing config
+            var existing = {};
+            _admExameConfigs.forEach(function(c) {
+                if (c.faixa === faixa) existing[c.categoria] = c.qtd;
+            });
+
+            var h = '<div style="font-size:10px;color:var(--adm-text-3);margin-bottom:6px;text-align:center;">Total: <strong>' + items.length + '</strong> técnicas · <strong>' + catOrder.length + '</strong> categorias</div>';
+            catOrder.forEach(function(cat) {
+                var total = cats[cat].length;
+                var qtd = existing[cat] !== undefined ? existing[cat] : 0;
+                var icon = catIcons[cat] || '📌';
+                h += '<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);border-radius:8px;margin-bottom:4px;">';
+                h += '<div style="font-size:16px;flex-shrink:0;">' + icon + '</div>';
+                h += '<div style="flex:1;min-width:0;">';
+                h += '<div style="font-size:12px;font-weight:700;color:var(--adm-text-1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + cat + '</div>';
+                h += '<div style="font-size:10px;color:var(--adm-text-3);">' + total + ' técnicas</div>';
+                h += '</div>';
+                h += '<div style="display:flex;align-items:center;gap:4px;flex-shrink:0;">';
+                h += '<span style="font-size:10px;color:var(--adm-text-3);">Sorteio:</span>';
+                h += '<input type="number" min="0" max="' + total + '" value="' + qtd + '" data-cat="' + cat + '" class="exame-cfg-input" oninput="updateExameTotal()" style="width:48px;padding:6px;text-align:center;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:13px;font-weight:700;">';
+                h += '<span style="font-size:10px;color:var(--adm-text-3);">/' + total + '</span>';
+                h += '</div></div>';
+            });
+            h += '<div style="text-align:center;margin-top:6px;padding:6px;background:rgba(212,165,41,0.06);border-radius:8px;">';
+            h += '<span style="font-size:11px;color:var(--adm-text-3);">Total sorteio: </span>';
+            h += '<strong id="exameConfigTotal" style="font-size:14px;color:var(--adm-primary);">0</strong>';
+            h += '<span style="font-size:11px;color:var(--adm-text-3);"> técnicas</span>';
+            h += '</div>';
+
+            container.innerHTML = h;
+            updateExameTotal();
+        }
+
+        function updateExameTotal() {
+            var inputs = document.querySelectorAll('.exame-cfg-input');
+            var total = 0;
+            inputs.forEach(function(inp) { total += parseInt(inp.value) || 0; });
+            var el = document.getElementById('exameConfigTotal');
+            if (el) el.textContent = total;
+        }
+
+        async function saveExameConfig() {
+            var faixa = (document.getElementById('exameConfigFaixa') || {}).value || 'Azul';
+            var inputs = document.querySelectorAll('.exame-cfg-input');
+            var configs = [];
+            inputs.forEach(function(inp) {
+                configs.push({ categoria: inp.getAttribute('data-cat'), qtd: parseInt(inp.value) || 0 });
+            });
+            if (configs.length === 0) { showMessage('exameConfigMsg', 'Nenhuma categoria', 'danger'); return; }
+
+            showMessage('exameConfigMsg', 'Salvando...', 'info');
+            try {
+                var data = await secureFetch('saveExameConfig', { faixa: faixa, configs: configs });
+                showMessage('exameConfigMsg', data.success ? '✅ Configuração salva!' : data.message, data.success ? 'success' : 'danger');
+                if (data.success) {
+                    // Update cache
+                    configs.forEach(function(c) {
+                        var found = false;
+                        for (var i = 0; i < _admExameConfigs.length; i++) {
+                            if (_admExameConfigs[i].faixa === faixa && _admExameConfigs[i].categoria === c.categoria) {
+                                _admExameConfigs[i].qtd = c.qtd;
+                                found = true; break;
+                            }
+                        }
+                        if (!found) _admExameConfigs.push({ faixa: faixa, categoria: c.categoria, qtd: c.qtd });
+                    });
+                }
+            } catch(e) { showMessage('exameConfigMsg', 'Erro: ' + e.message, 'danger'); }
         }
 
 
