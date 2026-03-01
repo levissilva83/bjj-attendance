@@ -6162,10 +6162,16 @@
                             </div>
                             <!-- Selected dates chips -->
                             <div id="admCronoSelectedDates" style="display:none;margin-bottom:8px;"></div>
-                            <!-- Tema + Descrição -->
-                            <div style="margin-bottom:6px;">
-                                <label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Tema</label>
-                                <input type="text" id="cronoAdmTema" placeholder="Ex: Guarda De La Riva" style="width:100%;padding:8px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                            <!-- Horário + Tema -->
+                            <div style="display:grid;grid-template-columns:100px 1fr;gap:6px;margin-bottom:6px;">
+                                <div>
+                                    <label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Horário</label>
+                                    <input type="time" id="cronoAdmHorario" style="width:100%;padding:8px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                                </div>
+                                <div>
+                                    <label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Tema</label>
+                                    <input type="text" id="cronoAdmTema" placeholder="Ex: Guarda De La Riva" style="width:100%;padding:8px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                                </div>
                             </div>
                             <div style="margin-bottom:8px;">
                                 <label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Descrição</label>
@@ -6181,7 +6187,30 @@
                         </div>
                     </div>
 
-                    <!-- Recent Approved -->
+                    <!-- Edit Aula Modal -->
+                    <div id="cronoEditModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:rgba(0,0,0,0.7);align-items:center;justify-content:center;padding:16px;">
+                        <div style="background:var(--adm-bg-card);border:1px solid var(--adm-border);border-radius:16px;width:100%;max-width:400px;padding:16px;max-height:80vh;overflow-y:auto;">
+                            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                                <div style="font-size:14px;font-weight:800;color:var(--adm-text-1);">✏️ Editar Aula</div>
+                                <button onclick="closeCronoEditModal()" style="width:28px;height:28px;border-radius:50%;background:var(--adm-bg-elevated);color:var(--adm-text-2);border:1px solid var(--adm-border);cursor:pointer;font-size:13px;">✕</button>
+                            </div>
+                            <div style="font-size:10px;color:var(--adm-text-3);margin-bottom:8px;" id="cronoEditInfo"></div>
+                            <div style="margin-bottom:6px;">
+                                <label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Horário</label>
+                                <input type="time" id="cronoEditHorario" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                            </div>
+                            <div style="margin-bottom:6px;">
+                                <label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Tema</label>
+                                <input type="text" id="cronoEditTema" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                            </div>
+                            <div style="margin-bottom:8px;">
+                                <label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Descrição</label>
+                                <textarea id="cronoEditDesc" rows="3" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;resize:vertical;"></textarea>
+                            </div>
+                            <button onclick="saveEditCronoAula()" style="width:100%;padding:10px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;">💾 Salvar Alterações</button>
+                            <div id="cronoEditMsg" style="margin-top:6px;"></div>
+                        </div>
+                    </div>
                     <div class="admin-section">
                         <div class="admin-section-header">
                             <div class="admin-section-title">✅ Aprovados Hoje <span class="admin-badge green" id="adminApprovedBadge" style="display:none">0</span></div>
@@ -7127,7 +7156,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyIONGUxMj8I9CJya77PN6yJW1YZE5z6ws3rEJQoUGOQkX1UBTsy8BGA27jXY4tP_lK/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwObP6yAFmYDf7JsULulj5LJHqAaGoaPemxpqzB7sqYtwr7olu-nfnLR66CyhYOg6XK/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -12480,6 +12509,7 @@
             dayAulas.forEach(function(a) {
                 h += '<div class="crono-card status-' + a.status + '" style="margin-bottom:8px;">';
                 h += '<div class="crono-date-row">';
+                if (a.horario) h += '<span class="crono-horario">🕐 ' + a.horario + '</span>';
                 h += '<span class="crono-status-badge ' + a.status + '">' + (statusLabels[a.status] || a.status) + '</span>';
                 h += '</div>';
                 h += '<div class="crono-tema">' + escapeHtml(a.tema) + '</div>';
@@ -12702,7 +12732,7 @@
             var el = document.getElementById('cronoAdmList');
             if (!el) return;
             if (_admCronoAulas.length === 0) { el.innerHTML = '<div class="admin-empty">Nenhuma aula cadastrada</div>'; _admCronoSeries = []; return; }
-            // Group by tema (across all CTs)
+            // Group by tema
             var series = {};
             _admCronoAulas.forEach(function(a) {
                 var key = (a.tema || '').trim();
@@ -12722,22 +12752,97 @@
                 try { var p1 = sorted[0].data.split('-'); first = p1[2] + '/' + p1[1]; } catch(x) {}
                 try { var p2 = sorted[sorted.length - 1].data.split('-'); last = p2[2] + '/' + p2[1]; } catch(x) {}
                 var dateRange = count === 1 ? first : first + ' → ' + last;
-                h += '<div style="padding:10px;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);border-radius:10px;margin-bottom:6px;">';
-                h += '<div style="display:flex;align-items:flex-start;gap:8px;">';
+                h += '<div style="background:var(--adm-bg-elevated);border:1px solid var(--adm-border);border-radius:10px;margin-bottom:6px;overflow:hidden;">';
+                // Header (clickable to expand)
+                h += '<div onclick="toggleCronoSerieExpand(' + sIdx + ')" style="display:flex;align-items:center;gap:8px;padding:10px;cursor:pointer;">';
                 h += '<div style="flex:1;min-width:0;">';
-                h += '<div style="font-size:13px;font-weight:800;color:var(--adm-text-1);margin-bottom:2px;">' + escapeHtml(s.tema) + '</div>';
+                h += '<div style="font-size:13px;font-weight:800;color:var(--adm-text-1);">' + escapeHtml(s.tema) + '</div>';
                 h += '<div style="font-size:10px;color:var(--adm-text-3);">' + escapeHtml(ctNames) + ' · ' + dateRange + ' · <strong style="color:var(--adm-primary);">' + count + ' aula' + (count !== 1 ? 's' : '') + '</strong></div>';
-                if (s.descricao) h += '<div style="font-size:10px;color:var(--adm-text-2);margin-top:2px;">' + escapeHtml(s.descricao).substring(0, 100) + '</div>';
                 h += '</div>';
-                h += '<button onclick="deleteCronoSerie(' + sIdx + ')" style="width:28px;height:28px;border-radius:50%;background:rgba(248,113,113,0.12);color:#f87171;border:none;font-size:13px;cursor:pointer;flex-shrink:0;" title="Remover">✕</button>';
+                h += '<span id="cronoSerieArrow_' + sIdx + '" style="font-size:10px;color:var(--adm-text-3);transition:transform 0.2s;">▼</span>';
+                h += '<button onclick="event.stopPropagation();deleteCronoSerie(' + sIdx + ')" style="width:24px;height:24px;border-radius:50%;background:rgba(248,113,113,0.12);color:#f87171;border:none;font-size:11px;cursor:pointer;flex-shrink:0;">✕</button>';
+                h += '</div>';
+                // Expandable aula list
+                h += '<div id="cronoSerieBody_' + sIdx + '" style="display:none;border-top:1px solid var(--adm-border);padding:6px 10px 10px;">';
+                sorted.forEach(function(a) {
+                    var dayNames = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+                    var dLabel = a.data;
+                    try { var pp = a.data.split('-'); var dd = new Date(parseInt(pp[0]), parseInt(pp[1]) - 1, parseInt(pp[2])); dLabel = dayNames[dd.getDay()] + ' ' + pp[2] + '/' + pp[1]; } catch(x) {}
+                    h += '<div style="display:flex;align-items:center;gap:6px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);">';
+                    h += '<div style="flex:1;min-width:0;">';
+                    h += '<div style="font-size:11px;font-weight:700;color:var(--adm-text-1);">' + dLabel + (a.horario ? ' <span style="color:var(--adm-primary);font-weight:600;">· ' + a.horario + '</span>' : '') + '</div>';
+                    h += '<div style="font-size:10px;color:var(--adm-text-3);">' + escapeHtml(a.ct) + (a.descricao ? ' · ' + escapeHtml(a.descricao).substring(0, 50) : '') + '</div>';
+                    h += '</div>';
+                    h += '<button onclick="openCronoEditModal(' + a.rowIndex + ')" style="width:26px;height:26px;border-radius:6px;background:rgba(56,189,248,0.1);color:#38bdf8;border:none;font-size:11px;cursor:pointer;" title="Editar">✏️</button>';
+                    h += '<button onclick="deleteCronogramaAula(' + a.rowIndex + ')" style="width:26px;height:26px;border-radius:6px;background:rgba(248,113,113,0.1);color:#f87171;border:none;font-size:11px;cursor:pointer;" title="Remover">✕</button>';
+                    h += '</div>';
+                });
                 h += '</div></div>';
             });
             el.innerHTML = h;
         }
 
+        function toggleCronoSerieExpand(sIdx) {
+            var body = document.getElementById('cronoSerieBody_' + sIdx);
+            var arrow = document.getElementById('cronoSerieArrow_' + sIdx);
+            if (!body) return;
+            var isOpen = body.style.display !== 'none';
+            body.style.display = isOpen ? 'none' : 'block';
+            if (arrow) arrow.style.transform = isOpen ? '' : 'rotate(180deg)';
+        }
+
+        var _cronoEditRowIndex = null;
+
+        function openCronoEditModal(rowIndex) {
+            _cronoEditRowIndex = rowIndex;
+            var aula = _admCronoAulas.find(function(a) { return a.rowIndex === rowIndex; });
+            if (!aula) return;
+            var dayNames = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+            var dLabel = aula.data;
+            try { var pp = aula.data.split('-'); var dd = new Date(parseInt(pp[0]), parseInt(pp[1]) - 1, parseInt(pp[2])); dLabel = dayNames[dd.getDay()] + ', ' + pp[2] + '/' + pp[1] + '/' + pp[0]; } catch(x) {}
+            document.getElementById('cronoEditInfo').textContent = dLabel + ' · ' + aula.ct;
+            document.getElementById('cronoEditHorario').value = aula.horario || '';
+            document.getElementById('cronoEditTema').value = aula.tema || '';
+            document.getElementById('cronoEditDesc').value = aula.descricao || '';
+            document.getElementById('cronoEditMsg').innerHTML = '';
+            var modal = document.getElementById('cronoEditModal');
+            modal.style.display = 'flex';
+        }
+
+        function closeCronoEditModal() {
+            document.getElementById('cronoEditModal').style.display = 'none';
+            _cronoEditRowIndex = null;
+        }
+
+        async function saveEditCronoAula() {
+            if (!_cronoEditRowIndex) return;
+            var aula = _admCronoAulas.find(function(a) { return a.rowIndex === _cronoEditRowIndex; });
+            if (!aula) return;
+            var horario = document.getElementById('cronoEditHorario').value || '';
+            var tema = document.getElementById('cronoEditTema').value || '';
+            var descricao = document.getElementById('cronoEditDesc').value || '';
+            if (!tema) { showMessage('cronoEditMsg', 'Tema é obrigatório', 'danger'); return; }
+            showMessage('cronoEditMsg', 'Salvando...', 'info');
+            try {
+                var result = await secureFetch('saveCronogramaAula', {
+                    rowIndex: _cronoEditRowIndex,
+                    data: aula.data,
+                    ct: aula.ct,
+                    horario: horario,
+                    tema: tema,
+                    descricao: descricao
+                });
+                if (result.success) {
+                    closeCronoEditModal();
+                    loadAdminCronograma();
+                } else { showMessage('cronoEditMsg', result.message, 'danger'); }
+            } catch(e) { showMessage('cronoEditMsg', 'Erro: ' + e.message, 'danger'); }
+        }
+
         async function saveCronogramaAula() {
             var tema = (document.getElementById('cronoAdmTema') || {}).value;
             var descricao = (document.getElementById('cronoAdmDesc') || {}).value || '';
+            var horario = (document.getElementById('cronoAdmHorario') || {}).value || '';
             if (_admCronoSelectedCTs.length === 0) { showMessage('cronoAdmMsg', 'Selecione pelo menos um CT', 'danger'); return; }
             if (!tema) { showMessage('cronoAdmMsg', 'Preencha o tema', 'danger'); return; }
             if (_admCronoSelectedDates.length === 0) { showMessage('cronoAdmMsg', 'Selecione pelo menos uma data no calendário', 'danger'); return; }
@@ -12747,6 +12852,7 @@
                 var result = await secureFetch('saveCronogramaAula', {
                     cts: _admCronoSelectedCTs.join(','),
                     datas: _admCronoSelectedDates.join(','),
+                    horario: horario,
                     tema: tema,
                     descricao: descricao
                 });
@@ -12754,6 +12860,7 @@
                 if (result.success) {
                     document.getElementById('cronoAdmTema').value = '';
                     document.getElementById('cronoAdmDesc').value = '';
+                    document.getElementById('cronoAdmHorario').value = '';
                     _admCronoSelectedDates = [];
                     loadAdminCronograma();
                 }
@@ -14942,7 +15049,7 @@
             var container = document.getElementById('adminRankingList');
             container.innerHTML = '<div class="admin-empty">Carregando...</div>';
             try {
-                var data = await secureFetch('getRankingMonth', { period: admRankPeriod });
+                var data = await secureFetch('getRankingMonth', { email: currentUser.email, period: admRankPeriod });
                 if (data.success && data.ranking && data.ranking.length > 0) {
                     var BELT_EMOJI = { 'Branca':'⬜','Cinza':'🩶','Amarela':'🟨','Laranja':'🟧','Verde':'🟩','Azul':'🟦','Roxa':'🟪','Marrom':'🟫','Preta':'⬛','Coral':'🔴','Vermelha':'🔴' };
                     var html = '';
@@ -14952,15 +15059,20 @@
                         var medal = pos === 1 ? '🥇' : pos === 2 ? '🥈' : pos === 3 ? '🥉' : '<span style="font-size:11px;color:var(--text-3);font-weight:700;width:22px;display:inline-block;text-align:center;">' + pos + '</span>';
                         var belt = BELT_EMOJI[r2.faixa] || '⬜';
                         var initial = (r2.name || '?').charAt(0).toUpperCase();
+                        var ctList = '';
+                        if (r2.cts && r2.cts.length > 0) ctList = r2.cts.map(function(c){return c.ct;}).join(', ');
+                        else if (r2.treinosPorCT) ctList = Object.keys(r2.treinosPorCT).join(', ');
+                        else if (r2.ctPrincipal) ctList = r2.ctPrincipal;
+                        var totalTr = r2.totalTreinos || r2.treinos || 0;
                         html += '<div class="admin-student-card" style="cursor:default;padding:10px 12px;">' +
                             '<span style="margin-right:6px;font-size:16px;">' + medal + '</span>' +
                             '<div class="admin-card-avatar" style="width:32px;height:32px;font-size:13px;">' + initial + '</div>' +
                             '<div class="admin-student-info" style="padding:0;">' +
                                 '<div class="admin-student-name" style="font-size:13px;">' + belt + ' ' + (r2.name || '-') + '</div>' +
-                                '<div class="admin-student-meta" style="font-size:10px;">' + (r2.faixa || '-') + ' · ' + r2.ctsArr.map(function(c){return c.ct;}).join(', ') + '</div>' +
+                                '<div class="admin-student-meta" style="font-size:10px;">' + (r2.faixa || '-') + ' · ' + escapeHtml(ctList) + '</div>' +
                             '</div>' +
                             '<div style="text-align:right;flex-shrink:0;">' +
-                                '<div style="font-family:Sora;font-size:16px;font-weight:800;color:var(--gold);">' + r2.total + '</div>' +
+                                '<div style="font-family:Sora;font-size:16px;font-weight:800;color:var(--gold);">' + totalTr + '</div>' +
                                 '<div style="font-size:8px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.5px;">treinos</div>' +
                             '</div>' +
                         '</div>';
