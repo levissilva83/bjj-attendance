@@ -3655,6 +3655,66 @@
         .crono-date-row { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
         .crono-date { font-size: 11px; font-weight: 700; color: var(--text-2); }
         .crono-horario { font-size: 10px; color: var(--text-3); }
+
+        /* ===== MUSCULAÇÃO MODULE ===== */
+        .musc-week-bar { display: flex; gap: 4px; margin-bottom: 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
+        .musc-week-bar::-webkit-scrollbar { height: 0; }
+        .musc-day-chip {
+            flex: 1; min-width: 40px; text-align: center; padding: 8px 4px; border-radius: 10px;
+            background: var(--bg-elevated); border: 1.5px solid var(--border); cursor: pointer;
+            transition: all 0.2s; font-size: 10px; font-weight: 700; color: var(--text-3);
+        }
+        .musc-day-chip.active { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+        .musc-day-chip.complete { border-color: #22c55e; background: rgba(34,197,94,0.12); color: #22c55e; }
+        .musc-day-chip.partial { border-color: #f59e0b; background: rgba(245,158,11,0.1); color: #f59e0b; }
+        .musc-day-chip.today { box-shadow: 0 0 0 2px var(--accent); }
+        .musc-day-chip .musc-chip-day { font-size: 11px; font-weight: 800; }
+        .musc-day-chip .musc-chip-label { font-size: 8px; margin-top: 2px; opacity: 0.8; }
+        .musc-day-header {
+            padding: 12px; border-radius: 12px; margin-bottom: 10px; text-align: center;
+        }
+        .musc-day-title { font-size: 16px; font-weight: 900; color: #fff; font-family: 'Sora', sans-serif; }
+        .musc-day-sub { font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 2px; }
+        .musc-progress-bar { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.15); margin-top: 8px; overflow: hidden; }
+        .musc-progress-fill { height: 100%; border-radius: 3px; background: #fff; transition: width 0.3s; }
+        .musc-ex-item {
+            display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 10px;
+            background: var(--bg-elevated); border: 1px solid var(--border); margin-bottom: 6px;
+            cursor: pointer; transition: all 0.2s; -webkit-tap-highlight-color: transparent;
+        }
+        .musc-ex-item.done { background: rgba(34,197,94,0.08); border-color: rgba(34,197,94,0.25); }
+        .musc-ex-check {
+            width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--border);
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            font-size: 13px; transition: all 0.2s; background: transparent;
+        }
+        .musc-ex-item.done .musc-ex-check { background: #22c55e; border-color: #22c55e; color: #fff; }
+        .musc-ex-name { font-size: 13px; font-weight: 700; color: var(--text-1); flex: 1; }
+        .musc-ex-item.done .musc-ex-name { text-decoration: line-through; opacity: 0.6; }
+        .musc-ex-sets { font-size: 11px; color: var(--text-3); font-weight: 600; white-space: nowrap; }
+        .musc-rest { text-align: center; font-size: 10px; color: var(--text-3); margin-top: 4px; padding: 6px; }
+        .musc-builder-day {
+            background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 12px;
+            padding: 12px; margin-bottom: 10px;
+        }
+        .musc-builder-ex {
+            display: flex; align-items: center; gap: 6px; margin-bottom: 4px; padding: 6px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .musc-nav-week {
+            display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;
+        }
+        .musc-nav-week button {
+            width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--border);
+            background: var(--bg-elevated); color: var(--text-2); cursor: pointer; font-size: 12px;
+        }
+        .musc-nav-week-label { font-size: 12px; font-weight: 700; color: var(--text-1); }
+        .musc-empty-state {
+            text-align: center; padding: 40px 20px; color: var(--text-3);
+        }
+        .musc-empty-state .musc-empty-icon { font-size: 48px; margin-bottom: 12px; }
+        .musc-empty-state .musc-empty-title { font-size: 16px; font-weight: 800; color: var(--text-1); margin-bottom: 6px; }
+        .musc-empty-state .musc-empty-desc { font-size: 12px; margin-bottom: 16px; }
         .crono-status-badge { font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 6px; margin-left: auto; }
         .crono-status-badge.presente, .crono-status-badge.presente_hoje { background: rgba(74,222,128,0.12); color: #4ade80; }
         .crono-status-badge.ausente { background: rgba(248,113,113,0.12); color: #f87171; }
@@ -5143,6 +5203,7 @@
                         <button class="subtab-btn" onclick="switchSubTab('treino-tab','sub-evolucao',event)">📈 Evolução</button>
                         <button class="subtab-btn" onclick="switchSubTab('treino-tab','sub-presencas',event)">📅 Presenças</button>
                         <button class="subtab-btn" onclick="switchSubTab('treino-tab','sub-aulas',event)">📚 Aulas</button>
+                        <button class="subtab-btn" onclick="switchSubTab('treino-tab','sub-musculacao',event)">💪 Musculação</button>
                     </div>
 
                     <!-- SUB: CHECK-IN -->
@@ -5459,6 +5520,16 @@
 
                             <!-- Day Detail -->
                             <div id="aulaDayDetail" style="display:none;"></div>
+                        </div>
+                    </div> <!-- /sub-aulas -->
+
+                    <!-- SUB: MUSCULAÇÃO -->
+                    <div id="sub-musculacao" class="subtab-content">
+                        <div style="padding:12px 0;" id="muscContainer">
+                            <div class="musc-empty-state">
+                                <div class="musc-empty-icon">💪</div>
+                                <div class="musc-empty-title">Carregando...</div>
+                            </div>
                         </div>
                     </div>
 
@@ -7156,7 +7227,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwObP6yAFmYDf7JsULulj5LJHqAaGoaPemxpqzB7sqYtwr7olu-nfnLR66CyhYOg6XK/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzd4MmshMckldCjTeOvuGSGXBaULUAvhQ-1cAk1UinRjEuAkL-rlwDTIQtOzTlQfsVE/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -7570,6 +7641,7 @@
             if (subId === 'sub-presencas') loadPresencas();
             if (subId === 'sub-campeonato') { loadChampions(); loadCampEventoAluno(); }
             if (subId === 'sub-aulas') loadCronograma();
+            if (subId === 'sub-musculacao') loadMusculacao();
         }
 
         
@@ -12884,6 +12956,321 @@
             try {
                 var data = await secureFetch('deleteCronogramaAula', { rowIndex: rowIndex });
                 if (data.success) loadAdminCronograma();
+            } catch(e) { alert('Erro: ' + e.message); }
+        }
+
+
+        // ═══════════════════════════════════════════════════
+        // MUSCULAÇÃO MODULE
+        // ═══════════════════════════════════════════════════
+        var _muscFicha = null; // array of day objects
+        var _muscLogs = {};    // 'yyyy-MM-dd' => [exerciseIndices]
+        var _muscSelectedDay = -1; // index in _muscFicha
+        var _muscWeekOffset = 0;
+        var _muscBuilderDays = [];
+        var MUSC_CORES = ['#22c55e','#ef4444','#3b82f6','#eab308','#f97316','#a855f7','#ec4899'];
+        var MUSC_DIA_NAMES = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+        var MUSC_DIA_FULL = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
+
+        async function loadMusculacao() {
+            var container = document.getElementById('muscContainer');
+            container.innerHTML = '<div class="musc-empty-state"><div class="musc-empty-icon">⏳</div><div class="musc-empty-title">Carregando...</div></div>';
+            try {
+                var data = await secureFetch('getMusculacao', { email: currentUser.email });
+                if (data.success) {
+                    _muscFicha = data.ficha || null;
+                    _muscLogs = data.logs || {};
+                    if (_muscFicha && _muscFicha.length > 0) {
+                        renderMuscTracker();
+                    } else {
+                        renderMuscEmptyState();
+                    }
+                } else {
+                    renderMuscEmptyState();
+                }
+            } catch(e) {
+                container.innerHTML = '<div class="musc-empty-state"><div class="musc-empty-icon">❌</div><div class="musc-empty-title">Erro ao carregar</div><div class="musc-empty-desc">' + e.message + '</div></div>';
+            }
+        }
+
+        function renderMuscEmptyState() {
+            var container = document.getElementById('muscContainer');
+            container.innerHTML = '<div class="musc-empty-state">' +
+                '<div class="musc-empty-icon">🏋️</div>' +
+                '<div class="musc-empty-title">Monte sua Ficha de Treino</div>' +
+                '<div class="musc-empty-desc">Crie sua divisão semanal de musculação e acompanhe seus treinos dia a dia.</div>' +
+                '<button onclick="openMuscBuilder()" style="padding:12px 24px;background:linear-gradient(135deg,var(--accent),var(--accent-bright,#f5c542));color:#000;border:none;border-radius:10px;font-weight:800;font-size:13px;cursor:pointer;">+ Montar Ficha</button>' +
+                '</div>';
+        }
+
+        // ===== WEEKLY TRACKER =====
+        function renderMuscTracker() {
+            var container = document.getElementById('muscContainer');
+            var today = new Date();
+            var todayDow = today.getDay(); // 0=dom
+
+            // Week navigation
+            var weekStart = new Date(today);
+            weekStart.setDate(weekStart.getDate() - todayDow + 1 + (_muscWeekOffset * 7)); // Monday
+            if (todayDow === 0) weekStart.setDate(weekStart.getDate() - 7); // adjust for Sunday
+            var weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekEnd.getDate() + 6);
+
+            var weekLabel = ('0'+weekStart.getDate()).slice(-2) + '/' + ('0'+(weekStart.getMonth()+1)).slice(-2) + ' — ' + ('0'+weekEnd.getDate()).slice(-2) + '/' + ('0'+(weekEnd.getMonth()+1)).slice(-2);
+
+            var h = '';
+            // Nav
+            h += '<div class="musc-nav-week">';
+            h += '<button onclick="_muscWeekOffset--;renderMuscTracker()">◀</button>';
+            h += '<div class="musc-nav-week-label">📅 ' + weekLabel + '</div>';
+            h += '<button onclick="_muscWeekOffset++;renderMuscTracker()">▶</button>';
+            h += '</div>';
+
+            // Day chips (Seg-Dom)
+            h += '<div class="musc-week-bar">';
+            for (var d = 0; d < 7; d++) {
+                var dayDate = new Date(weekStart);
+                dayDate.setDate(dayDate.getDate() + d);
+                var dow = dayDate.getDay(); // 0-6
+                var dateStr = dayDate.getFullYear() + '-' + ('0'+(dayDate.getMonth()+1)).slice(-2) + '-' + ('0'+dayDate.getDate()).slice(-2);
+                var todayStr = today.getFullYear() + '-' + ('0'+(today.getMonth()+1)).slice(-2) + '-' + ('0'+today.getDate()).slice(-2);
+                var isToday = dateStr === todayStr;
+
+                // Find ficha for this day of week
+                var fichaDay = _muscFicha.find(function(f) { return f.dia === dow; });
+                var fichaIdx = fichaDay ? _muscFicha.indexOf(fichaDay) : -1;
+                var logDone = _muscLogs[dateStr] || [];
+                var totalEx = fichaDay ? fichaDay.exercicios.length : 0;
+                var doneCount = logDone.length;
+                var chipClass = 'musc-day-chip';
+                if (isToday) chipClass += ' today';
+                if (fichaDay && totalEx > 0 && doneCount >= totalEx) chipClass += ' complete';
+                else if (fichaDay && doneCount > 0) chipClass += ' partial';
+                if (_muscSelectedDay === -1 && isToday && fichaDay) _muscSelectedDay = fichaIdx;
+                if (fichaIdx === _muscSelectedDay) chipClass += ' active';
+
+                var dayNum = ('0'+dayDate.getDate()).slice(-2);
+                var label = fichaDay ? fichaDay.nome.substring(0,6) : '—';
+                h += '<div class="' + chipClass + '" onclick="selectMuscDay(' + fichaIdx + ',\'' + dateStr + '\')" data-date="' + dateStr + '">';
+                h += '<div class="musc-chip-day">' + MUSC_DIA_NAMES[dow] + '</div>';
+                h += '<div style="font-size:12px;font-weight:800;">' + dayNum + '</div>';
+                h += '<div class="musc-chip-label">' + escapeHtml(label) + '</div>';
+                if (fichaDay && totalEx > 0) {
+                    h += '<div style="font-size:9px;margin-top:2px;">' + doneCount + '/' + totalEx + '</div>';
+                }
+                h += '</div>';
+            }
+            h += '</div>';
+
+            // Selected day detail
+            if (_muscSelectedDay >= 0 && _muscSelectedDay < _muscFicha.length) {
+                var sel = _muscFicha[_muscSelectedDay];
+                var cor = sel.cor || MUSC_CORES[_muscSelectedDay % MUSC_CORES.length];
+                // Find date for this selection
+                var selDate = _muscGetSelectedDate(weekStart);
+                var logArr = _muscLogs[selDate] || [];
+
+                h += '<div class="musc-day-header" style="background:' + cor + ';">';
+                h += '<div class="musc-day-title">' + escapeHtml(sel.nome) + '</div>';
+                h += '<div class="musc-day-sub">' + MUSC_DIA_FULL[sel.dia] + (sel.descricao ? ' · ' + escapeHtml(sel.descricao) : '') + '</div>';
+                var totalE = sel.exercicios.length;
+                var doneE = logArr.length;
+                var pct = totalE > 0 ? Math.round((doneE / totalE) * 100) : 0;
+                h += '<div class="musc-progress-bar"><div class="musc-progress-fill" style="width:' + pct + '%;"></div></div>';
+                h += '<div style="font-size:10px;color:rgba(255,255,255,0.8);margin-top:4px;">' + doneE + '/' + totalE + ' exercícios · ' + pct + '%</div>';
+                h += '</div>';
+
+                // Exercise list
+                sel.exercicios.forEach(function(ex, idx) {
+                    var isDone = logArr.indexOf(idx) !== -1;
+                    h += '<div class="musc-ex-item' + (isDone ? ' done' : '') + '" onclick="toggleMuscEx(' + _muscSelectedDay + ',' + idx + ',\'' + selDate + '\')">';
+                    h += '<div class="musc-ex-check">' + (isDone ? '✓' : '') + '</div>';
+                    h += '<div class="musc-ex-name">' + escapeHtml(ex.nome) + '</div>';
+                    h += '<div class="musc-ex-sets">' + escapeHtml(ex.sets) + '</div>';
+                    h += '</div>';
+                });
+
+                if (sel.descanso) {
+                    h += '<div class="musc-rest">⏱ Descanso: ' + escapeHtml(sel.descanso) + '</div>';
+                }
+            } else {
+                h += '<div style="text-align:center;padding:30px;color:var(--text-3);font-size:12px;">🏖 Dia de descanso</div>';
+            }
+
+            // Actions
+            h += '<div style="display:flex;gap:8px;margin-top:16px;">';
+            h += '<button onclick="openMuscBuilder()" style="flex:1;padding:10px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:10px;color:var(--text-2);font-weight:700;font-size:11px;cursor:pointer;">✏️ Editar Ficha</button>';
+            h += '<button onclick="confirmDeleteFicha()" style="padding:10px 14px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.2);border-radius:10px;color:#f87171;font-weight:700;font-size:11px;cursor:pointer;">🗑</button>';
+            h += '</div>';
+
+            container.innerHTML = h;
+        }
+
+        function _muscGetSelectedDate(weekStart) {
+            if (_muscSelectedDay < 0 || !_muscFicha[_muscSelectedDay]) return '';
+            var targetDow = _muscFicha[_muscSelectedDay].dia;
+            for (var d = 0; d < 7; d++) {
+                var dd = new Date(weekStart);
+                dd.setDate(dd.getDate() + d);
+                if (dd.getDay() === targetDow) {
+                    return dd.getFullYear() + '-' + ('0'+(dd.getMonth()+1)).slice(-2) + '-' + ('0'+dd.getDate()).slice(-2);
+                }
+            }
+            return '';
+        }
+
+        function selectMuscDay(fichaIdx, dateStr) {
+            _muscSelectedDay = fichaIdx;
+            renderMuscTracker();
+        }
+
+        async function toggleMuscEx(dayIdx, exIdx, dateStr) {
+            var logArr = _muscLogs[dateStr] || [];
+            var pos = logArr.indexOf(exIdx);
+            if (pos === -1) logArr.push(exIdx);
+            else logArr.splice(pos, 1);
+            _muscLogs[dateStr] = logArr;
+            renderMuscTracker();
+            // Save to backend
+            try {
+                await secureFetch('saveMusculacaoLog', {
+                    email: currentUser.email,
+                    data: dateStr,
+                    diaIdx: dayIdx,
+                    done: JSON.stringify(logArr)
+                });
+            } catch(e) { console.error('saveMusculacaoLog error:', e); }
+        }
+
+        // ===== FICHA BUILDER =====
+        function openMuscBuilder() {
+            // Pre-populate with existing ficha or empty
+            if (_muscFicha && _muscFicha.length > 0) {
+                _muscBuilderDays = JSON.parse(JSON.stringify(_muscFicha));
+            } else {
+                _muscBuilderDays = [];
+            }
+            renderMuscBuilder();
+        }
+
+        function renderMuscBuilder() {
+            var container = document.getElementById('muscContainer');
+            var h = '';
+            h += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">';
+            h += '<div style="font-size:16px;font-weight:900;color:var(--text-1);font-family:Sora,sans-serif;">🏋️ Montar Ficha</div>';
+            h += '<button onclick="cancelMuscBuilder()" style="padding:6px 12px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;color:var(--text-2);font-size:11px;font-weight:600;cursor:pointer;">✕ Cancelar</button>';
+            h += '</div>';
+
+            _muscBuilderDays.forEach(function(day, dIdx) {
+                var cor = day.cor || MUSC_CORES[dIdx % MUSC_CORES.length];
+                h += '<div class="musc-builder-day">';
+                h += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">';
+                h += '<div style="width:10px;height:10px;border-radius:50%;background:' + cor + ';"></div>';
+                h += '<select onchange="muscBuilderDayChange(' + dIdx + ',\'dia\',this.value)" style="padding:6px;background:var(--bg-card);color:var(--text-1);border:1px solid var(--border);border-radius:6px;font-size:12px;font-weight:700;">';
+                for (var dd = 0; dd < 7; dd++) {
+                    h += '<option value="' + dd + '"' + (day.dia === dd ? ' selected' : '') + '>' + MUSC_DIA_FULL[dd] + '</option>';
+                }
+                h += '</select>';
+                h += '<input type="text" value="' + escapeHtml(day.nome || '') + '" placeholder="Ex: Quadríceps" onchange="muscBuilderDayChange(' + dIdx + ',\'nome\',this.value)" style="flex:1;padding:6px;background:var(--bg-card);color:var(--text-1);border:1px solid var(--border);border-radius:6px;font-size:12px;font-weight:700;">';
+                h += '<button onclick="muscBuilderRemoveDay(' + dIdx + ')" style="width:26px;height:26px;border-radius:6px;background:rgba(248,113,113,0.1);color:#f87171;border:none;font-size:11px;cursor:pointer;">✕</button>';
+                h += '</div>';
+                // Descanso
+                h += '<div style="margin-bottom:6px;"><input type="text" value="' + escapeHtml(day.descanso || '') + '" placeholder="Descanso: 60-120s" onchange="muscBuilderDayChange(' + dIdx + ',\'descanso\',this.value)" style="width:100%;padding:5px;background:var(--bg-card);color:var(--text-3);border:1px solid var(--border);border-radius:6px;font-size:10px;"></div>';
+                // Exercises
+                (day.exercicios || []).forEach(function(ex, eIdx) {
+                    h += '<div class="musc-builder-ex">';
+                    h += '<span style="font-size:10px;color:var(--text-3);width:16px;text-align:center;">' + (eIdx + 1) + '</span>';
+                    h += '<input type="text" value="' + escapeHtml(ex.nome || '') + '" placeholder="Exercício" onchange="muscBuilderExChange(' + dIdx + ',' + eIdx + ',\'nome\',this.value)" style="flex:1;padding:5px;background:var(--bg-card);color:var(--text-1);border:1px solid var(--border);border-radius:6px;font-size:11px;">';
+                    h += '<input type="text" value="' + escapeHtml(ex.sets || '') + '" placeholder="3x12" onchange="muscBuilderExChange(' + dIdx + ',' + eIdx + ',\'sets\',this.value)" style="width:80px;padding:5px;background:var(--bg-card);color:var(--text-1);border:1px solid var(--border);border-radius:6px;font-size:11px;text-align:center;">';
+                    h += '<button onclick="muscBuilderRemoveEx(' + dIdx + ',' + eIdx + ')" style="width:22px;height:22px;border-radius:4px;background:rgba(248,113,113,0.1);color:#f87171;border:none;font-size:9px;cursor:pointer;">✕</button>';
+                    h += '</div>';
+                });
+                h += '<button onclick="muscBuilderAddEx(' + dIdx + ')" style="width:100%;padding:6px;background:transparent;border:1px dashed var(--border);border-radius:6px;color:var(--text-3);font-size:10px;cursor:pointer;margin-top:4px;">+ Exercício</button>';
+                h += '</div>';
+            });
+
+            h += '<button onclick="muscBuilderAddDay()" style="width:100%;padding:10px;background:transparent;border:2px dashed var(--border);border-radius:12px;color:var(--text-2);font-weight:700;font-size:12px;cursor:pointer;margin-bottom:12px;">+ Adicionar Dia</button>';
+            h += '<button onclick="saveMuscFicha()" style="width:100%;padding:12px;background:linear-gradient(135deg,var(--accent),var(--accent-bright,#f5c542));color:#000;border:none;border-radius:10px;font-weight:800;font-size:13px;cursor:pointer;">💾 Salvar Ficha</button>';
+            h += '<div id="muscBuilderMsg" style="margin-top:8px;"></div>';
+
+            container.innerHTML = h;
+        }
+
+        function muscBuilderAddDay() {
+            var usedDays = _muscBuilderDays.map(function(d) { return d.dia; });
+            var nextDia = 1;
+            for (var i = 1; i <= 6; i++) { if (usedDays.indexOf(i) === -1) { nextDia = i; break; } }
+            _muscBuilderDays.push({ dia: nextDia, nome: '', cor: MUSC_CORES[_muscBuilderDays.length % MUSC_CORES.length], descanso: '', exercicios: [{ nome: '', sets: '' }] });
+            renderMuscBuilder();
+        }
+
+        function muscBuilderRemoveDay(dIdx) {
+            _muscBuilderDays.splice(dIdx, 1);
+            renderMuscBuilder();
+        }
+
+        function muscBuilderDayChange(dIdx, field, val) {
+            if (field === 'dia') val = parseInt(val);
+            _muscBuilderDays[dIdx][field] = val;
+        }
+
+        function muscBuilderAddEx(dIdx) {
+            _muscBuilderDays[dIdx].exercicios.push({ nome: '', sets: '' });
+            renderMuscBuilder();
+        }
+
+        function muscBuilderRemoveEx(dIdx, eIdx) {
+            _muscBuilderDays[dIdx].exercicios.splice(eIdx, 1);
+            renderMuscBuilder();
+        }
+
+        function muscBuilderExChange(dIdx, eIdx, field, val) {
+            _muscBuilderDays[dIdx].exercicios[eIdx][field] = val;
+        }
+
+        function cancelMuscBuilder() {
+            if (_muscFicha && _muscFicha.length > 0) renderMuscTracker();
+            else renderMuscEmptyState();
+        }
+
+        async function saveMuscFicha() {
+            // Validate
+            var valid = _muscBuilderDays.filter(function(d) {
+                return d.nome.trim() && d.exercicios.some(function(e) { return e.nome.trim(); });
+            });
+            if (valid.length === 0) {
+                showMessage('muscBuilderMsg', 'Adicione pelo menos 1 dia com exercícios', 'danger');
+                return;
+            }
+            // Clean empty exercises
+            valid.forEach(function(d) {
+                d.exercicios = d.exercicios.filter(function(e) { return e.nome.trim(); });
+            });
+            showMessage('muscBuilderMsg', 'Salvando...', 'info');
+            try {
+                var result = await secureFetch('saveMusculacaoFicha', {
+                    email: currentUser.email,
+                    ficha: JSON.stringify(valid)
+                });
+                if (result.success) {
+                    _muscFicha = valid;
+                    _muscSelectedDay = -1;
+                    renderMuscTracker();
+                } else {
+                    showMessage('muscBuilderMsg', result.message || 'Erro', 'danger');
+                }
+            } catch(e) {
+                showMessage('muscBuilderMsg', 'Erro: ' + e.message, 'danger');
+            }
+        }
+
+        async function confirmDeleteFicha() {
+            if (!confirm('Excluir sua ficha de treino?\nOs registros de treino serão mantidos.')) return;
+            try {
+                await secureFetch('deleteMusculacaoFicha', { email: currentUser.email });
+                _muscFicha = null;
+                _muscLogs = {};
+                renderMuscEmptyState();
             } catch(e) { alert('Erro: ' + e.message); }
         }
 
