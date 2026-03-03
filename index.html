@@ -329,7 +329,7 @@
             -webkit-align-items: center;
             -ms-flex-align: center;
             align-items: center;
-            padding: 6px 10px;
+            padding: 6px 6px;
             background: none;
             border: none;
             color: var(--text-3);
@@ -339,20 +339,26 @@
             border-radius: var(--radius-sm);
             position: relative;
             font-family: inherit;
+            min-width: 0;
+            flex: 1;
         }
 
         .bnav-btn .bnav-icon {
-            font-size: 22px;
-            margin-bottom: 4px;
+            font-size: 20px;
+            margin-bottom: 2px;
             -webkit-transition: -webkit-transform 0.25s ease;
             transition: transform 0.25s ease;
         }
 
         .bnav-btn .bnav-label {
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 600;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
             text-transform: uppercase;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
         }
 
         .bnav-btn.active {
@@ -3715,6 +3721,72 @@
         .musc-empty-state .musc-empty-icon { font-size: 48px; margin-bottom: 12px; }
         .musc-empty-state .musc-empty-title { font-size: 16px; font-weight: 800; color: var(--text-1); margin-bottom: 6px; }
         .musc-empty-state .musc-empty-desc { font-size: 12px; margin-bottom: 16px; }
+
+        /* ===== MODULE TOGGLE ===== */
+        .mod-toggle-row {
+            display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+            border-bottom: 1px solid var(--adm-border);
+        }
+        .mod-toggle-row:last-child { border-bottom: none; }
+        .mod-toggle-icon { font-size: 18px; width: 28px; text-align: center; flex-shrink: 0; }
+        .mod-toggle-info { flex: 1; min-width: 0; }
+        .mod-toggle-name { font-size: 12px; font-weight: 700; color: var(--adm-text-1); }
+        .mod-toggle-desc { font-size: 10px; color: var(--adm-text-3); margin-top: 1px; }
+        .mod-switch {
+            position: relative; width: 44px; height: 24px; flex-shrink: 0;
+        }
+        .mod-switch input { display: none; }
+        .mod-switch-track {
+            position: absolute; inset: 0; background: rgba(255,255,255,0.1); border-radius: 12px;
+            cursor: pointer; transition: background 0.2s;
+        }
+        .mod-switch-track::after {
+            content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px;
+            background: #fff; border-radius: 50%; transition: transform 0.2s;
+        }
+        .mod-switch input:checked + .mod-switch-track {
+            background: #22c55e;
+        }
+        .mod-switch input:checked + .mod-switch-track::after {
+            transform: translateX(20px);
+        }
+        /* Student profile module toggles */
+        #perfilModulesToggle .mod-toggle-row {
+            border-bottom-color: var(--border);
+        }
+        #perfilModulesToggle .mod-toggle-name { color: var(--text-1); }
+        #perfilModulesToggle .mod-toggle-desc { color: var(--text-3); }
+        #perfilModulesToggle .mod-toggle-row.disabled-by-admin {
+            opacity: 0.35; pointer-events: none;
+        }
+
+        /* ===== MODULE TOGGLES ===== */
+        .mod-toggle-row {
+            display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+            background: var(--adm-bg-elevated); border: 1px solid var(--adm-border);
+            border-radius: 10px; margin-bottom: 6px; transition: opacity 0.2s;
+        }
+        .mod-toggle-row.disabled { opacity: 0.5; }
+        .mod-toggle-icon { font-size: 20px; flex-shrink: 0; }
+        .mod-toggle-info { flex: 1; min-width: 0; }
+        .mod-toggle-name { font-size: 12px; font-weight: 800; color: var(--adm-text-1); }
+        .mod-toggle-desc { font-size: 10px; color: var(--adm-text-3); margin-top: 1px; }
+        .mod-switch {
+            position: relative; width: 44px; height: 24px; flex-shrink: 0;
+        }
+        .mod-switch input { opacity: 0; width: 0; height: 0; }
+        .mod-switch-slider {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255,255,255,0.1); border-radius: 12px; cursor: pointer;
+            transition: all 0.3s; border: 1px solid var(--adm-border);
+        }
+        .mod-switch-slider::before {
+            content: ''; position: absolute; width: 18px; height: 18px;
+            left: 2px; top: 2px; background: var(--adm-text-3); border-radius: 50%;
+            transition: all 0.3s;
+        }
+        .mod-switch input:checked + .mod-switch-slider { background: rgba(34,197,94,0.3); border-color: #22c55e; }
+        .mod-switch input:checked + .mod-switch-slider::before { transform: translateX(20px); background: #22c55e; }
         .crono-status-badge { font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 6px; margin-left: auto; }
         .crono-status-badge.presente, .crono-status-badge.presente_hoje { background: rgba(74,222,128,0.12); color: #4ade80; }
         .crono-status-badge.ausente { background: rgba(248,113,113,0.12); color: #f87171; }
@@ -5198,12 +5270,11 @@
             <div id="appScreen" style="display:none;">
                 <!-- TAB: TREINO (main) -->
                 <div id="treino-tab" class="tab-content active">
-                    <div class="subtab-bar">
-                        <button class="subtab-btn active" onclick="switchSubTab('treino-tab','sub-checkin',event)">✍️ Check-in</button>
-                        <button class="subtab-btn" onclick="switchSubTab('treino-tab','sub-evolucao',event)">📈 Evolução</button>
-                        <button class="subtab-btn" onclick="switchSubTab('treino-tab','sub-presencas',event)">📅 Presenças</button>
-                        <button class="subtab-btn" onclick="switchSubTab('treino-tab','sub-aulas',event)">📚 Aulas</button>
-                        <button class="subtab-btn" onclick="switchSubTab('treino-tab','sub-musculacao',event)">💪 Musculação</button>
+                    <div class="subtab-bar" id="treinoSubtabs">
+                        <button class="subtab-btn active" data-module="checkin" onclick="switchSubTab('treino-tab','sub-checkin',event)">✍️ Check-in</button>
+                        <button class="subtab-btn" data-module="evolucao" onclick="switchSubTab('treino-tab','sub-evolucao',event)">📈 Evolução</button>
+                        <button class="subtab-btn" data-module="presencas" onclick="switchSubTab('treino-tab','sub-presencas',event)">📅 Presenças</button>
+                        <button class="subtab-btn" data-module="aulas" onclick="switchSubTab('treino-tab','sub-aulas',event)">📚 Aulas</button>
                     </div>
 
                     <!-- SUB: CHECK-IN -->
@@ -5283,7 +5354,7 @@
                             </div>
                             <div id="evoSealsTabSeals" class="evo-seals-tab-content active">
                                 <div class="evo-seals-row" id="evoSealsRow"></div>
-                                <div class="evo-exam-link" id="evoExamLink" onclick="openExamCalendar()">📅 Solicitar Exame Prático →</div>
+                                <div class="evo-exam-link" id="evoExamLink" data-module="exame" onclick="openExamCalendar()">📅 Solicitar Exame Prático →</div>
                             </div>
                             <div id="evoSealsTabTeorica" class="evo-seals-tab-content">
                                 <div id="teoricaContainer">
@@ -5325,7 +5396,7 @@
                             <div class="evo-criteria-list" id="evoFaixaCriteriaList"></div>
                         </div>
 
-                        <button class="evo-exam-btn disabled" id="evoExamBtn" disabled>🔒 Critérios pendentes · Aprovação do professor</button>
+                        <button class="evo-exam-btn disabled" id="evoExamBtn" data-module="exame" disabled>🔒 Critérios pendentes · Aprovação do professor</button>
 
                         <div class="ibjjf-roadmap">
                             <div class="ibjjf-title">🥋 Sistema de Graduação IBJJF</div>
@@ -5523,23 +5594,27 @@
                         </div>
                     </div> <!-- /sub-aulas -->
 
-                    <!-- SUB: MUSCULAÇÃO -->
-                    <div id="sub-musculacao" class="subtab-content">
-                        <div style="padding:12px 0;" id="muscContainer">
-                            <div class="musc-empty-state">
-                                <div class="musc-empty-icon">💪</div>
-                                <div class="musc-empty-title">Carregando...</div>
-                            </div>
+                </div> <!-- /treino-tab -->
+
+                <!-- TAB: PREPARAÇÃO FÍSICA -->
+                <div id="prepfisica-tab" class="tab-content">
+                    <div style="padding:12px 16px 0;">
+                        <div style="font-family:'Sora',sans-serif;font-size:18px;font-weight:900;color:var(--text-1);margin-bottom:2px;">🏋️ Preparação Física</div>
+                        <div style="font-size:11px;color:var(--text-3);margin-bottom:14px;">Sua ficha de musculação complementar ao BJJ</div>
+                    </div>
+                    <div style="padding:0 16px 12px;" id="muscContainer">
+                        <div class="musc-empty-state">
+                            <div class="musc-empty-icon">💪</div>
+                            <div class="musc-empty-title">Carregando...</div>
                         </div>
                     </div>
-
-                </div> <!-- /treino-tab -->
+                </div> <!-- /prepfisica-tab -->
 
                 <!-- TAB: RANKING & PRÊMIOS (main) -->
                 <div id="ranking-tab" class="tab-content">
-                    <div class="subtab-bar">
-                        <button class="subtab-btn active" onclick="switchSubTab('ranking-tab','sub-ranking',event)">🏆 Ranking</button>
-                        <button class="subtab-btn" onclick="switchSubTab('ranking-tab','sub-campeonato',event)">🏅 Campeonato</button>
+                    <div class="subtab-bar" id="rankingSubtabs">
+                        <button class="subtab-btn active" data-module="ranking" onclick="switchSubTab('ranking-tab','sub-ranking',event)">🏆 Ranking</button>
+                        <button class="subtab-btn" data-module="campeonato" onclick="switchSubTab('ranking-tab','sub-campeonato',event)">🏅 Campeonato</button>
                     </div>
 
                     <!-- SUB: RANKING -->
@@ -5912,6 +5987,13 @@
                             <button class="perfil-save-btn" style="margin-top:10px" onclick="changePassword()">🔑 Alterar Senha</button>
                         </div>
 
+                        <!-- Módulos -->
+                        <div class="perfil-section">
+                            <div class="perfil-section-title"><span>🧩</span> Meus Módulos</div>
+                            <div style="font-size:11px;color:var(--text-3);margin-bottom:8px;">Escolha quais recursos deseja ver no app.</div>
+                            <div id="perfilModulesToggle"></div>
+                        </div>
+
                         <button class="perfil-logout-btn" onclick="handleLogout()">🚪 Sair da Conta</button>
                     </div>
                 </div>
@@ -5943,7 +6025,7 @@
                             <!-- Sub tabs -->
                             <div class="games-subtabs">
                                 <button class="games-subtab active" onclick="switchGamesSubtab('jogos',this)">🎮 Jogos</button>
-                                <button class="games-subtab" onclick="switchGamesSubtab('manual',this)">📖 Manual</button>
+                                <button class="games-subtab" data-module="manual" onclick="switchGamesSubtab('manual',this)">📖 Manual</button>
                                 <button class="games-subtab" onclick="switchGamesSubtab('ranking',this)">🏆 Ranking</button>
                             </div>
 
@@ -6673,6 +6755,16 @@
                         <p>Saúde do sistema, configurações e perfil</p>
                     </div>
 
+                    <!-- Módulos do Aluno -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">🧩 Módulos do Aluno</div>
+                            <button class="admin-refresh-btn" onclick="loadModulesConfig()">↻</button>
+                        </div>
+                        <div id="modulesToggleList"><div class="admin-empty">Carregando...</div></div>
+                        <div id="modulesMsg" style="padding:0 12px 8px;"></div>
+                    </div>
+
                     <!-- System Health -->
                     <div class="admin-section">
                         <div class="admin-section-header">
@@ -6807,19 +6899,23 @@
         <!-- STUDENT BOTTOM NAV -->
         <div class="bnav" id="bottomNav">
             <div class="bnav-inner">
-                <button class="bnav-btn active" onclick="switchTab('treino-tab', event)">
+                <button class="bnav-btn active" data-modtab="treino" onclick="switchTab('treino-tab', event)">
                     <span class="bnav-icon">🥋</span>
-                    <span class="bnav-label">Treino</span>
+                    <span class="bnav-label">BJJ</span>
                 </button>
-                <button class="bnav-btn" onclick="switchTab('ranking-tab', event)">
+                <button class="bnav-btn" data-modtab="prepfisica" data-module="musculacao" onclick="switchTab('prepfisica-tab', event)">
+                    <span class="bnav-icon">🏋️</span>
+                    <span class="bnav-label">Prep. Física</span>
+                </button>
+                <button class="bnav-btn" data-modtab="ranking" onclick="switchTab('ranking-tab', event)">
                     <span class="bnav-icon">🏆</span>
                     <span class="bnav-label">Ranking</span>
                 </button>
-                <button class="bnav-btn" onclick="switchTab('quiz-tab', event)">
+                <button class="bnav-btn" data-module="jogos" onclick="switchTab('quiz-tab', event)">
                     <span class="bnav-icon">🎮</span>
                     <span class="bnav-label">Jogos</span>
                 </button>
-                <button class="bnav-btn" onclick="switchTab('perfil', event)">
+                <button class="bnav-btn" data-module="perfil" onclick="switchTab('perfil', event)">
                     <span class="bnav-icon">👤</span>
                     <span class="bnav-label">Perfil</span>
                 </button>
@@ -7227,7 +7323,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzd4MmshMckldCjTeOvuGSGXBaULUAvhQ-1cAk1UinRjEuAkL-rlwDTIQtOzTlQfsVE/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxLnhI6mkoPAjkT-N48bY3YGrJqye53k0EQbB8rYtYQffLKyINHn0dSDvDa-NKaYeA3/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -7511,6 +7607,8 @@
                 if (treinoTab) treinoTab.classList.add('active');
                 var firstBtn = document.querySelector('#bottomNav .bnav-btn');
                 if (firstBtn) firstBtn.classList.add('active');
+                // Apply module visibility
+                loadAndApplyModules();
             }
         }
 
@@ -7619,6 +7717,7 @@
             }
             if (tabName === 'perfil') loadProfile();
             if (tabName === 'quiz-tab') initGamesHub();
+            if (tabName === 'prepfisica-tab') loadMusculacao();
         }
 
         function switchSubTab(parentId, subId, evt) {
@@ -7641,7 +7740,6 @@
             if (subId === 'sub-presencas') loadPresencas();
             if (subId === 'sub-campeonato') { loadChampions(); loadCampEventoAluno(); }
             if (subId === 'sub-aulas') loadCronograma();
-            if (subId === 'sub-musculacao') loadMusculacao();
         }
 
         
@@ -9147,6 +9245,7 @@
             document.getElementById('perfilSenhaAtual').value = '';
             document.getElementById('perfilSenhaNova').value = '';
             document.getElementById('perfilSenhaConfirma').value = '';
+            renderPerfilModules();
         }
 
         function fillProfileFields(p) {
@@ -11295,7 +11394,7 @@
             if (tabName === 'adm-alunos') loadStudentsList();
             if (tabName === 'adm-relatorios') loadNewReportData();
             if (tabName === 'adm-campeonato') initCampAdmin();
-            if (tabName === 'adm-sistema') { loadSystemHealth(); loadAdminCTs(); loadAdminProfile(); loadGradConfig(); loadCTScheduleAdmin(); }
+            if (tabName === 'adm-sistema') { loadModulesConfig(); loadSystemHealth(); loadAdminCTs(); loadAdminProfile(); loadGradConfig(); loadCTScheduleAdmin(); }
         }
 
         function loadAdminProfile() {
@@ -12963,315 +13062,285 @@
         // ═══════════════════════════════════════════════════
         // MUSCULAÇÃO MODULE
         // ═══════════════════════════════════════════════════
-        var _muscFicha = null; // array of day objects
-        var _muscLogs = {};    // 'yyyy-MM-dd' => [exerciseIndices]
-        var _muscSelectedDay = -1; // index in _muscFicha
+        var MUSC_TREINOS = [
+            {
+                id: 'quad', cor: '#22c55e', emoji: '🟢', label: 'Treino A', nome: 'Quadríceps',
+                sub: 'Pernas | 5 exercícios', descanso: '60–120s',
+                exercicios: [
+                    { nome: 'Agachamento Livre', sets: '3-4x 10–12' },
+                    { nome: 'Leg Press 45', sets: '3-4x 10–12' },
+                    { nome: 'Cadeira Extensora', sets: '3-4x 10–12' },
+                    { nome: 'Afundo', sets: '3x 10–12 /perna' },
+                    { nome: 'Panturrilha', sets: '4x 12–15' }
+                ]
+            },
+            {
+                id: 'peito_ombro', cor: '#ef4444', emoji: '🔴', label: 'Treino B', nome: 'Peito e Ombro',
+                sub: 'Superior | 7 exercícios', descanso: '60–90s',
+                exercicios: [
+                    { nome: 'Crucifixo (ativação)', sets: '1-2x 15' },
+                    { nome: 'Supino Inclinado Halteres', sets: '3-4x 10–12' },
+                    { nome: 'Supino Reto Halteres', sets: '3-4x 10–12' },
+                    { nome: 'Crossover Alta', sets: '3x 10–12' },
+                    { nome: 'Desenvolvimento Halteres', sets: '3-4x 10–12' },
+                    { nome: 'Elevação Lateral', sets: '3x 10–12' },
+                    { nome: 'Crucifixo Inverso', sets: '3x 10–12' }
+                ]
+            },
+            {
+                id: 'post_glut', cor: '#3b82f6', emoji: '🔵', label: 'Treino C', nome: 'Posterior e Glúteo',
+                sub: 'Pernas | 5 exercícios', descanso: '60–120s',
+                exercicios: [
+                    { nome: 'Mesa Flexora', sets: '4x 12–15' },
+                    { nome: 'Cadeira Flexora', sets: '3x 10–12' },
+                    { nome: 'Elevação Pélvica', sets: '3-4x 10–12' },
+                    { nome: 'Búlgaro', sets: '3-4x 10–12 /perna' },
+                    { nome: 'Agachamento Sumo', sets: '3x 12' }
+                ]
+            },
+            {
+                id: 'costas_bi', cor: '#eab308', emoji: '🟡', label: 'Treino D', nome: 'Costas e Bíceps',
+                sub: 'Superior | 6 exercícios', descanso: '60–90s',
+                exercicios: [
+                    { nome: 'Puxada Frontal Pronada', sets: '3-4x 10–12' },
+                    { nome: 'Puxada Supinada', sets: '3x 10–12' },
+                    { nome: 'Remada Triângulo', sets: '3-4x 10–12' },
+                    { nome: 'Remada Barra', sets: '3x 10–12' },
+                    { nome: 'Pulldown', sets: '3x 10–12' },
+                    { nome: 'Rosca Scott', sets: '3-4x 10–12' }
+                ]
+            },
+            {
+                id: 'peito_tri', cor: '#f97316', emoji: '🟠', label: 'Treino E', nome: 'Peito e Tríceps',
+                sub: 'Superior | 7 exercícios', descanso: '60–90s',
+                exercicios: [
+                    { nome: 'Crucifixo (ativação)', sets: '1-2x 15' },
+                    { nome: 'Supino Reto Barra', sets: '3-4x 10–12' },
+                    { nome: 'Supino Inclinado Barra', sets: '3-4x 10–12' },
+                    { nome: 'Crossover Baixa', sets: '3x 10–12' },
+                    { nome: 'Voador', sets: '3x 10–12' },
+                    { nome: 'Tríceps Francês', sets: '3-4x 10–12' },
+                    { nome: 'Tríceps Corda', sets: '3x 10–12' }
+                ]
+            },
+            {
+                id: 'ombro_bracos', cor: '#a855f7', emoji: '🟣', label: 'Treino F', nome: 'Ombro e Braços',
+                sub: 'Bônus | 7 exercícios', descanso: '60–90s',
+                exercicios: [
+                    { nome: 'Desenvolvimento Halteres', sets: '3-4x 10–12' },
+                    { nome: 'Elevação Lateral', sets: '3x 10–12' },
+                    { nome: 'Crucifixo Inverso', sets: '3x 10–12' },
+                    { nome: 'Rosca Direta', sets: '3-4x 10–12' },
+                    { nome: 'Rosca Martelo', sets: '3x 10–12' },
+                    { nome: 'Tríceps Testa', sets: '3-4x 10–12' },
+                    { nome: 'Tríceps Francês', sets: '3x 10–12' }
+                ]
+            }
+        ];
+
+        var _muscLogs = {};        // 'yyyy-MM-dd' => { treinoId: 'quad', done: [0,1,3] }
+        var _muscSelectedTreino = null;  // treino id
+        var _muscSelectedDate = '';
         var _muscWeekOffset = 0;
-        var _muscBuilderDays = [];
-        var MUSC_CORES = ['#22c55e','#ef4444','#3b82f6','#eab308','#f97316','#a855f7','#ec4899'];
-        var MUSC_DIA_NAMES = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
-        var MUSC_DIA_FULL = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
+
+        function _muscToday() {
+            var d = new Date();
+            return d.getFullYear() + '-' + ('0'+(d.getMonth()+1)).slice(-2) + '-' + ('0'+d.getDate()).slice(-2);
+        }
 
         async function loadMusculacao() {
             var container = document.getElementById('muscContainer');
             container.innerHTML = '<div class="musc-empty-state"><div class="musc-empty-icon">⏳</div><div class="musc-empty-title">Carregando...</div></div>';
+            _muscSelectedDate = _muscToday();
             try {
                 var data = await secureFetch('getMusculacao', { email: currentUser.email });
                 if (data.success) {
-                    _muscFicha = data.ficha || null;
-                    _muscLogs = data.logs || {};
-                    if (_muscFicha && _muscFicha.length > 0) {
-                        renderMuscTracker();
-                    } else {
-                        renderMuscEmptyState();
-                    }
-                } else {
-                    renderMuscEmptyState();
+                    var rawLogs = data.logs || {};
+                    _muscLogs = {};
+                    Object.keys(rawLogs).forEach(function(k) {
+                        var v = rawLogs[k];
+                        if (v && typeof v === 'object' && v.treinoId) {
+                            _muscLogs[k] = v;
+                        } else if (Array.isArray(v)) {
+                            _muscLogs[k] = { treinoId: '', done: v };
+                        }
+                    });
                 }
+                renderMuscHome();
             } catch(e) {
-                container.innerHTML = '<div class="musc-empty-state"><div class="musc-empty-icon">❌</div><div class="musc-empty-title">Erro ao carregar</div><div class="musc-empty-desc">' + e.message + '</div></div>';
+                container.innerHTML = '<div class="musc-empty-state"><div class="musc-empty-icon">❌</div><div class="musc-empty-title">Erro</div><div class="musc-empty-desc">' + e.message + '</div></div>';
             }
         }
 
-        function renderMuscEmptyState() {
-            var container = document.getElementById('muscContainer');
-            container.innerHTML = '<div class="musc-empty-state">' +
-                '<div class="musc-empty-icon">🏋️</div>' +
-                '<div class="musc-empty-title">Monte sua Ficha de Treino</div>' +
-                '<div class="musc-empty-desc">Crie sua divisão semanal de musculação e acompanhe seus treinos dia a dia.</div>' +
-                '<button onclick="openMuscBuilder()" style="padding:12px 24px;background:linear-gradient(135deg,var(--accent),var(--accent-bright,#f5c542));color:#000;border:none;border-radius:10px;font-weight:800;font-size:13px;cursor:pointer;">+ Montar Ficha</button>' +
-                '</div>';
-        }
-
-        // ===== WEEKLY TRACKER =====
-        function renderMuscTracker() {
+        function renderMuscHome() {
             var container = document.getElementById('muscContainer');
             var today = new Date();
-            var todayDow = today.getDay(); // 0=dom
+            var todayStr = _muscToday();
 
-            // Week navigation
+            // Week nav
             var weekStart = new Date(today);
-            weekStart.setDate(weekStart.getDate() - todayDow + 1 + (_muscWeekOffset * 7)); // Monday
-            if (todayDow === 0) weekStart.setDate(weekStart.getDate() - 7); // adjust for Sunday
-            var weekEnd = new Date(weekStart);
-            weekEnd.setDate(weekEnd.getDate() + 6);
-
+            var todayDow = today.getDay();
+            weekStart.setDate(weekStart.getDate() - (todayDow === 0 ? 6 : todayDow - 1) + (_muscWeekOffset * 7));
+            var weekEnd = new Date(weekStart); weekEnd.setDate(weekEnd.getDate() + 6);
             var weekLabel = ('0'+weekStart.getDate()).slice(-2) + '/' + ('0'+(weekStart.getMonth()+1)).slice(-2) + ' — ' + ('0'+weekEnd.getDate()).slice(-2) + '/' + ('0'+(weekEnd.getMonth()+1)).slice(-2);
 
             var h = '';
-            // Nav
             h += '<div class="musc-nav-week">';
-            h += '<button onclick="_muscWeekOffset--;renderMuscTracker()">◀</button>';
+            h += '<button onclick="_muscWeekOffset--;renderMuscHome()">◀</button>';
             h += '<div class="musc-nav-week-label">📅 ' + weekLabel + '</div>';
-            h += '<button onclick="_muscWeekOffset++;renderMuscTracker()">▶</button>';
+            h += '<button onclick="_muscWeekOffset++;renderMuscHome()">▶</button>';
             h += '</div>';
 
-            // Day chips (Seg-Dom)
+            // Week day chips
             h += '<div class="musc-week-bar">';
+            var dayNames = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
             for (var d = 0; d < 7; d++) {
-                var dayDate = new Date(weekStart);
-                dayDate.setDate(dayDate.getDate() + d);
-                var dow = dayDate.getDay(); // 0-6
-                var dateStr = dayDate.getFullYear() + '-' + ('0'+(dayDate.getMonth()+1)).slice(-2) + '-' + ('0'+dayDate.getDate()).slice(-2);
-                var todayStr = today.getFullYear() + '-' + ('0'+(today.getMonth()+1)).slice(-2) + '-' + ('0'+today.getDate()).slice(-2);
-                var isToday = dateStr === todayStr;
-
-                // Find ficha for this day of week
-                var fichaDay = _muscFicha.find(function(f) { return f.dia === dow; });
-                var fichaIdx = fichaDay ? _muscFicha.indexOf(fichaDay) : -1;
-                var logDone = _muscLogs[dateStr] || [];
-                var totalEx = fichaDay ? fichaDay.exercicios.length : 0;
-                var doneCount = logDone.length;
-                var chipClass = 'musc-day-chip';
-                if (isToday) chipClass += ' today';
-                if (fichaDay && totalEx > 0 && doneCount >= totalEx) chipClass += ' complete';
-                else if (fichaDay && doneCount > 0) chipClass += ' partial';
-                if (_muscSelectedDay === -1 && isToday && fichaDay) _muscSelectedDay = fichaIdx;
-                if (fichaIdx === _muscSelectedDay) chipClass += ' active';
-
-                var dayNum = ('0'+dayDate.getDate()).slice(-2);
-                var label = fichaDay ? fichaDay.nome.substring(0,6) : '—';
-                h += '<div class="' + chipClass + '" onclick="selectMuscDay(' + fichaIdx + ',\'' + dateStr + '\')" data-date="' + dateStr + '">';
-                h += '<div class="musc-chip-day">' + MUSC_DIA_NAMES[dow] + '</div>';
-                h += '<div style="font-size:12px;font-weight:800;">' + dayNum + '</div>';
-                h += '<div class="musc-chip-label">' + escapeHtml(label) + '</div>';
-                if (fichaDay && totalEx > 0) {
-                    h += '<div style="font-size:9px;margin-top:2px;">' + doneCount + '/' + totalEx + '</div>';
+                var dd = new Date(weekStart); dd.setDate(dd.getDate() + d);
+                var ds = dd.getFullYear() + '-' + ('0'+(dd.getMonth()+1)).slice(-2) + '-' + ('0'+dd.getDate()).slice(-2);
+                var log = _muscLogs[ds];
+                var isToday = ds === todayStr;
+                var isSel = ds === _muscSelectedDate;
+                var cls = 'musc-day-chip';
+                if (isToday) cls += ' today';
+                if (isSel) cls += ' active';
+                if (log && log.treinoId) {
+                    var tr = MUSC_TREINOS.find(function(t) { return t.id === log.treinoId; });
+                    var totalEx = tr ? tr.exercicios.length : 0;
+                    var doneCount = (log.done || []).length;
+                    if (totalEx > 0 && doneCount >= totalEx) cls += ' complete';
+                    else if (doneCount > 0) cls += ' partial';
+                }
+                h += '<div class="' + cls + '" onclick="_muscSelectedDate=\'' + ds + '\';_muscSelectedTreino=null;renderMuscHome()">';
+                h += '<div class="musc-chip-day">' + dayNames[dd.getDay()] + '</div>';
+                h += '<div style="font-size:12px;font-weight:800;">' + ('0'+dd.getDate()).slice(-2) + '</div>';
+                if (log && log.treinoId) {
+                    var t2 = MUSC_TREINOS.find(function(t) { return t.id === log.treinoId; });
+                    h += '<div class="musc-chip-label" style="color:' + (t2 ? t2.cor : 'var(--text-3)') + ';">' + (t2 ? t2.label.replace('Treino ','') : '✓') + '</div>';
+                } else {
+                    h += '<div class="musc-chip-label">—</div>';
                 }
                 h += '</div>';
             }
             h += '</div>';
 
-            // Selected day detail
-            if (_muscSelectedDay >= 0 && _muscSelectedDay < _muscFicha.length) {
-                var sel = _muscFicha[_muscSelectedDay];
-                var cor = sel.cor || MUSC_CORES[_muscSelectedDay % MUSC_CORES.length];
-                // Find date for this selection
-                var selDate = _muscGetSelectedDate(weekStart);
-                var logArr = _muscLogs[selDate] || [];
+            // Check if selected date has a treino logged
+            var selLog = _muscLogs[_muscSelectedDate];
+            var selTreino = null;
+            if (_muscSelectedTreino) {
+                selTreino = MUSC_TREINOS.find(function(t) { return t.id === _muscSelectedTreino; });
+            } else if (selLog && selLog.treinoId) {
+                selTreino = MUSC_TREINOS.find(function(t) { return t.id === selLog.treinoId; });
+                _muscSelectedTreino = selLog.treinoId;
+            }
 
-                h += '<div class="musc-day-header" style="background:' + cor + ';">';
-                h += '<div class="musc-day-title">' + escapeHtml(sel.nome) + '</div>';
-                h += '<div class="musc-day-sub">' + MUSC_DIA_FULL[sel.dia] + (sel.descricao ? ' · ' + escapeHtml(sel.descricao) : '') + '</div>';
-                var totalE = sel.exercicios.length;
-                var doneE = logArr.length;
-                var pct = totalE > 0 ? Math.round((doneE / totalE) * 100) : 0;
-                h += '<div class="musc-progress-bar"><div class="musc-progress-fill" style="width:' + pct + '%;"></div></div>';
-                h += '<div style="font-size:10px;color:rgba(255,255,255,0.8);margin-top:4px;">' + doneE + '/' + totalE + ' exercícios · ' + pct + '%</div>';
-                h += '</div>';
-
-                // Exercise list
-                sel.exercicios.forEach(function(ex, idx) {
-                    var isDone = logArr.indexOf(idx) !== -1;
-                    h += '<div class="musc-ex-item' + (isDone ? ' done' : '') + '" onclick="toggleMuscEx(' + _muscSelectedDay + ',' + idx + ',\'' + selDate + '\')">';
-                    h += '<div class="musc-ex-check">' + (isDone ? '✓' : '') + '</div>';
-                    h += '<div class="musc-ex-name">' + escapeHtml(ex.nome) + '</div>';
-                    h += '<div class="musc-ex-sets">' + escapeHtml(ex.sets) + '</div>';
-                    h += '</div>';
-                });
-
-                if (sel.descanso) {
-                    h += '<div class="musc-rest">⏱ Descanso: ' + escapeHtml(sel.descanso) + '</div>';
-                }
+            if (selTreino) {
+                h += renderMuscTreinoDetail(selTreino, _muscSelectedDate);
             } else {
-                h += '<div style="text-align:center;padding:30px;color:var(--text-3);font-size:12px;">🏖 Dia de descanso</div>';
+                h += renderMuscPicker();
             }
-
-            // Actions
-            h += '<div style="display:flex;gap:8px;margin-top:16px;">';
-            h += '<button onclick="openMuscBuilder()" style="flex:1;padding:10px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:10px;color:var(--text-2);font-weight:700;font-size:11px;cursor:pointer;">✏️ Editar Ficha</button>';
-            h += '<button onclick="confirmDeleteFicha()" style="padding:10px 14px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.2);border-radius:10px;color:#f87171;font-weight:700;font-size:11px;cursor:pointer;">🗑</button>';
-            h += '</div>';
 
             container.innerHTML = h;
         }
 
-        function _muscGetSelectedDate(weekStart) {
-            if (_muscSelectedDay < 0 || !_muscFicha[_muscSelectedDay]) return '';
-            var targetDow = _muscFicha[_muscSelectedDay].dia;
-            for (var d = 0; d < 7; d++) {
-                var dd = new Date(weekStart);
-                dd.setDate(dd.getDate() + d);
-                if (dd.getDay() === targetDow) {
-                    return dd.getFullYear() + '-' + ('0'+(dd.getMonth()+1)).slice(-2) + '-' + ('0'+dd.getDate()).slice(-2);
-                }
+        function renderMuscPicker() {
+            var h = '';
+            h += '<div style="text-align:center;margin:6px 0 14px;">';
+            h += '<div style="font-size:15px;font-weight:900;color:var(--text-1);font-family:Sora,sans-serif;">Escolha seu treino</div>';
+            h += '</div>';
+
+            MUSC_TREINOS.forEach(function(t) {
+                h += '<div onclick="selectMuscTreino(\'' + t.id + '\')" style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--bg-elevated);border:1.5px solid var(--border);border-radius:12px;margin-bottom:6px;cursor:pointer;transition:all 0.2s;" ontouchstart="this.style.transform=\'scale(0.98)\'" ontouchend="this.style.transform=\'\'">';
+                h += '<div style="width:42px;height:42px;border-radius:12px;background:' + t.cor + ';display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;color:#fff;font-weight:900;">' + t.label.replace('Treino ','') + '</div>';
+                h += '<div style="flex:1;min-width:0;">';
+                h += '<div style="font-size:13px;font-weight:800;color:var(--text-1);">' + escapeHtml(t.nome) + '</div>';
+                h += '<div style="font-size:10px;color:var(--text-3);">' + escapeHtml(t.sub) + '</div>';
+                h += '</div>';
+                h += '<div style="font-size:16px;color:var(--text-3);">▶</div>';
+                h += '</div>';
+            });
+            return h;
+        }
+
+        function renderMuscTreinoDetail(treino, dateStr) {
+            var log = _muscLogs[dateStr] || { treinoId: treino.id, done: [] };
+            var doneArr = log.done || [];
+            var total = treino.exercicios.length;
+            var doneCount = doneArr.length;
+            var pct = total > 0 ? Math.round((doneCount / total) * 100) : 0;
+
+            var h = '';
+            h += '<div class="musc-day-header" style="background:' + treino.cor + ';">';
+            h += '<div style="display:flex;align-items:center;justify-content:space-between;">';
+            h += '<div>';
+            h += '<div class="musc-day-title">' + escapeHtml(treino.label) + ' — ' + escapeHtml(treino.nome) + '</div>';
+            h += '<div class="musc-day-sub">' + escapeHtml(treino.sub) + '</div>';
+            h += '</div>';
+            h += '<button onclick="changeMuscTreino(\'' + dateStr + '\')" style="padding:6px 10px;background:rgba(0,0,0,0.2);border:none;border-radius:8px;color:#fff;font-size:10px;font-weight:700;cursor:pointer;">↩ Trocar</button>';
+            h += '</div>';
+            h += '<div class="musc-progress-bar"><div class="musc-progress-fill" style="width:' + pct + '%;"></div></div>';
+            h += '<div style="font-size:10px;color:rgba(255,255,255,0.8);margin-top:4px;">' + doneCount + '/' + total + ' exercícios · ' + pct + '%';
+            if (pct >= 100) h += ' · 🏆 Completo!';
+            h += '</div>';
+            h += '</div>';
+
+            treino.exercicios.forEach(function(ex, idx) {
+                var isDone = doneArr.indexOf(idx) !== -1;
+                h += '<div class="musc-ex-item' + (isDone ? ' done' : '') + '" onclick="toggleMuscEx(\'' + treino.id + '\',' + idx + ',\'' + dateStr + '\')">';
+                h += '<div class="musc-ex-check">' + (isDone ? '✓' : (idx + 1)) + '</div>';
+                h += '<div class="musc-ex-name">' + escapeHtml(ex.nome) + '</div>';
+                h += '<div class="musc-ex-sets">' + escapeHtml(ex.sets) + '</div>';
+                h += '</div>';
+            });
+
+            if (treino.descanso) {
+                h += '<div class="musc-rest">⏱ Descanso entre séries: ' + escapeHtml(treino.descanso) + '</div>';
             }
-            return '';
+
+            return h;
         }
 
-        function selectMuscDay(fichaIdx, dateStr) {
-            _muscSelectedDay = fichaIdx;
-            renderMuscTracker();
+        function selectMuscTreino(treinoId) {
+            _muscSelectedTreino = treinoId;
+            if (!_muscLogs[_muscSelectedDate]) {
+                _muscLogs[_muscSelectedDate] = { treinoId: treinoId, done: [] };
+            } else {
+                _muscLogs[_muscSelectedDate].treinoId = treinoId;
+                _muscLogs[_muscSelectedDate].done = [];
+            }
+            renderMuscHome();
+            _muscSaveLog(_muscSelectedDate);
         }
 
-        async function toggleMuscEx(dayIdx, exIdx, dateStr) {
-            var logArr = _muscLogs[dateStr] || [];
-            var pos = logArr.indexOf(exIdx);
-            if (pos === -1) logArr.push(exIdx);
-            else logArr.splice(pos, 1);
-            _muscLogs[dateStr] = logArr;
-            renderMuscTracker();
-            // Save to backend
+        function changeMuscTreino(dateStr) {
+            _muscSelectedTreino = null;
+            delete _muscLogs[dateStr];
+            renderMuscHome();
+            secureFetch('saveMusculacaoLog', {
+                email: currentUser.email,
+                data: dateStr,
+                done: JSON.stringify({ treinoId: '', done: [] })
+            }).catch(function(e) { console.error(e); });
+        }
+
+        async function toggleMuscEx(treinoId, exIdx, dateStr) {
+            if (!_muscLogs[dateStr]) _muscLogs[dateStr] = { treinoId: treinoId, done: [] };
+            var log = _muscLogs[dateStr];
+            var pos = log.done.indexOf(exIdx);
+            if (pos === -1) log.done.push(exIdx);
+            else log.done.splice(pos, 1);
+            renderMuscHome();
+            _muscSaveLog(dateStr);
+        }
+
+        async function _muscSaveLog(dateStr) {
+            var log = _muscLogs[dateStr];
             try {
                 await secureFetch('saveMusculacaoLog', {
                     email: currentUser.email,
                     data: dateStr,
-                    diaIdx: dayIdx,
-                    done: JSON.stringify(logArr)
+                    done: JSON.stringify(log || { treinoId: '', done: [] })
                 });
-            } catch(e) { console.error('saveMusculacaoLog error:', e); }
-        }
-
-        // ===== FICHA BUILDER =====
-        function openMuscBuilder() {
-            // Pre-populate with existing ficha or empty
-            if (_muscFicha && _muscFicha.length > 0) {
-                _muscBuilderDays = JSON.parse(JSON.stringify(_muscFicha));
-            } else {
-                _muscBuilderDays = [];
-            }
-            renderMuscBuilder();
-        }
-
-        function renderMuscBuilder() {
-            var container = document.getElementById('muscContainer');
-            var h = '';
-            h += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">';
-            h += '<div style="font-size:16px;font-weight:900;color:var(--text-1);font-family:Sora,sans-serif;">🏋️ Montar Ficha</div>';
-            h += '<button onclick="cancelMuscBuilder()" style="padding:6px 12px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;color:var(--text-2);font-size:11px;font-weight:600;cursor:pointer;">✕ Cancelar</button>';
-            h += '</div>';
-
-            _muscBuilderDays.forEach(function(day, dIdx) {
-                var cor = day.cor || MUSC_CORES[dIdx % MUSC_CORES.length];
-                h += '<div class="musc-builder-day">';
-                h += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">';
-                h += '<div style="width:10px;height:10px;border-radius:50%;background:' + cor + ';"></div>';
-                h += '<select onchange="muscBuilderDayChange(' + dIdx + ',\'dia\',this.value)" style="padding:6px;background:var(--bg-card);color:var(--text-1);border:1px solid var(--border);border-radius:6px;font-size:12px;font-weight:700;">';
-                for (var dd = 0; dd < 7; dd++) {
-                    h += '<option value="' + dd + '"' + (day.dia === dd ? ' selected' : '') + '>' + MUSC_DIA_FULL[dd] + '</option>';
-                }
-                h += '</select>';
-                h += '<input type="text" value="' + escapeHtml(day.nome || '') + '" placeholder="Ex: Quadríceps" onchange="muscBuilderDayChange(' + dIdx + ',\'nome\',this.value)" style="flex:1;padding:6px;background:var(--bg-card);color:var(--text-1);border:1px solid var(--border);border-radius:6px;font-size:12px;font-weight:700;">';
-                h += '<button onclick="muscBuilderRemoveDay(' + dIdx + ')" style="width:26px;height:26px;border-radius:6px;background:rgba(248,113,113,0.1);color:#f87171;border:none;font-size:11px;cursor:pointer;">✕</button>';
-                h += '</div>';
-                // Descanso
-                h += '<div style="margin-bottom:6px;"><input type="text" value="' + escapeHtml(day.descanso || '') + '" placeholder="Descanso: 60-120s" onchange="muscBuilderDayChange(' + dIdx + ',\'descanso\',this.value)" style="width:100%;padding:5px;background:var(--bg-card);color:var(--text-3);border:1px solid var(--border);border-radius:6px;font-size:10px;"></div>';
-                // Exercises
-                (day.exercicios || []).forEach(function(ex, eIdx) {
-                    h += '<div class="musc-builder-ex">';
-                    h += '<span style="font-size:10px;color:var(--text-3);width:16px;text-align:center;">' + (eIdx + 1) + '</span>';
-                    h += '<input type="text" value="' + escapeHtml(ex.nome || '') + '" placeholder="Exercício" onchange="muscBuilderExChange(' + dIdx + ',' + eIdx + ',\'nome\',this.value)" style="flex:1;padding:5px;background:var(--bg-card);color:var(--text-1);border:1px solid var(--border);border-radius:6px;font-size:11px;">';
-                    h += '<input type="text" value="' + escapeHtml(ex.sets || '') + '" placeholder="3x12" onchange="muscBuilderExChange(' + dIdx + ',' + eIdx + ',\'sets\',this.value)" style="width:80px;padding:5px;background:var(--bg-card);color:var(--text-1);border:1px solid var(--border);border-radius:6px;font-size:11px;text-align:center;">';
-                    h += '<button onclick="muscBuilderRemoveEx(' + dIdx + ',' + eIdx + ')" style="width:22px;height:22px;border-radius:4px;background:rgba(248,113,113,0.1);color:#f87171;border:none;font-size:9px;cursor:pointer;">✕</button>';
-                    h += '</div>';
-                });
-                h += '<button onclick="muscBuilderAddEx(' + dIdx + ')" style="width:100%;padding:6px;background:transparent;border:1px dashed var(--border);border-radius:6px;color:var(--text-3);font-size:10px;cursor:pointer;margin-top:4px;">+ Exercício</button>';
-                h += '</div>';
-            });
-
-            h += '<button onclick="muscBuilderAddDay()" style="width:100%;padding:10px;background:transparent;border:2px dashed var(--border);border-radius:12px;color:var(--text-2);font-weight:700;font-size:12px;cursor:pointer;margin-bottom:12px;">+ Adicionar Dia</button>';
-            h += '<button onclick="saveMuscFicha()" style="width:100%;padding:12px;background:linear-gradient(135deg,var(--accent),var(--accent-bright,#f5c542));color:#000;border:none;border-radius:10px;font-weight:800;font-size:13px;cursor:pointer;">💾 Salvar Ficha</button>';
-            h += '<div id="muscBuilderMsg" style="margin-top:8px;"></div>';
-
-            container.innerHTML = h;
-        }
-
-        function muscBuilderAddDay() {
-            var usedDays = _muscBuilderDays.map(function(d) { return d.dia; });
-            var nextDia = 1;
-            for (var i = 1; i <= 6; i++) { if (usedDays.indexOf(i) === -1) { nextDia = i; break; } }
-            _muscBuilderDays.push({ dia: nextDia, nome: '', cor: MUSC_CORES[_muscBuilderDays.length % MUSC_CORES.length], descanso: '', exercicios: [{ nome: '', sets: '' }] });
-            renderMuscBuilder();
-        }
-
-        function muscBuilderRemoveDay(dIdx) {
-            _muscBuilderDays.splice(dIdx, 1);
-            renderMuscBuilder();
-        }
-
-        function muscBuilderDayChange(dIdx, field, val) {
-            if (field === 'dia') val = parseInt(val);
-            _muscBuilderDays[dIdx][field] = val;
-        }
-
-        function muscBuilderAddEx(dIdx) {
-            _muscBuilderDays[dIdx].exercicios.push({ nome: '', sets: '' });
-            renderMuscBuilder();
-        }
-
-        function muscBuilderRemoveEx(dIdx, eIdx) {
-            _muscBuilderDays[dIdx].exercicios.splice(eIdx, 1);
-            renderMuscBuilder();
-        }
-
-        function muscBuilderExChange(dIdx, eIdx, field, val) {
-            _muscBuilderDays[dIdx].exercicios[eIdx][field] = val;
-        }
-
-        function cancelMuscBuilder() {
-            if (_muscFicha && _muscFicha.length > 0) renderMuscTracker();
-            else renderMuscEmptyState();
-        }
-
-        async function saveMuscFicha() {
-            // Validate
-            var valid = _muscBuilderDays.filter(function(d) {
-                return d.nome.trim() && d.exercicios.some(function(e) { return e.nome.trim(); });
-            });
-            if (valid.length === 0) {
-                showMessage('muscBuilderMsg', 'Adicione pelo menos 1 dia com exercícios', 'danger');
-                return;
-            }
-            // Clean empty exercises
-            valid.forEach(function(d) {
-                d.exercicios = d.exercicios.filter(function(e) { return e.nome.trim(); });
-            });
-            showMessage('muscBuilderMsg', 'Salvando...', 'info');
-            try {
-                var result = await secureFetch('saveMusculacaoFicha', {
-                    email: currentUser.email,
-                    ficha: JSON.stringify(valid)
-                });
-                if (result.success) {
-                    _muscFicha = valid;
-                    _muscSelectedDay = -1;
-                    renderMuscTracker();
-                } else {
-                    showMessage('muscBuilderMsg', result.message || 'Erro', 'danger');
-                }
-            } catch(e) {
-                showMessage('muscBuilderMsg', 'Erro: ' + e.message, 'danger');
-            }
-        }
-
-        async function confirmDeleteFicha() {
-            if (!confirm('Excluir sua ficha de treino?\nOs registros de treino serão mantidos.')) return;
-            try {
-                await secureFetch('deleteMusculacaoFicha', { email: currentUser.email });
-                _muscFicha = null;
-                _muscLogs = {};
-                renderMuscEmptyState();
-            } catch(e) { alert('Erro: ' + e.message); }
+            } catch(e) { console.error('saveMusculacaoLog:', e); }
         }
 
 
@@ -15023,6 +15092,225 @@
           } catch(e) {
             container.innerHTML='<div style="text-align:center;padding:20px;color:var(--text-3);font-size:12px;">Erro ao carregar ranking</div>';
           }
+        }
+
+        // ═══════════════════════════════════════════════════
+        // MÓDULOS CONFIG (ADMIN)
+        // ═══════════════════════════════════════════════════
+        var MODULE_DEFS = [
+            { id: 'checkin',     icon: '✍️', nome: 'Check-in',            desc: 'Check-in de presença com seleção de CT' },
+            { id: 'evolucao',    icon: '📈', nome: 'Evolução',            desc: 'Timeline de graduação e progresso de faixa' },
+            { id: 'presencas',   icon: '📅', nome: 'Presenças',           desc: 'Calendário mensal de presenças' },
+            { id: 'cronograma',  icon: '📚', nome: 'Cronograma de Aulas', desc: 'Aulas planejadas pelo professor' },
+            { id: 'musculacao',  icon: '🏋️', nome: 'Preparação Física',   desc: 'Ficha de musculação complementar' },
+            { id: 'ranking',     icon: '🏆', nome: 'Ranking',             desc: 'Ranking mensal/anual por CT' },
+            { id: 'campeonato',  icon: '🏅', nome: 'Campeonato',          desc: 'Inscrição e placar do campeonato interno' },
+            { id: 'jogos',       icon: '🎮', nome: 'Jogos BJJ',           desc: 'Quiz, memória, forca e outros jogos' },
+            { id: 'manual',      icon: '📖', nome: 'Manual IBJJF',        desc: 'Regras pesquisáveis do IBJJF' },
+            { id: 'exame',       icon: '🎓', nome: 'Exame de Faixa',      desc: 'Solicitação e prova prática/teórica' },
+            { id: 'perfil',      icon: '👤', nome: 'Perfil',              desc: 'Dados pessoais e configurações' }
+        ];
+
+        var _modulesConfig = {};
+
+        async function loadModulesConfig() {
+            var container = document.getElementById('modulesToggleList');
+            container.innerHTML = '<div class="admin-empty">Carregando...</div>';
+            try {
+                var data = await secureFetch('getModulesConfig', {});
+                if (data.success) {
+                    _modulesConfig = data.modules || {};
+                    // Default all to true if not set
+                    MODULE_DEFS.forEach(function(m) {
+                        if (_modulesConfig[m.id] === undefined) _modulesConfig[m.id] = true;
+                    });
+                    renderModulesToggle();
+                }
+            } catch(e) {
+                container.innerHTML = '<div class="admin-empty">Erro: ' + e.message + '</div>';
+            }
+        }
+
+        function renderModulesToggle() {
+            var container = document.getElementById('modulesToggleList');
+            var h = '';
+            MODULE_DEFS.forEach(function(m) {
+                var isOn = _modulesConfig[m.id] !== false;
+                h += '<div class="mod-toggle-row">';
+                h += '<div class="mod-toggle-icon">' + m.icon + '</div>';
+                h += '<div class="mod-toggle-info">';
+                h += '<div class="mod-toggle-name">' + escapeHtml(m.nome) + '</div>';
+                h += '<div class="mod-toggle-desc">' + escapeHtml(m.desc) + '</div>';
+                h += '</div>';
+                h += '<label class="mod-switch">';
+                h += '<input type="checkbox" ' + (isOn ? 'checked' : '') + ' onchange="toggleModuleConfig(\'' + m.id + '\', this.checked)">';
+                h += '<div class="mod-switch-track"></div>';
+                h += '</label>';
+                h += '</div>';
+            });
+            container.innerHTML = h;
+        }
+
+        async function toggleModuleConfig(moduleId, enabled) {
+            _modulesConfig[moduleId] = enabled;
+            showMessage('modulesMsg', 'Salvando...', 'info');
+            try {
+                var result = await secureFetch('saveModulesConfig', {
+                    modules: JSON.stringify(_modulesConfig)
+                });
+                if (result.success) {
+                    showMessage('modulesMsg', '✅ Módulo ' + (enabled ? 'ativado' : 'desativado'), 'success');
+                    setTimeout(function() { document.getElementById('modulesMsg').innerHTML = ''; }, 2000);
+                } else {
+                    showMessage('modulesMsg', result.message || 'Erro', 'danger');
+                }
+            } catch(e) {
+                showMessage('modulesMsg', 'Erro: ' + e.message, 'danger');
+            }
+        }
+
+        // ===== APPLY MODULES ON STUDENT SIDE =====
+        var _activeModules = null;   // admin global config
+        var _userModulePrefs = null; // student personal prefs
+
+        async function loadAndApplyModules() {
+            try {
+                var data = await secureFetch('getModulesConfig', {});
+                if (data.success && data.modules) {
+                    _activeModules = data.modules;
+                }
+                var data2 = await secureFetch('getUserModulePrefs', { email: currentUser.email });
+                if (data2.success && data2.prefs) {
+                    _userModulePrefs = data2.prefs;
+                } else {
+                    _userModulePrefs = {};
+                }
+                applyModulesVisibility();
+                renderPerfilModules();
+            } catch(e) { console.error('loadModules:', e); }
+        }
+
+        function isModuleVisible(modId) {
+            // Admin must have it enabled (default true)
+            if (_activeModules && _activeModules[modId] === false) return false;
+            // Student must have it enabled (default true)
+            if (_userModulePrefs && _userModulePrefs[modId] === false) return false;
+            return true;
+        }
+
+        function renderPerfilModules() {
+            var container = document.getElementById('perfilModulesToggle');
+            if (!container) return;
+            var h = '';
+            MODULE_DEFS.forEach(function(m) {
+                var adminOff = _activeModules && _activeModules[m.id] === false;
+                var userOn = !_userModulePrefs || _userModulePrefs[m.id] !== false;
+                var rowClass = 'mod-toggle-row' + (adminOff ? ' disabled-by-admin' : '');
+                h += '<div class="' + rowClass + '">';
+                h += '<div class="mod-toggle-icon">' + m.icon + '</div>';
+                h += '<div class="mod-toggle-info">';
+                h += '<div class="mod-toggle-name">' + escapeHtml(m.nome) + '</div>';
+                if (adminOff) {
+                    h += '<div class="mod-toggle-desc">Desativado pelo administrador</div>';
+                } else {
+                    h += '<div class="mod-toggle-desc">' + escapeHtml(m.desc) + '</div>';
+                }
+                h += '</div>';
+                h += '<label class="mod-switch">';
+                h += '<input type="checkbox" ' + (!adminOff && userOn ? 'checked' : '') + ' ' + (adminOff ? 'disabled' : '') + ' onchange="togglePerfilModule(\'' + m.id + '\', this.checked)">';
+                h += '<div class="mod-switch-track"></div>';
+                h += '</label>';
+                h += '</div>';
+            });
+            container.innerHTML = h;
+        }
+
+        async function togglePerfilModule(moduleId, enabled) {
+            if (!_userModulePrefs) _userModulePrefs = {};
+            _userModulePrefs[moduleId] = enabled;
+            applyModulesVisibility();
+            try {
+                await secureFetch('saveUserModulePrefs', {
+                    email: currentUser.email,
+                    prefs: JSON.stringify(_userModulePrefs)
+                });
+            } catch(e) { console.error('saveUserModulePrefs:', e); }
+        }
+
+        function applyModulesVisibility() {
+            if (!_activeModules) return;
+
+            // Module → subtab mapping
+            var subTabMap = {
+                'checkin': 'checkin',
+                'evolucao': 'evolucao',
+                'presencas': 'presencas',
+                'cronograma': 'aulas',
+                'musculacao': 'musculacao',
+                'ranking': 'ranking',
+                'campeonato': 'campeonato'
+            };
+
+            // Hide/show subtab buttons by data-module
+            Object.keys(subTabMap).forEach(function(modId) {
+                var attr = subTabMap[modId];
+                var btns = document.querySelectorAll('[data-module="' + attr + '"]');
+                btns.forEach(function(btn) {
+                    btn.style.display = isModuleVisible(modId) ? '' : 'none';
+                });
+            });
+
+            // Hide/show bottom nav tabs
+            // Jogos tab
+            var jogosBtn = document.querySelector('#bottomNav [data-module="jogos"]');
+            if (jogosBtn) jogosBtn.style.display = isModuleVisible('jogos') ? '' : 'none';
+
+            // Perfil tab — always visible (can't hide your own settings)
+            // But respect admin override
+            var perfilBtn = document.querySelector('#bottomNav [data-module="perfil"]');
+            if (perfilBtn) perfilBtn.style.display = (_activeModules && _activeModules.perfil === false) ? 'none' : '';
+
+            // Ranking tab (hide entire tab if both ranking + campeonato off)
+            var rankTabBtn = document.querySelector('#bottomNav [data-modtab="ranking"]');
+            if (rankTabBtn) {
+                var rankOff = !isModuleVisible('ranking') && !isModuleVisible('campeonato');
+                rankTabBtn.style.display = rankOff ? 'none' : '';
+            }
+
+            // Manual (inside jogos tab)
+            var manualBtn = document.querySelector('[data-module="manual"]');
+            if (manualBtn) manualBtn.style.display = isModuleVisible('manual') ? '' : 'none';
+
+            // Exame elements
+            var examEls = document.querySelectorAll('[data-module="exame"]');
+            examEls.forEach(function(el) {
+                el.style.display = isModuleVisible('exame') ? '' : 'none';
+            });
+
+            // Auto-select first visible subtab in treino-tab
+            fixActiveSubtab('treino-tab');
+            fixActiveSubtab('ranking-tab');
+        }
+
+        function fixActiveSubtab(parentId) {
+            var parent = document.getElementById(parentId);
+            if (!parent) return;
+            var bar = parent.querySelector('.subtab-bar');
+            if (!bar) return;
+            var btns = bar.querySelectorAll('.subtab-btn');
+            var hasActive = false;
+            btns.forEach(function(b) {
+                if (b.style.display !== 'none' && b.classList.contains('active')) hasActive = true;
+            });
+            if (!hasActive) {
+                // Click first visible
+                for (var i = 0; i < btns.length; i++) {
+                    if (btns[i].style.display !== 'none') {
+                        btns[i].click();
+                        break;
+                    }
+                }
+            }
         }
 
         async function loadSystemHealth() {
