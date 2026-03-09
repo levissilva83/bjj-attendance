@@ -1423,6 +1423,19 @@
         .evo-hero-belt.roxa { background: linear-gradient(135deg, #9C27B0, #6A1B9A); }
         .evo-hero-belt.marrom { background: linear-gradient(135deg, #8D6E63, #5D4037); }
         .evo-hero-belt.preta { background: linear-gradient(135deg, #424242, #1a1a1a); }
+        /* Kids hero belts */
+        .evo-hero-belt.cinza-b  { background: linear-gradient(135deg, #bdbdbd, #f5f5f5); }
+        .evo-hero-belt.cinza    { background: linear-gradient(135deg, #bdbdbd, #9e9e9e); }
+        .evo-hero-belt.cinza-p  { background: linear-gradient(135deg, #9e9e9e, #424242); }
+        .evo-hero-belt.amarela-b { background: linear-gradient(135deg, #fff176, #f5f5f5); }
+        .evo-hero-belt.amarela  { background: linear-gradient(135deg, #fff176, #fdd835); }
+        .evo-hero-belt.amarela-p { background: linear-gradient(135deg, #fdd835, #424242); }
+        .evo-hero-belt.laranja-b { background: linear-gradient(135deg, #ffb74d, #f5f5f5); }
+        .evo-hero-belt.laranja  { background: linear-gradient(135deg, #ffb74d, #fb8c00); }
+        .evo-hero-belt.laranja-p { background: linear-gradient(135deg, #fb8c00, #424242); }
+        .evo-hero-belt.verde-b  { background: linear-gradient(135deg, #81c784, #f5f5f5); }
+        .evo-hero-belt.verde    { background: linear-gradient(135deg, #81c784, #43a047); }
+        .evo-hero-belt.verde-p  { background: linear-gradient(135deg, #43a047, #424242); }
 
         .evo-hero-info { flex: 1; min-width: 140px; }
 
@@ -2224,6 +2237,19 @@
         .ibjjf-belt-band.roxa { background: linear-gradient(90deg, #6A1B9A, #9C27B0); }
         .ibjjf-belt-band.marrom { background: linear-gradient(90deg, #5D4037, #8D6E63); }
         .ibjjf-belt-band.preta { background: linear-gradient(90deg, #1a1a1a, #424242); }
+        /* Kids belt bands */
+        .ibjjf-belt-band.cinza-b  { background: linear-gradient(90deg, #9e9e9e, #f5f5f5); }
+        .ibjjf-belt-band.cinza    { background: linear-gradient(90deg, #9e9e9e, #bdbdbd); }
+        .ibjjf-belt-band.cinza-p  { background: linear-gradient(90deg, #9e9e9e, #424242); }
+        .ibjjf-belt-band.amarela-b { background: linear-gradient(90deg, #fdd835, #f5f5f5); }
+        .ibjjf-belt-band.amarela  { background: linear-gradient(90deg, #fdd835, #fbc02d); }
+        .ibjjf-belt-band.amarela-p { background: linear-gradient(90deg, #fdd835, #424242); }
+        .ibjjf-belt-band.laranja-b { background: linear-gradient(90deg, #fb8c00, #f5f5f5); }
+        .ibjjf-belt-band.laranja  { background: linear-gradient(90deg, #fb8c00, #f57c00); }
+        .ibjjf-belt-band.laranja-p { background: linear-gradient(90deg, #fb8c00, #424242); }
+        .ibjjf-belt-band.verde-b  { background: linear-gradient(90deg, #43a047, #f5f5f5); }
+        .ibjjf-belt-band.verde    { background: linear-gradient(90deg, #43a047, #66bb6a); }
+        .ibjjf-belt-band.verde-p  { background: linear-gradient(90deg, #43a047, #424242); }
 
         /* Belt info */
         .ibjjf-belt-info {
@@ -3760,6 +3786,113 @@
             opacity: 0.35; pointer-events: none;
         }
 
+        /* ===== KIDS MODE THEME ===== */
+        body.kids-mode {
+            --bg-deep: #1a1040;
+            --bg-card: #261856;
+            --bg-elevated: #321e6e;
+            --border: rgba(255,255,255,0.12);
+            --accent: #ffcc00;
+            --accent-dim: rgba(255,204,0,0.15);
+            --text-1: #fff;
+            --text-2: #e0d0ff;
+            --text-3: #a08ec0;
+            --gold: #ffcc00;
+        }
+        body.kids-mode .hdr {
+            background: linear-gradient(135deg, #6c3ce0, #ff6bcb) !important;
+            border-bottom-color: rgba(255,255,255,0.1) !important;
+        }
+        body.kids-mode .hdr-title {
+            background: none !important; -webkit-text-fill-color: #fff !important; color: #fff !important;
+        }
+        body.kids-mode .bnav { background: linear-gradient(180deg, #1a1040 0%, #0d0820 100%); }
+        body.kids-mode .bnav-btn.active { color: #ffcc00; }
+        body.kids-mode .bnav-btn.active::before { background: #ffcc00; }
+        body.kids-mode .subtab-btn.active { color: #ffcc00; border-color: #ffcc00; background: rgba(255,204,0,0.12); }
+        body.kids-mode .btn-primary, body.kids-mode .perfil-save-btn {
+            background: linear-gradient(135deg, #ffcc00, #ff6bcb) !important;
+            color: #1a1040 !important;
+        }
+        body.kids-mode .form-card, body.kids-mode .admin-section {
+            border-color: rgba(108,60,224,0.3);
+        }
+        body.kids-mode .musc-day-chip.today { box-shadow: 0 0 0 2px #ffcc00; }
+
+        /* ===== PROFILE PICKER (NETFLIX-STYLE) ===== */
+        .picker-overlay {
+            position: fixed; inset: 0; z-index: 10001;
+            background: linear-gradient(180deg, #0d0d1a 0%, #1a0f2e 100%);
+            display: flex; align-items: center; justify-content: center;
+            flex-direction: column; padding: 20px;
+        }
+        .picker-title { font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 8px; font-family: 'Sora',sans-serif; }
+        .picker-subtitle { font-size: 12px; color: rgba(255,255,255,0.5); margin-bottom: 28px; }
+        .picker-profiles { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; max-width: 400px; }
+        .picker-card {
+            width: 110px; text-align: center; cursor: pointer; padding: 12px 8px;
+            border-radius: 16px; border: 2px solid transparent; transition: all 0.2s;
+        }
+        .picker-card:hover, .picker-card:active { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); }
+        .picker-avatar {
+            width: 68px; height: 68px; border-radius: 50%; margin: 0 auto 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 28px; font-weight: 900; color: #fff;
+        }
+        .picker-name { font-size: 12px; font-weight: 700; color: #fff; }
+        .picker-meta { font-size: 9px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+        .picker-add-card {
+            width: 110px; text-align: center; cursor: pointer; padding: 12px 8px;
+            border-radius: 16px; border: 2px dashed rgba(255,255,255,0.15); transition: all 0.2s;
+        }
+        .picker-add-card:hover { border-color: rgba(255,255,255,0.3); }
+        .picker-add-icon {
+            width: 68px; height: 68px; border-radius: 50%; margin: 0 auto 8px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.06); font-size: 28px; color: rgba(255,255,255,0.3);
+        }
+        .picker-add-label { font-size: 12px; color: rgba(255,255,255,0.3); font-weight: 600; }
+
+        /* Dependente form */
+        .dep-form-section { max-width: 400px; width: 100%; }
+        .dep-form-section .form-group { margin-bottom: 10px; }
+        .dep-form-section .form-label { font-size: 11px; color: rgba(255,255,255,0.6); margin-bottom: 4px; display: block; }
+        .dep-form-section input, .dep-form-section select, .dep-form-section textarea {
+            width: 100%; padding: 10px; background: rgba(255,255,255,0.06); color: #fff;
+            border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; font-size: 13px;
+        }
+        .dep-health-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+        .dep-health-chip {
+            padding: 6px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.7); font-size: 11px;
+            font-weight: 600; cursor: pointer; transition: all 0.2s;
+        }
+        .dep-health-chip.sel { background: rgba(255,107,203,0.2); border-color: #ff6bcb; color: #ff6bcb; }
+
+        /* Kids achievements */
+        .kids-medal { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: 700; }
+        .kids-medal.star { background: rgba(255,204,0,0.15); color: #ffcc00; }
+        .kids-medal.streak { background: rgba(255,107,203,0.15); color: #ff6bcb; }
+        .kids-medal.belt { background: rgba(108,60,224,0.15); color: #a78bfa; }
+
+        /* Profile completion overlay */
+        .profile-force-overlay {
+            position: fixed; inset: 0; z-index: 10000;
+            background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center;
+            padding: 20px;
+        }
+        .profile-force-card {
+            background: var(--bg-card); border-radius: 16px; padding: 24px; width: 100%;
+            max-width: 360px; border: 1px solid var(--border);
+        }
+        .profile-force-title {
+            font-size: 18px; font-weight: 900; color: var(--text-1); text-align: center;
+            margin-bottom: 6px; font-family: 'Sora', sans-serif;
+        }
+        .profile-force-desc {
+            font-size: 12px; color: var(--text-3); text-align: center; margin-bottom: 16px;
+        }
+
         /* ===== MODULE TOGGLES ===== */
         .mod-toggle-row {
             display: flex; align-items: center; gap: 10px; padding: 10px 12px;
@@ -5181,6 +5314,14 @@
                                     <input type="text" id="regName" placeholder="Seu Nome" required>
                                 </div>
                                 <div class="form-group">
+                                    <label class="form-label">Data de Nascimento *</label>
+                                    <input type="date" id="regNascimento" required onchange="onRegNascimentoChange()">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Telefone / WhatsApp *</label>
+                                    <input type="tel" id="regTelefone" placeholder="(21) 99999-9999" required>
+                                </div>
+                                <div class="form-group">
                                     <label class="form-label">Email</label>
                                     <input type="email" id="regEmail" placeholder="seu@email.com" required>
                                 </div>
@@ -5199,6 +5340,7 @@
                                     </div>
                                     <div class="password-match-hint" id="passwordMatchHint"></div>
                                 </div>
+                                <div id="regCategoriaInfo" style="display:none;padding:8px 12px;border-radius:10px;margin-bottom:10px;font-size:12px;font-weight:700;text-align:center;"></div>
                                 <div class="form-group">
                                     <label class="form-label">Faixa</label>
                                     <select id="regFaixa" required>
@@ -5303,7 +5445,7 @@
                     </div>
 
                     <div class="ct-section">
-                        <div class="section-title">Onde você treinou?</div>
+                        <div class="section-title" id="ctSectionTitle">Onde você treinou?</div>
                         <div class="ct-grid" id="ctGrid"></div>
                         <div class="selected-ct-bar" id="selectedInfo">
                             <span>Academia:</span>
@@ -5345,7 +5487,7 @@
                             </div>
                         </div>
 
-                        <div class="evo-seals">
+                        <div class="evo-seals" id="evoSealsSection">
                             <div class="evo-seals-title">🏅 Selos de Grau</div>
                             <div class="evo-seals-tabs" id="evoSealsTabs">
                                 <button class="evo-seals-tab active" onclick="switchSealsTab('seals', event)">🏅 Selos</button>
@@ -5376,7 +5518,7 @@
                             </div>
                         </div>
 
-                        <div class="evo-freq">
+                        <div class="evo-freq" id="evoFreqSection">
                             <div class="evo-freq-row">
                                 <div class="evo-freq-left">📊 Frequência Semestre</div>
                                 <div class="evo-freq-pct" id="evoFreqPct">0%</div>
@@ -5400,7 +5542,7 @@
 
                         <div class="ibjjf-roadmap">
                             <div class="ibjjf-title">🥋 Sistema de Graduação IBJJF</div>
-                            <div class="ibjjf-subtitle">Seu caminho da Faixa Branca até a Faixa Preta</div>
+                            <div class="ibjjf-subtitle" id="ibjjfSubtitle">Seu caminho da Faixa Branca até a Faixa Preta</div>
 
                             <div class="ibjjf-legend">
                                 <div class="ibjjf-legend-item"><div class="ibjjf-legend-dot past"></div>Concluída</div>
@@ -5861,7 +6003,7 @@
                             </div>
                         </div>
 
-                        <div class="perfil-section">
+                        <div class="perfil-section" id="perfilSecDados">
                             <div class="perfil-section-title"><span>👤</span> Dados Pessoais</div>
                             <div class="perfil-field">
                                 <label>Data de Nascimento</label>
@@ -5889,7 +6031,7 @@
                             </div>
                         </div>
 
-                        <div class="perfil-section">
+                        <div class="perfil-section" id="perfilSecContato">
                             <div class="perfil-section-title"><span>📱</span> Contato</div>
                             <div class="perfil-field">
                                 <label>Telefone / WhatsApp</label>
@@ -5905,7 +6047,7 @@
                             </div>
                         </div>
 
-                        <div class="perfil-section">
+                        <div class="perfil-section" id="perfilSecJJ">
                             <div class="perfil-section-title"><span>🥋</span> Sobre seu Jiu Jitsu</div>
                             <div class="perfil-field">
                                 <label>Como conheceu a academia?</label>
@@ -5956,7 +6098,7 @@
                             </div>
                         </div>
 
-                        <div class="perfil-section">
+                        <div class="perfil-section" id="perfilSecSaude">
                             <div class="perfil-section-title"><span>🏥</span> Saúde e Segurança</div>
                             <div class="perfil-field">
                                 <label>Lesão ou condição médica</label>
@@ -5967,7 +6109,7 @@
                         <div id="perfilMessage"></div>
                         <button class="perfil-save-btn" id="perfilSaveBtn" onclick="saveProfile()">💾 Salvar Perfil</button>
 
-                        <div class="perfil-section" style="margin-top:16px;">
+                        <div class="perfil-section" id="perfilSecSenha" style="margin-top:16px;">
                             <div class="perfil-section-title"><span>🔒</span> Alterar Senha</div>
                             <div class="perfil-field">
                                 <label>Senha Atual</label>
@@ -5995,6 +6137,7 @@
                         </div>
 
                         <button class="perfil-logout-btn" onclick="handleLogout()">🚪 Sair da Conta</button>
+                        <button onclick="requestDeactivateAccount()" style="width:100%;padding:10px;background:transparent;border:1px solid rgba(248,113,113,0.3);border-radius:10px;color:#f87171;font-size:11px;font-weight:600;cursor:pointer;margin-top:8px;">⛔ Desabilitar minha conta</button>
                     </div>
                 </div>
 
@@ -6196,23 +6339,6 @@
                         </div>
                     </div>
 
-                    <!-- Pending Check-ins -->
-                    <div class="admin-section">
-                        <div class="admin-section-header">
-                            <div class="admin-section-title">⏳ Check-ins Pendentes <span class="admin-badge" id="adminCheckinBadge" style="display:none">0</span></div>
-                            <button class="admin-refresh-btn" onclick="loadPendingCheckins()">↻</button>
-                        </div>
-                        <div class="admin-filter-row">
-                            <button class="admin-filter-btn active" onclick="filterAdminCheckins('hoje', event)">Hoje</button>
-                            <button class="admin-filter-btn" onclick="filterAdminCheckins('semana', event)">Semana</button>
-                            <button class="admin-filter-btn" onclick="filterAdminCheckins('todos', event)">Todos</button>
-                        </div>
-                        <div id="adminCheckinsList">
-                            <div class="admin-empty">Carregando...</div>
-                        </div>
-                        <button class="admin-bulk-btn" id="adminBulkApproveBtn" style="display:none" onclick="bulkApproveCheckins()">✓ Aprovar Todos Pendentes</button>
-                    </div>
-
                     <!-- Pending Graduations -->
                     <div class="admin-section">
                         <div class="admin-section-header">
@@ -6364,6 +6490,14 @@
                             <div id="cronoEditMsg" style="margin-top:6px;"></div>
                         </div>
                     </div>
+                    <!-- Aniversariantes -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">🎂 Aniversariantes <span class="admin-badge" id="adminBirthdayBadge" style="display:none">0</span></div>
+                            <button class="admin-refresh-btn" onclick="loadBirthdays()">↻</button>
+                        </div>
+                        <div id="adminBirthdayList"><div class="admin-empty">Carregando...</div></div>
+                    </div>
                     <div class="admin-section">
                         <div class="admin-section-header">
                             <div class="admin-section-title">✅ Aprovados Hoje <span class="admin-badge green" id="adminApprovedBadge" style="display:none">0</span></div>
@@ -6415,128 +6549,37 @@
 
             <!-- CTs moved to Sistema tab -->
 
-            <!-- TAB: RELATÓRIOS (REBUILT) -->
-            <div id="adm-relatorios" class="adm-tab">
+            <!-- TAB: LISTA DE PRESENÇA -->
+            <div id="adm-presenca" class="adm-tab">
                 <div class="admin-container">
                     <div class="adm-page-title">
-                        <h2>Central de Relatórios</h2>
-                        <p>Métricas, análise por turno/CT e ações prioritárias</p>
+                        <h2>📋 Lista de Presença</h2>
+                        <p>Presença por CT, turno e horário de aula</p>
                     </div>
 
-                    <!-- Filtros -->
-                    <div class="rpt-filters">
-                        <div class="rpt-date-range">
-                            <div class="rpt-date-field">
-                                <label>De</label>
-                                <input type="date" id="rptDateFrom">
-                            </div>
-                            <div class="rpt-date-field">
-                                <label>Até</label>
-                                <input type="date" id="rptDateTo">
-                            </div>
-                        </div>
-                        <div class="rpt-date-field" style="min-width:100px;">
-                            <label>CT</label>
-                            <select id="rptCTSelect" onchange="_rptFilterCT=this.value">
-                                <option value="">Todos</option>
+                    <div class="admin-section">
+                        <!-- Filtros -->
+                        <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+                            <select id="presListCT" onchange="loadPresencaList()" style="flex:1;min-width:100px;padding:10px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:12px;">
+                                <option value="">Todos os CTs</option>
                             </select>
+                            <input type="date" id="presListDate" onchange="loadPresencaList()" style="flex:1;min-width:120px;padding:10px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:12px;">
                         </div>
-                        <div class="rpt-date-field" style="min-width:90px;">
-                            <label>Turno</label>
-                            <select id="rptTurnoSelect">
-                                <option value="">Todos</option>
-                                <option value="manha">🌅 Manhã</option>
-                                <option value="noite">🌙 Noite</option>
-                            </select>
+                        <!-- Período -->
+                        <div style="display:flex;gap:4px;margin-bottom:12px;">
+                            <button class="admin-filter-btn active" onclick="setPresListPeriod('dia',this)">Dia</button>
+                            <button class="admin-filter-btn" onclick="setPresListPeriod('semana',this)">Semana</button>
+                            <button class="admin-filter-btn" onclick="setPresListPeriod('mes',this)">Mês</button>
                         </div>
-                    </div>
-                    <div style="display:flex;gap:4px;align-items:center;margin-bottom:14px;flex-wrap:wrap;">
-                        <div class="rpt-quick-bar" style="margin-bottom:0;flex:1;">
-                            <button class="rpt-quick-btn active" onclick="setRptQuickPeriod('hoje',this)">Hoje</button>
-                            <button class="rpt-quick-btn" onclick="setRptQuickPeriod('semana',this)">Semana</button>
-                            <button class="rpt-quick-btn" onclick="setRptQuickPeriod('mes',this)">Mês</button>
-                            <button class="rpt-quick-btn" onclick="setRptQuickPeriod('ano',this)">Ano</button>
+                        <!-- KPI Cards Turno -->
+                        <div id="presListKPI" style="display:none;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px;"></div>
+                        <!-- Results -->
+                        <div id="presListResults"><div class="admin-empty">Selecione CT e data</div></div>
+                        <!-- Gerar Relatório -->
+                        <div style="margin-top:12px;text-align:center;">
+                            <button onclick="gerarRelatorioPresenca()" style="padding:10px 24px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;">📊 Gerar Relatório</button>
                         </div>
-                        <button class="rpt-generate-btn" onclick="generateReport()">📊 Gerar</button>
-                    </div>
-
-                    <div id="rptLoading" class="admin-empty" style="display:none;">Carregando relatório...</div>
-                    <div id="rptContent" style="display:none;">
-
-                        <!-- Header -->
-                        <div class="rpt-header">
-                            <div class="rpt-header-title">📋 Relatório</div>
-                            <div class="rpt-header-date" id="rptPeriodLabel"></div>
-                        </div>
-
-                        <!-- KPI Cards -->
-                        <div id="rptKPICards" class="rpt-kpi-grid"></div>
-
-                        <!-- 🚨 CENTRAL DE AÇÕES -->
-                        <div class="admin-section" id="rptAcoesSection" style="display:none;">
-                            <div class="admin-section-header">
-                                <div class="admin-section-title">🎯 Central de Ações</div>
-                                <span style="font-size:10px;color:var(--text-3);" id="rptAcoesCount"></span>
-                            </div>
-                            <div id="rptAcoes" style="padding:0 12px 12px;"></div>
-                        </div>
-
-                        <!-- 📊 Visão por Turno -->
-                        <div class="admin-section" id="rptTurnoSection">
-                            <div class="admin-section-header">
-                                <div class="admin-section-title">📊 Visão por Turno</div>
-                            </div>
-                            <div id="rptTurnoCards" style="padding:12px;"></div>
-                        </div>
-
-                        <!-- 🏢 Visão por CT -->
-                        <div class="admin-section" id="rptCTSection">
-                            <div class="admin-section-header">
-                                <div class="admin-section-title">🏢 Visão por CT</div>
-                            </div>
-                            <div id="rptCTCards" style="padding:12px;"></div>
-                        </div>
-
-                        <!-- 📊 Presença por Horário -->
-                        <div class="admin-section">
-                            <div class="rpt-section-toggle open" onclick="toggleRptSection(this)">
-                                <div class="rpt-section-toggle-left">
-                                    <span>🕐</span>
-                                    <span class="rpt-section-toggle-title">Presença por Horário</span>
-                                </div>
-                                <span class="rpt-section-toggle-arrow">▶</span>
-                            </div>
-                            <div id="rptHourlySummary"></div>
-                        </div>
-
-                        <!-- ❌ Faltas Acumuladas -->
-                        <div class="admin-section">
-                            <div class="rpt-section-toggle" onclick="toggleRptSection(this)">
-                                <div class="rpt-section-toggle-left">
-                                    <span>❌</span>
-                                    <span class="rpt-section-toggle-title">Faltas Acumuladas <span class="admin-badge" style="background:rgba(232,93,93,0.15);color:#f87171;" id="rptFaltasBadge">0</span></span>
-                                </div>
-                                <span class="rpt-section-toggle-arrow">▶</span>
-                            </div>
-                            <div id="rptFaltasList" class="rpt-chamada" style="display:none;"></div>
-                        </div>
-
-                        <!-- Insights sections -->
-                        <div class="admin-section">
-                            <div class="rpt-section-toggle" onclick="toggleRptSection(this)">
-                                <div class="rpt-section-toggle-left">
-                                    <span>🥋</span>
-                                    <span class="rpt-section-toggle-title">Elegíveis para Promoção <span class="admin-badge" style="background:rgba(56,152,236,0.15);color:#38bdf8;" id="rptPromoBadge">0</span></span>
-                                </div>
-                                <span class="rpt-section-toggle-arrow">▶</span>
-                            </div>
-                            <div id="rptPromo" class="rpt-mini-list" style="display:none;"></div>
-                        </div>
-
-                        <!-- Export -->
-                        <div style="margin-top:16px;text-align:center;padding-bottom:12px;">
-                            <button class="admin-btn approve" onclick="exportReportCSV()" style="min-width:200px;">📥 Exportar CSV</button>
-                        </div>
+                        <div id="presRelatorio" style="display:none;margin-top:12px;"></div>
                     </div>
                 </div>
             </div>
@@ -6789,6 +6832,14 @@
                             <button class="admin-refresh-btn" onclick="loadCTScheduleAdmin()">↻</button>
                         </div>
                         <div id="adminCTScheduleList"><div class="admin-empty">Carregando...</div></div>
+                        <div style="margin-top:10px;padding:0 12px;">
+                            <div style="font-size:11px;font-weight:700;color:var(--adm-text-2);margin-bottom:6px;">+ Novo CT</div>
+                            <div style="display:flex;gap:6px;">
+                                <input type="text" id="newCTNome" placeholder="Nome do CT" style="flex:1;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                                <button onclick="createNewCT()" style="padding:8px 16px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:6px;font-weight:700;font-size:11px;cursor:pointer;">Criar</button>
+                            </div>
+                            <div id="newCTMsg" style="margin-top:4px;"></div>
+                        </div>
                     </div>
 
                     <!-- Graduation Config per CT -->
@@ -6829,30 +6880,46 @@
                         <button onclick="saveGradConfig()" style="margin-top:10px;width:100%;padding:12px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;">💾 Salvar Configuração</button>
                     </div>
 
-                    <!-- Admin Check-in -->
+                    <!-- Registro de Aula (Professor) -->
                     <div class="admin-section">
                         <div class="admin-section-header">
-                            <div class="admin-section-title">✍️ Meu Check-in</div>
+                            <div class="admin-section-title">✍️ Registro de Aula</div>
                         </div>
-                        <div class="checkin-profile" style="margin-bottom:16px;">
-                            <div class="checkin-avatar" id="admCheckinInitial">P</div>
-                            <div class="checkin-info">
-                                <div class="checkin-name" id="admDisplayName">-</div>
-                                <div class="checkin-meta"><span id="admDisplayFaixa">-</span></div>
+                        <p style="font-size:11px;color:var(--adm-text-3);margin-bottom:10px;">Registre aulas ministradas para controle de cobrança.</p>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+                            <div>
+                                <label style="font-size:10px;color:var(--adm-text-3);display:block;margin-bottom:4px;">CT</label>
+                                <select id="admAulaCT" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;"></select>
                             </div>
-                            <div class="checkin-count">
-                                <div class="checkin-count-num" id="admDisplayCount">0</div>
-                                <div class="checkin-count-label">Treinos</div>
-                            </div>
-                        </div>
-                        <div class="ct-section">
-                            <div class="section-title">Onde você treinou?</div>
-                            <div class="ct-grid" id="admCtGrid"></div>
-                            <div class="selected-ct-bar" id="admSelectedInfo">
-                                <span>Academia:</span><span id="admSelectedCT">-</span>
+                            <div>
+                                <label style="font-size:10px;color:var(--adm-text-3);display:block;margin-bottom:4px;">Data</label>
+                                <input type="date" id="admAulaData" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
                             </div>
                         </div>
-                        <button class="btn btn-primary" onclick="adminConfirmAttendance()">✓ Confirmar Presença</button>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+                            <div>
+                                <label style="font-size:10px;color:var(--adm-text-3);display:block;margin-bottom:4px;">Horário</label>
+                                <input type="time" id="admAulaHorario" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                            </div>
+                            <div>
+                                <label style="font-size:10px;color:var(--adm-text-3);display:block;margin-bottom:4px;">Valor (R$)</label>
+                                <input type="text" id="admAulaValor" placeholder="0,00" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                            </div>
+                        </div>
+                        <div style="margin-bottom:8px;">
+                            <label style="font-size:10px;color:var(--adm-text-3);display:block;margin-bottom:4px;">Tipo de aula</label>
+                            <select id="admAulaTipo" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                                <option value="BJJ Adulto">🥋 BJJ Adulto</option>
+                                <option value="BJJ Kids">🧒 BJJ Kids</option>
+                                <option value="No-Gi">🤼 No-Gi</option>
+                                <option value="Open Mat">🏟 Open Mat</option>
+                                <option value="Particular">👤 Particular</option>
+                            </select>
+                        </div>
+                        <div id="admAulaMsg" style="margin-bottom:6px;"></div>
+                        <button onclick="saveAdmAula()" style="width:100%;padding:10px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;">💰 Registrar Aula</button>
+                        <div id="admAulaHistorico" style="margin-top:12px;"></div>
+                    </div>
                         <div id="admAttendanceMessage"></div>
                     </div>
 
@@ -6931,8 +6998,8 @@
                 <button class="bnav-btn" onclick="switchAdminTab('adm-alunos', event)">
                     <span class="bnav-icon">👥</span><span class="bnav-label">Alunos</span>
                 </button>
-                <button class="bnav-btn" onclick="switchAdminTab('adm-relatorios', event)">
-                    <span class="bnav-icon">📊</span><span class="bnav-label">Relatórios</span>
+                <button class="bnav-btn" onclick="switchAdminTab('adm-presenca', event)">
+                    <span class="bnav-icon">📋</span><span class="bnav-label">Presença</span>
                 </button>
                 <button class="bnav-btn" onclick="switchAdminTab('adm-campeonato', event)">
                     <span class="bnav-icon">🏅</span><span class="bnav-label">Camp.</span>
@@ -6947,6 +7014,25 @@
     <!-- end app -->
 
     <!-- EXAM CALENDAR MODAL (STUDENT) -->
+    <!-- PROFILE COMPLETION OVERLAY -->
+    <div class="profile-force-overlay" id="profileForceOverlay" style="display:none;">
+        <div class="profile-force-card">
+            <div style="text-align:center;font-size:36px;margin-bottom:8px;">📋</div>
+            <div class="profile-force-title">Complete seu perfil</div>
+            <div class="profile-force-desc">Precisamos de algumas informações obrigatórias para continuar.</div>
+            <div class="form-group" style="margin-bottom:12px;">
+                <label class="form-label">Data de Nascimento *</label>
+                <input type="date" id="forceNascimento" style="width:100%;padding:10px;background:var(--bg-elevated);color:var(--text-1);border:1px solid var(--border);border-radius:8px;font-size:13px;">
+            </div>
+            <div class="form-group" style="margin-bottom:12px;">
+                <label class="form-label">Telefone / WhatsApp *</label>
+                <input type="tel" id="forceTelefone" placeholder="(21) 99999-9999" style="width:100%;padding:10px;background:var(--bg-elevated);color:var(--text-1);border:1px solid var(--border);border-radius:8px;font-size:13px;">
+            </div>
+            <div id="forceProfileMsg" style="margin-bottom:8px;"></div>
+            <button onclick="saveForceProfile()" style="width:100%;padding:12px;background:linear-gradient(135deg,var(--accent),var(--accent-bright,#f5c542));color:#000;border:none;border-radius:10px;font-weight:800;font-size:13px;cursor:pointer;">✅ Salvar e Continuar</button>
+        </div>
+    </div>
+
     <div class="exam-modal-overlay" id="examModalOverlay" onclick="if(event.target===this)closeExamCalendar()">
         <div class="exam-modal">
             <div class="exam-modal-header">
@@ -7323,7 +7409,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxLnhI6mkoPAjkT-N48bY3YGrJqye53k0EQbB8rYtYQffLKyINHn0dSDvDa-NKaYeA3/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwCBuClXSG11ASVwffltVjdKXDTLhnmTxF5KU8DgipYFq3klcUzdWOo8sk1w6ydptqB/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -7434,6 +7520,7 @@
                     delete userData.token;
                     currentUser = userData;
                     localStorage.setItem('bjjUser', JSON.stringify(currentUser));
+                    
                     showAppScreen();
                     loadAttendanceInfo();
                     loadCTs();
@@ -7485,6 +7572,8 @@
         async function handleRegister(event) {
             event.preventDefault();
             const name = document.getElementById('regName').value;
+            const nascimento = document.getElementById('regNascimento').value;
+            const telefone = document.getElementById('regTelefone').value;
             const email = document.getElementById('regEmail').value;
             const password = document.getElementById('regPassword').value;
             const passwordConfirm = document.getElementById('regPasswordConfirm').value;
@@ -7492,13 +7581,15 @@
             const grau = document.getElementById('regGrau').value;
             const ct = document.getElementById('regCT').value;
 
+            if (!nascimento) { showMessage('registerMessage', '⚠️ Data de nascimento é obrigatória', 'warning'); return; }
+            if (!telefone || telefone.length < 8) { showMessage('registerMessage', '⚠️ Telefone é obrigatório', 'warning'); return; }
             if (password.length < 6) { showMessage('registerMessage', '⚠️ Senha deve ter no mínimo 6 caracteres', 'warning'); return; }
             if (password !== passwordConfirm) { showMessage('registerMessage', '⚠️ As senhas não coincidem', 'warning'); return; }
             if (!ct) { showMessage('registerMessage', '⚠️ Escolha seu CT Principal', 'warning'); return; }
             showMessage('registerMessage', 'Cadastrando...', 'warning');
 
             try {
-                const r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'requestAccount', name, email, password, faixa, grau, ct }) });
+                const r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'requestAccount', name, email, password, faixa, grau, ct, nascimento, telefone }) });
                 const data = await r.json();
                 if (data.success) {
                     showMessage('registerMessage', '✅ Cadastro realizado! Faça login após aprovação.', 'success');
@@ -7508,6 +7599,165 @@
                 }
             } catch (err) {
                 showMessage('registerMessage', 'Erro de conexão', 'danger');
+            }
+        }
+
+        // ===== KIDS MODE =====
+        var KIDS_FAIXAS = [
+            { value: 'Branca',          label: '⚪ Branca' },
+            { value: 'Cinza-Branca',    label: '⬜ Cinza-Branca' },
+            { value: 'Cinza',           label: '🩶 Cinza' },
+            { value: 'Cinza-Preta',     label: '🖤 Cinza-Preta' },
+            { value: 'Amarela-Branca',  label: '⬜ Amarela-Branca' },
+            { value: 'Amarela',         label: '🟡 Amarela' },
+            { value: 'Amarela-Preta',   label: '🖤 Amarela-Preta' },
+            { value: 'Laranja-Branca',  label: '⬜ Laranja-Branca' },
+            { value: 'Laranja',         label: '🟠 Laranja' },
+            { value: 'Laranja-Preta',   label: '🖤 Laranja-Preta' },
+            { value: 'Verde-Branca',    label: '⬜ Verde-Branca' },
+            { value: 'Verde',           label: '🟢 Verde' },
+            { value: 'Verde-Preta',     label: '🖤 Verde-Preta' }
+        ];
+        var ADULT_FAIXAS = [
+            { value: 'Branca', label: '⚪ Branca' },
+            { value: 'Azul',   label: '🔵 Azul' },
+            { value: 'Roxa',   label: '🟣 Roxa' },
+            { value: 'Marrom', label: '🟤 Marrom' },
+            { value: 'Preta',  label: '⚫ Preta' }
+        ];
+
+        function calcIdade(nascStr) {
+            if (!nascStr) return null;
+            var parts = nascStr.split('-');
+            if (parts.length !== 3) {
+                var d = new Date(nascStr);
+                if (isNaN(d.getTime())) return null;
+                parts = [d.getFullYear(), d.getMonth()+1, d.getDate()];
+            }
+            var nasc = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
+            var hoje = new Date();
+            var age = hoje.getFullYear() - nasc.getFullYear();
+            var m = hoje.getMonth() - nasc.getMonth();
+            if (m < 0 || (m === 0 && hoje.getDate() < nasc.getDate())) age--;
+            return age;
+        }
+
+        function isKidsAge(nascStr) {
+            var age = calcIdade(nascStr);
+            return age !== null && age < 16;
+        }
+
+        var _isKidsMode = false;
+
+        function detectAndApplyKidsMode(nascStr) {
+            _isKidsMode = isKidsAge(nascStr);
+            if (_isKidsMode) {
+                document.body.classList.add('kids-mode');
+            } else {
+                document.body.classList.remove('kids-mode');
+            }
+        }
+
+        // ═══════════════════════════════════════
+        // KIDS ↔ ADULT VIEW SEPARATION
+        // ═══════════════════════════════════════
+
+        /**
+         * Controls profile tab visibility for kids vs adults.
+         * Kids: hide Contato, Sobre JJ, Saúde adulto, Profissão, Dependentes, Senha, Módulos, completeness
+         * Adults: show everything, hide kids-specific items
+         */
+        function applyKidsProfileView() {
+            var isKid = _isKidsMode || (currentUser && currentUser.isKids);
+            
+            // Profile sections: show/hide based on type
+            var adultOnlySections = ['perfilSecContato', 'perfilSecJJ', 'perfilSecSaude', 'perfilSecSenha'];
+            adultOnlySections.forEach(function(id) {
+                var el = document.getElementById(id);
+                if (el) el.style.display = isKid ? 'none' : '';
+            });
+            
+            // Dados Pessoais: for kids only show name/nascimento (read-only)
+            var profissaoField = document.getElementById('perfilProfissao');
+            if (profissaoField) profissaoField.closest('.perfil-row').style.display = isKid ? 'none' : '';
+            var bairroField = document.getElementById('perfilBairro');
+            if (bairroField) bairroField.closest('.perfil-field').style.display = isKid ? 'none' : '';
+            
+            // Hide completeness bar for kids
+            var completeness = document.querySelector('.perfil-completeness');
+            if (completeness) completeness.style.display = isKid ? 'none' : '';
+            
+            // Hide save button for kids (parent manages via their profile)
+            var saveBtn = document.getElementById('perfilSaveBtn');
+            if (saveBtn) saveBtn.style.display = isKid ? 'none' : '';
+            
+            // Módulos section: hide for kids
+            var modSection = document.querySelector('#perfilModulesToggle');
+            if (modSection && modSection.closest('.perfil-section')) {
+                modSection.closest('.perfil-section').style.display = isKid ? 'none' : '';
+            }
+        }
+
+        /**
+         * Controls evolução tab visibility for kids vs adults.
+         * Kids: show hero + roadmap only (no seals, no frequency, no criteria, no exam)
+         * Adults: show everything
+         */
+        function applyKidsEvoView() {
+            var isKid = _isKidsMode || (currentUser && currentUser.isKids);
+            
+            // Seals section (grau system) → adults only
+            var seals = document.getElementById('evoSealsSection');
+            if (seals) seals.style.display = isKid ? 'none' : '';
+            
+            // Frequency section → adults only
+            var freq = document.getElementById('evoFreqSection');
+            if (freq) freq.style.display = isKid ? 'none' : '';
+            
+            // Criteria section → adults only
+            var criteria = document.getElementById('evoFaixaCriteria');
+            if (criteria) criteria.style.display = isKid ? 'none' : '';
+            
+            // Exam button → adults only
+            var examBtn = document.getElementById('evoExamBtn');
+            if (examBtn) examBtn.style.display = isKid ? 'none' : '';
+            
+            // Hero status (apto/não apto) → adults only
+            var heroStatus = document.getElementById('evoHeroStatus');
+            if (heroStatus) heroStatus.style.display = isKid ? 'none' : '';
+            
+            // Semestre stat → adults only (kids just see total treinos)
+            var semestreStat = document.getElementById('evoStatSemestre');
+            if (semestreStat && semestreStat.closest('.evo-hero-stat')) {
+                semestreStat.closest('.evo-hero-stat').style.display = isKid ? 'none' : '';
+            }
+        }
+
+        function onRegNascimentoChange() {
+            var nasc = document.getElementById('regNascimento').value;
+            var faixaSel = document.getElementById('regFaixa');
+            var info = document.getElementById('regCategoriaInfo');
+            var isKid = isKidsAge(nasc);
+            var age = calcIdade(nasc);
+
+            if (!nasc || age === null) { info.style.display = 'none'; return; }
+
+            if (isKid) {
+                info.style.display = 'block';
+                info.style.background = 'rgba(34,197,94,0.15)';
+                info.style.color = '#22c55e';
+                info.innerHTML = '🧒 Categoria Kids (' + age + ' anos) — Faixas infantis IBJJF';
+                var h = '<option value="">Selecione sua faixa</option>';
+                KIDS_FAIXAS.forEach(function(f) { h += '<option value="' + f.value + '">' + f.label + '</option>'; });
+                faixaSel.innerHTML = h;
+            } else {
+                info.style.display = 'block';
+                info.style.background = 'rgba(59,130,246,0.15)';
+                info.style.color = '#3b82f6';
+                info.innerHTML = '🥋 Categoria Adulto (' + age + ' anos)';
+                var h2 = '<option value="">Selecione sua faixa</option>';
+                ADULT_FAIXAS.forEach(function(f) { h2 += '<option value="' + f.value + '">' + f.label + '</option>'; });
+                faixaSel.innerHTML = h2;
             }
         }
 
@@ -7527,6 +7777,18 @@
             // Load graduation config (for seals display)
             if (!_gradConfigLoaded) loadGradConfig();
 
+            // Detect kids mode from nascimento (if available from login)
+            if (currentUser.nascimento) {
+                detectAndApplyKidsMode(currentUser.nascimento);
+            } else if (currentUser.isKids) {
+                // Fallback: if isKids flag is set but no nascimento
+                _isKidsMode = true;
+                document.body.classList.add('kids-mode');
+            }
+
+            // Check mandatory profile fields
+            checkMandatoryProfile();
+
             if (isAdmin()) {
                 // Show mode switcher for admins
                 document.getElementById('modeSwitcher').classList.add('visible');
@@ -7537,6 +7799,58 @@
                 document.getElementById('modeSwitcher').classList.remove('visible');
                 _currentViewMode = 'aluno';
                 applyViewMode('aluno');
+            }
+        }
+
+        async function checkMandatoryProfile() {
+            // Skip for kids profiles — their data is filled by parent at registration
+            if (currentUser.isKids) return;
+            
+            try {
+                var data = await secureFetch('getProfile', { email: currentUser.email });
+                if (data.success && data.profile) {
+                    var p = data.profile;
+                    var nascOk = p.nascimento && p.nascimento.length > 4;
+                    var telOk = p.telefone && p.telefone.length >= 8;
+
+                    // Apply kids mode
+                    if (nascOk) {
+                        currentUser.nascimento = p.nascimento;
+                        detectAndApplyKidsMode(p.nascimento);
+                    }
+
+                    // Show force overlay if missing mandatory fields
+                    if (!nascOk || !telOk) {
+                        if (nascOk) document.getElementById('forceNascimento').value = p.nascimento.substring(0,10);
+                        if (telOk) document.getElementById('forceTelefone').value = p.telefone;
+                        document.getElementById('profileForceOverlay').style.display = 'flex';
+                    }
+                }
+            } catch(e) { console.error('checkMandatoryProfile:', e); }
+        }
+
+        async function saveForceProfile() {
+            var nasc = document.getElementById('forceNascimento').value;
+            var tel = document.getElementById('forceTelefone').value;
+            if (!nasc) { showMessage('forceProfileMsg', '⚠️ Data de nascimento obrigatória', 'danger'); return; }
+            if (!tel || tel.length < 8) { showMessage('forceProfileMsg', '⚠️ Telefone obrigatório', 'danger'); return; }
+            showMessage('forceProfileMsg', 'Salvando...', 'info');
+            try {
+                // Fetch current profile first
+                var current = await secureFetch('getProfile', { email: currentUser.email });
+                var profile = (current.success && current.profile) ? current.profile : {};
+                profile.nascimento = nasc;
+                profile.telefone = tel;
+                var result = await secureFetch('saveProfile', { email: currentUser.email, profile: profile });
+                if (result.success) {
+                    currentUser.nascimento = nasc;
+                    detectAndApplyKidsMode(nasc);
+                    document.getElementById('profileForceOverlay').style.display = 'none';
+                } else {
+                    showMessage('forceProfileMsg', result.message || 'Erro', 'danger');
+                }
+            } catch(e) {
+                showMessage('forceProfileMsg', 'Erro: ' + e.message, 'danger');
             }
         }
 
@@ -7572,10 +7886,7 @@
                 document.getElementById('admPerfilName').textContent = currentUser.name;
                 document.getElementById('admPerfilEmail').textContent = currentUser.email;
                 document.getElementById('admPerfilInitial').textContent = currentUser.name.charAt(0).toUpperCase();
-                document.getElementById('admCheckinInitial').textContent = currentUser.name.charAt(0).toUpperCase();
-                document.getElementById('admDisplayName').textContent = currentUser.name;
-                document.getElementById('admDisplayFaixa').textContent = currentUser.faixa;
-                document.getElementById('admDisplayCount').textContent = currentUser.treinos || '0';
+                document.getElementById('admPerfilInitial').textContent = currentUser.name.charAt(0).toUpperCase();
                 // Reset admin tab to painel
                 document.querySelectorAll('.adm-tab').forEach(function(t) { t.classList.remove('active'); });
                 var painelTab = document.getElementById('adm-painel');
@@ -7591,6 +7902,10 @@
                 document.getElementById('appScreen').style.display = 'block';
                 document.getElementById('bottomNav').style.display = 'block';
                 document.getElementById('headerSubtitle').textContent = 'Checkin';
+                // Kids badge
+                if (currentUser.isKids) {
+                    document.getElementById('headerSubtitle').innerHTML = '<span style="background:#6c3ce0;color:#fff;padding:1px 8px;border-radius:4px;font-size:9px;">KIDS</span>';
+                }
                 // Student header colors (reset)
                 if (hdr) { hdr.style.background = ''; hdr.style.borderBottomColor = ''; }
                 if (hdrTitle) { hdrTitle.style.background = ''; hdrTitle.style.webkitBackgroundClip = ''; hdrTitle.style.webkitTextFillColor = ''; }
@@ -7778,11 +8093,30 @@
                         grid.innerHTML = '';
                         var dayKeys = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'];
                         var hoje = dayKeys[new Date().getDay()];
+                        var isKid = _isKidsMode || (currentUser && currentUser.isKids);
+                        var isAdm = isAdmin && isAdmin();
+                        var userCT = currentUser ? (currentUser.ct || '') : '';
+
+                        // Dynamic section title
+                        var titleEl = document.getElementById('ctSectionTitle');
+                        if (titleEl) {
+                            if (isKid) titleEl.textContent = '📍 Seu CT';
+                            else if (isAdm) titleEl.textContent = '📍 Selecione o CT';
+                            else titleEl.textContent = 'Onde você treinou?';
+                        }
+
                         data.cts.forEach(ct => {
                             const name = typeof ct === 'string' ? ct : ct.name || ct.toString();
+
+                            // Kids: só mostra o CT do perfil (1:1)
+                            // Admin: mostra TODOS os CTs (1:N)
+                            // Aluno: filtra por dia de treino
+                            if (isKid && userCT && name !== userCT) return;
+
                             var schedule = ctSchedules[name];
-                            // Se tem schedule configurado, só mostra se hoje tem aula
-                            if (schedule) {
+                            // Admin: mostra TODOS os CTs sempre (1:N)
+                            // Kids/Aluno: filtra por dia de treino
+                            if (!isAdm && schedule) {
                                 var temConfig = Object.values(schedule).some(function(v) { return v === true; });
                                 if (temConfig && !schedule[hoje]) return; // Pula CT sem aula hoje
                             }
@@ -7792,11 +8126,77 @@
                             btn.textContent = name;
                             btn.addEventListener('click', () => selectCT(name));
                             grid.appendChild(btn);
+
+                            // Kids com CT único: auto-selecionar
+                            if (isKid && userCT && name === userCT) {
+                                selectCT(name);
+                            }
                         });
-                        // Se nenhum CT tem aula hoje
+                        // Se nenhum CT tem aula hoje — lembrete com próxima aula
                         if (grid.children.length === 0) {
+                            var nextInfo = findNextTrainingDay(data.cts, dayKeys);
                             var dayLabels = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-                            grid.innerHTML = '<div style="text-align:center;color:var(--text-3);font-size:13px;padding:20px;grid-column:1/-1;">😴 Nenhum CT com treino hoje (' + dayLabels[new Date().getDay()] + ')</div>';
+                            var hojeName = dayLabels[new Date().getDay()];
+
+                            // Para aluno (não admin, não kids): verificar se OUTROS CTs têm aula hoje
+                            var outrosCTsHoje = [];
+                            if (!isAdm && !isKid) {
+                                data.cts.forEach(function(ct2) {
+                                    if (typeof ct2 === 'string') return;
+                                    var ct2Name = ct2.name || '';
+                                    if (ct2Name === userCT) return; // pula o CT do aluno
+                                    var sch2 = ct2.schedule || {};
+                                    var temCfg2 = Object.values(sch2).some(function(v) { return v === true; });
+                                    if (temCfg2 && sch2[hoje]) {
+                                        var hpd2 = ct2.horariosPorDia || {};
+                                        var hor2 = hpd2[hoje] || ct2.horarios || '';
+                                        if (hor2.indexOf('1899') > -1) {
+                                            var m2 = hor2.match(/(\d{1,2}:\d{2})/g);
+                                            hor2 = m2 ? m2.join(', ') : '';
+                                        }
+                                        outrosCTsHoje.push({ ct: ct2Name, horarios: hor2 });
+                                    }
+                                });
+                            }
+
+                            var h = '<div style="text-align:center;color:var(--text-3);font-size:13px;padding:20px;grid-column:1/-1;">';
+                            h += '<div style="font-size:28px;margin-bottom:6px;">😴</div>';
+
+                            if (!isAdm && !isKid && userCT && outrosCTsHoje.length > 0) {
+                                // Aluno: sem aula no CT dele, mas tem em outros
+                                h += '<div style="font-weight:700;color:var(--text-2);">Hoje não tem aula no seu CT</div>';
+                                h += '<div style="font-size:11px;margin-top:4px;">' + hojeName + ' · ' + escapeHtml(userCT) + '</div>';
+                                h += '<div style="margin-top:12px;padding:10px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:10px;">';
+                                h += '<div style="font-size:11px;font-weight:700;color:#3b82f6;margin-bottom:6px;">Mas tem treino em outros CTs hoje:</div>';
+                                outrosCTsHoje.forEach(function(o) {
+                                    h += '<div style="font-size:11px;color:var(--text-2);margin-top:3px;">📍 <strong>' + escapeHtml(o.ct) + '</strong>';
+                                    if (o.horarios) h += ' às <strong>' + escapeHtml(o.horarios) + '</strong>';
+                                    h += '</div>';
+                                });
+                                h += '<div style="font-size:10px;color:var(--text-3);margin-top:8px;font-style:italic;">💬 Consulte seu professor para treinar em outro CT.</div>';
+                                h += '</div>';
+                            } else {
+                                // Nenhum CT tem aula hoje (geral)
+                                h += '<div style="font-weight:700;color:var(--text-2);">Hoje não tem treino</div>';
+                                h += '<div style="font-size:11px;margin-top:4px;">' + hojeName + ' · Dia de descanso</div>';
+                            }
+
+                            if (nextInfo.day) {
+                                h += '<div style="margin-top:12px;padding:10px;background:var(--accent-dim);border:1px solid rgba(212,165,23,0.2);border-radius:10px;">';
+                                h += '<div style="font-size:12px;font-weight:800;color:var(--accent);">📚 Próximo treino: ' + nextInfo.day + '</div>';
+                                if (nextInfo.cts && nextInfo.cts.length > 0) {
+                                    nextInfo.cts.forEach(function(c) {
+                                        h += '<div style="font-size:10px;color:var(--text-2);margin-top:4px;">';
+                                        h += '📍 <strong>' + escapeHtml(c.ct) + '</strong>';
+                                        if (c.horarios) h += ' às <strong>' + escapeHtml(c.horarios) + '</strong>';
+                                        h += '</div>';
+                                    });
+                                }
+                                h += '<div style="font-size:10px;color:var(--text-2);margin-top:8px;cursor:pointer;text-decoration:underline;" onclick="document.querySelector(\'[data-module=aulas]\') && document.querySelector(\'[data-module=aulas]\').click()">📖 Consulte a aba <strong>Aulas</strong> para se preparar →</div>';
+                                h += '</div>';
+                            }
+                            h += '</div>';
+                            grid.innerHTML = h;
                         }
                     }
                     // Check training alarm
@@ -7809,6 +8209,54 @@
                     }
                 }
             } catch (err) { console.error('Erro CTs:', err); }
+        }
+
+        /**
+         * Busca o próximo dia com treino.
+         * Kids: retorna só o CT do perfil
+         * Adulto: retorna TODOS os CTs com aula naquele dia
+         */
+        function findNextTrainingDay(cts, dayKeys) {
+            var dayLabels = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+            var now = new Date();
+            var isKid = _isKidsMode || (currentUser && currentUser.isKids);
+            var userCT = currentUser ? (currentUser.ct || '') : '';
+
+            for (var nd = 1; nd <= 7; nd++) {
+                var checkDayIdx = (now.getDay() + nd) % 7;
+                var checkDay = dayKeys[checkDayIdx];
+                var ctsNoDia = []; // { ct, horarios }
+
+                for (var ci = 0; ci < cts.length; ci++) {
+                    var ct = cts[ci];
+                    if (typeof ct === 'string') continue;
+                    var ctName = ct.name || '';
+
+                    if (isKid && userCT && ctName !== userCT) continue;
+
+                    var sch = ct.schedule || {};
+                    if (sch[checkDay]) {
+                        var hpd = ct.horariosPorDia || {};
+                        var horarios = hpd[checkDay] || ct.horarios || '';
+                        if (horarios.indexOf('1899') > -1) {
+                            var matches = horarios.match(/(\d{1,2}:\d{2})/g);
+                            horarios = matches ? matches.join(', ') : '';
+                        }
+                        ctsNoDia.push({ ct: ctName, horarios: horarios });
+                    }
+                }
+
+                if (ctsNoDia.length > 0) {
+                    return {
+                        day: dayLabels[checkDayIdx],
+                        cts: ctsNoDia, // array de { ct, horarios }
+                        // Compat: primeiro CT
+                        horarios: ctsNoDia[0].horarios,
+                        ct: ctsNoDia[0].ct
+                    };
+                }
+            }
+            return { day: '', cts: [], horarios: '', ct: '' };
         }
 
         function selectCT(ctName) {
@@ -7898,11 +8346,17 @@
             // ===== SCAN ALL CTs =====
             var ctsComAulaHoje = []; // { name, horarios, slots[], schedule }
             var allSlots = [];       // merged from all CTs
+            var isKid = _isKidsMode || (currentUser && currentUser.isKids);
+            var userCT = currentUser ? (currentUser.ct || '') : '';
 
             for (var i = 0; i < cts.length; i++) {
                 var ct = cts[i];
                 if (typeof ct === 'string') continue;
                 var ctName = ct.name || '';
+
+                // Kids: só considera o CT do perfil
+                if (isKid && userCT && ctName !== userCT) continue;
+
                 var schedule = ct.schedule || {};
                 var hasConfig = Object.values(schedule).some(function(v) { return v === true; });
                 var temAulaHoje = !hasConfig || schedule[hoje] === true;
@@ -7950,22 +8404,23 @@
                 title.textContent = 'Hoje é dia de descanso';
                 sub.textContent = hojeName + ' · Sem treino hoje';
 
-                // Próximo dia com aula em qualquer CT
-                var nextDay = '';
-                for (var nd = 1; nd <= 7; nd++) {
-                    var checkDay = dayKeys[(now.getDay() + nd) % 7];
-                    for (var ci = 0; ci < cts.length; ci++) {
-                        var c2 = cts[ci];
-                        if (typeof c2 === 'string') continue;
-                        var sch2 = c2.schedule || {};
-                        if (sch2[checkDay]) {
-                            nextDay = dayLabels[(now.getDay() + nd) % 7];
-                            break;
-                        }
+                var nextInfo = findNextTrainingDay(cts, dayKeys);
+                if (nextInfo.day) {
+                    var tHtml = '<div style="font-size:11px;color:var(--text-2);margin-top:4px;">';
+                    tHtml += '📚 Próximo treino: <strong style="color:var(--accent);">' + nextInfo.day + '</strong>';
+                    tHtml += '</div>';
+                    if (nextInfo.cts && nextInfo.cts.length > 0) {
+                        nextInfo.cts.forEach(function(c) {
+                            tHtml += '<div style="font-size:10px;color:var(--text-3);margin-top:2px;">📍 ' + c.ct;
+                            if (c.horarios) tHtml += ' às ' + c.horarios;
+                            tHtml += '</div>';
+                        });
                     }
-                    if (nextDay) break;
+                    tHtml += '<div style="font-size:10px;color:var(--text-3);margin-top:4px;cursor:pointer;" onclick="document.querySelector(\'[data-module=aulas]\') && document.querySelector(\'[data-module=aulas]\').click()">📖 Consulte a aba <u>Aulas</u> para se preparar →</div>';
+                    timesDiv.innerHTML = tHtml;
+                } else {
+                    timesDiv.innerHTML = '';
                 }
-                timesDiv.innerHTML = nextDay ? '<div style="font-size:11px;color:var(--text-3);">Próximo treino: <strong>' + nextDay + '</strong></div>' : '';
                 return;
             }
 
@@ -8398,6 +8853,29 @@
         // Acumulado: total de aulas até alcançar cada faixa (Alliance)
         const BELT_ACCUMULATED = { 'Branca': 0, 'Azul': 120, 'Roxa': 430, 'Marrom': 860, 'Preta': 1380 };
 
+        // Kids graduation system (IBJJF)
+        const BELT_CONFIG_KIDS = {
+            'Branca':          { order: 0,  emoji: '⚪', class: 'branca',   next: 'Cinza-Branca' },
+            'Cinza-Branca':    { order: 1,  emoji: '⬜', class: 'cinza-b',  next: 'Cinza' },
+            'Cinza':           { order: 2,  emoji: '🩶', class: 'cinza',    next: 'Cinza-Preta' },
+            'Cinza-Preta':     { order: 3,  emoji: '🖤', class: 'cinza-p',  next: 'Amarela-Branca' },
+            'Amarela-Branca':  { order: 4,  emoji: '⬜', class: 'amarela-b',next: 'Amarela' },
+            'Amarela':         { order: 5,  emoji: '🟡', class: 'amarela',  next: 'Amarela-Preta' },
+            'Amarela-Preta':   { order: 6,  emoji: '🖤', class: 'amarela-p',next: 'Laranja-Branca' },
+            'Laranja-Branca':  { order: 7,  emoji: '⬜', class: 'laranja-b',next: 'Laranja' },
+            'Laranja':         { order: 8,  emoji: '🟠', class: 'laranja',  next: 'Laranja-Preta' },
+            'Laranja-Preta':   { order: 9,  emoji: '🖤', class: 'laranja-p',next: 'Verde-Branca' },
+            'Verde-Branca':    { order: 10, emoji: '⬜', class: 'verde-b',  next: 'Verde' },
+            'Verde':           { order: 11, emoji: '🟢', class: 'verde',    next: 'Verde-Preta' },
+            'Verde-Preta':     { order: 12, emoji: '🖤', class: 'verde-p',  next: null }
+        };
+        const BELT_ORDER_KIDS = ['Branca','Cinza-Branca','Cinza','Cinza-Preta','Amarela-Branca','Amarela','Amarela-Preta','Laranja-Branca','Laranja','Laranja-Preta','Verde-Branca','Verde','Verde-Preta'];
+
+        function getBeltConfig(faixa) {
+            if (_isKidsMode && BELT_CONFIG_KIDS[faixa]) return BELT_CONFIG_KIDS[faixa];
+            return BELT_CONFIG[faixa] || BELT_CONFIG['Branca'];
+        }
+
         /**
          * Updates grau select options based on selected faixa.
          * Preta (IBJJF): 0º-6º Grau
@@ -8433,21 +8911,35 @@
             const compromisso = currentUser.compromisso || false;
             const tempoNaFaixa = currentUser.tempoNaFaixa || 0;
 
+            // Apply kids/adult view separation
+            applyKidsEvoView();
+
             renderHero(faixa, grau, totalTreinos, treinosSemestre, freq);
-            renderSeals(faixa, grau, totalTreinos);
-            updateSealsUI(grau, faixa);
-            renderFrequencyNew(freq, treinosSemestre);
-            renderFaixaCriteria(faixa, grau, totalTreinos, freq, tempoNaFaixa, avaliacao, compromisso);
+            if (!_isKidsMode) {
+                renderSeals(faixa, grau, totalTreinos);
+                updateSealsUI(grau, faixa);
+                renderFrequencyNew(freq, treinosSemestre);
+                renderFaixaCriteria(faixa, grau, totalTreinos, freq, tempoNaFaixa, avaliacao, compromisso);
+            }
             renderIBJJFRoadmap(faixa, grau, totalTreinos);
             renderMotivation(freq);
+            // Update roadmap subtitle
+            var sub = document.getElementById('ibjjfSubtitle');
+            if (sub) {
+                sub.textContent = _isKidsMode ? 'Seu caminho da Faixa Branca até a Faixa Verde/Preta' : 'Seu caminho da Faixa Branca até a Faixa Preta';
+            }
         }
 
         function renderHero(faixa, grau, totalTreinos, treinosSemestre, freq) {
-            const cfg = BELT_CONFIG[faixa] || BELT_CONFIG['Branca'];
-            var maxGrau = faixa === 'Preta' ? 6 : 4;
+            const cfg = getBeltConfig(faixa);
+            var maxGrau = _isKidsMode ? 0 : (faixa === 'Preta' ? 6 : 4);
             document.getElementById('evoHeroBelt').className = 'evo-hero-belt ' + cfg.class;
             document.getElementById('evoHeroTitle').textContent = 'Faixa ' + faixa + ' ' + cfg.emoji;
-            document.getElementById('evoHeroSub').textContent = grau + 'º/' + maxGrau + 'º grau' + (faixa === 'Preta' ? ' · IBJJF' : (cfg.next ? ' • Próxima: ' + cfg.next : ' • 🏆 Máxima'));
+            if (_isKidsMode) {
+                document.getElementById('evoHeroSub').textContent = (cfg.next ? 'Próxima: ' + cfg.next : '🏆 Máxima faixa kids!');
+            } else {
+                document.getElementById('evoHeroSub').textContent = grau + 'º/' + maxGrau + 'º grau' + (faixa === 'Preta' ? ' · IBJJF' : (cfg.next ? ' • Próxima: ' + cfg.next : ' • 🏆 Máxima'));
+            }
 
             const statusEl = document.getElementById('evoHeroStatus');
             if (freq < FREQ_MIN_EVOLUCAO) statusEl.innerHTML = '<div class="evo-hero-status red">🔴 Não apto</div>';
@@ -8589,21 +9081,49 @@
 
         var FAIXA_TO_IBJJF = { 'Branca': 'branca', 'Azul': 'azul', 'Roxa': 'roxa', 'Marrom': 'marrom', 'Preta': 'preta' };
 
+        var IBJJF_BELTS_KIDS = [
+            { id: 'branca',       name: 'Branca',          cls: 'branca',    age: '4+',  graus: 0, minMonths: 0,  minTreinos: 0 },
+            { id: 'cinza-b',      name: 'Cinza/Branca',    cls: 'cinza-b',   age: '4+',  graus: 0, minMonths: 6,  minTreinos: 30 },
+            { id: 'cinza',        name: 'Cinza',           cls: 'cinza',     age: '4+',  graus: 0, minMonths: 6,  minTreinos: 50 },
+            { id: 'cinza-p',      name: 'Cinza/Preta',     cls: 'cinza-p',   age: '4+',  graus: 0, minMonths: 6,  minTreinos: 70 },
+            { id: 'amarela-b',    name: 'Amarela/Branca',  cls: 'amarela-b', age: '7+',  graus: 0, minMonths: 6,  minTreinos: 90 },
+            { id: 'amarela',      name: 'Amarela',         cls: 'amarela',   age: '7+',  graus: 0, minMonths: 6,  minTreinos: 110 },
+            { id: 'amarela-p',    name: 'Amarela/Preta',   cls: 'amarela-p', age: '7+',  graus: 0, minMonths: 6,  minTreinos: 130 },
+            { id: 'laranja-b',    name: 'Laranja/Branca',  cls: 'laranja-b', age: '10+', graus: 0, minMonths: 6,  minTreinos: 150 },
+            { id: 'laranja',      name: 'Laranja',         cls: 'laranja',   age: '10+', graus: 0, minMonths: 6,  minTreinos: 170 },
+            { id: 'laranja-p',    name: 'Laranja/Preta',   cls: 'laranja-p', age: '10+', graus: 0, minMonths: 6,  minTreinos: 190 },
+            { id: 'verde-b',      name: 'Verde/Branca',    cls: 'verde-b',   age: '13+', graus: 0, minMonths: 6,  minTreinos: 210 },
+            { id: 'verde',        name: 'Verde',           cls: 'verde',     age: '13+', graus: 0, minMonths: 6,  minTreinos: 230 },
+            { id: 'verde-p',      name: 'Verde/Preta',     cls: 'verde-p',   age: '15+', graus: 0, minMonths: 6,  minTreinos: 250 }
+        ];
+
+        var FAIXA_TO_IBJJF_KIDS = {
+            'Branca': 'branca', 'Cinza-Branca': 'cinza-b', 'Cinza': 'cinza', 'Cinza-Preta': 'cinza-p',
+            'Amarela-Branca': 'amarela-b', 'Amarela': 'amarela', 'Amarela-Preta': 'amarela-p',
+            'Laranja-Branca': 'laranja-b', 'Laranja': 'laranja', 'Laranja-Preta': 'laranja-p',
+            'Verde-Branca': 'verde-b', 'Verde': 'verde', 'Verde-Preta': 'verde-p'
+        };
+
+        function getIBJJFBelts() { return _isKidsMode ? IBJJF_BELTS_KIDS : IBJJF_BELTS; }
+        function getFaixaToIBJJF() { return _isKidsMode ? FAIXA_TO_IBJJF_KIDS : FAIXA_TO_IBJJF; }
+
         function renderIBJJFRoadmap(faixaAtual, grauAtual, totalTreinos) {
             var track = document.getElementById('ibjjfTrack');
             var fillEl = document.getElementById('ibjjfTrackFill');
             track.innerHTML = '';
             track.appendChild(fillEl);
 
-            var currentId = FAIXA_TO_IBJJF[faixaAtual] || 'branca';
+            var belts = getIBJJFBelts();
+            var faixaMap = getFaixaToIBJJF();
+            var currentId = faixaMap[faixaAtual] || 'branca';
             var currentIdx = -1;
-            for (var ai = 0; ai < IBJJF_BELTS.length; ai++) { if (IBJJF_BELTS[ai].id === currentId) { currentIdx = ai; break; } }
+            for (var ai = 0; ai < belts.length; ai++) { if (belts[ai].id === currentId) { currentIdx = ai; break; } }
             var nextIdx = currentIdx + 1;
 
             var completedNodes = 0;
 
-            for (var i = 0; i < IBJJF_BELTS.length; i++) {
-                var belt = IBJJF_BELTS[i];
+            for (var i = 0; i < belts.length; i++) {
+                var belt = belts[i];
 
                 var state = 'future';
                 if (i < currentIdx) state = 'completed';
@@ -8630,11 +9150,13 @@
                 h += '<div class="ibjjf-belt-badges">';
                 if (state === 'current') {
                     var maxG = belt.graus || 4;
-                    h += '<div class="ibjjf-grau-dots">';
-                    for (var g = 0; g < maxG; g++) {
-                        h += '<div class="ibjjf-grau-dot' + (g < grauAtual ? ' filled' : '') + '"></div>';
+                    if (maxG > 0) {
+                        h += '<div class="ibjjf-grau-dots">';
+                        for (var g = 0; g < maxG; g++) {
+                            h += '<div class="ibjjf-grau-dot' + (g < grauAtual ? ' filled' : '') + '"></div>';
+                        }
+                        h += '</div>';
                     }
-                    h += '</div>';
                     h += '<div class="ibjjf-status-tag here" style="margin-left:8px">VOCÊ</div>';
                 } else if (state === 'next') {
                     h += '<div class="ibjjf-status-tag goal">META</div>';
@@ -8647,16 +9169,16 @@
                 track.appendChild(node);
             }
 
-            var fillPct = IBJJF_BELTS.length > 0 ? Math.round((completedNodes / IBJJF_BELTS.length) * 100) : 0;
+            var fillPct = belts.length > 0 ? Math.round((completedNodes / belts.length) * 100) : 0;
             setTimeout(function() { fillEl.style.height = Math.min(fillPct, 100) + '%'; }, 200);
 
             var overallPct = 0;
             if (currentIdx >= 0) {
-                overallPct = Math.round((currentIdx / (IBJJF_BELTS.length - 1)) * 100);
-                if (currentIdx < IBJJF_BELTS.length - 1) {
-                    var cfg = BELT_CONFIG[faixaAtual];
+                overallPct = Math.round((currentIdx / (belts.length - 1)) * 100);
+                if (currentIdx < belts.length - 1) {
+                    var cfg = BELT_CONFIG[faixaAtual] || BELT_CONFIG_KIDS[faixaAtual];
                     if (cfg && cfg.minTreinos > 0) {
-                        var segPct = Math.round((1 / (IBJJF_BELTS.length - 1)) * 100);
+                        var segPct = Math.round((1 / (belts.length - 1)) * 100);
                         overallPct += Math.round(Math.min(totalTreinos / cfg.minTreinos, 0.99) * segPct);
                     }
                 }
@@ -9218,14 +9740,25 @@
             { id: 'perfilHorario',    key: 'horario' },
             { id: 'perfilExperiencia',key: 'experiencia' },
             { id: 'perfilSaude',      key: 'saude' },
-            { id: 'perfilAvatarData', key: 'avatar' }
+            { id: 'perfilAvatarData', key: 'avatar' },
+            { id: '_saudeKids',       key: 'saudeKids' }
         ];
 
         function loadProfile() {
             if (!currentUser) return;
             document.getElementById('perfilAvatarInitial').textContent = (currentUser.name || '?')[0].toUpperCase();
             document.getElementById('perfilNome').textContent = currentUser.name || '—';
-            document.getElementById('perfilFaixaTag').textContent = (currentUser.faixa || 'Branca') + ' • ' + (currentUser.grau || 0) + 'º/4º grau • ' + (currentUser.treinos || 0) + ' treinos';
+            
+            // Kids vs Adult faixa tag
+            if (_isKidsMode) {
+                var kCfg = BELT_CONFIG_KIDS[currentUser.faixa] || {};
+                document.getElementById('perfilFaixaTag').textContent = (kCfg.emoji || '⚪') + ' ' + (currentUser.faixa || 'Branca') + ' • ' + (currentUser.treinos || 0) + ' aulas • Kids';
+            } else {
+                document.getElementById('perfilFaixaTag').textContent = (currentUser.faixa || 'Branca') + ' • ' + (currentUser.grau || 0) + 'º/4º grau • ' + (currentUser.treinos || 0) + ' treinos';
+            }
+            
+            // Apply kids view restrictions on profile
+            applyKidsProfileView();
             
             // 1) Load avatar from localStorage first
             loadAvatarFromData(null);
@@ -9534,6 +10067,24 @@
 
             // Menos de 7 dias = tudo bem, não mostra nada
             if (diffDays < 7) return;
+
+            // ⚠️ ALERTA: 25-29 dias — conta será desativada!
+            if (diffDays >= 25 && diffDays < 30) {
+                localStorage.setItem(motivKey, 'true');
+                var diasRestantes = 30 - diffDays;
+                setTimeout(function() {
+                    var FRASES_URGENTE = [
+                        'O tatame sente sua falta! Sua conta será desativada em ' + diasRestantes + ' dia(s) por inatividade.',
+                        'Faz ' + diffDays + ' dias que você não treina. Volte antes que sua conta seja suspensa!',
+                        'Seu professor está preocupado com sua ausência. Restam ' + diasRestantes + ' dia(s) para manter sua conta ativa.',
+                        'A jornada no Jiu-Jitsu é feita de consistência. Volte ao tatame — faltam ' + diasRestantes + ' dia(s)!',
+                        'Não deixe sua evolução pausar. Sua conta será desativada em ' + diasRestantes + ' dia(s) sem treino.'
+                    ];
+                    var frase = FRASES_URGENTE[Math.floor(Math.random() * FRASES_URGENTE.length)];
+                    showMotivation('🚨', 'Atenção!', 'danger', diffDays, frase, '"Desistir não é uma opção. Levante e volte ao tatame."', userData.treinos || 0, 'Fazer Check-in Agora');
+                }, 1500);
+                return;
+            }
 
             // Selecionar tier
             var tier;
@@ -11392,9 +11943,9 @@
             }
             if (tabName === 'adm-painel') loadAdminPanel();
             if (tabName === 'adm-alunos') loadStudentsList();
-            if (tabName === 'adm-relatorios') loadNewReportData();
+            if (tabName === 'adm-presenca') initPresencaList();
             if (tabName === 'adm-campeonato') initCampAdmin();
-            if (tabName === 'adm-sistema') { loadModulesConfig(); loadSystemHealth(); loadAdminCTs(); loadAdminProfile(); loadGradConfig(); loadCTScheduleAdmin(); }
+            if (tabName === 'adm-sistema') { loadModulesConfig(); loadSystemHealth(); loadAdminCTs(); loadAdminProfile(); loadGradConfig(); loadCTScheduleAdmin(); initAdmAulaForm(); }
         }
 
         function loadAdminProfile() {
@@ -11408,12 +11959,12 @@
             if (!currentUser || !isAdmin()) return;
             loadPendingAccounts();
             loadPendingResets();
-            loadPendingCheckins();
             loadPendingGraduacoes();
             loadAdminExamSchedule();
             loadAdminRanking();
             loadExameConfig();
             loadAdminCronograma();
+            loadBirthdays();
             // Populate exam CT select
             populateAdmExamCTSelect();
         }
@@ -11625,7 +12176,7 @@
                         currentUser.treinos = (currentUser.treinos || 0) + 1;
                         currentUser.ultimoCheckin = new Date().toISOString();
                         localStorage.setItem('bjjUser', JSON.stringify(currentUser));
-                        document.getElementById('admDisplayCount').textContent = currentUser.treinos;
+                        document.getElementById('admDisplayCount') && (document.getElementById('admDisplayCount').textContent = currentUser.treinos);
                         showMessage('admAttendanceMessage', '✅ Presença registrada!', 'success');
                     } else if (data.status === 'JA_REGISTRADO') {
                         showMessage('admAttendanceMessage', data.message || '✅ Já fez check-in hoje!', 'success');
@@ -15239,6 +15790,7 @@
 
         function applyModulesVisibility() {
             if (!_activeModules) return;
+            var isKid = _isKidsMode || (currentUser && currentUser.isKids);
 
             // Module → subtab mapping
             var subTabMap = {
@@ -15251,12 +15803,16 @@
                 'campeonato': 'campeonato'
             };
 
+            // Kids-only modules (hidden for kids)
+            var kidsHidden = ['ranking', 'campeonato', 'musculacao'];
+
             // Hide/show subtab buttons by data-module
             Object.keys(subTabMap).forEach(function(modId) {
                 var attr = subTabMap[modId];
                 var btns = document.querySelectorAll('[data-module="' + attr + '"]');
+                var kidsBlock = isKid && kidsHidden.indexOf(modId) !== -1;
                 btns.forEach(function(btn) {
-                    btn.style.display = isModuleVisible(modId) ? '' : 'none';
+                    btn.style.display = (!kidsBlock && isModuleVisible(modId)) ? '' : 'none';
                 });
             });
 
@@ -15265,31 +15821,36 @@
             var jogosBtn = document.querySelector('#bottomNav [data-module="jogos"]');
             if (jogosBtn) jogosBtn.style.display = isModuleVisible('jogos') ? '' : 'none';
 
-            // Perfil tab — always visible (can't hide your own settings)
-            // But respect admin override
+            // Perfil tab — always visible
             var perfilBtn = document.querySelector('#bottomNav [data-module="perfil"]');
             if (perfilBtn) perfilBtn.style.display = (_activeModules && _activeModules.perfil === false) ? 'none' : '';
 
-            // Ranking tab (hide entire tab if both ranking + campeonato off)
+            // Ranking tab (hide for kids entirely)
             var rankTabBtn = document.querySelector('#bottomNav [data-modtab="ranking"]');
             if (rankTabBtn) {
                 var rankOff = !isModuleVisible('ranking') && !isModuleVisible('campeonato');
-                rankTabBtn.style.display = rankOff ? 'none' : '';
+                rankTabBtn.style.display = (rankOff || isKid) ? 'none' : '';
+            }
+
+            // Prep Física tab (hide for kids)
+            var prepBtn = document.querySelector('#bottomNav [data-modtab="prepfisica"]');
+            if (prepBtn) {
+                prepBtn.style.display = (isKid || !isModuleVisible('musculacao')) ? 'none' : '';
             }
 
             // Manual (inside jogos tab)
             var manualBtn = document.querySelector('[data-module="manual"]');
             if (manualBtn) manualBtn.style.display = isModuleVisible('manual') ? '' : 'none';
 
-            // Exame elements
+            // Exame elements (hide for kids)
             var examEls = document.querySelectorAll('[data-module="exame"]');
             examEls.forEach(function(el) {
-                el.style.display = isModuleVisible('exame') ? '' : 'none';
+                el.style.display = (!isKid && isModuleVisible('exame')) ? '' : 'none';
             });
 
-            // Auto-select first visible subtab in treino-tab
+            // Auto-select first visible subtab
             fixActiveSubtab('treino-tab');
-            fixActiveSubtab('ranking-tab');
+            if (!isKid) fixActiveSubtab('ranking-tab');
         }
 
         function fixActiveSubtab(parentId) {
@@ -15310,6 +15871,439 @@
                         break;
                     }
                 }
+            }
+        }
+
+        // DESABILITAR CONTA (ALUNO)
+        // ═══════════════════════════════════════════════════
+        async function requestDeactivateAccount() {
+            if (!confirm('Tem certeza que deseja desabilitar sua conta?\nVocê não poderá fazer login até que o professor reative.')) return;
+            try {
+                var result = await secureFetch('deactivateAccount', { email: currentUser.email });
+                if (result.success) {
+                    alert('Conta desabilitada. Entre em contato com o professor para reativar.');
+                    handleLogout();
+                } else {
+                    alert(result.message || 'Erro');
+                }
+            } catch(e) { alert('Erro: ' + e.message); }
+        }
+
+        // ═══════════════════════════════════════════════════
+        // CADASTRAR CT (ADMIN)
+        // ═══════════════════════════════════════════════════
+        async function createNewCT() {
+            var nome = document.getElementById('newCTNome').value.trim();
+            if (!nome) { showMessage('newCTMsg', '⚠️ Nome obrigatório', 'danger'); return; }
+            showMessage('newCTMsg', 'Criando...', 'info');
+            try {
+                var result = await secureFetch('createCT', { nome: nome });
+                if (result.success) {
+                    showMessage('newCTMsg', '✅ CT criado!', 'success');
+                    document.getElementById('newCTNome').value = '';
+                    loadCTScheduleAdmin();
+                } else {
+                    showMessage('newCTMsg', result.message || 'Erro', 'danger');
+                }
+            } catch(e) { showMessage('newCTMsg', 'Erro: ' + e.message, 'danger'); }
+        }
+
+        async function deleteCT(ctName) {
+            if (!confirm('Excluir CT "' + ctName + '"?\nEssa ação não pode ser desfeita.')) return;
+            try {
+                var result = await secureFetch('deleteCT', { nome: ctName });
+                if (result.success) {
+                    loadCTScheduleAdmin();
+                } else {
+                    alert(result.message || 'Erro');
+                }
+            } catch(e) { alert('Erro: ' + e.message); }
+        }
+
+        // ═══════════════════════════════════════════════════
+        // LISTA DE PRESENÇA (ADMIN TAB)
+        // ═══════════════════════════════════════════════════
+        var _presListPeriod = 'dia';
+        var _presListData = []; // cached for report
+
+        async function initPresencaList() {
+            var sel = document.getElementById('presListCT');
+            if (sel && sel.options.length <= 1) {
+                try {
+                    var data = await secureFetch('getCTsList', {});
+                    if (data.success && data.cts) {
+                        var h = '<option value="">Todos os CTs</option>';
+                        data.cts.forEach(function(ct) {
+                            var nome = typeof ct === 'string' ? ct : ct.name;
+                            h += '<option value="' + escapeHtml(nome) + '">' + escapeHtml(nome) + '</option>';
+                        });
+                        sel.innerHTML = h;
+                    }
+                } catch(e) {}
+            }
+            var dateEl = document.getElementById('presListDate');
+            if (dateEl && !dateEl.value) {
+                var today = new Date();
+                dateEl.value = today.getFullYear() + '-' + ('0'+(today.getMonth()+1)).slice(-2) + '-' + ('0'+today.getDate()).slice(-2);
+            }
+            loadPresencaList();
+        }
+
+        function setPresListPeriod(period, btn) {
+            _presListPeriod = period;
+            btn.parentElement.querySelectorAll('.admin-filter-btn').forEach(function(b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+            loadPresencaList();
+        }
+
+        function getTurno(horarioStr) {
+            if (!horarioStr) return 'outros';
+            var parts = horarioStr.split(':');
+            var hr = parseInt(parts[0]);
+            if (isNaN(hr)) return 'outros';
+            if (hr >= 7 && hr < 12) return 'manha';
+            if (hr >= 18 && hr <= 23) return 'noite';
+            return 'outros';
+        }
+
+        function getTurnoLabel(turno) {
+            if (turno === 'manha') return '🌅 Manhã (07h–12h)';
+            if (turno === 'noite') return '🌙 Noite (18h–23:59)';
+            return '🕐 Outros horários';
+        }
+
+        function getDateRange() {
+            var baseDate = document.getElementById('presListDate').value;
+            if (!baseDate) return { de: '', ate: '' };
+            
+            if (_presListPeriod === 'dia') {
+                return { de: baseDate, ate: baseDate };
+            }
+            
+            var d = new Date(baseDate + 'T12:00:00');
+            if (_presListPeriod === 'semana') {
+                var dow = d.getDay();
+                var monday = new Date(d);
+                monday.setDate(d.getDate() - (dow === 0 ? 6 : dow - 1));
+                var sunday = new Date(monday);
+                sunday.setDate(monday.getDate() + 6);
+                return {
+                    de: monday.getFullYear() + '-' + ('0'+(monday.getMonth()+1)).slice(-2) + '-' + ('0'+monday.getDate()).slice(-2),
+                    ate: sunday.getFullYear() + '-' + ('0'+(sunday.getMonth()+1)).slice(-2) + '-' + ('0'+sunday.getDate()).slice(-2)
+                };
+            }
+            if (_presListPeriod === 'mes') {
+                var first = new Date(d.getFullYear(), d.getMonth(), 1);
+                var last = new Date(d.getFullYear(), d.getMonth() + 1, 0);
+                return {
+                    de: first.getFullYear() + '-' + ('0'+(first.getMonth()+1)).slice(-2) + '-01',
+                    ate: last.getFullYear() + '-' + ('0'+(last.getMonth()+1)).slice(-2) + '-' + ('0'+last.getDate()).slice(-2)
+                };
+            }
+            return { de: baseDate, ate: baseDate };
+        }
+
+        async function loadPresencaList() {
+            var ct = document.getElementById('presListCT').value;
+            var container = document.getElementById('presListResults');
+            var kpiContainer = document.getElementById('presListKPI');
+            var range = getDateRange();
+            
+            if (!range.de) { container.innerHTML = '<div class="admin-empty">Selecione uma data</div>'; kpiContainer.style.display = 'none'; return; }
+            container.innerHTML = '<div class="admin-empty">Carregando...</div>';
+            kpiContainer.style.display = 'none';
+            
+            try {
+                var data = await secureFetch('getPresencaList', { ct: ct, dataDe: range.de, dataAte: range.ate });
+                if (!data.success) { container.innerHTML = '<div class="admin-empty">' + (data.message || 'Erro') + '</div>'; return; }
+                
+                var list = data.presencas || [];
+                _presListData = list;
+                
+                if (list.length === 0) {
+                    container.innerHTML = '<div class="admin-empty">Nenhuma presença no período' + (ct ? ' para ' + ct : '') + '</div>';
+                    kpiContainer.style.display = 'none';
+                    return;
+                }
+                
+                // Count by turno
+                var totalManha = 0, totalNoite = 0, totalOutros = 0;
+                list.forEach(function(p) {
+                    var t = getTurno(p.horario);
+                    if (t === 'manha') totalManha++;
+                    else if (t === 'noite') totalNoite++;
+                    else totalOutros++;
+                });
+                
+                // KPI cards
+                kpiContainer.style.display = 'grid';
+                kpiContainer.innerHTML = 
+                    '<div style="padding:10px;border-radius:10px;text-align:center;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.2);">' +
+                        '<div style="font-size:22px;font-weight:900;color:#fbbf24;">' + totalManha + '</div>' +
+                        '<div style="font-size:9px;color:var(--adm-text-3);font-weight:600;">🌅 MANHÃ</div>' +
+                    '</div>' +
+                    '<div style="padding:10px;border-radius:10px;text-align:center;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);">' +
+                        '<div style="font-size:22px;font-weight:900;color:#6366f1;">' + totalNoite + '</div>' +
+                        '<div style="font-size:9px;color:var(--adm-text-3);font-weight:600;">🌙 NOITE</div>' +
+                    '</div>' +
+                    '<div style="padding:10px;border-radius:10px;text-align:center;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);">' +
+                        '<div style="font-size:22px;font-weight:900;color:#22c55e;">' + list.length + '</div>' +
+                        '<div style="font-size:9px;color:var(--adm-text-3);font-weight:600;">📊 TOTAL</div>' +
+                    '</div>';
+                
+                // Group by turno → horário
+                var byTurno = { manha: {}, noite: {}, outros: {} };
+                list.forEach(function(p) {
+                    var t = getTurno(p.horario);
+                    var hor = p.horario || 'Sem horário';
+                    if (!byTurno[t][hor]) byTurno[t][hor] = [];
+                    byTurno[t][hor].push(p);
+                });
+                
+                var h = '';
+                ['manha', 'noite', 'outros'].forEach(function(turno) {
+                    var horarios = byTurno[turno];
+                    var keys = Object.keys(horarios).sort();
+                    if (keys.length === 0) return;
+                    
+                    var turnoTotal = 0;
+                    keys.forEach(function(k) { turnoTotal += horarios[k].length; });
+                    
+                    var turnoColor = turno === 'manha' ? '#fbbf24' : turno === 'noite' ? '#6366f1' : '#64748b';
+                    h += '<div style="margin-bottom:16px;">';
+                    h += '<div style="font-size:13px;font-weight:900;color:' + turnoColor + ';padding:8px 0;border-bottom:2px solid ' + turnoColor + ';margin-bottom:8px;">' + getTurnoLabel(turno) + ' <span style="font-size:11px;font-weight:600;">(' + turnoTotal + ')</span></div>';
+                    
+                    keys.forEach(function(hor) {
+                        var items = horarios[hor];
+                        h += '<div style="margin-bottom:10px;margin-left:8px;">';
+                        h += '<div style="font-size:11px;font-weight:700;color:var(--adm-text-2);padding:4px 0;">🕐 ' + escapeHtml(hor) + ' <span style="font-size:10px;color:var(--adm-text-3);font-weight:600;">(' + items.length + ' alunos)</span></div>';
+                        items.forEach(function(p) {
+                            var isKid = p.email && p.email.indexOf('@kids.bjj') !== -1;
+                            h += '<div style="display:flex;align-items:center;gap:8px;padding:5px 8px;background:var(--adm-bg-elevated);border-radius:6px;margin-bottom:2px;">';
+                            h += '<div style="font-size:11px;font-weight:600;color:var(--adm-text-1);flex:1;">' + escapeHtml(p.nome);
+                            if (isKid) h += ' <span style="font-size:8px;background:#6c3ce0;color:#fff;padding:1px 5px;border-radius:3px;">KIDS</span>';
+                            h += '</div>';
+                            h += '<div style="font-size:9px;color:var(--adm-text-3);">' + escapeHtml(p.ct || '') + '</div>';
+                            if (_presListPeriod !== 'dia' && p.data) {
+                                var dp = p.data.split('-');
+                                h += '<div style="font-size:9px;color:var(--adm-text-3);">' + dp[2] + '/' + dp[1] + '</div>';
+                            }
+                            h += '</div>';
+                        });
+                        h += '</div>';
+                    });
+                    h += '</div>';
+                });
+                
+                container.innerHTML = h;
+                document.getElementById('presRelatorio').style.display = 'none';
+            } catch(e) {
+                container.innerHTML = '<div class="admin-empty">Erro: ' + e.message + '</div>';
+            }
+        }
+
+        function gerarRelatorioPresenca() {
+            var list = _presListData;
+            if (!list || list.length === 0) { alert('Nenhum dado para gerar relatório. Faça uma busca primeiro.'); return; }
+            
+            var ct = document.getElementById('presListCT').value || 'Todos os CTs';
+            var range = getDateRange();
+            var periodoLabel = _presListPeriod === 'dia' ? range.de : range.de + ' a ' + range.ate;
+            
+            // Stats
+            var totalManha = 0, totalNoite = 0, totalOutros = 0;
+            var byCT = {}, byAluno = {};
+            list.forEach(function(p) {
+                var t = getTurno(p.horario);
+                if (t === 'manha') totalManha++;
+                else if (t === 'noite') totalNoite++;
+                else totalOutros++;
+                
+                var ctName = p.ct || 'Sem CT';
+                byCT[ctName] = (byCT[ctName] || 0) + 1;
+                byAluno[p.nome] = (byAluno[p.nome] || 0) + 1;
+            });
+            
+            // Top alunos (sort by frequency)
+            var alunoArr = Object.keys(byAluno).map(function(k) { return { nome: k, count: byAluno[k] }; });
+            alunoArr.sort(function(a, b) { return b.count - a.count; });
+            
+            var container = document.getElementById('presRelatorio');
+            var h = '';
+            h += '<div style="padding:16px;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);border-radius:12px;">';
+            
+            // Header
+            h += '<div style="text-align:center;margin-bottom:14px;">';
+            h += '<div style="font-size:15px;font-weight:900;color:var(--adm-text-1);">📊 Relatório de Presença</div>';
+            h += '<div style="font-size:11px;color:var(--adm-text-3);">' + escapeHtml(ct) + ' · ' + periodoLabel + '</div>';
+            h += '</div>';
+            
+            // Summary
+            h += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;">';
+            h += '<div style="text-align:center;"><div style="font-size:20px;font-weight:900;color:#fbbf24;">' + totalManha + '</div><div style="font-size:9px;color:var(--adm-text-3);">Manhã</div></div>';
+            h += '<div style="text-align:center;"><div style="font-size:20px;font-weight:900;color:#6366f1;">' + totalNoite + '</div><div style="font-size:9px;color:var(--adm-text-3);">Noite</div></div>';
+            h += '<div style="text-align:center;"><div style="font-size:20px;font-weight:900;color:#22c55e;">' + list.length + '</div><div style="font-size:9px;color:var(--adm-text-3);">Total</div></div>';
+            h += '</div>';
+            
+            // % turno bar
+            var pctM = list.length > 0 ? Math.round((totalManha / list.length) * 100) : 0;
+            var pctN = list.length > 0 ? Math.round((totalNoite / list.length) * 100) : 0;
+            h += '<div style="margin-bottom:14px;">';
+            h += '<div style="font-size:10px;font-weight:700;color:var(--adm-text-2);margin-bottom:4px;">Distribuição por turno</div>';
+            h += '<div style="display:flex;height:10px;border-radius:5px;overflow:hidden;">';
+            if (pctM > 0) h += '<div style="width:' + pctM + '%;background:#fbbf24;"></div>';
+            if (pctN > 0) h += '<div style="width:' + pctN + '%;background:#6366f1;"></div>';
+            if (100 - pctM - pctN > 0) h += '<div style="width:' + (100 - pctM - pctN) + '%;background:#64748b;"></div>';
+            h += '</div>';
+            h += '<div style="display:flex;justify-content:space-between;font-size:9px;color:var(--adm-text-3);margin-top:2px;">';
+            h += '<span>🌅 ' + pctM + '%</span><span>🌙 ' + pctN + '%</span>';
+            h += '</div></div>';
+            
+            // By CT
+            if (Object.keys(byCT).length > 1) {
+                h += '<div style="margin-bottom:14px;">';
+                h += '<div style="font-size:10px;font-weight:700;color:var(--adm-text-2);margin-bottom:4px;">Por CT</div>';
+                Object.keys(byCT).sort().forEach(function(ctName) {
+                    h += '<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:11px;">';
+                    h += '<span style="color:var(--adm-text-1);">📍 ' + escapeHtml(ctName) + '</span>';
+                    h += '<span style="color:var(--adm-primary-bright);font-weight:700;">' + byCT[ctName] + '</span>';
+                    h += '</div>';
+                });
+                h += '</div>';
+            }
+            
+            // Top alunos
+            h += '<div style="margin-bottom:8px;">';
+            h += '<div style="font-size:10px;font-weight:700;color:var(--adm-text-2);margin-bottom:4px;">Alunos mais presentes</div>';
+            alunoArr.slice(0, 10).forEach(function(a, idx) {
+                var medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : (idx + 1) + '.';
+                h += '<div style="display:flex;align-items:center;gap:6px;padding:3px 0;font-size:11px;">';
+                h += '<span style="min-width:20px;">' + medal + '</span>';
+                h += '<span style="flex:1;color:var(--adm-text-1);">' + escapeHtml(a.nome) + '</span>';
+                h += '<span style="color:var(--adm-primary-bright);font-weight:700;">' + a.count + 'x</span>';
+                h += '</div>';
+            });
+            h += '</div>';
+            
+            h += '</div>';
+            container.innerHTML = h;
+            container.style.display = 'block';
+        }
+
+        // ═══════════════════════════════════════════════════
+        // REGISTRO DE AULA (PROFESSOR BILLING)
+        // ═══════════════════════════════════════════════════
+        async function initAdmAulaForm() {
+            var sel = document.getElementById('admAulaCT');
+            if (!sel) return;
+            try {
+                var data = await secureFetch('getCTsList', {});
+                if (data.success && data.cts) {
+                    var h = '<option value="">Selecione CT</option>';
+                    data.cts.forEach(function(ct) {
+                        var nome = typeof ct === 'string' ? ct : ct.name;
+                        h += '<option value="' + escapeHtml(nome) + '">' + escapeHtml(nome) + '</option>';
+                    });
+                    sel.innerHTML = h;
+                }
+            } catch(e) {}
+            var dt = document.getElementById('admAulaData');
+            if (dt && !dt.value) {
+                var today = new Date();
+                dt.value = today.getFullYear() + '-' + ('0'+(today.getMonth()+1)).slice(-2) + '-' + ('0'+today.getDate()).slice(-2);
+            }
+            loadAdmAulaHistorico();
+        }
+
+        async function saveAdmAula() {
+            var ct = document.getElementById('admAulaCT').value;
+            var data = document.getElementById('admAulaData').value;
+            var horario = document.getElementById('admAulaHorario').value;
+            var valor = document.getElementById('admAulaValor').value;
+            var tipo = document.getElementById('admAulaTipo').value;
+            if (!ct || !data) { showMessage('admAulaMsg', '⚠️ CT e Data obrigatórios', 'danger'); return; }
+            showMessage('admAulaMsg', 'Salvando...', 'info');
+            try {
+                var result = await secureFetch('saveAulaProfessor', {
+                    ct: ct, data: data, horario: horario, valor: valor, tipo: tipo
+                });
+                if (result.success) {
+                    showMessage('admAulaMsg', '✅ Aula registrada!', 'success');
+                    loadAdmAulaHistorico();
+                } else {
+                    showMessage('admAulaMsg', result.message || 'Erro', 'danger');
+                }
+            } catch(e) { showMessage('admAulaMsg', 'Erro: ' + e.message, 'danger'); }
+        }
+
+        async function loadAdmAulaHistorico() {
+            var container = document.getElementById('admAulaHistorico');
+            if (!container) return;
+            try {
+                var data = await secureFetch('getAulasProfessor', {});
+                if (data.success && data.aulas && data.aulas.length > 0) {
+                    var total = 0;
+                    var h = '<div style="font-size:11px;font-weight:700;color:var(--adm-text-2);margin-bottom:6px;">📋 Últimas aulas registradas</div>';
+                    data.aulas.slice(0, 10).forEach(function(a) {
+                        var v = parseFloat((a.valor || '0').replace(',', '.')) || 0;
+                        total += v;
+                        h += '<div style="display:flex;align-items:center;gap:6px;padding:6px 8px;background:var(--adm-bg-elevated);border-radius:6px;margin-bottom:3px;font-size:11px;">';
+                        h += '<div style="flex:1;color:var(--adm-text-1);font-weight:600;">' + escapeHtml(a.data) + ' · ' + escapeHtml(a.horario || '--') + '</div>';
+                        h += '<div style="color:var(--adm-text-3);">' + escapeHtml(a.ct) + '</div>';
+                        h += '<div style="color:var(--adm-primary-bright);font-weight:700;min-width:60px;text-align:right;">R$ ' + v.toFixed(2) + '</div>';
+                        h += '</div>';
+                    });
+                    h += '<div style="text-align:right;font-size:12px;font-weight:800;color:var(--adm-primary-bright);margin-top:6px;">Total: R$ ' + total.toFixed(2) + '</div>';
+                    container.innerHTML = h;
+                } else {
+                    container.innerHTML = '';
+                }
+            } catch(e) { container.innerHTML = ''; }
+        }
+
+        // ═══════════════════════════════════════════════════
+        // ANIVERSARIANTES (ADMIN)
+        // ═══════════════════════════════════════════════════
+        async function loadBirthdays() {
+            var container = document.getElementById('adminBirthdayList');
+            if (!container) return;
+            container.innerHTML = '<div class="admin-empty">Carregando...</div>';
+            try {
+                var data = await secureFetch('getBirthdays', {});
+                if (data.success) {
+                    var list = data.birthdays || [];
+                    var badge = document.getElementById('adminBirthdayBadge');
+                    var todayCount = list.filter(function(b) { return b.isToday; }).length;
+                    if (todayCount > 0 && badge) {
+                        badge.textContent = todayCount;
+                        badge.style.display = 'inline-block';
+                    } else if (badge) {
+                        badge.style.display = 'none';
+                    }
+                    if (list.length === 0) {
+                        container.innerHTML = '<div class="admin-empty">Nenhum aniversariante nos próximos dias</div>';
+                        return;
+                    }
+                    var h = '';
+                    list.forEach(function(b) {
+                        var isKid = b.idade < 16;
+                        var highlight = b.isToday ? 'background:rgba(255,204,0,0.08);border:1px solid rgba(255,204,0,0.2);' : 'background:var(--adm-bg-elevated);border:1px solid var(--adm-border);';
+                        h += '<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;margin-bottom:4px;' + highlight + '">';
+                        h += '<div style="font-size:24px;">' + (b.isToday ? '🎂' : '🎈') + '</div>';
+                        h += '<div style="flex:1;min-width:0;">';
+                        h += '<div style="font-size:12px;font-weight:700;color:var(--adm-text-1);">' + escapeHtml(b.name) + (isKid ? ' <span style="font-size:9px;background:#6c3ce0;color:#fff;padding:1px 6px;border-radius:4px;">KIDS</span>' : '') + '</div>';
+                        h += '<div style="font-size:10px;color:var(--adm-text-3);">' + escapeHtml(b.data) + ' · ' + b.idade + ' anos' + (b.ct ? ' · ' + escapeHtml(b.ct) : '') + '</div>';
+                        h += '</div>';
+                        if (b.isToday) h += '<div style="font-size:10px;font-weight:800;color:#ffcc00;">HOJE!</div>';
+                        else h += '<div style="font-size:10px;color:var(--adm-text-3);">' + b.diasFalta + 'd</div>';
+                        h += '</div>';
+                    });
+                    container.innerHTML = h;
+                } else {
+                    container.innerHTML = '<div class="admin-empty">Erro ao carregar</div>';
+                }
+            } catch(e) {
+                container.innerHTML = '<div class="admin-empty">Erro: ' + e.message + '</div>';
             }
         }
 
@@ -15388,6 +16382,7 @@
                         html += '<div class="ct-schedule-card" id="ctSched_' + i + '">';
                         html += '<div class="ct-schedule-header">';
                         html += '<div class="ct-schedule-name">📍 ' + ctName + '</div>';
+                        html += '<button onclick="deleteCT(\'' + ctName.replace(/'/g, "\\'") + '\')" style="padding:4px 8px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.2);border-radius:6px;color:#f87171;font-size:9px;font-weight:700;cursor:pointer;">🗑 Excluir</button>';
                         html += '<span class="ct-schedule-status saved" id="ctSchedStatus_' + i + '">salvo</span>';
                         html += '</div>';
 
@@ -15431,40 +16426,8 @@
                         }
                         html += '</div>'; // ct-schedule-days
 
-                        // Detail fields
-                        var esc = function(v) { return (v || '').replace(/"/g, '&quot;'); };
-                        var curBenefits = ct.beneficios ? ct.beneficios.split(',').map(function(b) { return b.trim().toLowerCase().replace(/\s/g,''); }) : [];
-
-                        html += '<div class="ct-detail-section">';
-                        html += '<div class="ct-detail-title">📋 Detalhes do CT</div>';
-                        html += '<div class="ct-detail-field"><label>Endereço</label><input type="text" id="ctDet_end_' + i + '" value="' + esc(ct.endereco) + '" placeholder="Rua, número, bairro"></div>';
-
-                        html += '<div class="ct-detail-row">';
-                        html += '<div class="ct-detail-field"><label>Valor Avulso (R$)</label><input type="text" id="ctDet_val_' + i + '" value="' + esc(ct.valorAvulso) + '" placeholder="50,00"></div>';
-                        html += '</div>';
-
-                        html += '<div class="ct-detail-field"><label>Planos (separe com |)</label><input type="text" id="ctDet_pla_' + i + '" value="' + esc(ct.planos) + '" placeholder="Mensal R$199 | Trimestral R$549"></div>';
-
-                        // Benefit toggles
-                        html += '<div class="ct-detail-field"><label>Benefícios aceitos</label><div class="ct-benefit-toggles" id="ctBen_' + i + '">';
-                        for (var b = 0; b < ALL_BENEFITS.length; b++) {
-                            var bKey = ALL_BENEFITS[b].toLowerCase().replace(/\s/g,'');
-                            var bActive = curBenefits.indexOf(bKey) >= 0;
-                            html += '<div class="ct-benefit-toggle' + (bActive ? ' active' : '') + '" data-benefit="' + ALL_BENEFITS[b] + '" onclick="this.classList.toggle(\'active\');markCTUnsaved(' + i + ')">' + ALL_BENEFITS[b] + '</div>';
-                        }
-                        html += '</div></div>';
-
-                        html += '<div class="ct-detail-row">';
-                        html += '<div class="ct-detail-field"><label>Link Google Maps</label><input type="text" id="ctDet_map_' + i + '" value="' + esc(ct.mapLink) + '" placeholder="https://maps.google.com/..."></div>';
-                        html += '<div class="ct-detail-field"><label>Instagram</label><input type="text" id="ctDet_ig_' + i + '" value="' + esc(ct.instagram) + '" placeholder="@seuct"></div>';
-                        html += '</div>';
-
-                        html += '<div class="ct-detail-field"><label>Telefone / WhatsApp</label><input type="text" id="ctDet_tel_' + i + '" value="' + esc(ct.telefone) + '" placeholder="(21) 99999-9999"></div>';
-
-                        html += '</div>'; // end detail section
-
                         html += '<div class="ct-schedule-actions">';
-                        html += '<button class="ct-schedule-save" id="ctSchedSave_' + i + '" onclick="saveCTFull(\'' + ctName.replace(/'/g, "\\'") + '\', ' + i + ')">Salvar Tudo</button>';
+                        html += '<button class="ct-schedule-save" id="ctSchedSave_' + i + '" onclick="saveCTFull(\'' + ctName.replace(/'/g, "\\'") + '\', ' + i + ')">Salvar Horários</button>';
                         html += '</div>';
                         html += '</div>'; // ct-schedule-card
                     }
@@ -15474,11 +16437,6 @@
                     // Add change listeners to detail fields
                     for (var k = 0; k < data.cts.length; k++) {
                         (function(idx) {
-                            var fields = ['ctDet_end_','ctDet_val_','ctDet_pla_','ctDet_map_','ctDet_ig_','ctDet_tel_'];
-                            fields.forEach(function(prefix) {
-                                var el = document.getElementById(prefix + idx);
-                                if (el) el.addEventListener('input', function() { markCTUnsaved(idx); });
-                            });
                             // Time inputs: Enter to add + auto-colon
                             var DAY_K = ['seg','ter','qua','qui','sex','sab','dom'];
                             DAY_K.forEach(function(dk) {
@@ -15692,28 +16650,67 @@
                 container.innerHTML = '<div class="admin-empty">Nenhum aluno encontrado</div>';
                 return;
             }
+            var hoje = new Date();
             var html = '';
             for (var i = 0; i < students.length; i++) {
                 var s = students[i];
                 var initial = (s.name || '?').charAt(0).toUpperCase();
                 var isAdm = (s.admin === true || s.admin === 'TRUE');
                 var treinos = s.treinos || 0;
-                var diasLabel = '';
-                if (s.diasTreino) {
-                    var dMap = {seg:'S',ter:'T',qua:'Q',qui:'Q',sex:'S',sab:'S',dom:'D'};
-                    diasLabel = ' · 📅 ' + s.diasTreino.split(',').map(function(d) { return dMap[d] || d; }).join('');
+                var isDeactivated = s.status === 'DESATIVADO';
+                
+                // Calculate days since last check-in
+                var diasAusente = 0;
+                var alertaAusencia = '';
+                if (s.ultimoCheckin) {
+                    var lastDate = new Date(s.ultimoCheckin);
+                    diasAusente = Math.floor((hoje - lastDate) / (1000*60*60*24));
+                    if (diasAusente >= 25 && diasAusente < 30) {
+                        alertaAusencia = '<div style="font-size:9px;color:#f59e0b;margin-top:2px;">⚠️ ' + diasAusente + ' dias sem treinar — conta será desativada em ' + (30-diasAusente) + ' dias</div>';
+                    } else if (diasAusente >= 30 && !isDeactivated) {
+                        alertaAusencia = '<div style="font-size:9px;color:#f87171;margin-top:2px;">🔴 ' + diasAusente + ' dias ausente — auto-desativar</div>';
+                    }
                 }
-                html += '<div class="admin-student-card" onclick="openStuModal(\'' + (s.email || '').replace(/'/g, "\\'") + '\')">' +
-                    '<div class="admin-card-avatar">' + initial + '</div>' +
-                    '<div class="admin-student-info">' +
-                        '<div class="admin-student-name">' + (s.name || '-') + (isAdm ? ' <span class="admin-header-badge">ADMIN</span>' : '') + '</div>' +
-                        '<div class="admin-student-meta">' + (s.email || '') + '</div>' +
-                        '<div class="admin-student-belt">🥋 ' + (s.faixa || '-') + ' · 📍 ' + (s.ct || '-') + ' · 💪 ' + treinos + diasLabel + '</div>' +
-                    '</div>' +
-                    '<span style="color:var(--text-3);font-size:16px;flex-shrink:0;">›</span>' +
-                '</div>';
+                
+                var statusBadge = '';
+                if (isDeactivated) {
+                    statusBadge = '<span style="font-size:8px;background:rgba(248,113,113,0.15);color:#f87171;padding:1px 6px;border-radius:4px;margin-left:4px;">DESATIVADO</span>';
+                }
+                
+                html += '<div class="admin-student-card" style="' + (isDeactivated ? 'opacity:0.5;' : '') + '">';
+                html += '<div class="admin-card-avatar">' + initial + '</div>';
+                html += '<div class="admin-student-info" onclick="openStuModal(\'' + (s.email || '').replace(/'/g, "\\'") + '\')" style="cursor:pointer;">';
+                html += '<div class="admin-student-name">' + (s.name || '-') + (isAdm ? ' <span class="admin-header-badge">ADMIN</span>' : '') + statusBadge + '</div>';
+                html += '<div class="admin-student-meta">' + (s.email || '') + '</div>';
+                html += '<div class="admin-student-belt">🥋 ' + (s.faixa || '-') + ' · 📍 ' + (s.ct || '-') + ' · 💪 ' + treinos;
+                if (diasAusente > 0) html += ' · 📅 ' + diasAusente + 'd ausente';
+                html += '</div>';
+                html += alertaAusencia;
+                html += '</div>';
+                if (!isAdm) {
+                    if (isDeactivated) {
+                        html += '<button onclick="event.stopPropagation();adminToggleAccount(\'' + (s.email||'').replace(/'/g,"\\'") + '\',true)" style="padding:4px 8px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);border-radius:6px;color:#22c55e;font-size:9px;font-weight:700;cursor:pointer;flex-shrink:0;">Ativar</button>';
+                    } else {
+                        html += '<button onclick="event.stopPropagation();adminToggleAccount(\'' + (s.email||'').replace(/'/g,"\\'") + '\',false)" style="padding:4px 8px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);border-radius:6px;color:#f87171;font-size:9px;font-weight:700;cursor:pointer;flex-shrink:0;">Desativar</button>';
+                    }
+                }
+                html += '</div>';
             }
             container.innerHTML = html;
+        }
+
+        async function adminToggleAccount(email, activate) {
+            var action = activate ? 'reactivateAccount' : 'deactivateAccount';
+            var msg = activate ? 'Reativar conta de ' + email + '?' : 'Desativar conta de ' + email + '?';
+            if (!confirm(msg)) return;
+            try {
+                var result = await secureFetch(action, { targetEmail: email });
+                if (result.success) {
+                    loadStudentsList();
+                } else {
+                    alert(result.message || 'Erro');
+                }
+            } catch(e) { alert('Erro: ' + e.message); }
         }
 
         // ===== STUDENT EDITOR MODAL =====
