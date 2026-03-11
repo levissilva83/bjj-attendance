@@ -3956,6 +3956,14 @@
         .crono-estudou-btn { display: flex; align-items: center; gap: 6px; margin-top: 8px; padding: 10px; background: rgba(167,139,250,0.08); border: 1px solid rgba(167,139,250,0.2); border-radius: 10px; font-size: 12px; color: #a78bfa; font-weight: 700; cursor: pointer; width: 100%; justify-content: center; }
         .crono-estudou-btn.done { background: rgba(167,139,250,0.15); border-color: #a78bfa; }
         /* Contestar / esquecimento */
+        /* Seletor de CT no Cronograma */
+        .crono-ct-selector-label { font-size:10px; color:var(--text-3); font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; }
+        .crono-ct-selector-tabs { display:flex; gap:8px; flex-wrap:wrap; }
+        .crono-ct-tab { padding:7px 14px; border-radius:20px; border:1px solid var(--border); background:transparent; color:var(--text-2); font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s; }
+        .crono-ct-tab.ativo { background:var(--accent); color:#000; border-color:var(--accent); }
+        /* CTs liberados no stuModal */
+        .stu-ct-lib-btn { padding:6px 12px; border-radius:16px; border:1px solid var(--border); background:transparent; color:var(--text-2); font-size:11px; font-weight:600; cursor:pointer; transition:all 0.2s; }
+        .stu-ct-lib-btn.on { background:rgba(56,189,248,0.12); border-color:#38bdf8; color:#38bdf8; }
         /* Onde tem treino hoje */
         .crono-hoje-panel { background: var(--bg-card); border: 1px solid var(--border-accent); border-radius: 16px; padding: 14px 16px; margin-bottom: 2px; }
         .crono-hoje-title { font-family:'Sora',sans-serif; font-size:13px; font-weight:800; color:var(--text-1); margin-bottom:10px; display:flex; align-items:center; gap:6px; }
@@ -5734,6 +5742,9 @@
                             <!-- KPI bar -->
                             <div class="crono-kpi-bar" id="cronoKPIs"></div>
 
+                            <!-- Seletor de CT (aparece só se tiver múltiplos CTs liberados) -->
+                            <div id="cronoCTSelector" style="display:none;margin-bottom:12px;"></div>
+
                             <!-- Onde tem treino hoje -->
                             <div id="cronoTreinoHoje" style="margin-bottom:14px;"></div>
 
@@ -7174,6 +7185,13 @@
                         <div class="stu-toggle-label">🛡️ Administrador</div>
                         <div class="stu-toggle" id="stuAdminToggle" onclick="this.classList.toggle('on')"></div>
                     </div>
+
+                    <!-- CTs Liberados para Cronograma -->
+                    <div class="stu-field" style="margin-top:14px;">
+                        <label>📅 Acesso ao Cronograma de outros CTs</label>
+                        <div style="font-size:11px;color:var(--text-3);margin-bottom:8px;">Marque os CTs que este aluno pode visualizar o cronograma, além do seu CT principal.</div>
+                        <div id="stuCTsLiberadosGrid" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+                    </div>
                 </div>
 
                 <!-- Personal -->
@@ -7442,7 +7460,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwg8rZtGWOawnlxGyUt2pWPHAtxt5uUtD60si_tjA-mS3Nw-7UitbLm2Bs3PsnMLLUp/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwnr4JuGG38KtuL8qkDilcoJ_G5IFY7wt_wA3fiR4H-LrfhShF3-7qWWu-9s4LtPoyd/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -13174,21 +13192,54 @@
         var _aulasCalYear, _aulasCalMonth;
         var _aulasSelectedDate = null;
         var _cronoValidationEdits = {};
+        var _cronoCTAtivo = '';       // CT sendo visualizado agora
+        var _cronoCTsPermitidos = []; // CT principal + CTs liberados pelo admin
 
-        async function loadCronograma() {
+        async function loadCronograma(ctFiltro) {
             try {
-                var data = await secureFetch('getCronogramaAulas', { email: currentUser.email });
+                var params = { email: currentUser.email };
+                if (ctFiltro) params.ct = ctFiltro;
+                var data = await secureFetch('getCronogramaAulas', params);
                 if (data.success) {
                     _cronoAulas = data.aulas || [];
+                    _cronoCTAtivo = data.ctAtivo || '';
+                    _cronoCTsPermitidos = data.todosPermitidos || [];
                     // Init calendar to current month
                     var now = new Date();
                     _aulasCalYear = now.getFullYear();
                     _aulasCalMonth = now.getMonth();
+                    renderCronoCTSelector();
                     renderCronoKPIs();
                     renderCronoTreinoHoje();
                     renderAulasCalendar();
                 }
             } catch(e) { console.error('loadCronograma:', e); }
+        }
+
+        function renderCronoCTSelector() {
+            var el = document.getElementById('cronoCTSelector');
+            if (!el) return;
+            // Só mostra se aluno tem acesso a mais de 1 CT
+            if (!_cronoCTsPermitidos || _cronoCTsPermitidos.length <= 1) {
+                el.style.display = 'none';
+                return;
+            }
+            el.style.display = 'block';
+            var h = '<div class="crono-ct-selector-label">📍 Visualizando cronograma de:</div>';
+            h += '<div class="crono-ct-selector-tabs">';
+            _cronoCTsPermitidos.forEach(function(ct) {
+                var isAtivo = ct === _cronoCTAtivo;
+                h += '<button class="crono-ct-tab' + (isAtivo ? ' ativo' : '') + '" onclick="trocarCronogramaCT(\'' + ct.replace(/'/g, "\\'") + '\')">' + escapeHtml(ct) + '</button>';
+            });
+            h += '</div>';
+            el.innerHTML = h;
+        }
+
+        async function trocarCronogramaCT(ct) {
+            _aulasSelectedDate = null;
+            var detail = document.getElementById('aulaDayDetail');
+            if (detail) detail.style.display = 'none';
+            await loadCronograma(ct);
         }
 
         function renderCronoKPIs() {
@@ -16986,6 +17037,31 @@
                 toggle.classList.remove('on');
             }
 
+            // CTs Liberados para Cronograma
+            var ctsLibGrid = document.getElementById('stuCTsLiberadosGrid');
+            if (ctsLibGrid && allCTs && allCTs.length > 0) {
+                var libAtual = (s.ctsliberados || '').split(',').map(function(x) { return x.trim(); }).filter(Boolean);
+                var ctPrincipal = s.ct || '';
+                ctsLibGrid.innerHTML = '';
+                allCTs.forEach(function(ct) {
+                    var ctName = typeof ct === 'string' ? ct : ct.name;
+                    if (ctName === ctPrincipal) return; // CT principal não precisa de liberação
+                    var btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'stu-ct-lib-btn' + (libAtual.indexOf(ctName) !== -1 ? ' on' : '');
+                    btn.setAttribute('data-ct', ctName);
+                    btn.textContent = (libAtual.indexOf(ctName) !== -1 ? '✓ ' : '') + ctName;
+                    btn.addEventListener('click', function() {
+                        this.classList.toggle('on');
+                        this.textContent = (this.classList.contains('on') ? '✓ ' : '') + ctName;
+                    });
+                    ctsLibGrid.appendChild(btn);
+                });
+                if (ctsLibGrid.children.length === 0) {
+                    ctsLibGrid.innerHTML = '<div style="font-size:11px;color:var(--text-3);">Nenhum outro CT cadastrado.</div>';
+                }
+            }
+
             // Profile fields
             var nascimento = s.nascimento || '';
             if (nascimento && nascimento.indexOf('T') > 0) nascimento = nascimento.split('T')[0];
@@ -17106,6 +17182,13 @@
                         dias.push(btn.getAttribute('data-day'));
                     });
                     return dias.join(',');
+                })(),
+                ctsliberados: (function() {
+                    var liberados = [];
+                    document.querySelectorAll('#stuCTsLiberadosGrid .stu-ct-lib-btn.on').forEach(function(btn) {
+                        liberados.push(btn.getAttribute('data-ct'));
+                    });
+                    return liberados.join(',');
                 })()
             };
 
