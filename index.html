@@ -3958,6 +3958,49 @@
         /* Contestar / esquecimento */
         /* Seletor de CT no Cronograma */
         .crono-ct-selector-label { font-size:10px; color:var(--text-3); font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; }
+        /* View toggle Mensal/Diário */
+        .crono-view-toggle { display:flex; gap:6px; margin-bottom:14px; background:var(--bg-elevated); border-radius:12px; padding:4px; }
+        .crono-view-btn { flex:1; padding:8px; border:none; border-radius:8px; background:transparent; color:var(--text-2); font-size:12px; font-weight:700; cursor:pointer; transition:all 0.2s; }
+        .crono-view-btn.active { background:var(--bg-card); color:var(--text-1); box-shadow:0 1px 4px rgba(0,0,0,0.3); }
+        /* CT Selector redesigned */
+        .crono-ct-bar { display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; scrollbar-width:none; }
+        .crono-ct-bar::-webkit-scrollbar { display:none; }
+        .crono-ct-chip { flex-shrink:0; display:flex; align-items:center; gap:5px; padding:6px 12px; border-radius:20px; border:1px solid var(--border); background:transparent; color:var(--text-2); font-size:11px; font-weight:600; cursor:pointer; transition:all 0.2s; white-space:nowrap; }
+        .crono-ct-chip.ativo { background:var(--accent); color:#000; border-color:var(--accent); font-weight:800; }
+        .crono-ct-chip .ct-chip-dot { width:6px; height:6px; border-radius:50%; background:currentColor; opacity:0.7; }
+        .crono-ct-chip.view-only { border-style:dashed; }
+        .crono-ct-chip.view-only.ativo { background:rgba(56,189,248,0.2); color:#38bdf8; border-color:#38bdf8; border-style:solid; }
+        .crono-ct-view-badge { font-size:9px; padding:1px 5px; border-radius:4px; background:rgba(56,189,248,0.15); color:#38bdf8; margin-left:4px; }
+        /* Day navigation */
+        .crono-day-nav { display:flex; align-items:center; justify-content:space-between; padding:10px 0 12px; }
+        .crono-day-title { font-family:'Sora',sans-serif; font-size:16px; font-weight:800; color:var(--text-1); text-align:center; line-height:1.2; }
+        .crono-day-title small { display:block; font-size:11px; font-weight:500; color:var(--text-3); font-family:inherit; }
+        /* Week strip */
+        .crono-week-strip { display:grid; grid-template-columns:repeat(7,1fr); gap:3px; margin-bottom:14px; }
+        .crono-week-day { display:flex; flex-direction:column; align-items:center; gap:3px; padding:6px 2px; border-radius:10px; cursor:pointer; transition:all 0.15s; }
+        .crono-week-day.active { background:var(--accent); }
+        .crono-week-day.active .wd-num { color:#000; font-weight:800; }
+        .crono-week-day.active .wd-lbl { color:rgba(0,0,0,0.6); }
+        .crono-week-day.has-aula .wd-num { color:var(--text-1); font-weight:800; }
+        .crono-week-day.today:not(.active) { outline:1.5px solid var(--accent); outline-offset:-1.5px; }
+        .wd-lbl { font-size:9px; color:var(--text-3); font-weight:600; text-transform:uppercase; }
+        .wd-num { font-size:14px; font-weight:600; color:var(--text-2); }
+        .wd-dot { width:5px; height:5px; border-radius:50%; background:transparent; }
+        .crono-week-day.has-aula .wd-dot { background:var(--accent); }
+        .crono-week-day.active .wd-dot { background:rgba(0,0,0,0.4); }
+        /* Day view content */
+        .crono-diario-empty { text-align:center; padding:32px 16px; }
+        .crono-diario-empty-icon { font-size:40px; margin-bottom:10px; }
+        .crono-diario-empty-title { font-size:15px; font-weight:800; color:var(--text-2); margin-bottom:4px; }
+        .crono-diario-empty-sub { font-size:12px; color:var(--text-3); line-height:1.5; }
+        .crono-diario-hoje-header { background:linear-gradient(135deg,rgba(212,165,41,0.12),rgba(212,165,41,0.04)); border:1px solid rgba(212,165,41,0.2); border-radius:14px; padding:14px 16px; margin-bottom:12px; }
+        .crono-diario-hoje-label { font-size:10px; font-weight:800; color:var(--accent); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+        .crono-diario-hoje-title { font-size:18px; font-weight:900; color:var(--text-1); font-family:'Sora',sans-serif; line-height:1.2; }
+        .crono-diario-hoje-ct { font-size:11px; color:var(--text-2); margin-top:4px; }
+        .crono-diario-tec-list { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+        .crono-diario-tec { display:flex; align-items:center; gap:4px; padding:5px 10px; background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:8px; font-size:11px; color:var(--text-2); }
+        .crono-diario-tec.ok { border-color:rgba(74,222,128,0.3); color:#4ade80; }
+        .crono-diario-tec.rev { border-color:rgba(251,191,36,0.3); color:#fbbf24; }
         .crono-ct-selector-tabs { display:flex; gap:8px; flex-wrap:wrap; }
         .crono-ct-tab { padding:7px 14px; border-radius:20px; border:1px solid var(--border); background:transparent; color:var(--text-2); font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s; }
         .crono-ct-tab.ativo { background:var(--accent); color:#000; border-color:var(--accent); }
@@ -5206,7 +5249,27 @@
         .treino-alarm.missed .treino-alarm-sub { color: rgba(251,191,36,0.6); }
         .treino-alarm.missed .treino-alarm-icon { animation: none; }
 
-        /* ══════ AVATAR BUILDER ══════ */
+        /* Aula do dia — card no Checkin */
+        .checkin-aula-card { background: linear-gradient(135deg, rgba(212,165,41,0.1), rgba(212,165,41,0.03)); border: 1px solid rgba(212,165,41,0.25); border-radius: 16px; padding: 16px; margin: 12px 0 4px; position: relative; overflow: hidden; }
+        .checkin-aula-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent); border-radius: 3px 0 0 3px; }
+        .checkin-aula-label { font-size: 10px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+        .checkin-aula-tema { font-size: 16px; font-weight: 900; color: var(--text-1); font-family: 'Sora', sans-serif; line-height: 1.25; margin-bottom: 4px; }
+        .checkin-aula-meta { font-size: 11px; color: var(--text-2); margin-bottom: 8px; }
+        .checkin-aula-desc { font-size: 12px; color: var(--text-2); line-height: 1.5; margin-bottom: 10px; }
+        .checkin-aula-tecs { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+        .checkin-aula-tec { font-size: 10px; padding: 3px 8px; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text-2); }
+        .checkin-aula-msg { display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: rgba(74,222,128,0.06); border: 1px dashed rgba(74,222,128,0.2); border-radius: 10px; font-size: 12px; color: #4ade80; font-weight: 600; line-height: 1.4; }
+        .checkin-aula-msg-icon { font-size: 20px; flex-shrink: 0; }
+        /* Hero card — tela inicial (maior destaque) */
+        .checkin-tema-hero { background: linear-gradient(135deg, rgba(212,165,41,0.13), rgba(212,165,41,0.04)); border: 1px solid rgba(212,165,41,0.3); border-radius: 18px; padding: 18px 18px 14px; margin: 10px 0 14px; position: relative; overflow: hidden; }
+        .checkin-tema-hero::after { content: '🥋'; position: absolute; right: 14px; bottom: 10px; font-size: 42px; opacity: 0.08; line-height: 1; }
+        .checkin-tema-hero-label { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .checkin-tema-hero-label span { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: crono-pulse 2s infinite; }
+        .checkin-tema-hero-title { font-size: 20px; font-weight: 900; color: var(--text-1); font-family: 'Sora', sans-serif; line-height: 1.2; margin-bottom: 4px; }
+        .checkin-tema-hero-sub { font-size: 11px; color: var(--text-2); margin-bottom: 10px; }
+        .checkin-tema-hero-tecs { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
+        .checkin-tema-hero-tec { font-size: 10px; padding: 3px 9px; border-radius: 7px; background: rgba(212,165,41,0.08); border: 1px solid rgba(212,165,41,0.18); color: var(--accent); font-weight: 600; }
+        .checkin-tema-hero-msg { font-size: 13px; font-weight: 700; color: #4ade80; }
         .avb-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); z-index: 9999;
@@ -5476,6 +5539,9 @@
                         </div>
                     </div>
 
+                    <!-- HERO: Tema da aula de hoje (CT do aluno) -->
+                    <div id="checkinTemaHoje" style="display:none;"></div>
+
                     <div class="checkin-profile">
                         <div class="checkin-avatar" id="checkinInitial">L</div>
                         <div class="checkin-info">
@@ -5496,6 +5562,9 @@
                             <span id="selectedCT">-</span>
                         </div>
                     </div>
+
+                    <!-- Aula do dia no CT selecionado -->
+                    <div id="checkinAulaHoje" style="display:none;"></div>
 
                     <button class="btn btn-primary" onclick="confirmAttendance()">✓ Confirmar Presença</button>
                     <div id="attendanceMessage"></div>
@@ -5748,41 +5817,64 @@
                             <!-- KPI bar -->
                             <div class="crono-kpi-bar" id="cronoKPIs"></div>
 
-                            <!-- Seletor de CT (aparece só se tiver múltiplos CTs liberados) -->
-                            <div id="cronoCTSelector" style="display:none;margin-bottom:12px;"></div>
+                            <!-- Seletor de CT (todos os CTs disponíveis) -->
+                            <div id="cronoCTSelector" style="margin-bottom:12px;"></div>
 
-                            <!-- Onde tem treino hoje -->
-                            <div id="cronoTreinoHoje" style="margin-bottom:14px;"></div>
-
-                            <!-- Calendar -->
-                            <div class="aula-cal">
-                                <div class="aula-cal-nav">
-                                    <button onclick="aulasCalNav(-1)" class="aula-cal-nav-btn">◀</button>
-                                    <div class="aula-cal-month" id="aulasCalMonth">—</div>
-                                    <button onclick="aulasCalNav(1)" class="aula-cal-nav-btn">▶</button>
-                                </div>
-                                <div class="aula-cal-header">
-                                    <div class="aula-cal-hdr">S</div>
-                                    <div class="aula-cal-hdr">T</div>
-                                    <div class="aula-cal-hdr">Q</div>
-                                    <div class="aula-cal-hdr">Q</div>
-                                    <div class="aula-cal-hdr">S</div>
-                                    <div class="aula-cal-hdr">S</div>
-                                    <div class="aula-cal-hdr">D</div>
-                                </div>
-                                <div class="aula-cal-grid" id="aulasCalGrid"></div>
+                            <!-- Toggle Mensal / Diário -->
+                            <div class="crono-view-toggle" id="cronoViewToggle">
+                                <button id="cronoViewDiario" class="crono-view-btn active" onclick="setCronoView('diario')">📖 Diário</button>
+                                <button id="cronoViewMensal" class="crono-view-btn" onclick="setCronoView('mensal')">📅 Mensal</button>
                             </div>
 
-                            <!-- Legend -->
-                            <div class="prs-legend" style="margin-top:8px;">
-                                <div class="prs-legend-item"><span class="prs-dot" style="background:#4ade80;"></span> Presente</div>
-                                <div class="prs-legend-item"><span class="prs-dot" style="background:#38bdf8;"></span> Próxima</div>
-                                <div class="prs-legend-item"><span class="prs-dot" style="background:#f87171;"></span> Faltei</div>
-                                <div class="prs-legend-item"><span class="prs-dot" style="background:#a78bfa;"></span> Estudei</div>
+                            <!-- VIEW: DIÁRIO (padrão) -->
+                            <div id="cronoPanelDiario">
+                                <!-- Day navigation -->
+                                <div class="crono-day-nav">
+                                    <button class="aula-cal-nav-btn" onclick="cronoDayNav(-1)">◀</button>
+                                    <div class="crono-day-title" id="cronoDayTitle">—</div>
+                                    <button class="aula-cal-nav-btn" onclick="cronoDayNav(1)">▶</button>
+                                </div>
+                                <!-- Quick week strip -->
+                                <div class="crono-week-strip" id="cronoWeekStrip"></div>
+                                <!-- Day content -->
+                                <div id="cronoDiarioContent"></div>
                             </div>
 
-                            <!-- Day Detail -->
-                            <div id="aulaDayDetail" style="display:none;"></div>
+                            <!-- VIEW: MENSAL -->
+                            <div id="cronoPanelMensal" style="display:none;">
+                                <!-- Onde tem treino hoje -->
+                                <div id="cronoTreinoHoje" style="margin-bottom:14px;"></div>
+
+                                <!-- Calendar -->
+                                <div class="aula-cal">
+                                    <div class="aula-cal-nav">
+                                        <button onclick="aulasCalNav(-1)" class="aula-cal-nav-btn">◀</button>
+                                        <div class="aula-cal-month" id="aulasCalMonth">—</div>
+                                        <button onclick="aulasCalNav(1)" class="aula-cal-nav-btn">▶</button>
+                                    </div>
+                                    <div class="aula-cal-header">
+                                        <div class="aula-cal-hdr">S</div>
+                                        <div class="aula-cal-hdr">T</div>
+                                        <div class="aula-cal-hdr">Q</div>
+                                        <div class="aula-cal-hdr">Q</div>
+                                        <div class="aula-cal-hdr">S</div>
+                                        <div class="aula-cal-hdr">S</div>
+                                        <div class="aula-cal-hdr">D</div>
+                                    </div>
+                                    <div class="aula-cal-grid" id="aulasCalGrid"></div>
+                                </div>
+
+                                <!-- Legend -->
+                                <div class="prs-legend" style="margin-top:8px;">
+                                    <div class="prs-legend-item"><span class="prs-dot" style="background:#4ade80;"></span> Presente</div>
+                                    <div class="prs-legend-item"><span class="prs-dot" style="background:#38bdf8;"></span> Próxima</div>
+                                    <div class="prs-legend-item"><span class="prs-dot" style="background:#f87171;"></span> Faltei</div>
+                                    <div class="prs-legend-item"><span class="prs-dot" style="background:#a78bfa;"></span> Estudei</div>
+                                </div>
+
+                                <!-- Day Detail (click on calendar day) -->
+                                <div id="aulaDayDetail" style="display:none;margin-top:10px;"></div>
+                            </div>
                         </div>
                     </div> <!-- /sub-aulas -->
 
@@ -7475,7 +7567,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzIjD2zwaN47dIly40USj10Nf1EnpUpGcE6E1nKhpszfwxXmJ3ReHYnPqaN6WUlejSZ/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwnr4JuGG38KtuL8qkDilcoJ_G5IFY7wt_wA3fiR4H-LrfhShF3-7qWWu-9s4LtPoyd/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -8284,6 +8376,8 @@
                     checkTreinoAlarm(data.cts);
                     // Atualiza painel "Onde tem treino hoje" no Cronograma
                     if (typeof renderCronoTreinoHoje === 'function') renderCronoTreinoHoje();
+                    // Hero card: tema da aula de hoje na tela inicial
+                    renderCheckinTemaHoje();
                     // Auto-refresh alarm a cada 60s (countdown, estado)
                     if (!window._alarmInterval) {
                         window._alarmInterval = setInterval(function() {
@@ -8360,11 +8454,133 @@
                     var hojeDia = dayLabels[new Date().getDay()];
                     showMessage('attendanceMessage', '⚠️ Hoje (' + hojeDia + ') não é dia de treino no ' + ctName + '. Seu check-in ficará pendente para avaliação do Professor.', 'warning');
                 } else {
-                    // Limpar mensagem se dia é permitido
                     var msgEl = document.getElementById('attendanceMessage');
                     if (msgEl) msgEl.innerHTML = '';
                 }
             }
+
+            // Mostrar aula do dia deste CT
+            renderCheckinAulaHoje(ctName);
+        }
+
+        // Mensagens de boas-vindas ao tatame
+        var TATAME_MSGS = [
+            'Te esperamos no tatame! 🥋',
+            'Sua presença faz a aula mais especial. Oss! 🤙',
+            'Cada treino é um passo mais perto da faixa! Vem! 🔥',
+            'O tatame está pronto para você. Oss! 🏅',
+            'Hoje é dia de evoluir. Esperamos você! 💪',
+            'A jornada começa no tatame. Até mais tarde! 🥋',
+            'Consistência constrói campeões. Vem treinar! ⚡',
+            'Oss! Bora pro tatame, guerreiro! 🤙'
+        ];
+
+        // Hero card: aparece na tela inicial do check-in com o tema do dia do CT do aluno
+        async function renderCheckinTemaHoje() {
+            var el = document.getElementById('checkinTemaHoje');
+            if (!el || !currentUser) return;
+
+            var todayStr = (function() {
+                var n = new Date();
+                return n.getFullYear() + '-' + String(n.getMonth()+1).padStart(2,'0') + '-' + String(n.getDate()).padStart(2,'0');
+            })();
+
+            var ctName = currentUser.ct || '';
+            var aulaHoje = null;
+
+            // Reaproveita _cronoAulas se já carregado para o CT do aluno
+            if (_cronoAulas && _cronoAulas.length > 0 && (!_cronoCTAtivo || _cronoCTAtivo === ctName)) {
+                aulaHoje = _cronoAulas.find(function(a) {
+                    return a.data === todayStr && (a.status === 'hoje' || a.status === 'presente_hoje');
+                });
+            }
+
+            // Busca no backend se não encontrou
+            if (!aulaHoje && ctName) {
+                try {
+                    var data = await secureFetch('getCronogramaAulas', { email: currentUser.email, ct: ctName });
+                    if (data.success && data.aulas) {
+                        aulaHoje = data.aulas.find(function(a) {
+                            return a.data === todayStr && (a.status === 'hoje' || a.status === 'presente_hoje');
+                        });
+                    }
+                } catch(e) { /* silencioso */ }
+            }
+
+            if (!aulaHoje || !aulaHoje.tema) { el.style.display = 'none'; return; }
+
+            var hmM = (aulaHoje.horario||'').match(/(\d{1,2}):(\d{2})/);
+            var horFmt = hmM ? hmM[1]+'h'+hmM[2] : '';
+            var nome = (currentUser.name || '').split(' ')[0];
+            var tatameMsg = TATAME_MSGS[Math.floor(Math.random() * TATAME_MSGS.length)];
+
+            var h = '<div class="checkin-tema-hero">';
+            h += '<div class="checkin-tema-hero-label"><span></span>📍 Hoje no tatame</div>';
+            h += '<div class="checkin-tema-hero-title">' + escapeHtml(aulaHoje.tema) + '</div>';
+            var sub = [];
+            if (aulaHoje.ct) sub.push('📍 ' + aulaHoje.ct);
+            if (horFmt) sub.push('⏰ ' + horFmt);
+            if (sub.length) h += '<div class="checkin-tema-hero-sub">' + escapeHtml(sub.join(' · ')) + '</div>';
+            if (aulaHoje.descricao) h += '<div style="font-size:12px;color:var(--text-2);line-height:1.5;margin-bottom:10px;">' + escapeHtml(aulaHoje.descricao) + '</div>';
+            if (aulaHoje.tecnicas && aulaHoje.tecnicas.length) {
+                h += '<div class="checkin-tema-hero-tecs">';
+                aulaHoje.tecnicas.forEach(function(t) { h += '<span class="checkin-tema-hero-tec">🥋 ' + escapeHtml(t) + '</span>'; });
+                h += '</div>';
+            }
+            h += '<div class="checkin-tema-hero-msg">🤙 ' + (nome ? nome + ', ' : '') + tatameMsg + '</div>';
+            h += '</div>';
+
+            el.innerHTML = h;
+            el.style.display = 'block';
+        }
+
+        // Card de aula quando aluno SELECIONA um CT manualmente
+        async function renderCheckinAulaHoje(ctName) {
+            var el = document.getElementById('checkinAulaHoje');
+            if (!el) return;
+
+            var todayStr = (function() {
+                var n = new Date();
+                return n.getFullYear() + '-' + String(n.getMonth()+1).padStart(2,'0') + '-' + String(n.getDate()).padStart(2,'0');
+            })();
+
+            var aulaHoje = null;
+            if (_cronoAulas && _cronoAulas.length > 0 && _cronoCTAtivo === ctName) {
+                aulaHoje = _cronoAulas.find(function(a) { return a.data === todayStr && (a.status === 'hoje' || a.status === 'presente_hoje'); });
+            }
+
+            if (!aulaHoje) {
+                try {
+                    el.innerHTML = '<div class="checkin-aula-card"><div class="checkin-aula-label">📅 Aula de Hoje</div><div style="color:var(--text-3);font-size:12px;">Carregando...</div></div>';
+                    el.style.display = 'block';
+                    var data = await secureFetch('getCronogramaAulas', { email: currentUser.email, ct: ctName, apenasVisualizar: true });
+                    if (data.success && data.aulas) {
+                        aulaHoje = data.aulas.find(function(a) { return a.data === todayStr && (a.status === 'hoje' || a.status === 'presente_hoje'); });
+                    }
+                } catch(e) { /* silencioso */ }
+            }
+
+            if (!aulaHoje || !aulaHoje.tema) { el.style.display = 'none'; return; }
+
+            var hmM = (aulaHoje.horario||'').match(/(\d{1,2}):(\d{2})/);
+            var horFmt = hmM ? hmM[1]+'h'+hmM[2] : (aulaHoje.horario||'');
+            var tatameMsg = TATAME_MSGS[Math.floor(Math.random() * TATAME_MSGS.length)];
+
+            var h = '<div class="checkin-aula-card">';
+            h += '<div class="checkin-aula-label">📅 Aula de Hoje' + (horFmt ? ' · ⏰ ' + horFmt : '') + '</div>';
+            h += '<div class="checkin-aula-tema">' + escapeHtml(aulaHoje.tema) + '</div>';
+            if (aulaHoje.ct) h += '<div class="checkin-aula-meta">📍 ' + escapeHtml(aulaHoje.ct) + '</div>';
+            if (aulaHoje.descricao) h += '<div class="checkin-aula-desc">' + escapeHtml(aulaHoje.descricao) + '</div>';
+            if (aulaHoje.tecnicas && aulaHoje.tecnicas.length) {
+                h += '<div class="checkin-aula-tecs">';
+                aulaHoje.tecnicas.forEach(function(t) { h += '<span class="checkin-aula-tec">🥋 ' + escapeHtml(t) + '</span>'; });
+                h += '</div>';
+            }
+            h += '<div class="checkin-aula-msg"><span class="checkin-aula-msg-icon">🤙</span><span>' + tatameMsg + '</span></div>';
+            h += '</div>';
+
+            el.innerHTML = h;
+            el.style.display = 'block';
         }
 
         // ═══ TREINO ALARM ═══
@@ -8608,26 +8824,60 @@
                 var tempoRestante = hhR > 0 ? hhR + 'h' + (mmR > 0 ? mmR + 'min' : '') : mmR + 'min';
                 title.textContent = '✅ Check-in liberado!';
                 sub.textContent = '🥋 Aula das ' + slotCheckinAberto.label + (multiCT ? ' · ' + slotCheckinAberto.ct : '') + ' · Confirme sua presença!';
-                timesDiv.innerHTML = '<div style="font-size:11px;color:rgba(74,222,128,0.6);">⏳ Janela encerra em <strong>' + tempoRestante + '</strong></div>';
+                var temaHtml = _getAulaTemaHtml(slotCheckinAberto);
+                timesDiv.innerHTML = temaHtml + '<div style="font-size:11px;color:rgba(74,222,128,0.6);margin-top:4px;">⏳ Janela encerra em <strong>' + tempoRestante + '</strong></div>';
             } else if (slotEmAndamento) {
                 var minParaCheckin = slotEmAndamento.checkinOpen - nowMin;
                 var hhC = Math.floor(minParaCheckin / 60), mmC = minParaCheckin % 60;
                 var tempoCheckin = hhC > 0 ? hhC + 'h' + (mmC > 0 ? mmC + 'min' : '') : mmC + 'min';
                 title.textContent = 'Aula em andamento!';
                 sub.textContent = '🥋 ' + slotEmAndamento.label + (multiCT ? ' · ' + slotEmAndamento.ct : '') + ' · Bora pro tatame!';
-                timesDiv.innerHTML = '<div style="font-size:11px;color:rgba(212,165,41,0.6);">⏳ Check-in libera em <strong>' + tempoCheckin + '</strong></div>';
+                var temaHtml = _getAulaTemaHtml(slotEmAndamento);
+                timesDiv.innerHTML = temaHtml + '<div style="font-size:11px;color:rgba(212,165,41,0.6);margin-top:4px;">⏳ Check-in libera em <strong>' + tempoCheckin + '</strong></div>';
             } else if (proximoSlot) {
                 var diffMin = proximoSlot.startMin - nowMin;
                 var hh = Math.floor(diffMin / 60), mm = diffMin % 60;
                 var countdown = hh > 0 ? hh + 'h' + (mm > 0 ? mm + 'min' : '') : mm + 'min';
                 title.textContent = 'Hoje tem treino!';
                 sub.textContent = '⏱️ Próxima aula em ' + countdown + (multiCT ? ' · ' + proximoSlot.ct : '');
-                timesDiv.innerHTML = '<div class="treino-alarm-time next"><span class="clock-icon">⏰</span> ' + proximoSlot.label + (multiCT ? ' · ' + proximoSlot.ct : '') + '</div>';
+                var temaHtml = _getAulaTemaHtml(proximoSlot);
+                timesDiv.innerHTML = temaHtml + '<div class="treino-alarm-time next" style="margin-top:4px;"><span class="clock-icon">⏰</span> ' + proximoSlot.label + (multiCT ? ' · ' + proximoSlot.ct : '') + '</div>';
             } else {
                 title.textContent = 'Hoje tem treino!';
                 sub.textContent = hojeName + ' · ' + ctLabel;
                 timesDiv.innerHTML = '';
             }
+        }
+
+        // Retorna HTML com tema da aula para o slot atual (usa _cronoAulas se disponível)
+        function _getAulaTemaHtml(slot) {
+            if (!_cronoAulas || !_cronoAulas.length) return '';
+            var todayStr = (function() {
+                var n = new Date();
+                return n.getFullYear() + '-' + String(n.getMonth()+1).padStart(2,'0') + '-' + String(n.getDate()).padStart(2,'0');
+            })();
+            var aula = _cronoAulas.find(function(a) {
+                if (a.data !== todayStr) return false;
+                if (slot.ct && a.ct && a.ct.toLowerCase() !== slot.ct.toLowerCase()) return false;
+                // Compara horário: slot.label é "HH:MM", a.horario pode ser "HH:MM"
+                if (slot.label && a.horario) {
+                    var sl = slot.label.replace('h',':').trim();
+                    var ah = (a.horario || '').trim();
+                    if (sl !== ah) return false;
+                }
+                return true;
+            });
+            // Fallback: qualquer aula de hoje se só uma
+            if (!aula) {
+                var aulasHoje = _cronoAulas.filter(function(a) { return a.data === todayStr && a.tema; });
+                if (aulasHoje.length === 1) aula = aulasHoje[0];
+                else if (slot.ct) aula = aulasHoje.find(function(a) { return a.ct && a.ct.toLowerCase() === slot.ct.toLowerCase(); });
+            }
+            if (!aula || !aula.tema) return '';
+            return '<div style="margin-top:5px;padding:7px 10px;background:rgba(212,165,41,0.1);border:1px solid rgba(212,165,41,0.2);border-radius:9px;">' +
+                '<div style="font-size:9px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;">📍 Hoje no tatame</div>' +
+                '<div style="font-size:13px;font-weight:800;color:var(--text-1);font-family:\'Sora\',sans-serif;line-height:1.25;">' + escapeHtml(aula.tema) + '</div>' +
+                '</div>';
         }
 
         /**
@@ -13222,201 +13472,146 @@
         var _aulasCalYear, _aulasCalMonth;
         var _aulasSelectedDate = null;
         var _cronoValidationEdits = {};
-        var _cronoCTAtivo = '';       // CT sendo visualizado agora
-        var _cronoCTsPermitidos = []; // CT principal + CTs liberados pelo admin
+        var _cronoCTAtivo = '';         // CT sendo visualizado agora
+        var _cronoCTsPermitidos = [];   // CTs com contrato do aluno
+        var _cronoViewMode = 'diario';  // 'mensal' | 'diario' — padrão: diário
+        var _cronoDaySelected = null;   // data ISO selecionada no modo diário
 
-        async function loadCronograma(ctFiltro) {
+        // ── CT SELECTOR (todos os CTs disponíveis) ────────────────────────────
+        function renderCronoCTSelector() {
+            var el = document.getElementById('cronoCTSelector');
+            if (!el) return;
+            var cts = allCTs || [];
+            if (!cts.length) { el.style.display = 'none'; return; }
+            var dayKeys = ['dom','seg','ter','qua','qui','sex','sab'];
+            var hoje = dayKeys[new Date().getDay()];
+            var h = '<div class="crono-ct-selector-label">📍 Cronograma de:</div><div class="crono-ct-bar">';
+            cts.forEach(function(ct) {
+                if (typeof ct === 'string') return;
+                var nome = ct.name || '';
+                var temContrato = _cronoCTsPermitidos.indexOf(nome) !== -1 || (currentUser && currentUser.ct === nome);
+                var isAtivo = nome === _cronoCTAtivo;
+                var viewOnly = !temContrato;
+                h += '<button class="crono-ct-chip' + (isAtivo ? ' ativo' : '') + (viewOnly && !isAtivo ? ' view-only' : '') + '" onclick="trocarCronogramaCT(\'' + nome.replace(/\'/g,"\\'") + '\',' + viewOnly + ')">';
+                h += '<span class="ct-chip-dot"></span>' + escapeHtml(nome);
+                if (viewOnly && !isAtivo) h += '<span class="crono-ct-view-badge">\u{1F441}\uFE0F</span>';
+                h += '</button>';
+            });
+            h += '</div>';
+            el.innerHTML = h;
+            el.style.display = 'block';
+        }
+
+        async function trocarCronogramaCT(ct, apenasVisualizar) {
+            _aulasSelectedDate = null; _cronoDaySelected = null;
+            var detail = document.getElementById('aulaDayDetail');
+            if (detail) detail.style.display = 'none';
+            await loadCronograma(ct, !!apenasVisualizar);
+        }
+
+        async function loadCronograma(ctFiltro, apenasVisualizar) {
             try {
                 var params = { email: currentUser.email };
                 if (ctFiltro) params.ct = ctFiltro;
+                if (apenasVisualizar) params.apenasVisualizar = true;
                 var data = await secureFetch('getCronogramaAulas', params);
                 if (data.success) {
                     _cronoAulas = data.aulas || [];
                     _cronoCTAtivo = data.ctAtivo || '';
                     _cronoCTsPermitidos = data.todosPermitidos || [];
-                    // Init calendar to current month
                     var now = new Date();
                     _aulasCalYear = now.getFullYear();
                     _aulasCalMonth = now.getMonth();
+                    if (!_cronoDaySelected) _cronoDaySelected = _isoToday();
                     renderCronoCTSelector();
                     renderCronoKPIs();
-                    renderCronoTreinoHoje();
-                    renderAulasCalendar();
-                    // Atualiza seção de CTs no Perfil
+                    // Renderiza o modo ativo
+                    if (_cronoViewMode === 'diario') {
+                        renderCronoDiario();
+                    } else {
+                        renderCronoTreinoHoje();
+                        renderAulasCalendar();
+                    }
                     renderPerfilCTsLiberados(_cronoCTsPermitidos, _cronoCTAtivo);
+                    // Atualiza alarm com tema da aula agora que _cronoAulas está disponível
+                    if (allCTs && allCTs.length > 0) checkTreinoAlarm(allCTs);
                 }
             } catch(e) { console.error('loadCronograma:', e); }
         }
 
-        // Renderiza seção de CTs liberados no Perfil do aluno
-        function renderPerfilCTsLiberados(todosPermitidos, ctAtivo) {
-            var sec = document.getElementById('perfilSecCTsLiberados');
-            var grid = document.getElementById('perfilCTsLiberadosGrid');
-            if (!sec || !grid) return;
-
-            // Só mostra quando há mais de 1 CT (CT principal + liberados)
-            if (!todosPermitidos || todosPermitidos.length <= 1) {
-                sec.style.display = 'none';
-                return;
-            }
-            sec.style.display = '';
-            grid.innerHTML = '';
-
-            todosPermitidos.forEach(function(ct) {
-                var isPrincipal = (currentUser && ct === currentUser.ct);
-                var isAtivo = ct === ctAtivo;
-                var btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = 'perfil-ct-lib-btn';
-                btn.style.border = isAtivo ? '1.5px solid var(--accent)' : '';
-                btn.innerHTML =
-                    '<div class="pclb-dot" style="background:' + (isAtivo ? 'var(--accent)' : 'var(--text-3)') + ';"></div>' +
-                    '<div class="pclb-label">' + escapeHtml(ct) + (isPrincipal ? ' <span style="font-size:9px;opacity:0.5;">(principal)</span>' : '') + '</div>' +
-                    '<div class="pclb-arrow">' + (isAtivo ? '✓' : '→') + '</div>';
-                btn.addEventListener('click', function() {
-                    // Navegar para aba Cronograma e carregar esse CT
-                    var cronoTab = document.querySelector('[data-module="aulas"]');
-                    if (cronoTab) cronoTab.click();
-                    setTimeout(function() { trocarCronogramaCT(ct); }, 200);
-                });
-                grid.appendChild(btn);
-            });
+        function _isoToday() {
+            var n = new Date();
+            return n.getFullYear() + '-' + String(n.getMonth()+1).padStart(2,'0') + '-' + String(n.getDate()).padStart(2,'0');
         }
 
-        function renderCronoCTSelector() {
-            var el = document.getElementById('cronoCTSelector');
-            if (!el) return;
-            // Só mostra se aluno tem acesso a mais de 1 CT
-            if (!_cronoCTsPermitidos || _cronoCTsPermitidos.length <= 1) {
-                el.style.display = 'none';
-                return;
-            }
-            el.style.display = 'block';
-            var h = '<div class="crono-ct-selector-label">📍 Visualizando cronograma de:</div>';
-            h += '<div class="crono-ct-selector-tabs">';
-            _cronoCTsPermitidos.forEach(function(ct) {
-                var isAtivo = ct === _cronoCTAtivo;
-                h += '<button class="crono-ct-tab' + (isAtivo ? ' ativo' : '') + '" onclick="trocarCronogramaCT(\'' + ct.replace(/'/g, "\\'") + '\')">' + escapeHtml(ct) + '</button>';
-            });
-            h += '</div>';
-            el.innerHTML = h;
+        // ── VIEW TOGGLE ───────────────────────────────────────────────────────
+        function setCronoView(mode) {
+            _cronoViewMode = mode;
+            document.getElementById('cronoPanelDiario').style.display  = mode === 'diario'  ? '' : 'none';
+            document.getElementById('cronoPanelMensal').style.display  = mode === 'mensal' ? '' : 'none';
+            document.getElementById('cronoViewDiario').classList.toggle('active',  mode === 'diario');
+            document.getElementById('cronoViewMensal').classList.toggle('active', mode === 'mensal');
+            if (mode === 'diario') { if (!_cronoDaySelected) _cronoDaySelected = _isoToday(); renderCronoDiario(); }
+            if (mode === 'mensal') { renderCronoTreinoHoje(); renderAulasCalendar(); }
         }
 
-        async function trocarCronogramaCT(ct) {
-            _aulasSelectedDate = null;
-            var detail = document.getElementById('aulaDayDetail');
-            if (detail) detail.style.display = 'none';
-            await loadCronograma(ct);
-        }
-
+        // ── MENSAL: KPIs ──────────────────────────────────────────────────────
         function renderCronoKPIs() {
             var el = document.getElementById('cronoKPIs');
             if (!el) return;
-            var total = _cronoAulas.length;
-            var presentes = _cronoAulas.filter(function(a) { return a.status === 'presente' || a.status === 'presente_hoje'; }).length;
-            var ausentes = _cronoAulas.filter(function(a) { return a.status === 'ausente'; }).length;
-            var proximas = _cronoAulas.filter(function(a) { return a.status === 'futuro' || a.status === 'hoje'; }).length;
+            var total    = _cronoAulas.length;
+            var presentes = _cronoAulas.filter(function(a){ return a.status==='presente'||a.status==='presente_hoje'; }).length;
+            var ausentes  = _cronoAulas.filter(function(a){ return a.status==='ausente'; }).length;
+            var proximas  = _cronoAulas.filter(function(a){ return a.status==='futuro'||a.status==='hoje'; }).length;
             el.innerHTML =
-                '<div class="crono-kpi"><div class="crono-kpi-num" style="color:var(--text-1);">' + total + '</div><div class="crono-kpi-lbl">Total</div></div>' +
+                '<div class="crono-kpi"><div class="crono-kpi-num">' + total + '</div><div class="crono-kpi-lbl">Total</div></div>' +
                 '<div class="crono-kpi"><div class="crono-kpi-num" style="color:#4ade80;">' + presentes + '</div><div class="crono-kpi-lbl">Presente</div></div>' +
                 '<div class="crono-kpi"><div class="crono-kpi-num" style="color:#f87171;">' + ausentes + '</div><div class="crono-kpi-lbl">Faltei</div></div>' +
                 '<div class="crono-kpi"><div class="crono-kpi-num" style="color:#38bdf8;">' + proximas + '</div><div class="crono-kpi-lbl">Próximas</div></div>';
         }
 
+        // ── MENSAL: "Onde tem treino hoje" ────────────────────────────────────
         function renderCronoTreinoHoje() {
             var el = document.getElementById('cronoTreinoHoje');
             if (!el) return;
-
             var dayKeys = ['dom','seg','ter','qua','qui','sex','sab'];
-            var dayLabels = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+            var dayLbls = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
             var hoje = dayKeys[new Date().getDay()];
-            var hojeLabel = dayLabels[new Date().getDay()];
-
-            // Usa allCTs carregado globalmente
+            var hojeLabel = dayLbls[new Date().getDay()];
             var cts = allCTs || [];
-            if (!cts.length) {
-                // Tenta buscar se ainda não carregou
-                el.innerHTML = '';
-                return;
-            }
-
-            // Filtra CTs com aula hoje
+            if (!cts.length) { el.innerHTML = ''; return; }
             var ctsHoje = [];
             cts.forEach(function(ct) {
                 if (typeof ct === 'string') return;
                 var sch = ct.schedule || {};
-                var temConfig = Object.values(sch).some(function(v) { return v === true; });
-                if (!temConfig || !sch[hoje]) return;
-
-                // Pega horários do dia
+                if (!Object.values(sch).some(function(v){ return v; }) || !sch[hoje]) return;
                 var hpd = ct.horariosPorDia || {};
                 var horRaw = hpd[hoje] || hpd['_global'] || ct.horarios || '';
-                // Limpa horário caso venha com 1899
-                if (horRaw.indexOf('1899') > -1) {
-                    var mh = horRaw.match(/(\d{1,2}:\d{2})/g);
-                    horRaw = mh ? mh.join(', ') : '';
-                }
-                // Formata HH:MM → HHhMM
+                if (horRaw.indexOf('1899') > -1) { var mh = horRaw.match(/(\d{1,2}:\d{2})/g); horRaw = mh ? mh.join(', ') : ''; }
                 var horarios = horRaw ? horRaw.split(',').map(function(h2) {
-                    var h2 = h2.trim();
-                    var hm = h2.match(/^(\d{1,2}):(\d{2})$/);
-                    return hm ? hm[1] + 'h' + hm[2] : h2;
+                    var hm = h2.trim().match(/^(\d{1,2}):(\d{2})$/);
+                    return hm ? hm[1]+'h'+hm[2] : h2.trim();
                 }).filter(Boolean) : [];
-
-                ctsHoje.push({
-                    name: ct.name || '',
-                    horarios: horarios,
-                    endereco: ct.endereco || '',
-                    mapLink: ct.mapLink || '',
-                    instagram: ct.instagram || '',
-                    telefone: ct.telefone || ''
-                });
+                ctsHoje.push({ name: ct.name||'', horarios: horarios, endereco: ct.endereco||'', mapLink: ct.mapLink||'' });
             });
-
-            if (!ctsHoje.length) {
-                el.innerHTML = '<div class="crono-hoje-panel"><div class="crono-hoje-vazio">😴 Nenhum CT com treino hoje (' + hojeLabel + ')</div></div>';
-                return;
-            }
-
-            var h = '<div class="crono-hoje-panel">';
-            h += '<div class="crono-hoje-title">🥋 Onde tem treino hoje? · <span style="font-weight:500;color:var(--text-2);">' + hojeLabel + '</span></div>';
-
+            if (!ctsHoje.length) { el.innerHTML = '<div class="crono-hoje-panel"><div class="crono-hoje-vazio">😴 Nenhum CT com treino hoje (' + hojeLabel + ')</div></div>'; return; }
+            var h = '<div class="crono-hoje-panel"><div class="crono-hoje-title">🥋 Onde tem treino hoje? <span style="font-weight:500;color:var(--text-2);">· ' + hojeLabel + '</span></div>';
             ctsHoje.forEach(function(c) {
-                h += '<div class="crono-hoje-ct">';
-                h += '<div class="crono-hoje-ct-dot"></div>';
-                h += '<div style="flex:1;">';
+                h += '<div class="crono-hoje-ct"><div class="crono-hoje-ct-dot"></div><div style="flex:1;">';
                 h += '<div class="crono-hoje-ct-name">' + escapeHtml(c.name) + '</div>';
-
-                // Horários
-                if (c.horarios.length) {
-                    h += '<div style="margin-top:4px;">';
-                    c.horarios.forEach(function(hor) {
-                        h += '<span class="crono-hoje-ct-horario">⏰ ' + escapeHtml(hor) + '</span>';
-                    });
-                    h += '</div>';
-                }
-
-                // Endereço + mapa
-                if (c.endereco) {
-                    h += '<div class="crono-hoje-ct-info">📍 ' + escapeHtml(c.endereco);
-                    if (c.mapLink) h += ' · <a href="' + escapeHtml(c.mapLink) + '" target="_blank" style="color:var(--accent);text-decoration:none;">Ver mapa →</a>';
-                    h += '</div>';
-                }
-
-                h += '</div>';
-                h += '</div>';
+                if (c.horarios.length) { h += '<div style="margin-top:4px;">'; c.horarios.forEach(function(hor){ h += '<span class="crono-hoje-ct-horario">⏰ ' + escapeHtml(hor) + '</span>'; }); h += '</div>'; }
+                if (c.endereco) { h += '<div class="crono-hoje-ct-info">📍 ' + escapeHtml(c.endereco); if (c.mapLink) h += ' · <a href="' + escapeHtml(c.mapLink) + '" target="_blank" style="color:var(--accent);text-decoration:none;">Ver mapa →</a>'; h += '</div>'; }
+                h += '</div></div>';
             });
-
-            h += '<div class="crono-hoje-aviso">💬 Sobre valores e planos, consulte seu professor.</div>';
-            h += '</div>';
-
+            h += '<div class="crono-hoje-aviso">💬 Sobre valores e planos, consulte seu professor.</div></div>';
             el.innerHTML = h;
         }
 
+        // ── MENSAL: CALENDÁRIO ────────────────────────────────────────────────
         function aulasCalNav(dir) {
             _aulasCalMonth += dir;
             if (_aulasCalMonth > 11) { _aulasCalMonth = 0; _aulasCalYear++; }
-            if (_aulasCalMonth < 0) { _aulasCalMonth = 11; _aulasCalYear--; }
+            if (_aulasCalMonth < 0)  { _aulasCalMonth = 11; _aulasCalYear--; }
             _aulasSelectedDate = null;
             document.getElementById('aulaDayDetail').style.display = 'none';
             renderAulasCalendar();
@@ -13424,50 +13619,31 @@
 
         function renderAulasCalendar() {
             var monthEl = document.getElementById('aulasCalMonth');
-            var gridEl = document.getElementById('aulasCalGrid');
+            var gridEl  = document.getElementById('aulasCalGrid');
             if (!monthEl || !gridEl) return;
-
-            var monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+            var monthNames = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
             monthEl.textContent = monthNames[_aulasCalMonth] + ' ' + _aulasCalYear;
-
-            // Index aulas by date
             var aulasByDate = {};
-            _cronoAulas.forEach(function(a) {
-                if (!aulasByDate[a.data]) aulasByDate[a.data] = [];
-                aulasByDate[a.data].push(a);
-            });
-
+            _cronoAulas.forEach(function(a) { if (!aulasByDate[a.data]) aulasByDate[a.data]=[]; aulasByDate[a.data].push(a); });
             var firstDay = new Date(_aulasCalYear, _aulasCalMonth, 1);
-            var startDay = (firstDay.getDay() + 6) % 7; // Mon=0
+            var startDay = (firstDay.getDay() + 6) % 7;
             var daysInMonth = new Date(_aulasCalYear, _aulasCalMonth + 1, 0).getDate();
-            var today = new Date();
-            var todayStr = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
-
+            var todayStr = _isoToday();
             var h = '';
-            // Empty cells before first day
             for (var e = 0; e < startDay; e++) h += '<div class="aula-day empty"></div>';
-
             for (var d = 1; d <= daysInMonth; d++) {
-                var dateStr = _aulasCalYear + '-' + ('0' + (_aulasCalMonth + 1)).slice(-2) + '-' + ('0' + d).slice(-2);
+                var dateStr = _aulasCalYear + '-' + String(_aulasCalMonth+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
                 var isToday = dateStr === todayStr;
                 var isSelected = dateStr === _aulasSelectedDate;
                 var dayAulas = aulasByDate[dateStr] || [];
                 var hasAula = dayAulas.length > 0;
-
-                var cls = 'aula-day';
-                if (isToday) cls += ' today';
-                if (isSelected) cls += ' selected';
-                if (hasAula) cls += ' has-aula';
-
-                h += '<div class="' + cls + '" onclick="selectAulaDay(\'' + dateStr + '\')">';
-                h += d;
+                var cls = 'aula-day' + (isToday ? ' today' : '') + (isSelected ? ' selected' : '') + (hasAula ? ' has-aula' : '');
+                h += '<div class="' + cls + '" onclick="selectAulaDay(\'' + dateStr + '\')">' + d;
                 if (hasAula) {
-                    // Determine best status for dot color
                     var bestStatus = dayAulas[0].status;
-                    // Priority: hoje > presente > estudou > ausente > futuro
                     dayAulas.forEach(function(a) {
-                        if (a.status === 'hoje' || a.status === 'presente_hoje') bestStatus = a.status;
-                        else if (a.status === 'presente' && bestStatus !== 'hoje' && bestStatus !== 'presente_hoje') bestStatus = 'presente';
+                        if (a.status==='hoje'||a.status==='presente_hoje') bestStatus=a.status;
+                        else if (a.status==='presente'&&bestStatus!=='hoje'&&bestStatus!=='presente_hoje') bestStatus='presente';
                     });
                     h += '<div class="aula-dot ' + bestStatus + '"></div>';
                 }
@@ -13485,124 +13661,149 @@
         function renderAulaDayDetail(dateStr) {
             var el = document.getElementById('aulaDayDetail');
             if (!el) return;
-
-            var dayAulas = _cronoAulas.filter(function(a) { return a.data === dateStr; });
-            var dt;
-            try { var parts = dateStr.split('-'); dt = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2])); } catch(x) { dt = new Date(); }
+            var dayAulas = _cronoAulas.filter(function(a){ return a.data===dateStr; });
+            var dt; try { var p=dateStr.split('-'); dt=new Date(parseInt(p[0]),parseInt(p[1])-1,parseInt(p[2])); } catch(x){ dt=new Date(); }
             var dayNames = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
-            var dateLabel = dayNames[dt.getDay()] + ', ' + ('0'+dt.getDate()).slice(-2) + '/' + ('0'+(dt.getMonth()+1)).slice(-2) + '/' + dt.getFullYear();
-
-            if (dayAulas.length === 0) {
-                el.style.display = 'block';
-                el.innerHTML = '<div class="aula-detail"><div class="aula-detail-date">' + dateLabel + '</div>' +
-                    '<div style="text-align:center;color:var(--text-3);font-size:12px;padding:10px;">Nenhuma aula planejada para este dia</div></div>';
+            var dateLabel = dayNames[dt.getDay()] + ', ' + String(dt.getDate()).padStart(2,'0') + '/' + String(dt.getMonth()+1).padStart(2,'0') + '/' + dt.getFullYear();
+            el.style.display = 'block';
+            if (!dayAulas.length) {
+                el.innerHTML = '<div class="aula-detail"><div class="aula-detail-date">' + dateLabel + '</div><div style="text-align:center;color:var(--text-3);font-size:12px;padding:10px;">Nenhuma aula planejada para este dia</div></div>';
                 return;
             }
-
-            el.style.display = 'block';
-            var statusLabels = { presente: '✅ Presente', presente_hoje: '✅ Presente', ausente: '❌ Faltei', estudou: '📖 Estudei', hoje: '⭐ Hoje', futuro: '📅 Próxima', pendente_esquecimento: '⏳ Aguardando' };
-            var h = '<div class="aula-detail">';
-            h += '<div class="aula-detail-date">' + dateLabel + '</div>';
-
-            dayAulas.forEach(function(a) {
-                h += '<div class="crono-card status-' + a.status + '" style="margin-bottom:8px;">';
-                h += '<div class="crono-date-row">';
-
-                // Formatar horário: "Neofit: 07h30"
-                var horRaw = (a.horario || '').toString();
-                var hmM = horRaw.match(/(\d{1,2}):(\d{2})/);
-                var horLabel = hmM ? hmM[1] + 'h' + hmM[2] : '';
-                var ctLabel2 = a.ct || '';
-                var horDisplay = ctLabel2 && horLabel ? ctLabel2 + ': ' + horLabel : (ctLabel2 || horLabel);
-                if (horDisplay) h += '<span class="crono-horario">🕐 ' + escapeHtml(horDisplay) + '</span>';
-
-                h += '<span class="crono-status-badge ' + a.status + '">' + (statusLabels[a.status] || a.status) + '</span>';
-                h += '</div>';
-                h += '<div class="crono-tema">' + escapeHtml(a.tema) + '</div>';
-                if (a.descricao) h += '<div class="crono-desc">' + escapeHtml(a.descricao) + '</div>';
-
-                if (a.status === 'hoje' || a.status === 'futuro') {
-                    h += '<div style="margin-top:8px;padding:8px 10px;background:rgba(56,189,248,0.06);border:1px dashed rgba(56,189,248,0.15);border-radius:8px;font-size:11px;color:#38bdf8;">';
-                    h += '📖 <strong>Prepare-se!</strong> Revise o conteúdo antes da aula</div>';
-                }
-
-                if (a.status === 'ausente') {
-                    h += '<button class="crono-contestar-btn" onclick="abrirModalEsquecimento(\'' + escapeHtml(a.data) + '\',\'' + escapeHtml(a.horario || '') + '\')">';
-                    h += '✋ Esqueci de fazer check-in — Solicitar presença</button>';
-                }
-
-                if (a.status === 'pendente_esquecimento') {
-                    h += '<div style="margin-top:8px;padding:8px 10px;background:rgba(251,191,36,0.06);border:1px dashed rgba(251,191,36,0.2);border-radius:8px;font-size:11px;color:#fbbf24;">⏳ Solicitação enviada. Aguardando aprovação do professor.</div>';
-                }
-
-                h += '</div>';
-            });
-            h += '</div>';
-            el.innerHTML = h;
+            el.innerHTML = '<div class="aula-detail"><div class="aula-detail-date">' + dateLabel + '</div>' + _renderAulaCards(dayAulas) + '</div>';
             el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        // Keep stubs for validation functions (unused now but safe)
-        function renderTecnicaValidation() { return ''; }
-
-        function toggleCronoValidate(aulaId) {
-            var area = document.getElementById('validate_' + aulaId);
-            if (area) area.classList.toggle('open');
+        // ── DIÁRIO: NAVEGAÇÃO E RENDER ─────────────────────────────────────────
+        function cronoDayNav(dir) {
+            var d = new Date(_cronoDaySelected + 'T12:00:00');
+            d.setDate(d.getDate() + dir);
+            _cronoDaySelected = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+            renderCronoDiario();
         }
 
-        function toggleTecValidation(aulaIdx, tecIdx, value, btn) {
-            if (!_cronoValidationEdits[aulaIdx]) {
-                var aula = _cronoAulas[aulaIdx];
-                _cronoValidationEdits[aulaIdx] = aula.validacao ? JSON.parse(JSON.stringify(aula.validacao)) : {};
+        function cronoWeekSelectDay(dateStr) { _cronoDaySelected = dateStr; renderCronoDiario(); }
+
+        function renderCronoDiario() {
+            if (_cronoViewMode !== 'diario') return;
+            var titleEl   = document.getElementById('cronoDayTitle');
+            var stripEl   = document.getElementById('cronoWeekStrip');
+            var contentEl = document.getElementById('cronoDiarioContent');
+            if (!titleEl || !stripEl || !contentEl) return;
+            if (!_cronoDaySelected) _cronoDaySelected = _isoToday();
+            var sel = new Date(_cronoDaySelected + 'T12:00:00');
+            var todayStr = _isoToday();
+            var dayNamesLong  = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+            var dayNamesShort = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+            var monthNames    = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+            var isToday = _cronoDaySelected === todayStr;
+            titleEl.innerHTML = dayNamesLong[sel.getDay()] + ', ' + String(sel.getDate()).padStart(2,'0') + ' ' + monthNames[sel.getMonth()] +
+                '<small>' + (isToday ? '📍 Hoje' : sel.getFullYear()) + '</small>';
+
+            // Week strip Mon–Sun
+            var dow = sel.getDay();
+            var monday = new Date(sel); monday.setDate(sel.getDate() - ((dow + 6) % 7));
+            var aulasByDate = {};
+            _cronoAulas.forEach(function(a){ if (!aulasByDate[a.data]) aulasByDate[a.data]=[]; aulasByDate[a.data].push(a); });
+            var stripH = '';
+            for (var i = 0; i < 7; i++) {
+                var wd = new Date(monday); wd.setDate(monday.getDate() + i);
+                var wdStr = wd.getFullYear() + '-' + String(wd.getMonth()+1).padStart(2,'0') + '-' + String(wd.getDate()).padStart(2,'0');
+                var hasA  = !!(aulasByDate[wdStr] && aulasByDate[wdStr].length);
+                var wCls  = 'crono-week-day' + (wdStr===_cronoDaySelected?' active':'') + (wdStr===todayStr?' today':'') + (hasA?' has-aula':'');
+                stripH += '<div class="' + wCls + '" onclick="cronoWeekSelectDay(\'' + wdStr + '\')">' +
+                    '<span class="wd-lbl">' + dayNamesShort[wd.getDay()] + '</span>' +
+                    '<span class="wd-num">' + wd.getDate() + '</span>' +
+                    '<span class="wd-dot"></span></div>';
             }
-            var cur = _cronoValidationEdits[aulaIdx][tecIdx.toString()];
-            if (cur === value) delete _cronoValidationEdits[aulaIdx][tecIdx.toString()];
-            else _cronoValidationEdits[aulaIdx][tecIdx.toString()] = value;
-            var row = document.getElementById('tecRow_' + aulaIdx + '_' + tecIdx);
-            if (row) {
-                var btns = row.querySelectorAll('.crono-tec-toggle button');
-                btns.forEach(function(b) { b.classList.remove('active'); });
-                var nv = _cronoValidationEdits[aulaIdx][tecIdx.toString()];
-                if (nv === 1) btns[0].classList.add('active');
-                else if (nv === 0) btns[1].classList.add('active');
+            stripEl.innerHTML = stripH;
+
+            // Content
+            var dayAulas = aulasByDate[_cronoDaySelected] || [];
+            if (!dayAulas.length) {
+                var isFuture = _cronoDaySelected > todayStr;
+                contentEl.innerHTML = '<div class="crono-diario-empty">' +
+                    '<div class="crono-diario-empty-icon">' + (isFuture?'📅':'😴') + '</div>' +
+                    '<div class="crono-diario-empty-title">' + (isFuture?'Sem aula cadastrada':'Sem treino neste dia') + '</div>' +
+                    '<div class="crono-diario-empty-sub">' + (isToday?'Nenhuma aula registrada para hoje. Consulte seu professor.':'Nenhuma aula registrada para este dia.') + '</div></div>';
+                return;
             }
+            var h = '';
+            dayAulas.forEach(function(a) {
+                if ((a.status==='hoje'||a.status==='futuro') && a.tema) {
+                    h += '<div class="crono-diario-hoje-header">';
+                    h += '<div class="crono-diario-hoje-label">' + (a.status==='hoje'?'📍 Hoje no tatame':'📅 Em breve') + '</div>';
+                    h += '<div class="crono-diario-hoje-title">' + escapeHtml(a.tema) + '</div>';
+                    var hmM = (a.horario||'').match(/(\d{1,2}):(\d{2})/);
+                    var horFmt = hmM ? hmM[1]+'h'+hmM[2] : (a.horario||'');
+                    if (a.ct||horFmt) h += '<div class="crono-diario-hoje-ct">' + escapeHtml(a.ct||'') + (horFmt?' · ⏰ '+horFmt:'') + '</div>';
+                    if (a.descricao) h += '<div style="font-size:12px;color:var(--text-2);margin-top:6px;line-height:1.5;">' + escapeHtml(a.descricao) + '</div>';
+                    if (a.tecnicas && a.tecnicas.length) {
+                        h += '<div style="font-size:10px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:0.5px;margin-top:10px;margin-bottom:6px;">🥋 Técnicas da aula</div>';
+                        h += '<div class="crono-diario-tec-list">';
+                        a.tecnicas.forEach(function(tec) {
+                            var val = a.validacao ? a.validacao[tec] : undefined;
+                            var cls = val===1?' ok':val===0?' rev':'';
+                            var icon = val===1?'✅ ':val===0?'⚠️ ':'🥋 ';
+                            h += '<span class="crono-diario-tec' + cls + '">' + icon + escapeHtml(tec) + '</span>';
+                        });
+                        h += '</div>';
+                    }
+                    h += '</div>';
+                }
+            });
+            h += _renderAulaCards(dayAulas);
+            contentEl.innerHTML = h;
         }
 
-        async function saveAulaValidacao(aulaIdx) {
-            var aula = _cronoAulas[aulaIdx];
-            if (!aula) return;
-            var validacoes = _cronoValidationEdits[aulaIdx] || aula.validacao || {};
-            var msgEl = document.getElementById('saveMsg_' + aulaIdx);
-            var btn = document.getElementById('savebtn_' + aulaIdx);
-            if (btn) btn.disabled = true;
-            if (msgEl) msgEl.innerHTML = '<span style="color:var(--accent);">Salvando...</span>';
-            try {
-                var data = await secureFetch('validateAulaTecnicas', { aulaData: aula.data, aulaCT: aula.ct, validacoes: JSON.stringify(validacoes) });
-                if (data.success) {
-                    if (msgEl) msgEl.innerHTML = '<span style="color:#4ade80;">✅ Salvo!</span>';
-                    aula.validacao = validacoes;
-                    var dom = 0, rev = 0;
-                    for (var k in validacoes) { if (validacoes[k] === 1) dom++; else if (validacoes[k] === 0) rev++; }
-                    aula.dominadas = dom; aula.revisar = rev;
-                    delete _cronoValidationEdits[aulaIdx];
-                    renderCronoKPIs();
-                    setTimeout(function() { renderAulaDayDetail(aula.data); }, 600);
-                } else { if (msgEl) msgEl.innerHTML = '<span style="color:#f87171;">' + (data.message || 'Erro') + '</span>'; }
-            } catch(e) { if (msgEl) msgEl.innerHTML = '<span style="color:#f87171;">' + e.message + '</span>'; }
-            if (btn) btn.disabled = false;
+        // ── SHARED: render aula cards ─────────────────────────────────────────
+        function _renderAulaCards(dayAulas) {
+            var statusLabels = { presente:'✅ Presente', presente_hoje:'✅ Presente', ausente:'❌ Faltei', estudou:'📖 Estudei', hoje:'⭐ Hoje', futuro:'📅 Próxima', pendente_esquecimento:'⏳ Aguardando' };
+            var h = '';
+            dayAulas.forEach(function(a) {
+                h += '<div class="crono-card status-' + a.status + '" style="margin-bottom:8px;">';
+                h += '<div class="crono-date-row">';
+                var horRaw = (a.horario||'').toString();
+                var hmM = horRaw.match(/(\d{1,2}):(\d{2})/);
+                var horLabel = hmM ? hmM[1]+'h'+hmM[2] : '';
+                var ctLabel = a.ct || '';
+                var horDisplay = ctLabel&&horLabel ? ctLabel+': '+horLabel : (ctLabel||horLabel);
+                if (horDisplay) h += '<span class="crono-horario">🕐 ' + escapeHtml(horDisplay) + '</span>';
+                h += '<span class="crono-status-badge ' + a.status + '">' + (statusLabels[a.status]||a.status) + '</span>';
+                h += '</div>';
+                if (a.tema) h += '<div class="crono-tema">' + escapeHtml(a.tema) + '</div>';
+                if (a.descricao) h += '<div class="crono-desc">' + escapeHtml(a.descricao) + '</div>';
+                if (a.status==='hoje'||a.status==='futuro') h += '<div style="margin-top:8px;padding:8px 10px;background:rgba(56,189,248,0.06);border:1px dashed rgba(56,189,248,0.15);border-radius:8px;font-size:11px;color:#38bdf8;">📖 <strong>Prepare-se!</strong> Revise o conteúdo antes da aula</div>';
+                if (a.status==='ausente') h += '<button class="crono-contestar-btn" onclick="abrirModalEsquecimento(\'' + escapeHtml(a.data) + '\',\'' + escapeHtml(a.horario||'') + '\')">✋ Esqueci de fazer check-in — Solicitar presença</button>';
+                if (a.status==='pendente_esquecimento') h += '<div style="margin-top:8px;padding:8px 10px;background:rgba(251,191,36,0.06);border:1px dashed rgba(251,191,36,0.2);border-radius:8px;font-size:11px;color:#fbbf24;">⏳ Solicitação enviada. Aguardando aprovação do professor.</div>';
+                h += '</div>';
+            });
+            return h;
         }
 
-        async function marcarEstudou(aulaIdx, btn) {
-            var aula = _cronoAulas[aulaIdx];
-            if (!aula || aula.estudou) return;
-            if (btn) { btn.textContent = '⏳ Salvando...'; btn.disabled = true; }
-            try {
-                var data = await secureFetch('marcarEstudouSozinho', { aulaData: aula.data, aulaCT: aula.ct });
-                if (data.success) {
-                    aula.estudou = true; aula.status = 'estudou';
-                    renderCronoKPIs(); renderAulasCalendar(); renderAulaDayDetail(aula.data);
-                } else { if (btn) { btn.textContent = '📖 Estudei por conta própria'; btn.disabled = false; } }
-            } catch(e) { if (btn) { btn.textContent = '📖 Estudei por conta própria'; btn.disabled = false; } }
+        // ── PERFIL: seção de CTs liberados ────────────────────────────────────
+        function renderPerfilCTsLiberados(todosPermitidos, ctAtivo) {
+            var sec  = document.getElementById('perfilSecCTsLiberados');
+            var grid = document.getElementById('perfilCTsLiberadosGrid');
+            if (!sec || !grid) return;
+            if (!todosPermitidos || todosPermitidos.length <= 1) { sec.style.display = 'none'; return; }
+            sec.style.display = '';
+            grid.innerHTML = '';
+            todosPermitidos.forEach(function(ct) {
+                var isPrincipal = (currentUser && ct === currentUser.ct);
+                var isAtivo = ct === ctAtivo;
+                var btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'perfil-ct-lib-btn';
+                btn.style.border = isAtivo ? '1.5px solid var(--accent)' : '';
+                btn.innerHTML = '<div class="pclb-dot" style="background:' + (isAtivo?'var(--accent)':'var(--text-3)') + ';"></div><div class="pclb-label">' + escapeHtml(ct) + (isPrincipal?' <span style="font-size:9px;opacity:0.5;">(principal)</span>':'') + '</div><div class="pclb-arrow">' + (isAtivo?'✓':'→') + '</div>';
+                btn.addEventListener('click', function() {
+                    var cronoTab = document.querySelector('[data-module="aulas"]');
+                    if (cronoTab) cronoTab.click();
+                    setTimeout(function() { trocarCronogramaCT(ct, false); }, 200);
+                });
+                grid.appendChild(btn);
+            });
         }
 
         // Compat aliases
