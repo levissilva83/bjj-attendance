@@ -3964,6 +3964,12 @@
         /* CTs liberados no stuModal */
         .stu-ct-lib-btn { padding:6px 12px; border-radius:16px; border:1px solid var(--border); background:transparent; color:var(--text-2); font-size:11px; font-weight:600; cursor:pointer; transition:all 0.2s; }
         .stu-ct-lib-btn.on { background:rgba(56,189,248,0.12); border-color:#38bdf8; color:#38bdf8; }
+        /* CT liberado no Perfil do aluno */
+        .perfil-ct-lib-btn { display:flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; border:1px solid var(--border); background:var(--bg-elevated); color:var(--text-1); font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s; }
+        .perfil-ct-lib-btn:active { opacity:0.7; }
+        .perfil-ct-lib-btn .pclb-dot { width:8px; height:8px; border-radius:50%; background:var(--accent); flex-shrink:0; }
+        .perfil-ct-lib-btn .pclb-label { flex:1; }
+        .perfil-ct-lib-btn .pclb-arrow { font-size:14px; color:var(--accent); }
         /* Onde tem treino hoje */
         .crono-hoje-panel { background: var(--bg-card); border: 1px solid var(--border-accent); border-radius: 16px; padding: 14px 16px; margin-bottom: 2px; }
         .crono-hoje-title { font-family:'Sora',sans-serif; font-size:13px; font-weight:800; color:var(--text-1); margin-bottom:10px; display:flex; align-items:center; gap:6px; }
@@ -6150,6 +6156,15 @@
                             </div>
                         </div>
 
+                        <!-- CTs Liberados - só aparece se aluno tiver acesso a mais de 1 CT -->
+                        <div class="perfil-section" id="perfilSecCTsLiberados" style="display:none;">
+                            <div class="perfil-section-title"><span>📅</span> Cronograma de outros CTs</div>
+                            <div style="font-size:12px;color:var(--text-2);margin-bottom:12px;line-height:1.5;">
+                                O professor liberou acesso ao cronograma dos CTs abaixo. Toque para visualizar as aulas.
+                            </div>
+                            <div id="perfilCTsLiberadosGrid" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+                        </div>
+
                         <div id="perfilMessage"></div>
                         <button class="perfil-save-btn" id="perfilSaveBtn" onclick="saveProfile()">💾 Salvar Perfil</button>
 
@@ -7460,7 +7475,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwnr4JuGG38KtuL8qkDilcoJ_G5IFY7wt_wA3fiR4H-LrfhShF3-7qWWu-9s4LtPoyd/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzIjD2zwaN47dIly40USj10Nf1EnpUpGcE6E1nKhpszfwxXmJ3ReHYnPqaN6WUlejSZ/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -8081,7 +8096,22 @@
                 var activeSub = tab.querySelector('.subtab-content.active');
                 if (activeSub) triggerSubTabLoad(activeSub.id);
             }
-            if (tabName === 'perfil') loadProfile();
+            if (tabName === 'perfil') {
+                loadProfile();
+                // Renderiza CTs liberados no perfil se cronograma já foi carregado
+                if (_cronoCTsPermitidos && _cronoCTsPermitidos.length > 0) {
+                    renderPerfilCTsLiberados(_cronoCTsPermitidos, _cronoCTAtivo);
+                } else {
+                    // Ainda não carregou cronograma - busca silenciosamente para ter os CTs
+                    secureFetch('getCronogramaAulas', { email: currentUser.email }).then(function(d) {
+                        if (d && d.success) {
+                            _cronoCTAtivo = d.ctAtivo || '';
+                            _cronoCTsPermitidos = d.todosPermitidos || [];
+                            renderPerfilCTsLiberados(_cronoCTsPermitidos, _cronoCTAtivo);
+                        }
+                    }).catch(function() {});
+                }
+            }
             if (tabName === 'quiz-tab') initGamesHub();
             if (tabName === 'prepfisica-tab') loadMusculacao();
         }
@@ -13212,8 +13242,45 @@
                     renderCronoKPIs();
                     renderCronoTreinoHoje();
                     renderAulasCalendar();
+                    // Atualiza seção de CTs no Perfil
+                    renderPerfilCTsLiberados(_cronoCTsPermitidos, _cronoCTAtivo);
                 }
             } catch(e) { console.error('loadCronograma:', e); }
+        }
+
+        // Renderiza seção de CTs liberados no Perfil do aluno
+        function renderPerfilCTsLiberados(todosPermitidos, ctAtivo) {
+            var sec = document.getElementById('perfilSecCTsLiberados');
+            var grid = document.getElementById('perfilCTsLiberadosGrid');
+            if (!sec || !grid) return;
+
+            // Só mostra quando há mais de 1 CT (CT principal + liberados)
+            if (!todosPermitidos || todosPermitidos.length <= 1) {
+                sec.style.display = 'none';
+                return;
+            }
+            sec.style.display = '';
+            grid.innerHTML = '';
+
+            todosPermitidos.forEach(function(ct) {
+                var isPrincipal = (currentUser && ct === currentUser.ct);
+                var isAtivo = ct === ctAtivo;
+                var btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'perfil-ct-lib-btn';
+                btn.style.border = isAtivo ? '1.5px solid var(--accent)' : '';
+                btn.innerHTML =
+                    '<div class="pclb-dot" style="background:' + (isAtivo ? 'var(--accent)' : 'var(--text-3)') + ';"></div>' +
+                    '<div class="pclb-label">' + escapeHtml(ct) + (isPrincipal ? ' <span style="font-size:9px;opacity:0.5;">(principal)</span>' : '') + '</div>' +
+                    '<div class="pclb-arrow">' + (isAtivo ? '✓' : '→') + '</div>';
+                btn.addEventListener('click', function() {
+                    // Navegar para aba Cronograma e carregar esse CT
+                    var cronoTab = document.querySelector('[data-module="aulas"]');
+                    if (cronoTab) cronoTab.click();
+                    setTimeout(function() { trocarCronogramaCT(ct); }, 200);
+                });
+                grid.appendChild(btn);
+            });
         }
 
         function renderCronoCTSelector() {
@@ -17107,6 +17174,19 @@
         function onStuCTChange() {
             var ct = document.getElementById('stuCT').value;
             updateStuDiasHint(ct);
+            // Atualizar grid de CTs liberados: remover o novo CT principal
+            var grid = document.getElementById('stuCTsLiberadosGrid');
+            if (grid) {
+                grid.querySelectorAll('.stu-ct-lib-btn').forEach(function(btn) {
+                    var btnCT = btn.getAttribute('data-ct');
+                    if (btnCT === ct) {
+                        btn.style.display = 'none'; // CT agora é principal, não precisa de liberação
+                        btn.classList.remove('on');
+                    } else {
+                        btn.style.display = '';
+                    }
+                });
+            }
         }
 
         function updateStuDiasHint(ctName) {
