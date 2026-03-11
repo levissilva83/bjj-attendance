@@ -3955,6 +3955,36 @@
         .crono-save-btn:disabled { opacity: 0.4; }
         .crono-estudou-btn { display: flex; align-items: center; gap: 6px; margin-top: 8px; padding: 10px; background: rgba(167,139,250,0.08); border: 1px solid rgba(167,139,250,0.2); border-radius: 10px; font-size: 12px; color: #a78bfa; font-weight: 700; cursor: pointer; width: 100%; justify-content: center; }
         .crono-estudou-btn.done { background: rgba(167,139,250,0.15); border-color: #a78bfa; }
+        /* Contestar / esquecimento */
+        /* Onde tem treino hoje */
+        .crono-hoje-panel { background: var(--bg-card); border: 1px solid var(--border-accent); border-radius: 16px; padding: 14px 16px; margin-bottom: 2px; }
+        .crono-hoje-title { font-family:'Sora',sans-serif; font-size:13px; font-weight:800; color:var(--text-1); margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+        .crono-hoje-ct { display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px solid var(--border); }
+        .crono-hoje-ct:last-child { border-bottom:none; padding-bottom:0; }
+        .crono-hoje-ct-dot { width:8px; height:8px; background:var(--accent); border-radius:50%; margin-top:5px; flex-shrink:0; }
+        .crono-hoje-ct-name { font-size:13px; font-weight:700; color:var(--text-1); line-height:1.3; }
+        .crono-hoje-ct-info { font-size:11px; color:var(--text-2); margin-top:2px; line-height:1.5; }
+        .crono-hoje-ct-horario { display:inline-block; background:rgba(212,165,23,0.12); color:var(--accent); border-radius:6px; padding:2px 7px; font-size:11px; font-weight:700; margin-right:4px; margin-top:3px; }
+        .crono-hoje-aviso { font-size:10px; color:var(--text-3); font-style:italic; margin-top:10px; text-align:center; }
+        .crono-hoje-vazio { text-align:center; padding:10px; color:var(--text-3); font-size:12px; }
+        .crono-contestar-btn { display:flex; align-items:center; gap:6px; margin-top:10px; padding:8px 12px; background:rgba(248,113,113,0.07); border:1px dashed rgba(248,113,113,0.25); border-radius:10px; font-size:11px; color:#f87171; font-weight:700; cursor:pointer; width:100%; justify-content:center; }
+        .crono-contestar-btn:active { opacity:.7; }
+        .crono-status-badge.pendente_esquecimento { background:rgba(251,191,36,.12); color:#fbbf24; }
+        .crono-card.status-pendente_esquecimento::before { background:#fbbf24; }
+        /* Modal esquecimento */
+        .esq-modal-overlay { position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;display:flex;align-items:flex-end;justify-content:center; }
+        .esq-modal { background:var(--bg-card);border-radius:20px 20px 0 0;padding:24px 20px 36px;width:100%;max-width:480px;border-top:1px solid var(--border-accent); }
+        .esq-modal-title { font-family:'Sora',sans-serif;font-size:16px;font-weight:800;color:var(--text-1);margin-bottom:4px; }
+        .esq-modal-sub { font-size:12px;color:var(--text-2);margin-bottom:18px;line-height:1.5; }
+        .esq-field { margin-bottom:14px; }
+        .esq-field label { display:block;font-size:11px;color:var(--text-2);font-weight:600;margin-bottom:6px; }
+        .esq-field input,.esq-field textarea { width:100%;background:var(--bg-elevated);border:1px solid var(--border);border-radius:10px;padding:10px 12px;color:var(--text-1);font-size:13px;font-family:inherit;outline:none;box-sizing:border-box; }
+        .esq-field textarea { resize:none;height:70px; }
+        .esq-btns { display:flex;gap:10px;margin-top:18px; }
+        .esq-btn-cancel { flex:1;padding:12px;border-radius:12px;border:1px solid var(--border);background:transparent;color:var(--text-2);font-size:13px;font-weight:700;cursor:pointer; }
+        .esq-btn-send { flex:2;padding:12px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--accent),var(--gold-deep));color:#000;font-size:13px;font-weight:800;cursor:pointer; }
+        /* Admin badge esquecimento */
+        .admin-esq-badge { display:inline-block;padding:2px 8px;background:rgba(251,191,36,.12);color:#fbbf24;border-radius:6px;font-size:9px;font-weight:700;margin-left:6px;vertical-align:middle; }
         .crono-hero { padding: 14px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 12px; text-align: center; }
         .crono-hero-pct { font-size: 32px; font-weight: 900; font-family: 'Sora', sans-serif; }
         .crono-hero-label { font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.5px; }
@@ -5414,9 +5444,9 @@
                 <div id="treino-tab" class="tab-content active">
                     <div class="subtab-bar" id="treinoSubtabs">
                         <button class="subtab-btn active" data-module="checkin" onclick="switchSubTab('treino-tab','sub-checkin',event)">✍️ Check-in</button>
+                        <button class="subtab-btn" data-module="aulas" onclick="switchSubTab('treino-tab','sub-aulas',event)">📅 Cronograma</button>
                         <button class="subtab-btn" data-module="evolucao" onclick="switchSubTab('treino-tab','sub-evolucao',event)">📈 Evolução</button>
                         <button class="subtab-btn" data-module="presencas" onclick="switchSubTab('treino-tab','sub-presencas',event)">📅 Presenças</button>
-                        <button class="subtab-btn" data-module="aulas" onclick="switchSubTab('treino-tab','sub-aulas',event)">📚 Aulas</button>
                     </div>
 
                     <!-- SUB: CHECK-IN -->
@@ -5703,6 +5733,9 @@
                         <div style="padding:12px 0;">
                             <!-- KPI bar -->
                             <div class="crono-kpi-bar" id="cronoKPIs"></div>
+
+                            <!-- Onde tem treino hoje -->
+                            <div id="cronoTreinoHoje" style="margin-bottom:14px;"></div>
 
                             <!-- Calendar -->
                             <div class="aula-cal">
@@ -7409,7 +7442,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwgEiJYytguh2uqGuuTZuCsHB2KqNvrBCoXutoDP_CrKLtS3s_mJ6tiCpjMQWY7mUSt/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwg8rZtGWOawnlxGyUt2pWPHAtxt5uUtD60si_tjA-mS3Nw-7UitbLm2Bs3PsnMLLUp/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -8201,6 +8234,8 @@
                     }
                     // Check training alarm
                     checkTreinoAlarm(data.cts);
+                    // Atualiza painel "Onde tem treino hoje" no Cronograma
+                    if (typeof renderCronoTreinoHoje === 'function') renderCronoTreinoHoje();
                     // Auto-refresh alarm a cada 60s (countdown, estado)
                     if (!window._alarmInterval) {
                         window._alarmInterval = setInterval(function() {
@@ -8385,7 +8420,15 @@
                         var pm = t.match(/^(\d{1,2}):(\d{2})$/);
                         if (!pm) continue;
                         var h = parseInt(pm[1]), m = parseInt(pm[2]);
-                        var slot = { label: t, startMin: h * 60 + m, endMin: Math.min(h * 60 + m + 300, 1439), ct: ctName };
+                        var classeStart = h * 60 + m;
+                        var slot = {
+                            label: t,
+                            startMin: classeStart,
+                            endMin: classeStart + 60,                        // aula dura 60min
+                            checkinOpen: Math.min(classeStart + 50, 1439),   // check-in abre 50min após início
+                            checkinClose: Math.min(classeStart + 269, 1439), // check-in fecha 4h29 após início
+                            ct: ctName
+                        };
                         ctSlots.push(slot);
                         allSlots.push(slot);
                     }
@@ -8438,10 +8481,10 @@
                 return;
             }
 
-            var primeiraAulaMin = allSlots[0].startMin;
-            var ultimaJanelaFim = allSlots[allSlots.length - 1].endMin;
-            var alertaInicio = primeiraAulaMin - 120;
-            var checkinFeito = fezCheckinHoje();
+            var primeiraAulaMin  = allSlots[0].startMin;
+            var ultimaCheckinFim = allSlots[allSlots.length - 1].checkinClose;
+            var alertaInicio     = primeiraAulaMin - 120;
+            var checkinFeito     = fezCheckinHoje();
 
             // ===== ANTES DE 2H DA PRIMEIRA AULA → ESCONDER =====
             if (nowMin < alertaInicio) {
@@ -8449,8 +8492,8 @@
                 return;
             }
 
-            // ===== APÓS TODAS AS JANELAS → PÓS-TREINO =====
-            if (nowMin > ultimaJanelaFim) {
+            // ===== APÓS ÚLTIMA JANELA DE CHECK-IN → PÓS-TREINO =====
+            if (nowMin > ultimaCheckinFim) {
                 alarm.style.display = 'flex';
                 if (checkinFeito) {
                     alarm.className = 'treino-alarm checked-in';
@@ -8476,7 +8519,7 @@
                 return;
             }
 
-            // ===== DENTRO DA JANELA =====
+            // ===== CHECK-IN JÁ FEITO =====
             if (checkinFeito) {
                 alarm.style.display = 'flex';
                 alarm.className = 'treino-alarm checked-in';
@@ -8487,44 +8530,56 @@
                 return;
             }
 
-            // Alarme ativo - mostrar SÓ a próxima aula
+            // ===== DETERMINAR ESTADO DO SLOT ATUAL =====
             alarm.style.display = 'flex';
             alarm.className = 'treino-alarm';
             icon.textContent = '🔔';
 
-            // Encontrar próxima aula (visível 2h antes)
             var multiCT = ctsComAulaHoje.length > 1;
-            var nextSlot = null;
+            var slotEmAndamento   = null; // aula em curso (0–50min): check-in ainda não abriu
+            var slotCheckinAberto = null; // check-in liberado (50–269min após início)
+            var proximoSlot       = null; // próxima aula ainda não iniciada
+
             for (var ns = 0; ns < allSlots.length; ns++) {
-                if (nowMin < allSlots[ns].endMin && nowMin >= allSlots[ns].startMin - 120) {
-                    nextSlot = allSlots[ns];
-                    break;
+                var sl = allSlots[ns];
+                if (nowMin >= sl.startMin && nowMin < sl.checkinOpen && !slotEmAndamento && !slotCheckinAberto) {
+                    slotEmAndamento = sl;
+                }
+                if (nowMin >= sl.checkinOpen && nowMin <= sl.checkinClose) {
+                    slotCheckinAberto = sl;
+                    slotEmAndamento = null;
+                }
+                if (!proximoSlot && sl.startMin > nowMin) {
+                    proximoSlot = sl;
                 }
             }
-            // Se nenhum slot visível (todos >2h), esconder alarme
-            if (!nextSlot) {
-                alarm.style.display = 'none';
-                return;
-            }
 
-            var diffMin = nextSlot.startMin - nowMin;
-            var nextLabel = nextSlot.label + (multiCT ? ' · ' + nextSlot.ct : '');
-            
-            if (diffMin > 0) {
-                // Contagem regressiva
-                var hh = Math.floor(diffMin / 60);
-                var mm = diffMin % 60;
+            if (slotCheckinAberto) {
+                var minRestantes = slotCheckinAberto.checkinClose - nowMin;
+                var hhR = Math.floor(minRestantes / 60), mmR = minRestantes % 60;
+                var tempoRestante = hhR > 0 ? hhR + 'h' + (mmR > 0 ? mmR + 'min' : '') : mmR + 'min';
+                title.textContent = '✅ Check-in liberado!';
+                sub.textContent = '🥋 Aula das ' + slotCheckinAberto.label + (multiCT ? ' · ' + slotCheckinAberto.ct : '') + ' · Confirme sua presença!';
+                timesDiv.innerHTML = '<div style="font-size:11px;color:rgba(74,222,128,0.6);">⏳ Janela encerra em <strong>' + tempoRestante + '</strong></div>';
+            } else if (slotEmAndamento) {
+                var minParaCheckin = slotEmAndamento.checkinOpen - nowMin;
+                var hhC = Math.floor(minParaCheckin / 60), mmC = minParaCheckin % 60;
+                var tempoCheckin = hhC > 0 ? hhC + 'h' + (mmC > 0 ? mmC + 'min' : '') : mmC + 'min';
+                title.textContent = 'Aula em andamento!';
+                sub.textContent = '🥋 ' + slotEmAndamento.label + (multiCT ? ' · ' + slotEmAndamento.ct : '') + ' · Bora pro tatame!';
+                timesDiv.innerHTML = '<div style="font-size:11px;color:rgba(212,165,41,0.6);">⏳ Check-in libera em <strong>' + tempoCheckin + '</strong></div>';
+            } else if (proximoSlot) {
+                var diffMin = proximoSlot.startMin - nowMin;
+                var hh = Math.floor(diffMin / 60), mm = diffMin % 60;
                 var countdown = hh > 0 ? hh + 'h' + (mm > 0 ? mm + 'min' : '') : mm + 'min';
                 title.textContent = 'Hoje tem treino!';
-                sub.textContent = '⏱️ Próxima aula em ' + countdown + (multiCT ? ' · ' + nextSlot.ct : '');
+                sub.textContent = '⏱️ Próxima aula em ' + countdown + (multiCT ? ' · ' + proximoSlot.ct : '');
+                timesDiv.innerHTML = '<div class="treino-alarm-time next"><span class="clock-icon">⏰</span> ' + proximoSlot.label + (multiCT ? ' · ' + proximoSlot.ct : '') + '</div>';
             } else {
-                // Aula em andamento
-                title.textContent = 'Aula em andamento!';
-                sub.textContent = '🥋 ' + nextLabel + ' · Bora pro tatame!';
+                title.textContent = 'Hoje tem treino!';
+                sub.textContent = hojeName + ' · ' + ctLabel;
+                timesDiv.innerHTML = '';
             }
-
-            var timesHtml = '<div class="treino-alarm-time next"><span class="clock-icon">⏰</span> ' + nextLabel + '</div>';
-            timesDiv.innerHTML = timesHtml;
         }
 
         /**
@@ -8564,9 +8619,10 @@
                 if (!parts) continue;
                 var h = parseInt(parts[1]);
                 var m = parseInt(parts[2]);
-                var startMin = h * 60 + m;
-                var endMin = Math.min(startMin + 300, 1439); // +5h, cap 23:59
-                windows.push({ start: startMin, end: endMin, label: t });
+                var classeStart = h * 60 + m;
+                var startMin = Math.min(classeStart + 50, 1439);  // check-in abre 50min após início
+                var endMin   = Math.min(classeStart + 269, 1439); // fecha 4h29 após início
+                windows.push({ start: startMin, end: endMin, label: t, classeStart: classeStart });
             }
 
             if (windows.length === 0) {
@@ -8595,13 +8651,12 @@
 
             var msg = '⚠️ Fora do horário de check-in.';
             if (proximaHoje) {
-                msg += '<br>Próxima janela: ' + proximaHoje.label + ' até ' + formatMinutes(proximaHoje.end);
+                msg += '<br>Check-in libera às ' + formatMinutes(proximaHoje.start) + ' (50min após início da aula das ' + proximaHoje.label + ')';
             } else {
                 msg += '<br>Janelas de hoje já encerraram.';
             }
-            // Listar todas as janelas
-            var lista = windows.map(function(w) { return w.label + ' → ' + formatMinutes(w.end); }).join(', ');
-            msg += '<br>📋 Horários do CT: ' + lista;
+            var lista = windows.map(function(w) { return w.label + ' → check-in: ' + formatMinutes(w.start) + '–' + formatMinutes(w.end); }).join(', ');
+            msg += '<br>📋 Horários: ' + lista;
 
             return { allowed: false, message: msg };
         }
@@ -9267,7 +9322,15 @@
                 } catch(e) {}
             }
 
-            // Calculate expected training days this month
+            // Build set de datas com aula cadastrada no cronograma
+            var aulasDates = {};
+            if (_cronoAulas && _cronoAulas.length > 0) {
+                for (var ca = 0; ca < _cronoAulas.length; ca++) {
+                    if (_cronoAulas[ca].data) aulasDates[_cronoAulas[ca].data] = true;
+                }
+            }
+
+            // Calculate expected training days this month — só conta se há aula no cronograma
             var daysInMonth = new Date(_prsYear, _prsMonth + 1, 0).getDate();
             var expectedDays = 0;
             var now = new Date();
@@ -9275,7 +9338,11 @@
                 var edDate = new Date(_prsYear, _prsMonth, ed);
                 if (edDate > now) break;
                 var edKey = DAY_KEYS[edDate.getDay()];
-                if (stuDiasTreino.indexOf(edKey) !== -1) expectedDays++;
+                var edStr = _prsYear + '-' + String(_prsMonth + 1).padStart(2,'0') + '-' + String(ed).padStart(2,'0');
+                // Conta como esperado apenas se tem aula no cronograma OU se diasTreino bate e não há cronograma configurado
+                var temNoCronograma = aulasDates[edStr];
+                // Conta como esperado SOMENTE se tem aula cadastrada no cronograma
+                if (temNoCronograma) expectedDays++;
             }
 
             // Summary
@@ -9310,10 +9377,14 @@
                 if (hasCheckin) {
                     cls += ' present';
                     if (dayMap[d].length > 1) cls += ' multi';
-                } else if (isExpected && isPast) {
-                    cls += ' missed';
-                } else if (isExpected && !isFuture) {
-                    cls += ' expected';
+                } else {
+                    var dateStr2 = _prsYear + '-' + String(_prsMonth + 1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+                    var cronogramaConfigurado2 = Object.keys(aulasDates).length > 0;
+                    var temAulaCronograma = aulasDates[dateStr2];
+                    var ehDiaTreino = stuDiasTreino.indexOf(dayOfWeek) !== -1;
+                    var deveMarcarFalta = temAulaCronograma; // Faltou SOMENTE se há aula cadastrada no cronograma
+                    if (deveMarcarFalta && isPast) cls += ' missed';
+                    else if (deveMarcarFalta && !isFuture) cls += ' expected';
                 }
                 if (_prsSelectedDay === d) cls += ' selected';
 
@@ -10764,7 +10835,7 @@
                 }
                 cardsHtml += '</div>';
 
-                // Horários
+                // Horários do dia de hoje
                 var _guideHrs = '';
                 if (ct.horariosPorDia) {
                     var _dk2 = ['dom','seg','ter','qua','qui','sex','sab'];
@@ -10773,34 +10844,30 @@
                 } else { _guideHrs = ct.horarios || ''; }
                 if (_guideHrs) {
                     cardsHtml += '<div class="guide-info-row"><div class="guide-info-icon">🕐</div><div class="guide-info-content">' +
+                        '<div class="guide-info-label">Horários de hoje</div>' +
+                        '<div class="guide-info-value">' + _guideHrs.replace(/,/g, ' · ') + '</div></div></div>';
+                } else if (ct.horarios) {
+                    cardsHtml += '<div class="guide-info-row"><div class="guide-info-icon">🕐</div><div class="guide-info-content">' +
                         '<div class="guide-info-label">Horários</div>' +
                         '<div class="guide-info-value">' + ct.horarios.replace(/,/g, ' · ') + '</div></div></div>';
                 }
 
-                // Valor
-                if (ct.valorAvulso) {
-                    cardsHtml += '<div class="guide-info-row"><div class="guide-info-icon">💰</div><div class="guide-info-content">' +
-                        '<div class="guide-info-label">Valor Avulso</div>' +
-                        '<div class="guide-info-value">R$ ' + ct.valorAvulso + '</div></div></div>';
-                }
+                // Aviso de valores — consulte o professor
+                cardsHtml += '<div class="guide-info-row" style="margin-top:4px;"><div class="guide-info-icon">💰</div><div class="guide-info-content">' +
+                    '<div class="guide-info-label">Planos e valores</div>' +
+                    '<div class="guide-info-value" style="color:var(--text-2);font-style:italic;font-size:12px;">Consulte seu professor para informações sobre mensalidades, planos e matrícula.</div>' +
+                    '</div></div>';
 
-                // Planos
-                if (ct.planos) {
-                    cardsHtml += '<div class="guide-info-row"><div class="guide-info-icon">📋</div><div class="guide-info-content">' +
-                        '<div class="guide-info-label">Planos</div>' +
-                        '<div class="guide-info-value">' + ct.planos.replace(/\|/g, '<br>') + '</div></div></div>';
-                }
-
-                // Benefícios
+                // Benefícios (apps parceiros)
                 if (ct.beneficios) {
                     var bens = ct.beneficios.split(',');
                     var BENEFIT_MAP = {
                         'totalpass': { label: 'TotalPass', cls: 'totalpass', icon: '🟠' },
-                        'gympass': { label: 'Gympass', cls: 'gympass', icon: '🔴' },
-                        'wellhub': { label: 'WellHub', cls: 'wellhub', icon: '🟣' },
-                        'gogood': { label: 'GoGood', cls: 'gogood', icon: '🟢' },
+                        'gympass':   { label: 'Gympass',   cls: 'gympass',   icon: '🔴' },
+                        'wellhub':   { label: 'WellHub',   cls: 'wellhub',   icon: '🟣' },
+                        'gogood':    { label: 'GoGood',    cls: 'gogood',    icon: '🟢' },
                         'classpass': { label: 'ClassPass', cls: 'classpass', icon: '🔵' },
-                        'totalfit': { label: 'TotalFit', cls: 'totalfit', icon: '🟡' }
+                        'totalfit':  { label: 'TotalFit',  cls: 'totalfit',  icon: '🟡' }
                     };
                     cardsHtml += '<div class="guide-info-row"><div class="guide-info-icon">✅</div><div class="guide-info-content">' +
                         '<div class="guide-info-label">Aceita</div>' +
@@ -13118,6 +13185,7 @@
                     _aulasCalYear = now.getFullYear();
                     _aulasCalMonth = now.getMonth();
                     renderCronoKPIs();
+                    renderCronoTreinoHoje();
                     renderAulasCalendar();
                 }
             } catch(e) { console.error('loadCronograma:', e); }
@@ -13135,6 +13203,96 @@
                 '<div class="crono-kpi"><div class="crono-kpi-num" style="color:#4ade80;">' + presentes + '</div><div class="crono-kpi-lbl">Presente</div></div>' +
                 '<div class="crono-kpi"><div class="crono-kpi-num" style="color:#f87171;">' + ausentes + '</div><div class="crono-kpi-lbl">Faltei</div></div>' +
                 '<div class="crono-kpi"><div class="crono-kpi-num" style="color:#38bdf8;">' + proximas + '</div><div class="crono-kpi-lbl">Próximas</div></div>';
+        }
+
+        function renderCronoTreinoHoje() {
+            var el = document.getElementById('cronoTreinoHoje');
+            if (!el) return;
+
+            var dayKeys = ['dom','seg','ter','qua','qui','sex','sab'];
+            var dayLabels = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+            var hoje = dayKeys[new Date().getDay()];
+            var hojeLabel = dayLabels[new Date().getDay()];
+
+            // Usa allCTs carregado globalmente
+            var cts = allCTs || [];
+            if (!cts.length) {
+                // Tenta buscar se ainda não carregou
+                el.innerHTML = '';
+                return;
+            }
+
+            // Filtra CTs com aula hoje
+            var ctsHoje = [];
+            cts.forEach(function(ct) {
+                if (typeof ct === 'string') return;
+                var sch = ct.schedule || {};
+                var temConfig = Object.values(sch).some(function(v) { return v === true; });
+                if (!temConfig || !sch[hoje]) return;
+
+                // Pega horários do dia
+                var hpd = ct.horariosPorDia || {};
+                var horRaw = hpd[hoje] || hpd['_global'] || ct.horarios || '';
+                // Limpa horário caso venha com 1899
+                if (horRaw.indexOf('1899') > -1) {
+                    var mh = horRaw.match(/(\d{1,2}:\d{2})/g);
+                    horRaw = mh ? mh.join(', ') : '';
+                }
+                // Formata HH:MM → HHhMM
+                var horarios = horRaw ? horRaw.split(',').map(function(h2) {
+                    var h2 = h2.trim();
+                    var hm = h2.match(/^(\d{1,2}):(\d{2})$/);
+                    return hm ? hm[1] + 'h' + hm[2] : h2;
+                }).filter(Boolean) : [];
+
+                ctsHoje.push({
+                    name: ct.name || '',
+                    horarios: horarios,
+                    endereco: ct.endereco || '',
+                    mapLink: ct.mapLink || '',
+                    instagram: ct.instagram || '',
+                    telefone: ct.telefone || ''
+                });
+            });
+
+            if (!ctsHoje.length) {
+                el.innerHTML = '<div class="crono-hoje-panel"><div class="crono-hoje-vazio">😴 Nenhum CT com treino hoje (' + hojeLabel + ')</div></div>';
+                return;
+            }
+
+            var h = '<div class="crono-hoje-panel">';
+            h += '<div class="crono-hoje-title">🥋 Onde tem treino hoje? · <span style="font-weight:500;color:var(--text-2);">' + hojeLabel + '</span></div>';
+
+            ctsHoje.forEach(function(c) {
+                h += '<div class="crono-hoje-ct">';
+                h += '<div class="crono-hoje-ct-dot"></div>';
+                h += '<div style="flex:1;">';
+                h += '<div class="crono-hoje-ct-name">' + escapeHtml(c.name) + '</div>';
+
+                // Horários
+                if (c.horarios.length) {
+                    h += '<div style="margin-top:4px;">';
+                    c.horarios.forEach(function(hor) {
+                        h += '<span class="crono-hoje-ct-horario">⏰ ' + escapeHtml(hor) + '</span>';
+                    });
+                    h += '</div>';
+                }
+
+                // Endereço + mapa
+                if (c.endereco) {
+                    h += '<div class="crono-hoje-ct-info">📍 ' + escapeHtml(c.endereco);
+                    if (c.mapLink) h += ' · <a href="' + escapeHtml(c.mapLink) + '" target="_blank" style="color:var(--accent);text-decoration:none;">Ver mapa →</a>';
+                    h += '</div>';
+                }
+
+                h += '</div>';
+                h += '</div>';
+            });
+
+            h += '<div class="crono-hoje-aviso">💬 Sobre valores e planos, consulte seu professor.</div>';
+            h += '</div>';
+
+            el.innerHTML = h;
         }
 
         function aulasCalNav(dir) {
@@ -13224,7 +13382,7 @@
             }
 
             el.style.display = 'block';
-            var statusLabels = { presente: '✅ Presente', presente_hoje: '✅ Presente', ausente: '❌ Faltei', estudou: '📖 Estudei', hoje: '⭐ Hoje', futuro: '📅 Próxima' };
+            var statusLabels = { presente: '✅ Presente', presente_hoje: '✅ Presente', ausente: '❌ Faltei', estudou: '📖 Estudei', hoje: '⭐ Hoje', futuro: '📅 Próxima', pendente_esquecimento: '⏳ Aguardando' };
             var h = '<div class="aula-detail">';
             h += '<div class="aula-detail-date">' + dateLabel + '</div>';
 
@@ -13232,18 +13390,13 @@
                 h += '<div class="crono-card status-' + a.status + '" style="margin-bottom:8px;">';
                 h += '<div class="crono-date-row">';
 
-                // Formatar horário: extrair HH:MM de qualquer formato e exibir como "CT: HHhMM"
-                if (a.horario || a.ct) {
-                    var horRaw = (a.horario || '').toString();
-                    var hmMatch = horRaw.match(/(\d{1,2}):(\d{2})/);
-                    var horLabel = '';
-                    if (hmMatch) {
-                        horLabel = hmMatch[1] + 'h' + hmMatch[2];
-                    }
-                    var ctLabel = a.ct || '';
-                    var horDisplay = ctLabel && horLabel ? ctLabel + ': ' + horLabel : (ctLabel || horLabel);
-                    if (horDisplay) h += '<span class="crono-horario">🕐 ' + escapeHtml(horDisplay) + '</span>';
-                }
+                // Formatar horário: "Neofit: 07h30"
+                var horRaw = (a.horario || '').toString();
+                var hmM = horRaw.match(/(\d{1,2}):(\d{2})/);
+                var horLabel = hmM ? hmM[1] + 'h' + hmM[2] : '';
+                var ctLabel2 = a.ct || '';
+                var horDisplay = ctLabel2 && horLabel ? ctLabel2 + ': ' + horLabel : (ctLabel2 || horLabel);
+                if (horDisplay) h += '<span class="crono-horario">🕐 ' + escapeHtml(horDisplay) + '</span>';
 
                 h += '<span class="crono-status-badge ' + a.status + '">' + (statusLabels[a.status] || a.status) + '</span>';
                 h += '</div>';
@@ -13254,6 +13407,16 @@
                     h += '<div style="margin-top:8px;padding:8px 10px;background:rgba(56,189,248,0.06);border:1px dashed rgba(56,189,248,0.15);border-radius:8px;font-size:11px;color:#38bdf8;">';
                     h += '📖 <strong>Prepare-se!</strong> Revise o conteúdo antes da aula</div>';
                 }
+
+                if (a.status === 'ausente') {
+                    h += '<button class="crono-contestar-btn" onclick="abrirModalEsquecimento(\'' + escapeHtml(a.data) + '\',\'' + escapeHtml(a.horario || '') + '\')">';
+                    h += '✋ Esqueci de fazer check-in — Solicitar presença</button>';
+                }
+
+                if (a.status === 'pendente_esquecimento') {
+                    h += '<div style="margin-top:8px;padding:8px 10px;background:rgba(251,191,36,0.06);border:1px dashed rgba(251,191,36,0.2);border-radius:8px;font-size:11px;color:#fbbf24;">⏳ Solicitação enviada. Aguardando aprovação do professor.</div>';
+                }
+
                 h += '</div>';
             });
             h += '</div>';
@@ -17234,16 +17397,20 @@
             var initial = (ck.name || '?').charAt(0).toUpperCase();
             var dataStr = ck.dataFormatada || '-';
             var rowIndex = ck.rowIndex || 0;
+            var isEsq = ck.tipo === 'ESQUECIMENTO';
+            var esquBadge = isEsq ? '<span class="admin-esq-badge">✋ ESQUECIMENTO</span>' : '';
+            var obsHtml = (isEsq && ck.observacao) ? '<div class="admin-card-detail" style="color:var(--text-2);font-style:italic;margin-top:4px;">💬 ' + escapeHtml(ck.observacao) + '</div>' : '';
             return '<div class="admin-card" id="ckCard' + idx + '">' +
                 '<div class="admin-card-top">' +
                     '<div class="admin-card-avatar">' + initial + '</div>' +
                     '<div class="admin-card-info">' +
-                        '<div class="admin-card-name">' + (ck.name || '-') + '</div>' +
+                        '<div class="admin-card-name">' + (ck.name || '-') + esquBadge + '</div>' +
                         '<div class="admin-card-meta">' + (ck.email || '') + '</div>' +
                     '</div>' +
                     '<span class="admin-checkin-status pendente">pendente</span>' +
                 '</div>' +
-                '<div class="admin-card-detail">📍 ' + (ck.ct || '-') + ' · ⏰ ' + (ck.hora || '-') + ' · 📅 ' + dataStr + '</div>' +
+                '<div class="admin-card-detail">📍 ' + (ck.ct || '-') + ' · ⏰ ' + (ck.hora || ck.horario || '-') + ' · 📅 ' + dataStr + '</div>' +
+                obsHtml +
                 '<div class="admin-card-actions">' +
                     '<button class="admin-btn approve" onclick="approveCheckin(' + rowIndex + ',' + idx + ')">✓ Aprovar</button>' +
                     '<button class="admin-btn reject" onclick="rejectCheckin(' + rowIndex + ',' + idx + ')">✕ Rejeitar</button>' +
@@ -17299,6 +17466,79 @@
                 } else { alert(data.message || 'Erro'); }
             } catch (err) { alert('Erro de conexão'); }
             btn.disabled = false;
+        }
+
+        // ===== SOLICITAR PRESENÇA POR ESQUECIMENTO =====
+
+        function abrirModalEsquecimento(dataAula, horario) {
+            var old = document.getElementById('esqModal');
+            if (old) old.remove();
+            var horRawM = (horario || '').toString();
+            var hmMod = horRawM.match(/(\d{1,2}):(\d{2})/);
+            var horValue = hmMod ? hmMod[1].padStart(2,'0') + ':' + hmMod[2] : '';
+            var overlay = document.createElement('div');
+            overlay.className = 'esq-modal-overlay';
+            overlay.id = 'esqModal';
+            overlay.innerHTML =
+                '<div class="esq-modal">' +
+                    '<div class="esq-modal-title">✋ Solicitar Presença</div>' +
+                    '<div class="esq-modal-sub">Esqueceu de fazer check-in? Informe o horário que treinou e envie para aprovação do professor.</div>' +
+                    '<div class="esq-field"><label>📅 Data da aula</label>' +
+                        '<input type="text" value="' + formatDateBR(dataAula) + '" disabled style="opacity:.6;cursor:default;">' +
+                        '<input type="hidden" id="esqDataISO" value="' + dataAula + '"></div>' +
+                    '<div class="esq-field"><label>🕐 Horário que treinou</label>' +
+                        '<input type="time" id="esqHorario" value="' + horValue + '"></div>' +
+                    '<div class="esq-field"><label>💬 Observação (opcional)</label>' +
+                        '<textarea id="esqObs" placeholder="Ex: Estava sem celular, treinei o Gi com o professor..."></textarea></div>' +
+                    '<div class="esq-btns">' +
+                        '<button class="esq-btn-cancel" onclick="fecharModalEsquecimento()">Cancelar</button>' +
+                        '<button class="esq-btn-send" onclick="enviarSolicitacaoEsquecimento()">📨 Enviar Solicitação</button>' +
+                    '</div></div>';
+            overlay.addEventListener('click', function(e) { if (e.target === overlay) fecharModalEsquecimento(); });
+            document.body.appendChild(overlay);
+        }
+
+        function fecharModalEsquecimento() {
+            var modal = document.getElementById('esqModal');
+            if (modal) modal.remove();
+        }
+
+        function formatDateBR(isoStr) {
+            if (!isoStr) return '';
+            var p = isoStr.split('-');
+            return p.length === 3 ? p[2] + '/' + p[1] + '/' + p[0] : isoStr;
+        }
+
+        async function enviarSolicitacaoEsquecimento() {
+            var dataISO = document.getElementById('esqDataISO').value;
+            var horario = document.getElementById('esqHorario').value;
+            var obs     = (document.getElementById('esqObs').value || '').trim();
+            var sendBtn = document.querySelector('.esq-btn-send');
+            if (!horario) { alert('Informe o horário que você treinou.'); return; }
+            sendBtn.disabled = true;
+            sendBtn.textContent = 'Enviando...';
+            try {
+                var result = await secureFetch('solicitarPresencaEsquecimento', { dataAula: dataISO, horario: horario, observacao: obs });
+                if (result.success) {
+                    fecharModalEsquecimento();
+                    _cronoAulas = null; // força reload do cronograma
+                    if (typeof loadCronograma === 'function') await loadCronograma();
+                    if (_aulasSelectedDate) renderAulaDayDetail(_aulasSelectedDate);
+                    var toast = document.createElement('div');
+                    toast.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#2d8a4e;color:#fff;padding:12px 20px;border-radius:12px;font-size:13px;font-weight:700;z-index:10000;box-shadow:0 4px 20px rgba(0,0,0,.4);white-space:nowrap;';
+                    toast.textContent = '✅ Solicitação enviada! Aguardando aprovação do professor.';
+                    document.body.appendChild(toast);
+                    setTimeout(function() { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 3500);
+                } else {
+                    alert(result.message || 'Erro ao enviar solicitação.');
+                    sendBtn.disabled = false;
+                    sendBtn.textContent = '📨 Enviar Solicitação';
+                }
+            } catch (err) {
+                alert('Erro de conexão. Tente novamente.');
+                sendBtn.disabled = false;
+                sendBtn.textContent = '📨 Enviar Solicitação';
+            }
         }
     </script>
 </body>
