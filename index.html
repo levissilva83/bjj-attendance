@@ -7409,7 +7409,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwCBuClXSG11ASVwffltVjdKXDTLhnmTxF5KU8DgipYFq3klcUzdWOo8sk1w6ydptqB/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwgEiJYytguh2uqGuuTZuCsHB2KqNvrBCoXutoDP_CrKLtS3s_mJ6tiCpjMQWY7mUSt/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -13231,7 +13231,20 @@
             dayAulas.forEach(function(a) {
                 h += '<div class="crono-card status-' + a.status + '" style="margin-bottom:8px;">';
                 h += '<div class="crono-date-row">';
-                if (a.horario) h += '<span class="crono-horario">🕐 ' + a.horario + '</span>';
+
+                // Formatar horário: extrair HH:MM de qualquer formato e exibir como "CT: HHhMM"
+                if (a.horario || a.ct) {
+                    var horRaw = (a.horario || '').toString();
+                    var hmMatch = horRaw.match(/(\d{1,2}):(\d{2})/);
+                    var horLabel = '';
+                    if (hmMatch) {
+                        horLabel = hmMatch[1] + 'h' + hmMatch[2];
+                    }
+                    var ctLabel = a.ct || '';
+                    var horDisplay = ctLabel && horLabel ? ctLabel + ': ' + horLabel : (ctLabel || horLabel);
+                    if (horDisplay) h += '<span class="crono-horario">🕐 ' + escapeHtml(horDisplay) + '</span>';
+                }
+
                 h += '<span class="crono-status-badge ' + a.status + '">' + (statusLabels[a.status] || a.status) + '</span>';
                 h += '</div>';
                 h += '<div class="crono-tema">' + escapeHtml(a.tema) + '</div>';
