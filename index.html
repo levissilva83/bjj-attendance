@@ -5171,18 +5171,29 @@
         /* ══════ TREINO ALARM ══════ */
         .treino-alarm {
             position: relative; overflow: hidden;
-            background: linear-gradient(135deg, #0d1f0d 0%, #1a2e1a 50%, #0d1f0d 100%);
-            border: 1px solid rgba(45,200,90,0.25);
-            border-radius: 16px; padding: 16px; margin-bottom: 16px;
-            display: flex; align-items: center; gap: 14px;
+            background: linear-gradient(160deg, #1e3a1e 0%, #162b16 100%);
+            border: none;
+            border-radius: 4px 16px 16px 16px;
+            padding: 14px 16px 14px 20px;
+            margin-bottom: 16px;
+            display: flex; align-items: flex-start; gap: 12px;
+            box-shadow: -4px 4px 0px rgba(45,200,90,0.35), 0 4px 20px rgba(0,0,0,0.4);
+        }
+        /* post-it fold corner top-left */
+        .treino-alarm::before {
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 0; height: 0;
+            border-style: solid;
+            border-width: 16px 16px 0 0;
+            border-color: rgba(0,0,0,0.35) transparent transparent transparent;
         }
         .treino-alarm-glow {
             position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle at 30% 50%, rgba(45,200,90,0.08) 0%, transparent 60%);
+            background: radial-gradient(circle at 30% 50%, rgba(45,200,90,0.06) 0%, transparent 60%);
             pointer-events: none;
         }
         .treino-alarm-icon {
-            font-size: 36px; z-index: 1; position: relative;
+            font-size: 30px; z-index: 1; position: relative; flex-shrink: 0; margin-top: 2px;
             animation: alarmBell 2s ease-in-out infinite;
         }
         @keyframes alarmBell {
@@ -5194,56 +5205,57 @@
             25% { transform: rotate(4deg); }
             30%, 100% { transform: rotate(0deg); }
         }
-        .treino-alarm-body { z-index: 1; position: relative; flex: 1; }
+        .treino-alarm-body { z-index: 1; position: relative; flex: 1; min-width: 0; }
         .treino-alarm-title {
-            font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 900;
-            color: #4ade80; margin-bottom: 2px;
+            font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 900;
+            color: #4ade80; margin-bottom: 2px; line-height: 1.2;
         }
         .treino-alarm-sub {
-            font-size: 12px; color: rgba(74,222,128,0.6); font-weight: 600;
+            font-size: 11px; color: rgba(74,222,128,0.65); font-weight: 600; line-height: 1.4;
         }
         .treino-alarm-times {
-            display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;
+            display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px;
         }
         .treino-alarm-time {
             background: rgba(45,200,90,0.12); border: 1px solid rgba(45,200,90,0.2);
             border-radius: 8px; padding: 4px 10px;
-            font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 800;
+            font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 800;
             color: #4ade80; display: flex; align-items: center; gap: 4px;
         }
         .treino-alarm-time .clock-icon { font-size: 12px; }
         .treino-alarm-time.next {
-            background: rgba(45,200,90,0.25); border-color: rgba(45,200,90,0.5);
-            box-shadow: 0 0 10px rgba(45,200,90,0.15);
+            background: rgba(45,200,90,0.22); border-color: rgba(45,200,90,0.45);
+            box-shadow: 0 0 10px rgba(45,200,90,0.12);
             animation: nextPulse 2s ease-in-out infinite;
         }
         @keyframes nextPulse {
-            0%, 100% { box-shadow: 0 0 10px rgba(45,200,90,0.15); }
-            50% { box-shadow: 0 0 18px rgba(45,200,90,0.3); }
+            0%, 100% { box-shadow: 0 0 10px rgba(45,200,90,0.12); }
+            50% { box-shadow: 0 0 18px rgba(45,200,90,0.28); }
         }
         .treino-alarm.no-train {
-            background: linear-gradient(135deg, #1a1a1a 0%, #222 50%, #1a1a1a 100%);
-            border-color: rgba(255,255,255,0.06);
+            background: linear-gradient(160deg, #1e1e1e 0%, #181818 100%);
+            box-shadow: -4px 4px 0px rgba(100,100,100,0.2), 0 4px 20px rgba(0,0,0,0.4);
         }
+        .treino-alarm.no-train::before { border-color: rgba(0,0,0,0.25) transparent transparent transparent; }
         .treino-alarm.no-train .treino-alarm-title { color: var(--text-3); }
         .treino-alarm.no-train .treino-alarm-sub { color: var(--text-3); opacity: 0.5; }
         .treino-alarm.no-train .treino-alarm-icon { animation: none; }
         .treino-alarm.checked-in {
-            background: linear-gradient(135deg, #0a1a2e 0%, #0d2847 50%, #0a1a2e 100%);
-            border-color: rgba(59,130,246,0.3);
+            background: linear-gradient(160deg, #0d1e3a 0%, #0a1628 100%);
+            box-shadow: -4px 4px 0px rgba(59,130,246,0.35), 0 4px 20px rgba(0,0,0,0.4);
         }
         .treino-alarm.checked-in .treino-alarm-glow {
-            background: radial-gradient(circle at 30% 50%, rgba(59,130,246,0.1) 0%, transparent 60%);
+            background: radial-gradient(circle at 30% 50%, rgba(59,130,246,0.08) 0%, transparent 60%);
         }
         .treino-alarm.checked-in .treino-alarm-title { color: #60a5fa; }
         .treino-alarm.checked-in .treino-alarm-sub { color: rgba(96,165,250,0.7); }
         .treino-alarm.checked-in .treino-alarm-icon { animation: none; }
         .treino-alarm.missed {
-            background: linear-gradient(135deg, #2a1a0a 0%, #3d2210 50%, #2a1a0a 100%);
-            border-color: rgba(251,191,36,0.25);
+            background: linear-gradient(160deg, #2a1a08 0%, #1e1205 100%);
+            box-shadow: -4px 4px 0px rgba(251,191,36,0.3), 0 4px 20px rgba(0,0,0,0.4);
         }
         .treino-alarm.missed .treino-alarm-glow {
-            background: radial-gradient(circle at 30% 50%, rgba(251,191,36,0.08) 0%, transparent 60%);
+            background: radial-gradient(circle at 30% 50%, rgba(251,191,36,0.07) 0%, transparent 60%);
         }
         .treino-alarm.missed .treino-alarm-title { color: #fbbf24; }
         .treino-alarm.missed .treino-alarm-sub { color: rgba(251,191,36,0.6); }
@@ -5261,15 +5273,31 @@
         .checkin-aula-msg { display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: rgba(74,222,128,0.06); border: 1px dashed rgba(74,222,128,0.2); border-radius: 10px; font-size: 12px; color: #4ade80; font-weight: 600; line-height: 1.4; }
         .checkin-aula-msg-icon { font-size: 20px; flex-shrink: 0; }
         /* Hero card — tela inicial (maior destaque) */
-        .checkin-tema-hero { background: linear-gradient(135deg, rgba(212,165,41,0.13), rgba(212,165,41,0.04)); border: 1px solid rgba(212,165,41,0.3); border-radius: 18px; padding: 18px 18px 14px; margin: 10px 0 14px; position: relative; overflow: hidden; }
-        .checkin-tema-hero::after { content: '🥋'; position: absolute; right: 14px; bottom: 10px; font-size: 42px; opacity: 0.08; line-height: 1; }
-        .checkin-tema-hero-label { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-        .checkin-tema-hero-label span { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: crono-pulse 2s infinite; }
-        .checkin-tema-hero-title { font-size: 20px; font-weight: 900; color: var(--text-1); font-family: 'Sora', sans-serif; line-height: 1.2; margin-bottom: 4px; }
-        .checkin-tema-hero-sub { font-size: 11px; color: var(--text-2); margin-bottom: 10px; }
-        .checkin-tema-hero-tecs { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
-        .checkin-tema-hero-tec { font-size: 10px; padding: 3px 9px; border-radius: 7px; background: rgba(212,165,41,0.08); border: 1px solid rgba(212,165,41,0.18); color: var(--accent); font-weight: 600; }
-        .checkin-tema-hero-msg { font-size: 13px; font-weight: 700; color: #4ade80; }
+        /* Post-it "Hoje no Tatame" — tela inicial */
+        .checkin-tema-hero {
+            background: linear-gradient(160deg, #2b2200 0%, #1e1800 100%);
+            border: none;
+            border-radius: 4px 16px 16px 16px;
+            padding: 14px 16px 14px 18px;
+            margin: -4px 0 16px;
+            position: relative; overflow: hidden;
+            box-shadow: -4px 4px 0px rgba(212,165,41,0.4), 0 4px 20px rgba(0,0,0,0.4);
+        }
+        .checkin-tema-hero::before {
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 0; height: 0;
+            border-style: solid;
+            border-width: 16px 16px 0 0;
+            border-color: rgba(0,0,0,0.4) transparent transparent transparent;
+        }
+        .checkin-tema-hero::after { content: '🥋'; position: absolute; right: 14px; bottom: 10px; font-size: 38px; opacity: 0.07; line-height: 1; pointer-events:none; }
+        .checkin-tema-hero-label { display: inline-flex; align-items: center; gap: 5px; font-size: 9px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 6px; }
+        .checkin-tema-hero-label span { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); animation: crono-pulse 2s infinite; }
+        .checkin-tema-hero-horario { font-size: 11px; color: rgba(212,165,41,0.6); font-weight: 700; margin-bottom: 3px; }
+        .checkin-tema-hero-title { font-size: 18px; font-weight: 900; color: #fff; font-family: 'Sora', sans-serif; line-height: 1.2; margin-bottom: 8px; }
+        .checkin-tema-hero-tecs { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
+        .checkin-tema-hero-tec { font-size: 10px; padding: 2px 8px; border-radius: 6px; background: rgba(212,165,41,0.08); border: 1px solid rgba(212,165,41,0.15); color: rgba(212,165,41,0.8); font-weight: 600; }
+        .checkin-tema-hero-msg { font-size: 12px; font-weight: 700; color: #4ade80; }
         .avb-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); z-index: 9999;
@@ -7567,7 +7595,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwnr4JuGG38KtuL8qkDilcoJ_G5IFY7wt_wA3fiR4H-LrfhShF3-7qWWu-9s4LtPoyd/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyrfIXFiH8UsNrDKFzmCuSXvvotsJs86xCRtLq6JnBPnWCCM_AyvVALODGJFRsAzx_X/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -8516,17 +8544,20 @@
 
             var h = '<div class="checkin-tema-hero">';
             h += '<div class="checkin-tema-hero-label"><span></span>📍 Hoje no tatame</div>';
+            // Linha horário · CT
+            var metaParts = [];
+            if (horFmt) metaParts.push('⏰ ' + horFmt);
+            if (aulaHoje.ct) metaParts.push(aulaHoje.ct);
+            if (metaParts.length) h += '<div class="checkin-tema-hero-horario">' + escapeHtml(metaParts.join(' · ')) + '</div>';
+            // Tema em destaque
             h += '<div class="checkin-tema-hero-title">' + escapeHtml(aulaHoje.tema) + '</div>';
-            var sub = [];
-            if (aulaHoje.ct) sub.push('📍 ' + aulaHoje.ct);
-            if (horFmt) sub.push('⏰ ' + horFmt);
-            if (sub.length) h += '<div class="checkin-tema-hero-sub">' + escapeHtml(sub.join(' · ')) + '</div>';
-            if (aulaHoje.descricao) h += '<div style="font-size:12px;color:var(--text-2);line-height:1.5;margin-bottom:10px;">' + escapeHtml(aulaHoje.descricao) + '</div>';
+            // Técnicas
             if (aulaHoje.tecnicas && aulaHoje.tecnicas.length) {
                 h += '<div class="checkin-tema-hero-tecs">';
                 aulaHoje.tecnicas.forEach(function(t) { h += '<span class="checkin-tema-hero-tec">🥋 ' + escapeHtml(t) + '</span>'; });
                 h += '</div>';
             }
+            // Mensagem
             h += '<div class="checkin-tema-hero-msg">🤙 ' + (nome ? nome + ', ' : '') + tatameMsg + '</div>';
             h += '</div>';
 
@@ -8824,24 +8855,21 @@
                 var tempoRestante = hhR > 0 ? hhR + 'h' + (mmR > 0 ? mmR + 'min' : '') : mmR + 'min';
                 title.textContent = '✅ Check-in liberado!';
                 sub.textContent = '🥋 Aula das ' + slotCheckinAberto.label + (multiCT ? ' · ' + slotCheckinAberto.ct : '') + ' · Confirme sua presença!';
-                var temaHtml = _getAulaTemaHtml(slotCheckinAberto);
-                timesDiv.innerHTML = temaHtml + '<div style="font-size:11px;color:rgba(74,222,128,0.6);margin-top:4px;">⏳ Janela encerra em <strong>' + tempoRestante + '</strong></div>';
+                timesDiv.innerHTML = '<div style="font-size:11px;color:rgba(74,222,128,0.6);">⏳ Janela encerra em <strong>' + tempoRestante + '</strong></div>';
             } else if (slotEmAndamento) {
                 var minParaCheckin = slotEmAndamento.checkinOpen - nowMin;
                 var hhC = Math.floor(minParaCheckin / 60), mmC = minParaCheckin % 60;
                 var tempoCheckin = hhC > 0 ? hhC + 'h' + (mmC > 0 ? mmC + 'min' : '') : mmC + 'min';
                 title.textContent = 'Aula em andamento!';
                 sub.textContent = '🥋 ' + slotEmAndamento.label + (multiCT ? ' · ' + slotEmAndamento.ct : '') + ' · Bora pro tatame!';
-                var temaHtml = _getAulaTemaHtml(slotEmAndamento);
-                timesDiv.innerHTML = temaHtml + '<div style="font-size:11px;color:rgba(212,165,41,0.6);margin-top:4px;">⏳ Check-in libera em <strong>' + tempoCheckin + '</strong></div>';
+                timesDiv.innerHTML = '<div style="font-size:11px;color:rgba(212,165,41,0.6);">⏳ Check-in libera em <strong>' + tempoCheckin + '</strong></div>';
             } else if (proximoSlot) {
                 var diffMin = proximoSlot.startMin - nowMin;
                 var hh = Math.floor(diffMin / 60), mm = diffMin % 60;
                 var countdown = hh > 0 ? hh + 'h' + (mm > 0 ? mm + 'min' : '') : mm + 'min';
                 title.textContent = 'Hoje tem treino!';
                 sub.textContent = '⏱️ Próxima aula em ' + countdown + (multiCT ? ' · ' + proximoSlot.ct : '');
-                var temaHtml = _getAulaTemaHtml(proximoSlot);
-                timesDiv.innerHTML = temaHtml + '<div class="treino-alarm-time next" style="margin-top:4px;"><span class="clock-icon">⏰</span> ' + proximoSlot.label + (multiCT ? ' · ' + proximoSlot.ct : '') + '</div>';
+                timesDiv.innerHTML = '<div class="treino-alarm-time next"><span class="clock-icon">⏰</span> ' + proximoSlot.label + (multiCT ? ' · ' + proximoSlot.ct : '') + '</div>';
             } else {
                 title.textContent = 'Hoje tem treino!';
                 sub.textContent = hojeName + ' · ' + ctLabel;
@@ -8850,35 +8878,6 @@
         }
 
         // Retorna HTML com tema da aula para o slot atual (usa _cronoAulas se disponível)
-        function _getAulaTemaHtml(slot) {
-            if (!_cronoAulas || !_cronoAulas.length) return '';
-            var todayStr = (function() {
-                var n = new Date();
-                return n.getFullYear() + '-' + String(n.getMonth()+1).padStart(2,'0') + '-' + String(n.getDate()).padStart(2,'0');
-            })();
-            var aula = _cronoAulas.find(function(a) {
-                if (a.data !== todayStr) return false;
-                if (slot.ct && a.ct && a.ct.toLowerCase() !== slot.ct.toLowerCase()) return false;
-                // Compara horário: slot.label é "HH:MM", a.horario pode ser "HH:MM"
-                if (slot.label && a.horario) {
-                    var sl = slot.label.replace('h',':').trim();
-                    var ah = (a.horario || '').trim();
-                    if (sl !== ah) return false;
-                }
-                return true;
-            });
-            // Fallback: qualquer aula de hoje se só uma
-            if (!aula) {
-                var aulasHoje = _cronoAulas.filter(function(a) { return a.data === todayStr && a.tema; });
-                if (aulasHoje.length === 1) aula = aulasHoje[0];
-                else if (slot.ct) aula = aulasHoje.find(function(a) { return a.ct && a.ct.toLowerCase() === slot.ct.toLowerCase(); });
-            }
-            if (!aula || !aula.tema) return '';
-            return '<div style="margin-top:5px;padding:7px 10px;background:rgba(212,165,41,0.1);border:1px solid rgba(212,165,41,0.2);border-radius:9px;">' +
-                '<div style="font-size:9px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;">📍 Hoje no tatame</div>' +
-                '<div style="font-size:13px;font-weight:800;color:var(--text-1);font-family:\'Sora\',sans-serif;line-height:1.25;">' + escapeHtml(aula.tema) + '</div>' +
-                '</div>';
-        }
 
         /**
          * Verifica se o check-in está dentro da janela permitida para o CT.
@@ -13533,8 +13532,6 @@
                         renderAulasCalendar();
                     }
                     renderPerfilCTsLiberados(_cronoCTsPermitidos, _cronoCTAtivo);
-                    // Atualiza alarm com tema da aula agora que _cronoAulas está disponível
-                    if (allCTs && allCTs.length > 0) checkTreinoAlarm(allCTs);
                 }
             } catch(e) { console.error('loadCronograma:', e); }
         }
