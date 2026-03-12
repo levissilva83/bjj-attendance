@@ -3957,20 +3957,12 @@
         .crono-estudou-btn.done { background: rgba(167,139,250,0.15); border-color: #a78bfa; }
         /* Contestar / esquecimento */
         /* Seletor de CT no Cronograma */
-        .crono-ct-selector-label { font-size:10px; color:var(--text-3); font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; }
-        /* View toggle Mensal/Diário */
-        .crono-view-toggle { display:flex; gap:6px; margin-bottom:14px; background:var(--bg-elevated); border-radius:12px; padding:4px; }
-        .crono-view-btn { flex:1; padding:8px; border:none; border-radius:8px; background:transparent; color:var(--text-2); font-size:12px; font-weight:700; cursor:pointer; transition:all 0.2s; }
-        .crono-view-btn.active { background:var(--bg-card); color:var(--text-1); box-shadow:0 1px 4px rgba(0,0,0,0.3); }
-        /* CT Selector redesigned */
-        .crono-ct-bar { display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; scrollbar-width:none; }
-        .crono-ct-bar::-webkit-scrollbar { display:none; }
-        .crono-ct-chip { flex-shrink:0; display:flex; align-items:center; gap:5px; padding:6px 12px; border-radius:20px; border:1px solid var(--border); background:transparent; color:var(--text-2); font-size:11px; font-weight:600; cursor:pointer; transition:all 0.2s; white-space:nowrap; }
-        .crono-ct-chip.ativo { background:var(--accent); color:#000; border-color:var(--accent); font-weight:800; }
-        .crono-ct-chip .ct-chip-dot { width:6px; height:6px; border-radius:50%; background:currentColor; opacity:0.7; }
-        .crono-ct-chip.view-only { border-style:dashed; }
-        .crono-ct-chip.view-only.ativo { background:rgba(56,189,248,0.2); color:#38bdf8; border-color:#38bdf8; border-style:solid; }
-        .crono-ct-view-badge { font-size:9px; padding:1px 5px; border-radius:4px; background:rgba(56,189,248,0.15); color:#38bdf8; margin-left:4px; }
+        /* CT tabs integradas no cronograma (quando aluno tem múltiplos CTs liberados pelo admin) */
+        .crono-ct-tabs { display:flex; gap:6px; overflow-x:auto; margin-bottom:12px; padding-bottom:2px; scrollbar-width:none; }
+        .crono-ct-tabs::-webkit-scrollbar { display:none; }
+        .crono-ct-tab-btn { flex-shrink:0; padding:7px 16px; border-radius:20px; border:1.5px solid var(--border); background:var(--bg-elevated); color:var(--text-2); font-size:12px; font-weight:600; cursor:pointer; transition:all 0.18s; white-space:nowrap; }
+        .crono-ct-tab-btn:active { transform:scale(0.96); }
+        .crono-ct-tab-btn.ativo { background:var(--accent); color:#000; border-color:var(--accent); font-weight:800; box-shadow:0 2px 10px rgba(212,165,41,0.25); }
         /* Day navigation */
         .crono-day-nav { display:flex; align-items:center; justify-content:space-between; padding:10px 0 12px; }
         .crono-day-title { font-family:'Sora',sans-serif; font-size:16px; font-weight:800; color:var(--text-1); text-align:center; line-height:1.2; }
@@ -4007,6 +3999,21 @@
         /* CTs liberados no stuModal */
         .stu-ct-lib-btn { padding:6px 12px; border-radius:16px; border:1px solid var(--border); background:transparent; color:var(--text-2); font-size:11px; font-weight:600; cursor:pointer; transition:all 0.2s; }
         .stu-ct-lib-btn.on { background:rgba(56,189,248,0.12); border-color:#38bdf8; color:#38bdf8; }
+        /* Grid de CTs liberados — cards ricos */
+        .stu-cts-lib-grid { display:flex; flex-direction:column; gap:8px; }
+        .stu-ct-lib-card { display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:12px; border:1.5px solid var(--border); background:var(--bg-elevated); cursor:pointer; transition:all 0.18s; user-select:none; }
+        .stu-ct-lib-card:active { transform:scale(0.98); }
+        .stu-ct-lib-card.on { border-color:#38bdf8; background:rgba(56,189,248,0.07); }
+        .stu-ct-lib-card-check { width:22px; height:22px; border-radius:6px; border:1.5px solid var(--border); background:transparent; display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; transition:all 0.18s; }
+        .stu-ct-lib-card.on .stu-ct-lib-card-check { border-color:#38bdf8; background:#38bdf8; color:#000; }
+        .stu-ct-lib-card-body { flex:1; min-width:0; }
+        .stu-ct-lib-card-name { font-size:13px; font-weight:700; color:var(--text-1); margin-bottom:2px; }
+        .stu-ct-lib-card.on .stu-ct-lib-card-name { color:#38bdf8; }
+        .stu-ct-lib-card-days { font-size:10px; color:var(--text-3); }
+        .stu-ct-lib-card-days .day-pill { display:inline-block; padding:1px 5px; border-radius:4px; background:var(--bg-card); margin-right:3px; font-weight:600; }
+        .stu-ct-lib-card-days .day-pill.hoje { background:rgba(212,165,41,0.15); color:var(--accent); }
+        .stu-ct-lib-card-status { font-size:10px; color:var(--text-3); flex-shrink:0; text-align:right; }
+        .stu-ct-lib-card.on .stu-ct-lib-card-status { color:#38bdf8; }
         /* CT liberado no Perfil do aluno */
         .perfil-ct-lib-btn { display:flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; border:1px solid var(--border); background:var(--bg-elevated); color:var(--text-1); font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s; }
         .perfil-ct-lib-btn:active { opacity:0.7; }
@@ -5262,16 +5269,7 @@
         .treino-alarm.missed .treino-alarm-icon { animation: none; }
 
         /* Aula do dia — card no Checkin */
-        .checkin-aula-card { background: linear-gradient(135deg, rgba(212,165,41,0.1), rgba(212,165,41,0.03)); border: 1px solid rgba(212,165,41,0.25); border-radius: 16px; padding: 16px; margin: 12px 0 4px; position: relative; overflow: hidden; }
-        .checkin-aula-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent); border-radius: 3px 0 0 3px; }
-        .checkin-aula-label { font-size: 10px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
-        .checkin-aula-tema { font-size: 16px; font-weight: 900; color: var(--text-1); font-family: 'Sora', sans-serif; line-height: 1.25; margin-bottom: 4px; }
-        .checkin-aula-meta { font-size: 11px; color: var(--text-2); margin-bottom: 8px; }
-        .checkin-aula-desc { font-size: 12px; color: var(--text-2); line-height: 1.5; margin-bottom: 10px; }
-        .checkin-aula-tecs { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
-        .checkin-aula-tec { font-size: 10px; padding: 3px 8px; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text-2); }
-        .checkin-aula-msg { display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: rgba(74,222,128,0.06); border: 1px dashed rgba(74,222,128,0.2); border-radius: 10px; font-size: 12px; color: #4ade80; font-weight: 600; line-height: 1.4; }
-        .checkin-aula-msg-icon { font-size: 20px; flex-shrink: 0; }
+
         /* Hero card — tela inicial (maior destaque) */
         /* Post-it "Hoje no Tatame" — tela inicial */
         .checkin-tema-hero {
@@ -5591,9 +5589,6 @@
                         </div>
                     </div>
 
-                    <!-- Aula do dia no CT selecionado -->
-                    <div id="checkinAulaHoje" style="display:none;"></div>
-
                     <button class="btn btn-primary" onclick="confirmAttendance()">✓ Confirmar Presença</button>
                     <div id="attendanceMessage"></div>
 
@@ -5845,10 +5840,7 @@
                             <!-- KPI bar -->
                             <div class="crono-kpi-bar" id="cronoKPIs"></div>
 
-                            <!-- Seletor de CT (todos os CTs disponíveis) -->
-                            <div id="cronoCTSelector" style="margin-bottom:12px;"></div>
-
-                            <!-- Toggle Mensal / Diário -->
+                            <!-- Toggle Diário / Mensal -->
                             <div class="crono-view-toggle" id="cronoViewToggle">
                                 <button id="cronoViewDiario" class="crono-view-btn active" onclick="setCronoView('diario')">📖 Diário</button>
                                 <button id="cronoViewMensal" class="crono-view-btn" onclick="setCronoView('mensal')">📅 Mensal</button>
@@ -7323,9 +7315,14 @@
 
                     <!-- CTs Liberados para Cronograma -->
                     <div class="stu-field" style="margin-top:14px;">
-                        <label>📅 Acesso ao Cronograma de outros CTs</label>
-                        <div style="font-size:11px;color:var(--text-3);margin-bottom:8px;">Marque os CTs que este aluno pode visualizar o cronograma, além do seu CT principal.</div>
-                        <div id="stuCTsLiberadosGrid" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+                        <label style="display:flex;align-items:center;gap:6px;">
+                            📅 Acesso ao Cronograma de outros CTs
+                            <span style="font-size:9px;font-weight:700;padding:2px 7px;background:rgba(56,189,248,0.12);color:#38bdf8;border-radius:6px;letter-spacing:0.3px;">NOVO</span>
+                        </label>
+                        <div style="font-size:11px;color:var(--text-3);margin-bottom:10px;line-height:1.5;">
+                            Marque os CTs que este aluno pode <strong>visualizar o cronograma</strong> de aulas, além do seu CT principal. O aluno verá a aba do CT no seletor, mas o check-in continua restrito ao CT principal.
+                        </div>
+                        <div id="stuCTsLiberadosGrid" class="stu-cts-lib-grid"></div>
                     </div>
                 </div>
 
@@ -7595,7 +7592,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzbBz3pR-tUxEac304Nh4FrcWY-Eyoc1eaXLRyBgVICMirwrQisRMeqC1eDz5Ex026G/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxm78GSBwJurQMyWSnf0NdMWBsvsLarSsL7qKU4jzYhpEdJjzzdJrE5FczCcQR1ePv4/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -8218,11 +8215,21 @@
             }
             if (tabName === 'perfil') {
                 loadProfile();
-                // Renderiza CTs liberados no perfil se cronograma já foi carregado
-                if (_cronoCTsPermitidos && _cronoCTsPermitidos.length > 0) {
+                // Monta lista de CTs permitidos a partir do currentUser (disponível desde o login)
+                var todosPermitidosPerfil = [];
+                if (currentUser) {
+                    if (currentUser.ct) todosPermitidosPerfil.push(currentUser.ct);
+                    (currentUser.ctsliberados || '').split(',').map(function(x){ return x.trim(); }).filter(Boolean).forEach(function(c) {
+                        if (todosPermitidosPerfil.indexOf(c) === -1) todosPermitidosPerfil.push(c);
+                    });
+                }
+                if (todosPermitidosPerfil.length > 1) {
+                    // Usa o CT ativo do cronograma se já carregado, senão o CT principal
+                    renderPerfilCTsLiberados(todosPermitidosPerfil, _cronoCTAtivo || (currentUser && currentUser.ct) || '');
+                } else if (_cronoCTsPermitidos && _cronoCTsPermitidos.length > 1) {
                     renderPerfilCTsLiberados(_cronoCTsPermitidos, _cronoCTAtivo);
                 } else {
-                    // Ainda não carregou cronograma - busca silenciosamente para ter os CTs
+                    // Fallback: busca silenciosa
                     secureFetch('getCronogramaAulas', { email: currentUser.email }).then(function(d) {
                         if (d && d.success) {
                             _cronoCTAtivo = d.ctAtivo || '';
@@ -8255,7 +8262,16 @@
             if (subId === 'sub-evolucao') { loadEvolucao(); loadMyGraduacoes(); }
             if (subId === 'sub-presencas') loadPresencas();
             if (subId === 'sub-campeonato') { loadChampions(); loadCampEventoAluno(); }
-            if (subId === 'sub-aulas') loadCronograma();
+            if (subId === 'sub-aulas') {
+                // Se há um CT pendente (vindo do perfil), carrega ele — senão carrega normal
+                if (_cronoPendingCT) {
+                    var ct = _cronoPendingCT, viz = _cronoPendingVisualizar;
+                    _cronoPendingCT = null; _cronoPendingVisualizar = false;
+                    loadCronograma(ct, viz);
+                } else {
+                    loadCronograma();
+                }
+            }
         }
 
         
@@ -8404,6 +8420,8 @@
                     checkTreinoAlarm(data.cts);
                     // Atualiza painel "Onde tem treino hoje" no Cronograma
                     if (typeof renderCronoTreinoHoje === 'function') renderCronoTreinoHoje();
+                    // Renderiza seletor de CT no Cronograma (usa currentUser.ctsliberados como base inicial)
+                    if (typeof renderCronoCTSelector === 'function') renderCronoCTSelector();
                     // Hero card: tema da aula de hoje na tela inicial
                     renderCheckinTemaHoje();
                     // Auto-refresh alarm a cada 60s (countdown, estado)
@@ -8487,21 +8505,8 @@
                 }
             }
 
-            // Mostrar aula do dia deste CT
-            renderCheckinAulaHoje(ctName);
         }
 
-        // Mensagens de boas-vindas ao tatame
-        var TATAME_MSGS = [
-            'Te esperamos no tatame! 🥋',
-            'Sua presença faz a aula mais especial. Oss! 🤙',
-            'Cada treino é um passo mais perto da faixa! Vem! 🔥',
-            'O tatame está pronto para você. Oss! 🏅',
-            'Hoje é dia de evoluir. Esperamos você! 💪',
-            'A jornada começa no tatame. Até mais tarde! 🥋',
-            'Consistência constrói campeões. Vem treinar! ⚡',
-            'Oss! Bora pro tatame, guerreiro! 🤙'
-        ];
 
         // Hero card: aparece na tela inicial do check-in com o tema do dia do CT do aluno
         async function renderCheckinTemaHoje() {
@@ -8566,53 +8571,6 @@
         }
 
         // Card de aula quando aluno SELECIONA um CT manualmente
-        async function renderCheckinAulaHoje(ctName) {
-            var el = document.getElementById('checkinAulaHoje');
-            if (!el) return;
-
-            var todayStr = (function() {
-                var n = new Date();
-                return n.getFullYear() + '-' + String(n.getMonth()+1).padStart(2,'0') + '-' + String(n.getDate()).padStart(2,'0');
-            })();
-
-            var aulaHoje = null;
-            if (_cronoAulas && _cronoAulas.length > 0 && _cronoCTAtivo === ctName) {
-                aulaHoje = _cronoAulas.find(function(a) { return a.data === todayStr && (a.status === 'hoje' || a.status === 'presente_hoje'); });
-            }
-
-            if (!aulaHoje) {
-                try {
-                    el.innerHTML = '<div class="checkin-aula-card"><div class="checkin-aula-label">📅 Aula de Hoje</div><div style="color:var(--text-3);font-size:12px;">Carregando...</div></div>';
-                    el.style.display = 'block';
-                    var data = await secureFetch('getCronogramaAulas', { email: currentUser.email, ct: ctName, apenasVisualizar: true });
-                    if (data.success && data.aulas) {
-                        aulaHoje = data.aulas.find(function(a) { return a.data === todayStr && (a.status === 'hoje' || a.status === 'presente_hoje'); });
-                    }
-                } catch(e) { /* silencioso */ }
-            }
-
-            if (!aulaHoje || !aulaHoje.tema) { el.style.display = 'none'; return; }
-
-            var hmM = (aulaHoje.horario||'').match(/(\d{1,2}):(\d{2})/);
-            var horFmt = hmM ? hmM[1]+'h'+hmM[2] : (aulaHoje.horario||'');
-            var tatameMsg = TATAME_MSGS[Math.floor(Math.random() * TATAME_MSGS.length)];
-
-            var h = '<div class="checkin-aula-card">';
-            h += '<div class="checkin-aula-label">📅 Aula de Hoje' + (horFmt ? ' · ⏰ ' + horFmt : '') + '</div>';
-            h += '<div class="checkin-aula-tema">' + escapeHtml(aulaHoje.tema) + '</div>';
-            if (aulaHoje.ct) h += '<div class="checkin-aula-meta">📍 ' + escapeHtml(aulaHoje.ct) + '</div>';
-            if (aulaHoje.descricao) h += '<div class="checkin-aula-desc">' + escapeHtml(aulaHoje.descricao) + '</div>';
-            if (aulaHoje.tecnicas && aulaHoje.tecnicas.length) {
-                h += '<div class="checkin-aula-tecs">';
-                aulaHoje.tecnicas.forEach(function(t) { h += '<span class="checkin-aula-tec">🥋 ' + escapeHtml(t) + '</span>'; });
-                h += '</div>';
-            }
-            h += '<div class="checkin-aula-msg"><span class="checkin-aula-msg-icon">🤙</span><span>' + tatameMsg + '</span></div>';
-            h += '</div>';
-
-            el.innerHTML = h;
-            el.style.display = 'block';
-        }
 
         // ═══ TREINO ALARM ═══
         // ===== MOTIVATIONAL MESSAGES =====
@@ -10180,11 +10138,17 @@
                     // Cache in localStorage
                     localStorage.setItem('bjjProfile', JSON.stringify(data.profile));
                     fillProfileFields(data.profile);
-                    // Store diasTreino in currentUser for calendar
-                    if (data.profile.diasTreino) {
+                    // Sync campos relevantes no currentUser
+                    var changed = false;
+                    if (data.profile.diasTreino !== undefined) {
                         currentUser.diasTreino = data.profile.diasTreino;
-                        localStorage.setItem('bjjUser', JSON.stringify(currentUser));
+                        changed = true;
                     }
+                    if (data.profile.ctsliberados !== undefined) {
+                        currentUser.ctsliberados = data.profile.ctsliberados;
+                        changed = true;
+                    }
+                    if (changed) localStorage.setItem('bjjUser', JSON.stringify(currentUser));
                     // Check birthday after profile loads
                     checkBirthday(data.profile);
                 }
@@ -13480,25 +13444,71 @@
         function renderCronoCTSelector() {
             var el = document.getElementById('cronoCTSelector');
             if (!el) return;
-            var cts = allCTs || [];
-            if (!cts.length) { el.style.display = 'none'; return; }
+            var cts = (allCTs || []).filter(function(c) { return typeof c !== 'string'; });
+            if (cts.length <= 1) { el.style.display = 'none'; return; }
+            el.style.display = '';
+
+            // Monta lista de CTs com acesso: do _cronoCTsPermitidos (carregado pelo tab Cronograma)
+            // OU do currentUser.ctsliberados (disponível desde o login/fetchProfile)
+            var permList = _cronoCTsPermitidos.slice(); // cópia
+            if (permList.length === 0 && currentUser) {
+                // Fallback: usa dados do currentUser enquanto o tab Cronograma não foi aberto
+                if (currentUser.ct) permList.push(currentUser.ct);
+                var libStr = currentUser.ctsliberados || '';
+                libStr.split(',').map(function(x){ return x.trim(); }).filter(Boolean).forEach(function(c) {
+                    if (permList.indexOf(c) === -1) permList.push(c);
+                });
+            }
+
+            var temContrato = function(nome) {
+                return permList.indexOf(nome) !== -1;
+            };
+
             var dayKeys = ['dom','seg','ter','qua','qui','sex','sab'];
-            var hoje = dayKeys[new Date().getDay()];
-            var h = '<div class="crono-ct-selector-label">📍 Cronograma de:</div><div class="crono-ct-bar">';
+            var hojeKey = dayKeys[new Date().getDay()];
+
+            var h = '<div class="crono-ct-selector-header">';
+            h += '<span class="crono-ct-selector-title">🏛️ Escolha o CT</span>';
+            h += '<span class="crono-ct-selector-hint">Toque para ver o cronograma</span>';
+            h += '</div><div class="crono-ct-bar">';
+
             cts.forEach(function(ct) {
-                if (typeof ct === 'string') return;
                 var nome = ct.name || '';
-                var temContrato = _cronoCTsPermitidos.indexOf(nome) !== -1 || (currentUser && currentUser.ct === nome);
                 var isAtivo = nome === _cronoCTAtivo;
-                var viewOnly = !temContrato;
-                h += '<button class="crono-ct-chip' + (isAtivo ? ' ativo' : '') + (viewOnly && !isAtivo ? ' view-only' : '') + '" onclick="trocarCronogramaCT(\'' + nome.replace(/\'/g,"\\'") + '\',' + viewOnly + ')">';
-                h += '<span class="ct-chip-dot"></span>' + escapeHtml(nome);
-                if (viewOnly && !isAtivo) h += '<span class="crono-ct-view-badge">\u{1F441}\uFE0F</span>';
+                var contrato = temContrato(nome);
+                var viewOnly = !contrato;
+                var temHoje = ct.schedule && ct.schedule[hojeKey];
+
+                var chipClass = 'crono-ct-chip' + (isAtivo ? ' ativo' : '') + (!isAtivo && viewOnly ? ' view-only' : '');
+                var icon = temHoje ? '✅' : '🏛️';
+
+                h += '<button class="' + chipClass + '" onclick="trocarCronogramaCT(\'' + nome.replace(/'/g,"\\'") + '\',' + viewOnly + ')">';
+                h += '<span class="ct-chip-icon">' + icon + '</span>';
+                h += escapeHtml(nome);
+                if (contrato && !isAtivo) h += ' <span style="font-size:9px;opacity:0.5;">(meu)</span>';
+                if (viewOnly && isAtivo) h += '<span class="crono-ct-view-badge">👁 visita</span>';
                 h += '</button>';
             });
             h += '</div>';
+
+            var ativoEhVisita = _cronoCTAtivo && !temContrato(_cronoCTAtivo);
+            if (ativoEhVisita) {
+                h += '<div style="margin-top:6px;font-size:10px;color:#38bdf8;opacity:0.8;">👁 Visualizando cronograma do <strong>' + escapeHtml(_cronoCTAtivo) + '</strong> — sem contrato ativo.</div>';
+            }
+
             el.innerHTML = h;
-            el.style.display = 'block';
+        }
+
+        function showCronoCTSelectorLoading() {
+            var el = document.getElementById('cronoCTSelector');
+            if (!el) return;
+            el.innerHTML = '<div class="crono-ct-selector-header"><span class="crono-ct-selector-title">🏛️ Escolha o CT</span></div>' +
+                '<div class="crono-ct-skeleton">' +
+                '<div class="crono-ct-skel-chip"></div>' +
+                '<div class="crono-ct-skel-chip" style="width:110px;"></div>' +
+                '<div class="crono-ct-skel-chip" style="width:80px;"></div>' +
+                '</div>';
+            el.style.display = '';
         }
 
         async function trocarCronogramaCT(ct, apenasVisualizar) {
@@ -13510,6 +13520,7 @@
 
         async function loadCronograma(ctFiltro, apenasVisualizar) {
             try {
+                showCronoCTSelectorLoading();
                 var params = { email: currentUser.email };
                 if (ctFiltro) params.ct = ctFiltro;
                 if (apenasVisualizar) params.apenasVisualizar = true;
@@ -13795,12 +13806,53 @@
                 btn.style.border = isAtivo ? '1.5px solid var(--accent)' : '';
                 btn.innerHTML = '<div class="pclb-dot" style="background:' + (isAtivo?'var(--accent)':'var(--text-3)') + ';"></div><div class="pclb-label">' + escapeHtml(ct) + (isPrincipal?' <span style="font-size:9px;opacity:0.5;">(principal)</span>':'') + '</div><div class="pclb-arrow">' + (isAtivo?'✓':'→') + '</div>';
                 btn.addEventListener('click', function() {
-                    var cronoTab = document.querySelector('[data-module="aulas"]');
-                    if (cronoTab) cronoTab.click();
-                    setTimeout(function() { trocarCronogramaCT(ct, false); }, 200);
+                    navegarParaCronoComCT(ct, false);
                 });
                 grid.appendChild(btn);
             });
+        }
+
+        // CT pendente para carregar ao abrir o cronograma (evita race condition)
+        var _cronoPendingCT = null;
+        var _cronoPendingVisualizar = false;
+
+        // Navega para a aba Cronograma e carrega o CT indicado — sem race condition
+        async function navegarParaCronoComCT(ct, apenasVisualizar) {
+            // Guarda o CT desejado ANTES de qualquer navegação
+            _cronoPendingCT = ct;
+            _cronoPendingVisualizar = !!apenasVisualizar;
+
+            // 1. Ativa a aba principal "Treino" se não estiver ativa
+            var treino = document.getElementById('treino-tab');
+            if (!treino) return;
+
+            if (!treino.classList.contains('active')) {
+                // Ativa sem disparar loadCronograma ainda
+                document.querySelectorAll('.tab-content').forEach(function(t){ t.classList.remove('active'); });
+                document.querySelectorAll('#bottomNav .bnav-btn').forEach(function(b){ b.classList.remove('active'); });
+                treino.classList.add('active');
+                var treinoBtn = document.querySelector('.bnav-btn[data-modtab="treino"]');
+                if (treinoBtn) treinoBtn.classList.add('active');
+                await new Promise(function(r){ setTimeout(r, 30); });
+            }
+
+            // 2. Ativa o subtab Cronograma (sub-aulas) sem triggerSubTabLoad
+            treino.querySelectorAll('.subtab-content').forEach(function(s){ s.classList.remove('active'); });
+            treino.querySelectorAll('.subtab-btn').forEach(function(b){ b.classList.remove('active'); });
+            var subAulas = document.getElementById('sub-aulas');
+            if (subAulas) subAulas.classList.add('active');
+            var cronoBtn = treino.querySelector('.subtab-btn[data-module="aulas"]');
+            if (cronoBtn) cronoBtn.classList.add('active');
+
+            // 3. Carrega o cronograma do CT desejado diretamente
+            var ctToLoad = _cronoPendingCT;
+            var vizToLoad = _cronoPendingVisualizar;
+            _cronoPendingCT = null;
+            _cronoPendingVisualizar = false;
+            await loadCronograma(ctToLoad, vizToLoad);
+
+            // 4. Scroll ao topo
+            window.scrollTo(0, 0);
         }
 
         // Compat aliases
@@ -17307,23 +17359,52 @@
             if (ctsLibGrid && allCTs && allCTs.length > 0) {
                 var libAtual = (s.ctsliberados || '').split(',').map(function(x) { return x.trim(); }).filter(Boolean);
                 var ctPrincipal = s.ct || '';
+                var dayKeys  = ['dom','seg','ter','qua','qui','sex','sab'];
+                var dayLabels = { seg:'Seg', ter:'Ter', qua:'Qua', qui:'Qui', sex:'Sex', sab:'Sáb', dom:'Dom' };
+                var hojeKey  = dayKeys[new Date().getDay()];
                 ctsLibGrid.innerHTML = '';
-                allCTs.forEach(function(ct) {
-                    var ctName = typeof ct === 'string' ? ct : ct.name;
-                    if (ctName === ctPrincipal) return; // CT principal não precisa de liberação
-                    var btn = document.createElement('button');
-                    btn.type = 'button';
-                    btn.className = 'stu-ct-lib-btn' + (libAtual.indexOf(ctName) !== -1 ? ' on' : '');
-                    btn.setAttribute('data-ct', ctName);
-                    btn.textContent = (libAtual.indexOf(ctName) !== -1 ? '✓ ' : '') + ctName;
-                    btn.addEventListener('click', function() {
-                        this.classList.toggle('on');
-                        this.textContent = (this.classList.contains('on') ? '✓ ' : '') + ctName;
-                    });
-                    ctsLibGrid.appendChild(btn);
+
+                var outrosCTs = allCTs.filter(function(ct) {
+                    var nome = typeof ct === 'string' ? ct : ct.name;
+                    return nome !== ctPrincipal;
                 });
-                if (ctsLibGrid.children.length === 0) {
-                    ctsLibGrid.innerHTML = '<div style="font-size:11px;color:var(--text-3);">Nenhum outro CT cadastrado.</div>';
+
+                if (outrosCTs.length === 0) {
+                    ctsLibGrid.innerHTML = '<div style="font-size:11px;color:var(--text-3);padding:8px 0;">Nenhum outro CT cadastrado.</div>';
+                } else {
+                    outrosCTs.forEach(function(ct) {
+                        var ctName = typeof ct === 'string' ? ct : ct.name;
+                        var sch = (typeof ct === 'object' && ct.schedule) ? ct.schedule : {};
+                        var isOn = libAtual.indexOf(ctName) !== -1;
+
+                        // Dias que o CT funciona
+                        var diasFunciona = Object.keys(dayLabels).filter(function(d) { return sch[d]; });
+                        var diasHtml = diasFunciona.length > 0
+                            ? diasFunciona.map(function(d) {
+                                return '<span class="day-pill' + (d === hojeKey ? ' hoje' : '') + '">' + dayLabels[d] + '</span>';
+                              }).join('')
+                            : '<span style="opacity:0.5;">Horários não configurados</span>';
+
+                        var card = document.createElement('div');
+                        card.className = 'stu-ct-lib-card' + (isOn ? ' on' : '');
+                        card.setAttribute('data-ct', ctName);
+                        card.innerHTML =
+                            '<div class="stu-ct-lib-card-check">' + (isOn ? '✓' : '') + '</div>' +
+                            '<div class="stu-ct-lib-card-body">' +
+                                '<div class="stu-ct-lib-card-name">🏛️ ' + escapeHtml(ctName) + '</div>' +
+                                '<div class="stu-ct-lib-card-days">' + diasHtml + '</div>' +
+                            '</div>' +
+                            '<div class="stu-ct-lib-card-status">' + (isOn ? '✅ Liberado' : '') + '</div>';
+
+                        card.addEventListener('click', function() {
+                            var wasOn = this.classList.toggle('on');
+                            var check = this.querySelector('.stu-ct-lib-card-check');
+                            var status = this.querySelector('.stu-ct-lib-card-status');
+                            check.textContent = wasOn ? '✓' : '';
+                            status.textContent = wasOn ? '✅ Liberado' : '';
+                        });
+                        ctsLibGrid.appendChild(card);
+                    });
                 }
             }
 
@@ -17372,16 +17453,16 @@
         function onStuCTChange() {
             var ct = document.getElementById('stuCT').value;
             updateStuDiasHint(ct);
-            // Atualizar grid de CTs liberados: remover o novo CT principal
+            // Esconder o card do novo CT principal (não precisa de liberação)
             var grid = document.getElementById('stuCTsLiberadosGrid');
             if (grid) {
-                grid.querySelectorAll('.stu-ct-lib-btn').forEach(function(btn) {
-                    var btnCT = btn.getAttribute('data-ct');
-                    if (btnCT === ct) {
-                        btn.style.display = 'none'; // CT agora é principal, não precisa de liberação
-                        btn.classList.remove('on');
+                grid.querySelectorAll('.stu-ct-lib-card').forEach(function(card) {
+                    var cardCT = card.getAttribute('data-ct');
+                    if (cardCT === ct) {
+                        card.style.display = 'none';
+                        card.classList.remove('on');
                     } else {
-                        btn.style.display = '';
+                        card.style.display = '';
                     }
                 });
             }
@@ -17463,8 +17544,8 @@
                 })(),
                 ctsliberados: (function() {
                     var liberados = [];
-                    document.querySelectorAll('#stuCTsLiberadosGrid .stu-ct-lib-btn.on').forEach(function(btn) {
-                        liberados.push(btn.getAttribute('data-ct'));
+                    document.querySelectorAll('#stuCTsLiberadosGrid .stu-ct-lib-card.on').forEach(function(card) {
+                        liberados.push(card.getAttribute('data-ct'));
                     });
                     return liberados.join(',');
                 })()
