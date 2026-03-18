@@ -5311,6 +5311,7 @@
                         </div>
                         <button class="btn btn-outline" onclick="showRegister()">Criar Nova Conta</button>
                         <button class="btn" onclick="showForgotPassword()" style="background:transparent;color:var(--text-3);font-size:13px;margin-top:4px;text-decoration:underline;border:none;cursor:pointer;">Esqueci minha senha</button>
+                        <button class="btn" id="btnShowActivate" onclick="showActivate()" style="background:transparent;color:#22c55e;font-size:12px;margin-top:8px;text-decoration:none;border:1px dashed rgba(34,197,94,0.3);cursor:pointer;border-radius:8px;padding:8px;">🚀 Primeira vez? Ativar Academia</button>
                     </div>
 
                     <div id="registerTab" style="display: none;">
@@ -5385,6 +5386,58 @@
                     </div>
 
                     <div id="forgotTab" style="display: none;">
+
+                    <!-- ACTIVATION TAB -->
+                    <div id="activateTab" style="display: none;">
+                        <div class="form-card">
+                            <div style="text-align:center;font-size:36px;margin-bottom:4px;">🥋</div>
+                            <div class="form-card-title">Ativar Academia</div>
+                            <p style="font-size:11px;color:var(--text-3);text-align:center;margin-bottom:14px;">Configure sua academia para começar a usar o sistema.</p>
+                            <div class="form-group">
+                                <label class="form-label">Chave de Ativação *</label>
+                                <input type="text" id="actChave" placeholder="PRO-XXXX-XXXX-XXXX" style="text-transform:uppercase;letter-spacing:2px;font-weight:700;text-align:center;font-size:15px;" oninput="formatActKey(this)">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Nome da Academia *</label>
+                                <input type="text" id="actNomeAcademia" placeholder="Ex: Alliance BJJ Centro">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Nome do CT principal *</label>
+                                <input type="text" id="actNomeCT" placeholder="Ex: CT Centro">
+                            </div>
+                            <div style="border-top:1px dashed var(--border);margin:12px 0;padding-top:12px;">
+                                <div style="font-size:10px;color:var(--text-3);font-weight:700;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">👤 Conta do Administrador</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Seu Nome *</label>
+                                <input type="text" id="actNomeAdmin" placeholder="Nome completo">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email *</label>
+                                <input type="email" id="actEmail" placeholder="seu@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Sua Faixa</label>
+                                <select id="actFaixa">
+                                    <option value="Branca">⚪ Branca</option>
+                                    <option value="Azul">🔵 Azul</option>
+                                    <option value="Roxa">🟣 Roxa</option>
+                                    <option value="Marrom">🟤 Marrom</option>
+                                    <option value="Preta" selected>⚫ Preta</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Senha *</label>
+                                <div class="password-wrapper">
+                                    <input type="password" id="actSenha" placeholder="Mínimo 4 caracteres">
+                                    <button type="button" class="password-toggle" onclick="togglePasswordVisibility('actSenha', this)">👁</button>
+                                </div>
+                            </div>
+                            <div id="actMessage"></div>
+                            <button type="button" class="btn btn-primary" onclick="handleActivate()" style="background:linear-gradient(135deg,#22c55e,#16a34a);">🚀 Ativar Minha Academia</button>
+                        </div>
+                        <button class="btn btn-outline" onclick="showLogin()" style="margin-top:8px;">← Voltar ao Login</button>
+                    </div>
                         <div class="form-card">
                             <div class="form-card-title">🔑 Recuperar Senha</div>
                             <p style="font-size:12px;color:var(--text-3);margin-bottom:16px;">Digite seu email cadastrado e uma nova senha. O Professor irá avaliar e aprovar a alteração.</p>
@@ -5424,7 +5477,7 @@
                         <button class="subtab-btn active" data-module="checkin" onclick="switchSubTab('treino-tab','sub-checkin',event)">✍️ Check-in</button>
                         <button class="subtab-btn" data-module="evolucao" onclick="switchSubTab('treino-tab','sub-evolucao',event)">📈 Evolução</button>
                         <button class="subtab-btn" data-module="presencas" onclick="switchSubTab('treino-tab','sub-presencas',event)">📅 Presenças</button>
-                        <button class="subtab-btn" data-module="aulas" onclick="switchSubTab('treino-tab','sub-aulas',event)">📚 Aulas</button>
+                        <button class="subtab-btn" data-module="aulas" onclick="switchSubTab('treino-tab','sub-aulas',event)">📚 Cronograma</button>
                     </div>
 
                     <!-- SUB: CHECK-IN -->
@@ -5703,6 +5756,38 @@
 
                             <!-- Monthly List -->
                             <div class="prs-list" id="prsList"></div>
+
+                            <!-- Solicitar Check-in Retroativo -->
+                            <div style="margin-top:16px;padding:14px;background:var(--card-bg);border:1px solid var(--border);border-radius:12px;">
+                                <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
+                                    <span style="font-size:16px;">📝</span>
+                                    <span style="font-size:13px;font-weight:700;color:var(--text-1);">Esqueceu o check-in?</span>
+                                </div>
+                                <p style="font-size:10px;color:var(--text-3);margin-bottom:10px;">Solicite a presença retroativa. Será aprovada pelo professor ou admin.</p>
+                                <div style="display:flex;gap:6px;margin-bottom:8px;">
+                                    <div style="flex:1;">
+                                        <label style="font-size:9px;color:var(--text-3);display:block;margin-bottom:2px;">Data *</label>
+                                        <input type="date" id="retroDate" style="width:100%;padding:8px;background:var(--bg-elevated);color:var(--text-1);border:1px solid var(--border);border-radius:8px;font-size:12px;">
+                                    </div>
+                                    <div style="flex:1;">
+                                        <label style="font-size:9px;color:var(--text-3);display:block;margin-bottom:2px;">Horário *</label>
+                                        <input type="time" id="retroTime" style="width:100%;padding:8px;background:var(--bg-elevated);color:var(--text-1);border:1px solid var(--border);border-radius:8px;font-size:12px;">
+                                    </div>
+                                </div>
+                                <div style="margin-bottom:8px;">
+                                    <label style="font-size:9px;color:var(--text-3);display:block;margin-bottom:2px;">CT *</label>
+                                    <select id="retroCT" style="width:100%;padding:8px;background:var(--bg-elevated);color:var(--text-1);border:1px solid var(--border);border-radius:8px;font-size:12px;">
+                                        <option value="">Selecione o CT</option>
+                                    </select>
+                                </div>
+                                <div style="margin-bottom:10px;">
+                                    <label style="font-size:9px;color:var(--text-3);display:block;margin-bottom:2px;">Justificativa *</label>
+                                    <textarea id="retroJustificativa" rows="2" maxlength="200" placeholder="Ex: Esqueci de fazer check-in após o treino das 19h" style="width:100%;padding:8px;background:var(--bg-elevated);color:var(--text-1);border:1px solid var(--border);border-radius:8px;font-size:12px;resize:none;"></textarea>
+                                </div>
+                                <div id="retroMessage" style="margin-bottom:6px;"></div>
+                                <button onclick="requestRetroCheckin()" style="width:100%;padding:10px;background:linear-gradient(135deg,var(--primary),var(--primary-bright,#6366F1));color:#fff;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;">📩 Solicitar Presença</button>
+                                <div id="retroPendingList" style="margin-top:10px;"></div>
+                            </div>
                         </div>
                     </div>
 
@@ -6806,12 +6891,38 @@
                         </div>
                         <p style="font-size:10px;color:var(--adm-text-3);padding:0 12px 8px;">Os módulos são controlados pelo plano de cada CT. Gerencie em <strong>Centros de Treinamento</strong> abaixo.</p>
                         <div style="padding:0 12px 12px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
-                            <div style="padding:8px;background:rgba(100,116,139,0.06);border:1px solid rgba(100,116,139,0.15);border-radius:8px;text-align:center;"><div style="font-size:10px;font-weight:800;color:#64748b;">DEMO</div><div style="font-size:8px;color:var(--adm-text-3);">7 dias grátis</div></div>
+                            <div style="padding:8px;background:rgba(100,116,139,0.06);border:1px solid rgba(100,116,139,0.15);border-radius:8px;text-align:center;"><div style="font-size:10px;font-weight:800;color:#64748b;">DEMO</div><div style="font-size:8px;color:var(--adm-text-3);">15 dias grátis</div></div>
                             <div style="padding:8px;background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.15);border-radius:8px;text-align:center;"><div style="font-size:10px;font-weight:800;color:#22c55e;">BÁSICO</div><div style="font-size:8px;color:var(--adm-text-3);">até 80 alunos</div></div>
                             <div style="padding:8px;background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.15);border-radius:8px;text-align:center;"><div style="font-size:10px;font-weight:800;color:#3b82f6;">PROFISSIONAL</div><div style="font-size:8px;color:var(--adm-text-3);">até 150 alunos</div></div>
                             <div style="padding:8px;background:rgba(168,85,247,0.06);border:1px solid rgba(168,85,247,0.15);border-radius:8px;text-align:center;"><div style="font-size:10px;font-weight:800;color:#a855f7;">AVANÇADO</div><div style="font-size:8px;color:var(--adm-text-3);">até 300 alunos</div></div>
                             <div style="padding:8px;background:rgba(251,191,36,0.06);border:1px solid rgba(251,191,36,0.15);border-radius:8px;text-align:center;"><div style="font-size:10px;font-weight:800;color:#fbbf24;">ELITE</div><div style="font-size:8px;color:var(--adm-text-3);">ilimitado</div></div>
                         </div>
+                    </div>
+
+                    <!-- Chaves de Ativação -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">🔑 Chaves de Ativação</div>
+                        </div>
+                        <p style="font-size:10px;color:var(--adm-text-3);padding:0 12px 4px;">Gere chaves para novos clientes ativarem o sistema.</p>
+                        <div style="padding:0 12px 12px;display:flex;gap:6px;align-items:flex-end;">
+                            <div style="flex:1;">
+                                <label style="font-size:9px;color:var(--adm-text-3);display:block;margin-bottom:2px;">Plano</label>
+                                <select id="genKeyPlano" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:11px;">
+                                    <option value="demo">Demo (7 dias)</option>
+                                    <option value="basico">Básico</option>
+                                    <option value="profissional" selected>Profissional</option>
+                                    <option value="avancado">Avançado</option>
+                                    <option value="elite">Elite</option>
+                                </select>
+                            </div>
+                            <div style="width:60px;">
+                                <label style="font-size:9px;color:var(--adm-text-3);display:block;margin-bottom:2px;">Qty</label>
+                                <input type="number" id="genKeyQty" value="1" min="1" max="20" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:11px;text-align:center;">
+                            </div>
+                            <button onclick="adminGenerateKeys()" style="padding:8px 14px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:6px;font-weight:700;font-size:11px;cursor:pointer;white-space:nowrap;">🔑 Gerar</button>
+                        </div>
+                        <div id="genKeyResult" style="padding:0 12px 8px;"></div>
                     </div>
 
                     <!-- System Health -->
@@ -6994,6 +7105,15 @@
                             <button class="admin-refresh-btn" onclick="loadProfPendingAccounts()">↻</button>
                         </div>
                         <div id="profPendingList"><div class="admin-empty">Carregando...</div></div>
+                    </div>
+                    <!-- Check-ins Pendentes (inclui retroativos) -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">✅ Check-ins Pendentes <span class="admin-badge" id="profCheckinBadge" style="display:none">0</span></div>
+                            <button class="admin-refresh-btn" onclick="loadProfPendingCheckins()">↻</button>
+                        </div>
+                        <div id="profCheckinsList"><div class="admin-empty">Carregando...</div></div>
+                        <button id="profBulkApproveBtn" onclick="profBulkApproveCheckins()" style="display:none;width:100%;padding:10px;margin-top:6px;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;">✓ Aprovar Todos</button>
                     </div>
                     <!-- Graduações Pendentes -->
                     <div class="admin-section">
@@ -7765,6 +7885,13 @@
             const regPwC = document.getElementById('regPasswordConfirm');
             if (regPw) regPw.addEventListener('input', checkPasswordMatch);
             if (regPwC) regPwC.addEventListener('input', checkPasswordMatch);
+            
+            // Check if system needs first-time activation (only if no user saved)
+            var saved = localStorage.getItem('bjjUser');
+            if (!saved) {
+                // Don't auto-redirect, just check silently
+                setTimeout(checkNeedsActivation, 1000);
+            }
         });
 
         async function handleRegister(event) {
@@ -8157,12 +8284,14 @@
         function showLogin() {
             document.getElementById('registerTab').style.display = 'none';
             document.getElementById('forgotTab').style.display = 'none';
+            document.getElementById('activateTab').style.display = 'none';
             document.getElementById('loginTab').style.display = 'block';
         }
 
         function showRegister() {
             document.getElementById('loginTab').style.display = 'none';
             document.getElementById('forgotTab').style.display = 'none';
+            document.getElementById('activateTab').style.display = 'none';
             document.getElementById('registerTab').style.display = 'block';
             loadCTs();
         }
@@ -8170,7 +8299,135 @@
         function showForgotPassword() {
             document.getElementById('loginTab').style.display = 'none';
             document.getElementById('registerTab').style.display = 'none';
+            document.getElementById('activateTab').style.display = 'none';
             document.getElementById('forgotTab').style.display = 'block';
+        }
+
+        function showActivate() {
+            document.getElementById('loginTab').style.display = 'none';
+            document.getElementById('registerTab').style.display = 'none';
+            document.getElementById('forgotTab').style.display = 'none';
+            document.getElementById('activateTab').style.display = 'block';
+        }
+
+        function formatActKey(input) {
+            var v = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+            var parts = [];
+            // First 3 chars = prefix
+            if (v.length > 0) parts.push(v.substring(0, 3));
+            if (v.length > 3) parts.push(v.substring(3, 7));
+            if (v.length > 7) parts.push(v.substring(7, 11));
+            if (v.length > 11) parts.push(v.substring(11, 15));
+            input.value = parts.join('-');
+        }
+
+        async function handleActivate() {
+            var chave = document.getElementById('actChave').value.trim();
+            var nomeAcademia = document.getElementById('actNomeAcademia').value.trim();
+            var nomeCT = document.getElementById('actNomeCT').value.trim();
+            var nomeAdmin = document.getElementById('actNomeAdmin').value.trim();
+            var email = document.getElementById('actEmail').value.trim();
+            var faixa = document.getElementById('actFaixa').value;
+            var senha = document.getElementById('actSenha').value;
+
+            if (!chave || !nomeAcademia || !nomeCT || !nomeAdmin || !email || !senha) {
+                showMessage('actMessage', '⚠️ Preencha todos os campos', 'danger');
+                return;
+            }
+            if (senha.length < 4) {
+                showMessage('actMessage', '⚠️ Senha deve ter no mínimo 4 caracteres', 'danger');
+                return;
+            }
+
+            showMessage('actMessage', '🔄 Ativando academia...', 'info');
+
+            try {
+                var r = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'activateAcademy',
+                        chave: chave,
+                        nomeAcademia: nomeAcademia,
+                        nomeCT: nomeCT,
+                        nomeAdmin: nomeAdmin,
+                        emailAdmin: email,
+                        faixa: faixa,
+                        senha: senha
+                    })
+                });
+                var data = await r.json();
+
+                if (data.success) {
+                    var msg = '✅ ' + (data.nomeAcademia || 'Academia') + ' ativada!';
+                    msg += '\n\nPlano: ' + (data.planoLabel || data.plano);
+                    if (data.dataExpiracao) msg += '\nDemo expira: ' + data.dataExpiracao;
+                    msg += '\n\nFaça login com: ' + (data.emailAdmin || email);
+
+                    showMessage('actMessage', '✅ Academia ativada com sucesso! Redirecionando...', 'success');
+
+                    // Pre-fill login
+                    document.getElementById('loginEmail').value = email;
+                    document.getElementById('loginPassword').value = '';
+
+                    setTimeout(function() {
+                        showLogin();
+                        showMessage('loginMessage', '🎉 ' + nomeAcademia + ' ativada! Faça login.', 'success');
+                    }, 2000);
+                } else {
+                    showMessage('actMessage', data.message || 'Erro ao ativar', 'danger');
+                }
+            } catch(e) {
+                showMessage('actMessage', '❌ Erro de conexão: ' + e.message, 'danger');
+            }
+        }
+
+        // Check if system needs activation on page load
+        async function checkNeedsActivation() {
+            try {
+                if (!SCRIPT_URL) return;
+                var controller = new AbortController();
+                var timeoutId = setTimeout(function() { controller.abort(); }, 8000);
+                var r = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'checkActivation' }),
+                    signal: controller.signal
+                });
+                clearTimeout(timeoutId);
+                var data = await r.json();
+                if (data.success && data.needsActivation) {
+                    var btn = document.getElementById('btnShowActivate');
+                    if (btn) btn.style.display = 'block';
+                    showActivate();
+                }
+            } catch(e) {
+                // Silently fail — activation check is non-critical
+                // If backend not deployed yet, just show normal login
+            }
+        }
+
+        async function adminGenerateKeys() {
+            var plano = document.getElementById('genKeyPlano').value;
+            var qty = parseInt(document.getElementById('genKeyQty').value) || 1;
+            var container = document.getElementById('genKeyResult');
+            container.innerHTML = '<div style="font-size:11px;color:var(--adm-text-3);">Gerando...</div>';
+            try {
+                var data = await secureFetch('generateKeys', { plano: plano, quantidade: qty });
+                if (data.success && data.keys) {
+                    var h = '<div style="font-size:10px;font-weight:700;color:var(--adm-text-2);margin-bottom:6px;">✅ ' + data.keys.length + ' chave(s) — ' + plano.toUpperCase() + '</div>';
+                    data.keys.forEach(function(k) {
+                        h += '<div style="display:flex;align-items:center;gap:6px;padding:8px;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);border-radius:6px;margin-bottom:3px;">';
+                        h += '<code style="flex:1;font-size:13px;font-weight:800;color:var(--adm-primary-bright);letter-spacing:1.5px;font-family:monospace;">' + escapeHtml(k) + '</code>';
+                        h += '<button onclick="navigator.clipboard.writeText(\'' + k + '\');this.textContent=\'✅\';setTimeout(function(){document.querySelectorAll(\'[data-copied]\').forEach(function(b){b.textContent=\'📋\'})},1500);this.setAttribute(\'data-copied\',\'1\')" style="padding:4px 8px;background:transparent;border:1px solid var(--adm-border);border-radius:4px;cursor:pointer;font-size:12px;">📋</button>';
+                        h += '</div>';
+                    });
+                    h += '<div style="margin-top:6px;font-size:9px;color:var(--adm-text-3);">Envie a chave pro cliente. Ele cola no formulário de ativação.</div>';
+                    container.innerHTML = h;
+                } else {
+                    container.innerHTML = '<div style="color:#f87171;font-size:11px;">' + (data.message || 'Erro') + '</div>';
+                }
+            } catch(e) {
+                container.innerHTML = '<div style="color:#f87171;font-size:11px;">Erro: ' + e.message + '</div>';
+            }
         }
 
         async function handleForgotPassword(e) {
@@ -9449,6 +9706,91 @@
             } catch(e) {
                 if (grid) grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--coral);">Erro ao carregar</div>';
             }
+            // Load retro form
+            loadRetroCTs();
+            loadMyRetroRequests();
+        }
+
+        async function loadRetroCTs() {
+            var sel = document.getElementById('retroCT');
+            if (!sel || sel.options.length > 1) return;
+            try {
+                var data = await secureFetch('getCTsList', {});
+                if (data.success && data.cts) {
+                    data.cts.forEach(function(ct) {
+                        var name = typeof ct === 'string' ? ct : ct.name;
+                        var opt = document.createElement('option');
+                        opt.value = name; opt.textContent = name;
+                        if (currentUser && currentUser.ct === name) opt.selected = true;
+                        sel.appendChild(opt);
+                    });
+                }
+            } catch(e) {}
+            // Default date to yesterday
+            var d = document.getElementById('retroDate');
+            if (d && !d.value) {
+                var yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
+                d.value = yesterday.toISOString().split('T')[0];
+            }
+        }
+
+        async function requestRetroCheckin() {
+            var dataVal = document.getElementById('retroDate').value;
+            var horario = document.getElementById('retroTime').value;
+            var ct = document.getElementById('retroCT').value;
+            var justificativa = document.getElementById('retroJustificativa').value.trim();
+
+            if (!dataVal || !horario || !ct || !justificativa) {
+                showMessage('retroMessage', '⚠️ Preencha todos os campos', 'danger');
+                return;
+            }
+            if (justificativa.length < 5) {
+                showMessage('retroMessage', '⚠️ Justificativa muito curta', 'danger');
+                return;
+            }
+
+            showMessage('retroMessage', '📩 Enviando solicitação...', 'info');
+            try {
+                var data = await secureFetch('requestRetroCheckin', {
+                    data: dataVal, horario: horario, ct: ct, justificativa: justificativa
+                });
+                if (data.success) {
+                    showMessage('retroMessage', '✅ ' + (data.message || 'Solicitação enviada!'), 'success');
+                    document.getElementById('retroJustificativa').value = '';
+                    document.getElementById('retroTime').value = '';
+                    loadMyRetroRequests();
+                } else {
+                    showMessage('retroMessage', data.message || 'Erro', 'danger');
+                }
+            } catch(e) {
+                showMessage('retroMessage', '❌ Erro: ' + e.message, 'danger');
+            }
+        }
+
+        async function loadMyRetroRequests() {
+            var container = document.getElementById('retroPendingList');
+            if (!container) return;
+            try {
+                var data = await secureFetch('getMyRetroRequests', {});
+                if (data.success && data.requests && data.requests.length > 0) {
+                    var h = '<div style="font-size:10px;font-weight:700;color:var(--text-2);margin-bottom:6px;">📋 Minhas solicitações</div>';
+                    data.requests.forEach(function(r) {
+                        var statusColor = r.status === 'APROVADO' ? '#22c55e' : r.status === 'REJEITADO' ? '#f87171' : '#fbbf24';
+                        var statusIcon = r.status === 'APROVADO' ? '✅' : r.status === 'REJEITADO' ? '❌' : '⏳';
+                        h += '<div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;margin-bottom:4px;">';
+                        h += '<div style="font-size:14px;">' + statusIcon + '</div>';
+                        h += '<div style="flex:1;min-width:0;">';
+                        h += '<div style="font-size:11px;font-weight:700;color:var(--text-1);">' + escapeHtml(r.data) + ' · ' + escapeHtml(r.horario) + ' · ' + escapeHtml(r.ct) + '</div>';
+                        h += '<div style="font-size:9px;color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + escapeHtml(r.justificativa) + '</div>';
+                        h += '</div>';
+                        h += '<span style="font-size:9px;font-weight:800;color:' + statusColor + ';">' + r.status + '</span>';
+                        h += '</div>';
+                    });
+                    container.innerHTML = h;
+                } else {
+                    container.innerHTML = '';
+                }
+            } catch(e) { container.innerHTML = ''; }
         }
 
         function prsChangeMonth(delta) {
@@ -15908,8 +16250,8 @@
 
         var PLANS = {
             demo: {
-                nome: 'Demo', cor: '#64748b', maxAlunos: 20, maxCTs: 1, dias: 7,
-                desc: 'Teste completo por 7 dias',
+                nome: 'Demo', cor: '#64748b', maxAlunos: 20, maxCTs: 1, dias: 15,
+                desc: 'Teste completo por 15 dias',
                 features: {
                     checkin:true, presencas:true, perfil:true, perfilAvatar:true,
                     evolucao:true, cronograma:true, cronoValidacao:true,
@@ -15988,7 +16330,7 @@
             { id: 'checkin', icon: '✍️', nome: 'Check-in' },
             { id: 'evolucao', icon: '📈', nome: 'Evolução' },
             { id: 'presencas', icon: '📅', nome: 'Presenças' },
-            { id: 'cronograma', icon: '📚', nome: 'Aulas' },
+            { id: 'cronograma', icon: '📚', nome: 'Cronograma' },
             { id: 'musculacao', icon: '🏋️', nome: 'Prep. Física' },
             { id: 'ranking', icon: '🏆', nome: 'Ranking' },
             { id: 'campeonato', icon: '🏅', nome: 'Campeonato' },
@@ -16295,8 +16637,89 @@
         async function loadProfPanel() {
             loadProfStudentsList();
             loadProfPendingAccounts();
+            loadProfPendingCheckins();
             loadPendingGraduacoes();
             loadBirthdays();
+        }
+
+        var _profPendingCheckins = [];
+
+        async function loadProfPendingCheckins() {
+            var container = document.getElementById('profCheckinsList');
+            if (!container) return;
+            container.innerHTML = '<div class="admin-empty">Carregando...</div>';
+            try {
+                var data = await secureFetch('getPendingCheckins', { filter: 'todos' });
+                if (data.success) {
+                    var profCTs = currentUser.ctsProfessor ? currentUser.ctsProfessor.split(',').map(function(c){return c.trim();}) : (currentUser.ct ? [currentUser.ct] : []);
+                    _profPendingCheckins = (data.pending || []).filter(function(ck) {
+                        return profCTs.length === 0 || profCTs.indexOf(ck.ct) !== -1;
+                    });
+                    var badge = document.getElementById('profCheckinBadge');
+                    var bulkBtn = document.getElementById('profBulkApproveBtn');
+                    if (_profPendingCheckins.length > 0) {
+                        if (badge) { badge.textContent = _profPendingCheckins.length; badge.style.display = 'inline-block'; }
+                        if (bulkBtn) { bulkBtn.style.display = _profPendingCheckins.length > 1 ? 'block' : 'none'; bulkBtn.textContent = '✓ Aprovar Todos (' + _profPendingCheckins.length + ')'; }
+                        var h = '';
+                        _profPendingCheckins.forEach(function(ck, idx) {
+                            var initial = (ck.name || '?').charAt(0).toUpperCase();
+                            var retroBadge = ck.isRetro ? ' <span style="font-size:8px;background:rgba(251,191,36,0.15);color:#fbbf24;padding:1px 6px;border-radius:4px;font-weight:700;">RETROATIVO</span>' : '';
+                            var justLine = ck.isRetro && ck.justificativa ? '<div style="font-size:10px;color:var(--adm-text-3);padding:2px 0;font-style:italic;">💬 "' + escapeHtml(ck.justificativa) + '"</div>' : '';
+                            h += '<div class="admin-card" id="profCkCard' + idx + '">';
+                            h += '<div class="admin-card-top"><div class="admin-card-avatar">' + initial + '</div>';
+                            h += '<div class="admin-card-info"><div class="admin-card-name">' + escapeHtml(ck.name || '-') + retroBadge + '</div>';
+                            h += '<div class="admin-card-meta">' + escapeHtml(ck.email || '') + '</div></div>';
+                            h += '<span class="admin-checkin-status pendente">pendente</span></div>';
+                            h += '<div class="admin-card-detail">📍 ' + escapeHtml(ck.ct || '-') + ' · ⏰ ' + (ck.hora || ck.horario || '-') + ' · 📅 ' + (ck.dataFormatada || '-') + '</div>';
+                            h += justLine;
+                            h += '<div class="admin-card-actions">';
+                            h += '<button class="admin-btn approve" onclick="profApproveCheckin(' + ck.rowIndex + ',' + idx + ')">✓ Aprovar</button>';
+                            h += '<button class="admin-btn reject" onclick="profRejectCheckin(' + ck.rowIndex + ',' + idx + ')">✕ Rejeitar</button>';
+                            h += '</div></div>';
+                        });
+                        container.innerHTML = h;
+                    } else {
+                        if (badge) badge.style.display = 'none';
+                        if (bulkBtn) bulkBtn.style.display = 'none';
+                        container.innerHTML = '<div class="admin-empty">Nenhum check-in pendente 🎉</div>';
+                    }
+                }
+            } catch(e) { container.innerHTML = '<div class="admin-empty">Erro</div>'; }
+        }
+
+        async function profApproveCheckin(rowIndex, cardIdx) {
+            var card = document.getElementById('profCkCard' + cardIdx);
+            if (card) card.style.opacity = '0.5';
+            try {
+                var data = await secureFetch('approveCheckin', { rowIndex: rowIndex, approvedBy: currentUser.email });
+                if (data.success) {
+                    if (card) { card.style.background = 'rgba(45,138,78,0.1)'; card.innerHTML = '<div class="admin-empty" style="color:#2d8a4e">✅ Aprovado!</div>'; }
+                    setTimeout(loadProfPendingCheckins, 1000);
+                } else { alert(data.message || 'Erro'); if (card) card.style.opacity = '1'; }
+            } catch(e) { alert('Erro'); if (card) card.style.opacity = '1'; }
+        }
+
+        async function profRejectCheckin(rowIndex, cardIdx) {
+            if (!confirm('Rejeitar este check-in?')) return;
+            var card = document.getElementById('profCkCard' + cardIdx);
+            if (card) card.style.opacity = '0.5';
+            try {
+                var data = await secureFetch('rejectCheckin', { rowIndex: rowIndex });
+                if (data.success) {
+                    if (card) { card.style.background = 'rgba(232,93,93,0.1)'; card.innerHTML = '<div class="admin-empty" style="color:var(--coral)">❌ Rejeitado</div>'; }
+                    setTimeout(loadProfPendingCheckins, 1000);
+                } else { alert(data.message || 'Erro'); if (card) card.style.opacity = '1'; }
+            } catch(e) { alert('Erro'); if (card) card.style.opacity = '1'; }
+        }
+
+        async function profBulkApproveCheckins() {
+            if (!confirm('Aprovar todos os ' + _profPendingCheckins.length + ' check-ins pendentes?')) return;
+            var rows = _profPendingCheckins.map(function(ck) { return ck.rowIndex; });
+            try {
+                var data = await secureFetch('bulkApproveCheckins', { rowIndexes: JSON.stringify(rows) });
+                if (data.success) { loadProfPendingCheckins(); }
+                else { alert(data.message || 'Erro'); }
+            } catch(e) { alert('Erro'); }
         }
 
         async function loadProfPendingAccounts() {
@@ -18005,16 +18428,19 @@
             var initial = (ck.name || '?').charAt(0).toUpperCase();
             var dataStr = ck.dataFormatada || '-';
             var rowIndex = ck.rowIndex || 0;
+            var retroBadge = ck.isRetro ? ' <span style="font-size:8px;background:rgba(251,191,36,0.15);color:#fbbf24;padding:1px 6px;border-radius:4px;font-weight:700;">RETROATIVO</span>' : '';
+            var justLine = ck.isRetro && ck.justificativa ? '<div style="font-size:10px;color:var(--adm-text-3);padding:2px 0;font-style:italic;">💬 "' + escapeHtml(ck.justificativa) + '"</div>' : '';
             return '<div class="admin-card" id="ckCard' + idx + '">' +
                 '<div class="admin-card-top">' +
                     '<div class="admin-card-avatar">' + initial + '</div>' +
                     '<div class="admin-card-info">' +
-                        '<div class="admin-card-name">' + (ck.name || '-') + '</div>' +
-                        '<div class="admin-card-meta">' + (ck.email || '') + '</div>' +
+                        '<div class="admin-card-name">' + escapeHtml(ck.name || '-') + retroBadge + '</div>' +
+                        '<div class="admin-card-meta">' + escapeHtml(ck.email || '') + '</div>' +
                     '</div>' +
                     '<span class="admin-checkin-status pendente">pendente</span>' +
                 '</div>' +
-                '<div class="admin-card-detail">📍 ' + (ck.ct || '-') + ' · ⏰ ' + (ck.hora || '-') + ' · 📅 ' + dataStr + '</div>' +
+                '<div class="admin-card-detail">📍 ' + escapeHtml(ck.ct || '-') + ' · ⏰ ' + (ck.hora || ck.horario || '-') + ' · 📅 ' + dataStr + '</div>' +
+                justLine +
                 '<div class="admin-card-actions">' +
                     '<button class="admin-btn approve" onclick="approveCheckin(' + rowIndex + ',' + idx + ')">✓ Aprovar</button>' +
                     '<button class="admin-btn reject" onclick="rejectCheckin(' + rowIndex + ',' + idx + ')">✕ Rejeitar</button>' +
