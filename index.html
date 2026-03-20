@@ -9432,8 +9432,8 @@
             }
         }
 
-        /* ===== IBJJF FULL BELT SYSTEM ===== */
-        var IBJJF_BELTS = [
+        /* ===== IBJJF FULL BELT SYSTEM (ROADMAP) ===== */
+        var IBJJF_ROADMAP = [
             { id: 'branca',  name: 'Branca',  cls: 'branca',  age: '16+', graus: 4, minMonths: 0,  minTreinos: 0 },
             { id: 'azul',    name: 'Azul',    cls: 'azul',    age: '16+', graus: 4, minMonths: 24, minTreinos: 120 },
             { id: 'roxa',    name: 'Roxa',    cls: 'roxa',    age: '16+', graus: 4, minMonths: 24, minTreinos: 430 },
@@ -9443,7 +9443,7 @@
 
         var FAIXA_TO_IBJJF = { 'Branca': 'branca', 'Azul': 'azul', 'Roxa': 'roxa', 'Marrom': 'marrom', 'Preta': 'preta' };
 
-        var IBJJF_BELTS_KIDS = [
+        var IBJJF_ROADMAP_KIDS = [
             { id: 'branca',       name: 'Branca',          cls: 'branca',    age: '4+',  graus: 0, minMonths: 0,  minTreinos: 0 },
             { id: 'cinza-b',      name: 'Cinza/Branca',    cls: 'cinza-b',   age: '4+',  graus: 0, minMonths: 6,  minTreinos: 30 },
             { id: 'cinza',        name: 'Cinza',           cls: 'cinza',     age: '4+',  graus: 0, minMonths: 6,  minTreinos: 50 },
@@ -9466,7 +9466,7 @@
             'Verde-Branca': 'verde-b', 'Verde': 'verde', 'Verde-Preta': 'verde-p'
         };
 
-        function getIBJJFBelts() { return _isKidsMode ? IBJJF_BELTS_KIDS : IBJJF_BELTS; }
+        function getRoadmapBelts() { return _isKidsMode ? IBJJF_ROADMAP_KIDS : IBJJF_ROADMAP; }
         function getFaixaToIBJJF() { return _isKidsMode ? FAIXA_TO_IBJJF_KIDS : FAIXA_TO_IBJJF; }
 
         function renderIBJJFRoadmap(faixaAtual, grauAtual, totalTreinos) {
@@ -9475,7 +9475,7 @@
             track.innerHTML = '';
             track.appendChild(fillEl);
 
-            var belts = getIBJJFBelts();
+            var belts = getRoadmapBelts();
             var faixaMap = getFaixaToIBJJF();
             var currentId = faixaMap[faixaAtual] || 'branca';
             var currentIdx = -1;
