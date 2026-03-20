@@ -5311,7 +5311,6 @@
                         </div>
                         <button class="btn btn-outline" onclick="showRegister()">Criar Nova Conta</button>
                         <button class="btn" onclick="showForgotPassword()" style="background:transparent;color:var(--text-3);font-size:13px;margin-top:4px;text-decoration:underline;border:none;cursor:pointer;">Esqueci minha senha</button>
-                        <button class="btn" id="btnShowActivate" onclick="showActivate()" style="background:transparent;color:#22c55e;font-size:12px;margin-top:8px;text-decoration:none;border:1px dashed rgba(34,197,94,0.3);cursor:pointer;border-radius:8px;padding:8px;">🚀 Primeira vez? Ativar Academia</button>
                     </div>
 
                     <div id="registerTab" style="display: none;">
@@ -5352,24 +5351,14 @@
                                 <div id="regCategoriaInfo" style="display:none;padding:8px 12px;border-radius:10px;margin-bottom:10px;font-size:12px;font-weight:700;text-align:center;"></div>
                                 <div class="form-group">
                                     <label class="form-label">Faixa</label>
-                                    <select id="regFaixa" required>
+                                    <select id="regFaixa" required onchange="updateGrauOptions('regFaixa','regGrau')">
                                         <option value="">Selecione sua faixa</option>
-                                        <option value="Branca">⚪ Branca</option>
-                                        <option value="Azul">🔵 Azul</option>
-                                        <option value="Roxa">🟣 Roxa</option>
-                                        <option value="Marrom">🟤 Marrom</option>
-                                        <option value="Preta">⚫ Preta</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Grau</label>
                                     <select id="regGrau" required>
-                                        <option value="">Selecione o grau</option>
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
+                                        <option value="0">0º Grau</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -5386,58 +5375,6 @@
                     </div>
 
                     <div id="forgotTab" style="display: none;">
-
-                    <!-- ACTIVATION TAB -->
-                    <div id="activateTab" style="display: none;">
-                        <div class="form-card">
-                            <div style="text-align:center;font-size:36px;margin-bottom:4px;">🥋</div>
-                            <div class="form-card-title">Ativar Academia</div>
-                            <p style="font-size:11px;color:var(--text-3);text-align:center;margin-bottom:14px;">Configure sua academia para começar a usar o sistema.</p>
-                            <div class="form-group">
-                                <label class="form-label">Chave de Ativação *</label>
-                                <input type="text" id="actChave" placeholder="PRO-XXXX-XXXX-XXXX" style="text-transform:uppercase;letter-spacing:2px;font-weight:700;text-align:center;font-size:15px;" oninput="formatActKey(this)">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Nome da Academia *</label>
-                                <input type="text" id="actNomeAcademia" placeholder="Ex: Alliance BJJ Centro">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Nome do CT principal *</label>
-                                <input type="text" id="actNomeCT" placeholder="Ex: CT Centro">
-                            </div>
-                            <div style="border-top:1px dashed var(--border);margin:12px 0;padding-top:12px;">
-                                <div style="font-size:10px;color:var(--text-3);font-weight:700;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">👤 Conta do Administrador</div>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Seu Nome *</label>
-                                <input type="text" id="actNomeAdmin" placeholder="Nome completo">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Email *</label>
-                                <input type="email" id="actEmail" placeholder="seu@email.com">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Sua Faixa</label>
-                                <select id="actFaixa">
-                                    <option value="Branca">⚪ Branca</option>
-                                    <option value="Azul">🔵 Azul</option>
-                                    <option value="Roxa">🟣 Roxa</option>
-                                    <option value="Marrom">🟤 Marrom</option>
-                                    <option value="Preta" selected>⚫ Preta</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Senha *</label>
-                                <div class="password-wrapper">
-                                    <input type="password" id="actSenha" placeholder="Mínimo 4 caracteres">
-                                    <button type="button" class="password-toggle" onclick="togglePasswordVisibility('actSenha', this)">👁</button>
-                                </div>
-                            </div>
-                            <div id="actMessage"></div>
-                            <button type="button" class="btn btn-primary" onclick="handleActivate()" style="background:linear-gradient(135deg,#22c55e,#16a34a);">🚀 Ativar Minha Academia</button>
-                        </div>
-                        <button class="btn btn-outline" onclick="showLogin()" style="margin-top:8px;">← Voltar ao Login</button>
-                    </div>
                         <div class="form-card">
                             <div class="form-card-title">🔑 Recuperar Senha</div>
                             <p style="font-size:12px;color:var(--text-3);margin-bottom:16px;">Digite seu email cadastrado e uma nova senha. O Professor irá avaliar e aprovar a alteração.</p>
@@ -5658,22 +5595,8 @@
                                             <option value="faixa">🥋 Faixa</option>
                                         </select>
                                         <select id="evoDeclFaixa" onchange="updateGrauOptions('evoDeclFaixa','evoDeclGrau')">
-                                            <option value="Branca">Branca</option>
-                                            <option value="Cinza">Cinza</option>
-                                            <option value="Amarela">Amarela</option>
-                                            <option value="Laranja">Laranja</option>
-                                            <option value="Verde">Verde</option>
-                                            <option value="Azul">Azul</option>
-                                            <option value="Roxa">Roxa</option>
-                                            <option value="Marrom">Marrom</option>
-                                            <option value="Preta">Preta</option>
                                         </select>
                                         <select id="evoDeclGrau">
-                                            <option value="0">0º Grau</option>
-                                            <option value="1">1º Grau</option>
-                                            <option value="2">2º Grau</option>
-                                            <option value="3">3º Grau</option>
-                                            <option value="4">4º Grau</option>
                                         </select>
                                     </div>
                                     <div class="evo-declare-row">
@@ -5757,36 +5680,11 @@
                             <!-- Monthly List -->
                             <div class="prs-list" id="prsList"></div>
 
-                            <!-- Solicitar Check-in Retroativo -->
-                            <div style="margin-top:16px;padding:14px;background:var(--card-bg);border:1px solid var(--border);border-radius:12px;">
-                                <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
-                                    <span style="font-size:16px;">📝</span>
-                                    <span style="font-size:13px;font-weight:700;color:var(--text-1);">Esqueceu o check-in?</span>
-                                </div>
-                                <p style="font-size:10px;color:var(--text-3);margin-bottom:10px;">Solicite a presença retroativa. Será aprovada pelo professor ou admin.</p>
-                                <div style="display:flex;gap:6px;margin-bottom:8px;">
-                                    <div style="flex:1;">
-                                        <label style="font-size:9px;color:var(--text-3);display:block;margin-bottom:2px;">Data *</label>
-                                        <input type="date" id="retroDate" style="width:100%;padding:8px;background:var(--bg-elevated);color:var(--text-1);border:1px solid var(--border);border-radius:8px;font-size:12px;">
-                                    </div>
-                                    <div style="flex:1;">
-                                        <label style="font-size:9px;color:var(--text-3);display:block;margin-bottom:2px;">Horário *</label>
-                                        <input type="time" id="retroTime" style="width:100%;padding:8px;background:var(--bg-elevated);color:var(--text-1);border:1px solid var(--border);border-radius:8px;font-size:12px;">
-                                    </div>
-                                </div>
-                                <div style="margin-bottom:8px;">
-                                    <label style="font-size:9px;color:var(--text-3);display:block;margin-bottom:2px;">CT *</label>
-                                    <select id="retroCT" style="width:100%;padding:8px;background:var(--bg-elevated);color:var(--text-1);border:1px solid var(--border);border-radius:8px;font-size:12px;">
-                                        <option value="">Selecione o CT</option>
-                                    </select>
-                                </div>
-                                <div style="margin-bottom:10px;">
-                                    <label style="font-size:9px;color:var(--text-3);display:block;margin-bottom:2px;">Justificativa *</label>
-                                    <textarea id="retroJustificativa" rows="2" maxlength="200" placeholder="Ex: Esqueci de fazer check-in após o treino das 19h" style="width:100%;padding:8px;background:var(--bg-elevated);color:var(--text-1);border:1px solid var(--border);border-radius:8px;font-size:12px;resize:none;"></textarea>
-                                </div>
-                                <div id="retroMessage" style="margin-bottom:6px;"></div>
-                                <button onclick="requestRetroCheckin()" style="width:100%;padding:10px;background:linear-gradient(135deg,var(--primary),var(--primary-bright,#6366F1));color:#fff;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;">📩 Solicitar Presença</button>
-                                <div id="retroPendingList" style="margin-top:10px;"></div>
+                            <!-- Dica Check-in Retroativo -->
+                            <div style="margin-top:16px;padding:12px;background:rgba(245,158,11,0.06);border:1px dashed rgba(245,158,11,0.2);border-radius:12px;text-align:center;">
+                                <span style="font-size:14px;">💡</span>
+                                <span style="font-size:11px;color:var(--text-2);">Esqueceu o check-in? Clique no dia <span style="color:#f87171;font-weight:700;">vermelho</span> do calendário para solicitar.</span>
+                                <div id="retroPendingList" style="margin-top:8px;"></div>
                             </div>
                         </div>
                     </div>
@@ -6899,30 +6797,38 @@
                         </div>
                     </div>
 
-                    <!-- Chaves de Ativação -->
-                    <div class="admin-section">
+                    <!-- Admin CT Management (Super Admin only) -->
+                    <div class="admin-section" id="adminCTMgmtSection" style="display:none;">
                         <div class="admin-section-header">
-                            <div class="admin-section-title">🔑 Chaves de Ativação</div>
+                            <div class="admin-section-title">👑 Administradores de CT</div>
                         </div>
-                        <p style="font-size:10px;color:var(--adm-text-3);padding:0 12px 4px;">Gere chaves para novos clientes ativarem o sistema.</p>
-                        <div style="padding:0 12px 12px;display:flex;gap:6px;align-items:flex-end;">
-                            <div style="flex:1;">
-                                <label style="font-size:9px;color:var(--adm-text-3);display:block;margin-bottom:2px;">Plano</label>
-                                <select id="genKeyPlano" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:11px;">
-                                    <option value="demo">Demo (7 dias)</option>
-                                    <option value="basico">Básico</option>
-                                    <option value="profissional" selected>Profissional</option>
-                                    <option value="avancado">Avançado</option>
-                                    <option value="elite">Elite</option>
-                                </select>
+                        <p style="font-size:10px;color:var(--adm-text-3);padding:0 12px 8px;">Cadastre o admin de cada cliente. Ele só verá os CTs do grupo dele.</p>
+                        <div style="padding:0 12px 12px;">
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;">
+                                <div>
+                                    <label style="font-size:9px;color:var(--adm-text-3);display:block;margin-bottom:2px;">Nome *</label>
+                                    <input type="text" id="newAdmNome" placeholder="Nome do responsável" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:11px;">
+                                </div>
+                                <div>
+                                    <label style="font-size:9px;color:var(--adm-text-3);display:block;margin-bottom:2px;">Email *</label>
+                                    <input type="email" id="newAdmEmail" placeholder="admin@email.com" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:11px;">
+                                </div>
                             </div>
-                            <div style="width:60px;">
-                                <label style="font-size:9px;color:var(--adm-text-3);display:block;margin-bottom:2px;">Qty</label>
-                                <input type="number" id="genKeyQty" value="1" min="1" max="20" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:11px;text-align:center;">
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;">
+                                <div>
+                                    <label style="font-size:9px;color:var(--adm-text-3);display:block;margin-bottom:2px;">Senha *</label>
+                                    <input type="text" id="newAdmSenha" placeholder="Senha inicial" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:11px;">
+                                </div>
+                                <div>
+                                    <label style="font-size:9px;color:var(--adm-text-3);display:block;margin-bottom:2px;">CT *</label>
+                                    <select id="newAdmCT" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:11px;">
+                                        <option value="">Selecione o CT</option>
+                                    </select>
+                                </div>
                             </div>
-                            <button onclick="adminGenerateKeys()" style="padding:8px 14px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:6px;font-weight:700;font-size:11px;cursor:pointer;white-space:nowrap;">🔑 Gerar</button>
+                            <button onclick="createAdminCT()" style="width:100%;padding:10px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;">👑 Criar Admin do CT</button>
+                            <div id="newAdmMsg" style="margin-top:6px;"></div>
                         </div>
-                        <div id="genKeyResult" style="padding:0 12px 8px;"></div>
                     </div>
 
                     <!-- System Health -->
@@ -6956,6 +6862,31 @@
                                 <button onclick="createNewCT()" style="padding:8px 16px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:6px;font-weight:700;font-size:11px;cursor:pointer;">Criar</button>
                             </div>
                             <div id="newCTMsg" style="margin-top:4px;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Administradores de CT -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">👤 Administradores de CT</div>
+                            <button class="admin-refresh-btn" onclick="loadAdminCTList()">↻</button>
+                        </div>
+                        <p style="font-size:10px;color:var(--adm-text-3);padding:0 12px 8px;">Admins de CT gerenciam apenas o próprio grupo. Sem faixa/grau.</p>
+                        <div id="adminCTListContainer"><div class="admin-empty">Carregando...</div></div>
+                        <div style="margin-top:10px;padding:0 12px 12px;">
+                            <div style="font-size:11px;font-weight:700;color:var(--adm-text-2);margin-bottom:6px;">+ Novo Admin CT</div>
+                            <div style="display:flex;flex-direction:column;gap:6px;">
+                                <input type="text" id="newAdmCTNome" placeholder="Nome do admin" style="padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                                <input type="email" id="newAdmCTEmail" placeholder="email@exemplo.com" style="padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                                <input type="password" id="newAdmCTSenha" placeholder="Senha inicial" style="padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                                <div style="display:flex;gap:6px;">
+                                    <select id="newAdmCTSelect" style="flex:1;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                                        <option value="">CT do admin</option>
+                                    </select>
+                                    <button onclick="registerAdminCT()" style="padding:8px 16px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:6px;font-weight:700;font-size:11px;cursor:pointer;">Criar</button>
+                                </div>
+                            </div>
+                            <div id="newAdmCTMsg" style="margin-top:4px;"></div>
                         </div>
                     </div>
 
@@ -7075,6 +7006,34 @@
             </div>
 
         </div>
+            <!-- SUPER ADMIN TAB -->
+            <div id="adm-super" class="adm-tab">
+                <div class="adm-page-title">
+                    <h2>🛡️ SUPER ADMIN</h2>
+                    <p>Gestão de clientes e licenças</p>
+                </div>
+                <div class="admin-container">
+
+                    <!-- KPIs -->
+                    <div class="admin-stats" id="superKPIs">
+                        <div class="admin-stat"><div class="admin-stat-num" id="superTotalClientes">-</div><div class="admin-stat-label">Clientes</div></div>
+                        <div class="admin-stat"><div class="admin-stat-num" id="superTotalCTs">-</div><div class="admin-stat-label">CTs</div></div>
+                        <div class="admin-stat"><div class="admin-stat-num" id="superTotalAlunos">-</div><div class="admin-stat-label">Alunos</div></div>
+                        <div class="admin-stat"><div class="admin-stat-num" id="superTotalAtivos">-</div><div class="admin-stat-label">Ativos</div></div>
+                    </div>
+
+                    <!-- Client list -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">🏢 Clientes & CTs</div>
+                            <button class="admin-refresh-btn" onclick="loadSuperAdminPanel()">↻</button>
+                        </div>
+                        <div id="superClientList"><div class="admin-empty">Carregando...</div></div>
+                    </div>
+
+                </div>
+            </div>
+
         <!-- end adminScreen -->
 
         <!-- ============================================= -->
@@ -7275,6 +7234,9 @@
                 <button class="bnav-btn" onclick="switchAdminTab('adm-sistema', event)">
                     <span class="bnav-icon">🔧</span><span class="bnav-label">Sistema</span>
                 </button>
+                <button class="bnav-btn" id="btnNavSuperAdmin" onclick="switchAdminTab('adm-super', event)" style="display:none;">
+                    <span class="bnav-icon">🛡️</span><span class="bnav-label">Super</span>
+                </button>
             </div>
         </div>
 
@@ -7405,28 +7367,11 @@
                         <div class="stu-field">
                             <label>Faixa</label>
                             <select id="stuFaixa" onchange="updateGrauOptions('stuFaixa','stuGrau')">
-                                <option value="Branca">Branca</option>
-                                <option value="Cinza">Cinza</option>
-                                <option value="Amarela">Amarela</option>
-                                <option value="Laranja">Laranja</option>
-                                <option value="Verde">Verde</option>
-                                <option value="Azul">Azul</option>
-                                <option value="Roxa">Roxa</option>
-                                <option value="Marrom">Marrom</option>
-                                <option value="Preta">Preta</option>
-                                <option value="Coral">Coral</option>
-                                <option value="Vermelha">Vermelha</option>
                             </select>
                         </div>
                         <div class="stu-field">
                             <label>Grau</label>
                             <select id="stuGrau">
-                                <option value="0">0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
                             </select>
                         </div>
                     </div>
@@ -7580,22 +7525,8 @@
                             <option value="faixa">🟣 Graduação de faixa</option>
                         </select>
                         <select id="gradFaixa" onchange="updateGrauOptions('gradFaixa','gradGrau')">
-                            <option value="Branca">Branca</option>
-                            <option value="Cinza">Cinza</option>
-                            <option value="Amarela">Amarela</option>
-                            <option value="Laranja">Laranja</option>
-                            <option value="Verde">Verde</option>
-                            <option value="Azul">Azul</option>
-                            <option value="Roxa">Roxa</option>
-                            <option value="Marrom">Marrom</option>
-                            <option value="Preta">Preta</option>
                         </select>
                         <select id="gradGrau">
-                            <option value="0">0º Grau</option>
-                            <option value="1">1º Grau</option>
-                            <option value="2">2º Grau</option>
-                            <option value="3">3º Grau</option>
-                            <option value="4">4º Grau</option>
                         </select>
                         <input type="text" id="gradObs" placeholder="Obs (opcional)" style="min-width:100px;">
                         <button class="grad-add-btn" onclick="addGraduacao()">✅ Aprovar</button>
@@ -7727,7 +7658,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbybGhv3QVfIPk5RtrKHC-GizE5BDPyd0EfWLLv-cxIT9dNFtE--EvsBCKW1Y_eLxJea/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyltCHoP9-TYCChXfQfae73kg2a67_l8CW_PiCVc7txubZatYfaQlJgxVz05ZoVC_Y/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -7752,6 +7683,10 @@
             }
             var body = Object.assign({}, payload || {}, { action: action });
             if (token) body.token = token;
+            // Auto-inject grupo for tenant isolation
+            if (currentUser && currentUser.grupo && !body.grupo) {
+                body.grupo = currentUser.grupo;
+            }
             var response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(body) });
             var data = await response.json();
             if (data.unauthorized === true) { handleSessionExpired(); throw new Error('Sessão expirada'); }
@@ -7886,12 +7821,6 @@
             if (regPw) regPw.addEventListener('input', checkPasswordMatch);
             if (regPwC) regPwC.addEventListener('input', checkPasswordMatch);
             
-            // Check if system needs first-time activation (only if no user saved)
-            var saved = localStorage.getItem('bjjUser');
-            if (!saved) {
-                // Don't auto-redirect, just check silently
-                setTimeout(checkNeedsActivation, 1000);
-            }
         });
 
         async function handleRegister(event) {
@@ -8114,10 +8043,13 @@
             var switcher = document.getElementById('modeSwitcher');
             var profBtn = document.getElementById('modeOptProf');
             var adminBtn = document.getElementById('modeOptAdmin');
+            var alunoBtn = document.getElementById('modeOptAluno');
 
             if (isAdmin()) {
-                // Admin sees: Aluno + Professor + Admin
+                var isAdminCT = currentUser.isAdminCT === true;
                 switcher.classList.add('visible');
+                // Admin CT: hide aluno mode (they're not students)
+                if (alunoBtn) alunoBtn.style.display = isAdminCT ? 'none' : '';
                 profBtn.style.display = '';
                 adminBtn.style.display = '';
                 _currentViewMode = 'admin';
@@ -8138,8 +8070,9 @@
         }
 
         async function checkMandatoryProfile() {
-            // Skip for kids profiles — their data is filled by parent at registration
+            // Skip for kids profiles and admin CTs
             if (currentUser.isKids) return;
+            if (currentUser.isAdminCT) return;
             
             try {
                 var data = await secureFetch('getProfile', { email: currentUser.email });
@@ -8242,6 +8175,9 @@
                 document.querySelectorAll('#adminNav .bnav-btn').forEach(function(b) { b.classList.remove('active'); });
                 document.querySelector('#adminNav .bnav-btn').classList.add('active');
                 loadAdminPanel();
+                // Show Super Admin tab only for super admin (no grupo)
+                var superBtn = document.getElementById('btnNavSuperAdmin');
+                if (superBtn) superBtn.style.display = (!currentUser.grupo) ? '' : 'none';
 
             } else if (mode === 'professor') {
                 document.getElementById('professorScreen').style.display = 'block';
@@ -8284,150 +8220,21 @@
         function showLogin() {
             document.getElementById('registerTab').style.display = 'none';
             document.getElementById('forgotTab').style.display = 'none';
-            document.getElementById('activateTab').style.display = 'none';
             document.getElementById('loginTab').style.display = 'block';
         }
 
         function showRegister() {
             document.getElementById('loginTab').style.display = 'none';
             document.getElementById('forgotTab').style.display = 'none';
-            document.getElementById('activateTab').style.display = 'none';
             document.getElementById('registerTab').style.display = 'block';
             loadCTs();
+            renderFaixaOptions('regFaixa', { empty: true });
         }
 
         function showForgotPassword() {
             document.getElementById('loginTab').style.display = 'none';
             document.getElementById('registerTab').style.display = 'none';
-            document.getElementById('activateTab').style.display = 'none';
             document.getElementById('forgotTab').style.display = 'block';
-        }
-
-        function showActivate() {
-            document.getElementById('loginTab').style.display = 'none';
-            document.getElementById('registerTab').style.display = 'none';
-            document.getElementById('forgotTab').style.display = 'none';
-            document.getElementById('activateTab').style.display = 'block';
-        }
-
-        function formatActKey(input) {
-            var v = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-            var parts = [];
-            // First 3 chars = prefix
-            if (v.length > 0) parts.push(v.substring(0, 3));
-            if (v.length > 3) parts.push(v.substring(3, 7));
-            if (v.length > 7) parts.push(v.substring(7, 11));
-            if (v.length > 11) parts.push(v.substring(11, 15));
-            input.value = parts.join('-');
-        }
-
-        async function handleActivate() {
-            var chave = document.getElementById('actChave').value.trim();
-            var nomeAcademia = document.getElementById('actNomeAcademia').value.trim();
-            var nomeCT = document.getElementById('actNomeCT').value.trim();
-            var nomeAdmin = document.getElementById('actNomeAdmin').value.trim();
-            var email = document.getElementById('actEmail').value.trim();
-            var faixa = document.getElementById('actFaixa').value;
-            var senha = document.getElementById('actSenha').value;
-
-            if (!chave || !nomeAcademia || !nomeCT || !nomeAdmin || !email || !senha) {
-                showMessage('actMessage', '⚠️ Preencha todos os campos', 'danger');
-                return;
-            }
-            if (senha.length < 4) {
-                showMessage('actMessage', '⚠️ Senha deve ter no mínimo 4 caracteres', 'danger');
-                return;
-            }
-
-            showMessage('actMessage', '🔄 Ativando academia...', 'info');
-
-            try {
-                var r = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        action: 'activateAcademy',
-                        chave: chave,
-                        nomeAcademia: nomeAcademia,
-                        nomeCT: nomeCT,
-                        nomeAdmin: nomeAdmin,
-                        emailAdmin: email,
-                        faixa: faixa,
-                        senha: senha
-                    })
-                });
-                var data = await r.json();
-
-                if (data.success) {
-                    var msg = '✅ ' + (data.nomeAcademia || 'Academia') + ' ativada!';
-                    msg += '\n\nPlano: ' + (data.planoLabel || data.plano);
-                    if (data.dataExpiracao) msg += '\nDemo expira: ' + data.dataExpiracao;
-                    msg += '\n\nFaça login com: ' + (data.emailAdmin || email);
-
-                    showMessage('actMessage', '✅ Academia ativada com sucesso! Redirecionando...', 'success');
-
-                    // Pre-fill login
-                    document.getElementById('loginEmail').value = email;
-                    document.getElementById('loginPassword').value = '';
-
-                    setTimeout(function() {
-                        showLogin();
-                        showMessage('loginMessage', '🎉 ' + nomeAcademia + ' ativada! Faça login.', 'success');
-                    }, 2000);
-                } else {
-                    showMessage('actMessage', data.message || 'Erro ao ativar', 'danger');
-                }
-            } catch(e) {
-                showMessage('actMessage', '❌ Erro de conexão: ' + e.message, 'danger');
-            }
-        }
-
-        // Check if system needs activation on page load
-        async function checkNeedsActivation() {
-            try {
-                if (!SCRIPT_URL) return;
-                var controller = new AbortController();
-                var timeoutId = setTimeout(function() { controller.abort(); }, 8000);
-                var r = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({ action: 'checkActivation' }),
-                    signal: controller.signal
-                });
-                clearTimeout(timeoutId);
-                var data = await r.json();
-                if (data.success && data.needsActivation) {
-                    var btn = document.getElementById('btnShowActivate');
-                    if (btn) btn.style.display = 'block';
-                    showActivate();
-                }
-            } catch(e) {
-                // Silently fail — activation check is non-critical
-                // If backend not deployed yet, just show normal login
-            }
-        }
-
-        async function adminGenerateKeys() {
-            var plano = document.getElementById('genKeyPlano').value;
-            var qty = parseInt(document.getElementById('genKeyQty').value) || 1;
-            var container = document.getElementById('genKeyResult');
-            container.innerHTML = '<div style="font-size:11px;color:var(--adm-text-3);">Gerando...</div>';
-            try {
-                var data = await secureFetch('generateKeys', { plano: plano, quantidade: qty });
-                if (data.success && data.keys) {
-                    var h = '<div style="font-size:10px;font-weight:700;color:var(--adm-text-2);margin-bottom:6px;">✅ ' + data.keys.length + ' chave(s) — ' + plano.toUpperCase() + '</div>';
-                    data.keys.forEach(function(k) {
-                        h += '<div style="display:flex;align-items:center;gap:6px;padding:8px;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);border-radius:6px;margin-bottom:3px;">';
-                        h += '<code style="flex:1;font-size:13px;font-weight:800;color:var(--adm-primary-bright);letter-spacing:1.5px;font-family:monospace;">' + escapeHtml(k) + '</code>';
-                        h += '<button onclick="navigator.clipboard.writeText(\'' + k + '\');this.textContent=\'✅\';setTimeout(function(){document.querySelectorAll(\'[data-copied]\').forEach(function(b){b.textContent=\'📋\'})},1500);this.setAttribute(\'data-copied\',\'1\')" style="padding:4px 8px;background:transparent;border:1px solid var(--adm-border);border-radius:4px;cursor:pointer;font-size:12px;">📋</button>';
-                        h += '</div>';
-                    });
-                    h += '<div style="margin-top:6px;font-size:9px;color:var(--adm-text-3);">Envie a chave pro cliente. Ele cola no formulário de ativação.</div>';
-                    container.innerHTML = h;
-                } else {
-                    container.innerHTML = '<div style="color:#f87171;font-size:11px;">' + (data.message || 'Erro') + '</div>';
-                }
-            } catch(e) {
-                container.innerHTML = '<div style="color:#f87171;font-size:11px;">Erro: ' + e.message + '</div>';
-            }
         }
 
         async function handleForgotPassword(e) {
@@ -9370,19 +9177,83 @@
          * Preta (IBJJF): 0º-6º Grau
          * Others: 0º-4º Grau
          */
+        // ═══════════════════════════════════════════════════
+        // IBJJF BELT SYSTEM (CENTRALIZED)
+        // ═══════════════════════════════════════════════════
+        var IBJJF_BELTS = {
+            adulto: [
+                { id: 'Branca',   emoji: '⚪', nome: 'Branca',   maxGrau: 4 },
+                { id: 'Azul',     emoji: '🔵', nome: 'Azul',     maxGrau: 4 },
+                { id: 'Roxa',     emoji: '🟣', nome: 'Roxa',     maxGrau: 4 },
+                { id: 'Marrom',   emoji: '🟤', nome: 'Marrom',   maxGrau: 4 },
+                { id: 'Preta',    emoji: '⚫', nome: 'Preta',    maxGrau: 6 },
+                { id: 'CoralRP',  emoji: '🔴⚫', nome: 'Coral Vermelho e Preto (7º)', maxGrau: 0 },
+                { id: 'CoralRB',  emoji: '🔴⚪', nome: 'Coral Vermelho e Branco (8º)', maxGrau: 0 },
+                { id: 'Vermelha', emoji: '🔴', nome: 'Vermelha (9º/10º)', maxGrau: 0 }
+            ],
+            kids: [
+                { id: 'Branca',          emoji: '⚪', nome: 'Branca' },
+                { id: 'CinzaBranca',     emoji: '⚪🩶', nome: 'Cinza e Branca' },
+                { id: 'Cinza',           emoji: '🩶', nome: 'Cinza' },
+                { id: 'CinzaPreta',      emoji: '🩶⚫', nome: 'Cinza e Preta' },
+                { id: 'AmarelaBranca',   emoji: '⚪🟡', nome: 'Amarela e Branca' },
+                { id: 'Amarela',         emoji: '🟡', nome: 'Amarela' },
+                { id: 'AmarelaPreta',    emoji: '🟡⚫', nome: 'Amarela e Preta' },
+                { id: 'LaranjaBranca',   emoji: '⚪🟠', nome: 'Laranja e Branca' },
+                { id: 'Laranja',         emoji: '🟠', nome: 'Laranja' },
+                { id: 'LaranjaPreta',    emoji: '🟠⚫', nome: 'Laranja e Preta' },
+                { id: 'VerdeBranca',     emoji: '⚪🟢', nome: 'Verde e Branca' },
+                { id: 'Verde',           emoji: '🟢', nome: 'Verde' },
+                { id: 'VerdePreta',      emoji: '🟢⚫', nome: 'Verde e Preta' }
+            ]
+        };
+
+        function getIBJJFBelts(isKids) {
+            return isKids ? IBJJF_BELTS.kids : IBJJF_BELTS.adulto;
+        }
+
+        function getMaxGrau(faixa) {
+            for (var i = 0; i < IBJJF_BELTS.adulto.length; i++) {
+                if (IBJJF_BELTS.adulto[i].id === faixa) return IBJJF_BELTS.adulto[i].maxGrau || 0;
+            }
+            return 4; // default
+        }
+
+        function renderFaixaOptions(selectId, opts) {
+            var sel = document.getElementById(selectId);
+            if (!sel) return;
+            var currentVal = sel.value;
+            var isKids = (opts && opts.kids) || false;
+            var includeEmpty = (opts && opts.empty) || false;
+            var belts = getIBJJFBelts(isKids);
+            var html = '';
+            if (includeEmpty) html += '<option value="">Selecione a faixa</option>';
+            belts.forEach(function(b) {
+                html += '<option value="' + b.id + '">' + b.emoji + ' ' + b.nome + '</option>';
+            });
+            sel.innerHTML = html;
+            if (currentVal) sel.value = currentVal;
+        }
+
         function updateGrauOptions(faixaSelectId, grauSelectId) {
             var faixaSel = document.getElementById(faixaSelectId);
             var grauSel = document.getElementById(grauSelectId);
             if (!faixaSel || !grauSel) return;
             var faixa = faixaSel.value;
             var currentVal = grauSel.value;
-            var maxGrau = faixa === 'Preta' ? 6 : 4;
+            var maxGrau = getMaxGrau(faixa);
             var html = '';
+            if (maxGrau === 0) {
+                html = '<option value="0">—</option>';
+                grauSel.innerHTML = html;
+                grauSel.parentElement.style.display = 'none';
+                return;
+            }
             for (var g = 0; g <= maxGrau; g++) {
                 html += '<option value="' + g + '">' + g + 'º Grau</option>';
             }
             grauSel.innerHTML = html;
-            // Restore value if within range
+            grauSel.parentElement.style.display = '';
             if (parseInt(currentVal) <= maxGrau) grauSel.value = currentVal;
         }
         const SEMESTER_MAX_CLASSES = 48;
@@ -9391,6 +9262,8 @@
 
         function loadEvolucao() {
             if (!currentUser) return;
+            // Populate faixa select for graduation request
+            renderFaixaOptions('evoDeclFaixa');
             const faixa = currentUser.faixa || 'Branca';
             const grau = parseInt(currentUser.grau) || 0;
             const totalTreinos = parseInt(currentUser.treinos) || 0;
@@ -9706,66 +9579,11 @@
             } catch(e) {
                 if (grid) grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--coral);">Erro ao carregar</div>';
             }
-            // Load retro form
-            loadRetroCTs();
+            // Load pending retro requests list
             loadMyRetroRequests();
         }
 
-        async function loadRetroCTs() {
-            var sel = document.getElementById('retroCT');
-            if (!sel || sel.options.length > 1) return;
-            try {
-                var data = await secureFetch('getCTsList', {});
-                if (data.success && data.cts) {
-                    data.cts.forEach(function(ct) {
-                        var name = typeof ct === 'string' ? ct : ct.name;
-                        var opt = document.createElement('option');
-                        opt.value = name; opt.textContent = name;
-                        if (currentUser && currentUser.ct === name) opt.selected = true;
-                        sel.appendChild(opt);
-                    });
-                }
-            } catch(e) {}
-            // Default date to yesterday
-            var d = document.getElementById('retroDate');
-            if (d && !d.value) {
-                var yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
-                d.value = yesterday.toISOString().split('T')[0];
-            }
-        }
-
-        async function requestRetroCheckin() {
-            var dataVal = document.getElementById('retroDate').value;
-            var horario = document.getElementById('retroTime').value;
-            var ct = document.getElementById('retroCT').value;
-            var justificativa = document.getElementById('retroJustificativa').value.trim();
-
-            if (!dataVal || !horario || !ct || !justificativa) {
-                showMessage('retroMessage', '⚠️ Preencha todos os campos', 'danger');
-                return;
-            }
-            if (justificativa.length < 5) {
-                showMessage('retroMessage', '⚠️ Justificativa muito curta', 'danger');
-                return;
-            }
-
-            showMessage('retroMessage', '📩 Enviando solicitação...', 'info');
-            try {
-                var data = await secureFetch('requestRetroCheckin', {
-                    data: dataVal, horario: horario, ct: ct, justificativa: justificativa
-                });
-                if (data.success) {
-                    showMessage('retroMessage', '✅ ' + (data.message || 'Solicitação enviada!'), 'success');
-                    document.getElementById('retroJustificativa').value = '';
-                    document.getElementById('retroTime').value = '';
-                    loadMyRetroRequests();
-                } else {
-                    showMessage('retroMessage', data.message || 'Erro', 'danger');
-                }
-            } catch(e) {
-                showMessage('retroMessage', '❌ Erro: ' + e.message, 'danger');
-            }
-        }
+        // Old retro form replaced by calendar-based inline form (prsRequestRetro)
 
         async function loadMyRetroRequests() {
             var container = document.getElementById('retroPendingList');
@@ -9918,18 +9736,55 @@
             }
             document.getElementById('prsList').innerHTML = listHtml;
 
-            // Show detail if day selected
-            if (_prsSelectedDay && dayMap[_prsSelectedDay]) {
-                prsShowDayDetail(_prsSelectedDay, dayMap[_prsSelectedDay]);
+            // Show detail if day selected (handled by prsSelectDay)
+            if (_prsSelectedDay && !dayMap[_prsSelectedDay]) {
+                // Missed day — prsSelectDay will handle the detail
+            } else if (_prsSelectedDay && dayMap[_prsSelectedDay]) {
+                prsShowDayDetail(_prsSelectedDay, dayMap[_prsSelectedDay], false, false);
             }
         }
 
         function prsSelectDay(day) {
             _prsSelectedDay = (_prsSelectedDay === day) ? null : day;
             renderPresencas();
+
+            if (!_prsSelectedDay) {
+                document.getElementById('prsDetail').style.display = 'none';
+                return;
+            }
+
+            // Build attendance map for selected day
+            var monthKey = _prsYear + '-' + String(_prsMonth + 1).padStart(2, '0');
+            var entries = [];
+            if (_prsData) {
+                for (var i = 0; i < _prsData.length; i++) {
+                    var r = _prsData[i];
+                    if (r.date && r.date.substring(0, 7) === monthKey) {
+                        var dn = parseInt(r.date.substring(8, 10));
+                        if (dn === day) entries.push({ hora: r.hora, ct: r.ct });
+                    }
+                }
+            }
+
+            // Check if this is a missed day
+            var DAY_KEYS = ['dom','seg','ter','qua','qui','sex','sab'];
+            var dt = new Date(_prsYear, _prsMonth, day);
+            var dayOfWeek = DAY_KEYS[dt.getDay()];
+            var stuDiasTreino = [];
+            if (currentUser && currentUser.diasTreino) stuDiasTreino = currentUser.diasTreino.split(',');
+            var now = new Date();
+            var isExpected = stuDiasTreino.indexOf(dayOfWeek) !== -1;
+            var isPast = dt < new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            var isMissed = isExpected && isPast && entries.length === 0;
+
+            // Check if within 7 days
+            var diffDays = Math.floor((now - dt) / (1000*60*60*24));
+            var canRetro = isMissed && diffDays <= 7 && diffDays >= 0;
+
+            prsShowDayDetail(day, entries, canRetro, isMissed);
         }
 
-        function prsShowDayDetail(day, entries) {
+        function prsShowDayDetail(day, entries, canRetro, isMissed) {
             var DIAS_SEMANA = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
             var dt = new Date(_prsYear, _prsMonth, day);
             var detail = document.getElementById('prsDetail');
@@ -9938,18 +9793,106 @@
 
             header.textContent = '📅 ' + DIAS_SEMANA[dt.getDay()] + ', ' + day + '/' + (_prsMonth + 1);
             var html = '';
-            for (var i = 0; i < entries.length; i++) {
-                html += '<div class="prs-detail-item">' +
-                    '<div class="prs-detail-time">' + (entries[i].hora || '—') + '</div>' +
-                    '<div class="prs-detail-ct">📍 ' + (entries[i].ct || '—') + '</div>' +
-                    '<div class="prs-detail-badge">✅ Confirmado</div>' +
-                    '</div>';
+
+            if (entries.length > 0) {
+                for (var i = 0; i < entries.length; i++) {
+                    html += '<div class="prs-detail-item">' +
+                        '<div class="prs-detail-time">' + (entries[i].hora || '—') + '</div>' +
+                        '<div class="prs-detail-ct">📍 ' + (entries[i].ct || '—') + '</div>' +
+                        '<div class="prs-detail-badge">✅ Confirmado</div>' +
+                        '</div>';
+                }
+            } else if (canRetro) {
+                // Missed day within 7 days — show retro request inline
+                var dateStr = _prsYear + '-' + String(_prsMonth + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+                html += '<div style="text-align:center;padding:8px 0;">';
+                html += '<div style="font-size:24px;margin-bottom:4px;">😅</div>';
+                html += '<div style="font-size:12px;font-weight:700;color:#f87171;margin-bottom:2px;">Faltou neste dia</div>';
+                html += '<div style="font-size:10px;color:var(--text-3);margin-bottom:10px;">Solicite o check-in retroativo</div>';
+                html += '</div>';
+
+                // CT selector
+                html += '<div style="margin-bottom:8px;">';
+                html += '<label style="font-size:9px;color:var(--text-3);display:block;margin-bottom:2px;">CT que treinou</label>';
+                html += '<select id="prsRetroCT" style="width:100%;padding:8px;background:var(--bg-elevated);color:var(--text-1);border:1px solid var(--border);border-radius:8px;font-size:12px;">';
+                html += '<option value="">Selecione o CT</option>';
+                html += '</select>';
+                html += '</div>';
+
+                // Time
+                html += '<div style="margin-bottom:8px;">';
+                html += '<label style="font-size:9px;color:var(--text-3);display:block;margin-bottom:2px;">Horário que treinou</label>';
+                html += '<input type="time" id="prsRetroTime" style="width:100%;padding:8px;background:var(--bg-elevated);color:var(--text-1);border:1px solid var(--border);border-radius:8px;font-size:12px;">';
+                html += '</div>';
+
+                // Justificativa
+                html += '<div style="margin-bottom:8px;">';
+                html += '<label style="font-size:9px;color:var(--text-3);display:block;margin-bottom:2px;">Motivo</label>';
+                html += '<input type="text" id="prsRetroMotivo" placeholder="Ex: Esqueci de fazer check-in" maxlength="200" style="width:100%;padding:8px;background:var(--bg-elevated);color:var(--text-1);border:1px solid var(--border);border-radius:8px;font-size:12px;">';
+                html += '</div>';
+
+                html += '<div id="prsRetroMsg" style="margin-bottom:6px;"></div>';
+                html += '<button onclick="prsRequestRetro(\'' + dateStr + '\')" style="width:100%;padding:10px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;">📩 Solicitar Check-in Retroativo</button>';
+            } else if (isMissed) {
+                // Missed but older than 7 days
+                html += '<div style="text-align:center;padding:12px;color:var(--text-3);font-size:12px;">';
+                html += '<div style="font-size:20px;margin-bottom:4px;">😔</div>';
+                html += 'Faltou neste dia<br><span style="font-size:10px;color:#f87171;">Prazo de 7 dias para retroativo expirado</span></div>';
+            } else {
+                html += '<div style="text-align:center;padding:12px;color:var(--text-3);font-size:12px;">Sem registro neste dia</div>';
             }
-            if (entries.length === 0) {
-                html = '<div style="text-align:center;padding:12px;color:var(--text-3);font-size:12px;">Sem registro neste dia</div>';
-            }
+
             list.innerHTML = html;
             detail.style.display = 'block';
+
+            // Populate CT selector if retro form shown
+            if (canRetro) {
+                prsLoadRetroCTs();
+            }
+        }
+
+        async function prsLoadRetroCTs() {
+            var sel = document.getElementById('prsRetroCT');
+            if (!sel) return;
+            try {
+                var data = await secureFetch('getCTsList', {});
+                if (data.success && data.cts) {
+                    data.cts.forEach(function(ct) {
+                        var name = typeof ct === 'string' ? ct : ct.name;
+                        var opt = document.createElement('option');
+                        opt.value = name; opt.textContent = '📍 ' + name;
+                        if (currentUser && currentUser.ct === name) opt.selected = true;
+                        sel.appendChild(opt);
+                    });
+                }
+            } catch(e) {}
+        }
+
+        async function prsRequestRetro(dateStr) {
+            var ct = document.getElementById('prsRetroCT').value;
+            var horario = document.getElementById('prsRetroTime').value;
+            var motivo = document.getElementById('prsRetroMotivo').value.trim();
+
+            if (!ct) { showMessage('prsRetroMsg', '⚠️ Selecione o CT', 'danger'); return; }
+            if (!horario) { showMessage('prsRetroMsg', '⚠️ Informe o horário', 'danger'); return; }
+            if (!motivo || motivo.length < 3) { showMessage('prsRetroMsg', '⚠️ Informe o motivo', 'danger'); return; }
+
+            showMessage('prsRetroMsg', '📩 Enviando...', 'info');
+            try {
+                var data = await secureFetch('requestRetroCheckin', {
+                    data: dateStr, horario: horario, ct: ct, justificativa: motivo
+                });
+                if (data.success) {
+                    showMessage('prsRetroMsg', '✅ Solicitação enviada!', 'success');
+                    // Reset presença data to force reload
+                    _prsData = null;
+                    setTimeout(function() { loadPresencas(); }, 1500);
+                } else {
+                    showMessage('prsRetroMsg', data.message || 'Erro', 'danger');
+                }
+            } catch(e) {
+                showMessage('prsRetroMsg', '❌ Erro: ' + e.message, 'danger');
+            }
         }
 
         // ===== GRADUATION TIMELINE =====
@@ -12520,7 +12463,132 @@
             if (tabName === 'adm-alunos') loadStudentsList();
             if (tabName === 'adm-presenca') initPresencaList();
             if (tabName === 'adm-campeonato') initCampAdmin();
-            if (tabName === 'adm-sistema') { loadSystemHealth(); loadAdminCTs(); loadAdminProfile(); loadGradConfig(); loadCTScheduleAdmin(); initAdmAulaForm(); }
+            if (tabName === 'adm-sistema') { initAdminCTMgmt(); loadSystemHealth(); loadAdminCTs(); loadAdminProfile(); loadGradConfig(); loadCTScheduleAdmin(); loadAdminCTList(); initAdmAulaForm(); }
+            if (tabName === 'adm-super') loadSuperAdminPanel();
+        }
+
+        // ═══════════════════════════════════════════════════
+        // 🛡️ SUPER ADMIN PANEL
+        // ═══════════════════════════════════════════════════
+
+        async function loadSuperAdminPanel() {
+            var container = document.getElementById('superClientList');
+            if (!container) return;
+            container.innerHTML = '<div class="admin-empty">Carregando...</div>';
+            try {
+                var data = await secureFetch('getSuperAdminData', {});
+                if (!data.success) { container.innerHTML = '<div class="admin-empty">' + (data.message || 'Erro') + '</div>'; return; }
+                
+                // KPIs
+                document.getElementById('superTotalClientes').textContent = data.totals.clientes;
+                document.getElementById('superTotalCTs').textContent = data.totals.cts;
+                document.getElementById('superTotalAlunos').textContent = data.totals.alunos;
+                document.getElementById('superTotalAtivos').textContent = data.totals.ativos;
+                
+                if (!data.groups || data.groups.length === 0) {
+                    container.innerHTML = '<div class="admin-empty">Nenhum cliente cadastrado</div>';
+                    return;
+                }
+                
+                var planColors = { demo:'#64748b', basico:'#22c55e', profissional:'#3b82f6', avancado:'#a855f7', elite:'#fbbf24' };
+                var planLabels = { demo:'Demo', basico:'Básico', profissional:'Pro', avancado:'Avançado', elite:'Elite' };
+                var licColors = { ativo:'#22c55e', demo:'#fbbf24', suspenso:'#f87171' };
+                var licLabels = { ativo:'✅ Ativo', demo:'⏰ Demo', suspenso:'🔒 Suspenso' };
+                
+                var h = '';
+                data.groups.forEach(function(g) {
+                    h += '<div style="margin-bottom:16px;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);border-radius:12px;overflow:hidden;">';
+                    
+                    // Group header
+                    h += '<div style="padding:12px 14px;background:linear-gradient(135deg,rgba(99,102,241,0.08),rgba(139,92,246,0.04));border-bottom:1px solid var(--adm-border);display:flex;align-items:center;gap:10px;">';
+                    h += '<div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#000;">' + (g.nome||'?').charAt(0).toUpperCase() + '</div>';
+                    h += '<div style="flex:1;min-width:0;">';
+                    h += '<div style="font-size:13px;font-weight:800;color:var(--adm-text-1);">🏷️ ' + escapeHtml(g.nome) + '</div>';
+                    h += '<div style="font-size:10px;color:var(--adm-text-3);">' + g.cts.length + ' CT' + (g.cts.length > 1 ? 's' : '') + ' · ' + g.alunos + ' alunos</div>';
+                    h += '</div>';
+                    // Admins badges
+                    if (g.admins && g.admins.length > 0) {
+                        g.admins.forEach(function(adm) {
+                            h += '<span style="font-size:8px;background:rgba(99,102,241,0.1);color:var(--adm-primary-bright);padding:2px 6px;border-radius:4px;font-weight:700;">' + escapeHtml(adm.name) + '</span>';
+                        });
+                    }
+                    h += '</div>';
+                    
+                    // Each CT in this group
+                    g.cts.forEach(function(ct) {
+                        var pColor = planColors[ct.plano] || '#64748b';
+                        var lColor = licColors[ct.statusLicenca] || '#22c55e';
+                        var ctId = ct.nome.replace(/[^a-zA-Z0-9]/g, '_');
+                        
+                        h += '<div style="padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.03);" id="superCT_' + ctId + '">';
+                        h += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">';
+                        h += '<span style="font-size:12px;">📍</span>';
+                        h += '<span style="font-size:12px;font-weight:700;color:var(--adm-text-1);flex:1;">' + escapeHtml(ct.nome) + '</span>';
+                        h += '<span style="font-size:9px;font-weight:800;color:' + lColor + ';">' + (licLabels[ct.statusLicenca] || ct.statusLicenca) + '</span>';
+                        h += '</div>';
+                        
+                        // Plan selector
+                        h += '<div style="display:flex;gap:3px;margin-bottom:6px;">';
+                        ['demo','basico','profissional','avancado','elite'].forEach(function(p) {
+                            var sel = (ct.plano === p);
+                            h += '<button onclick="superSetPlan(\'' + escapeHtml(ct.nome).replace(/'/g, "\\'") + '\',\'' + p + '\',this)" style="flex:1;padding:5px 2px;border:1.5px solid ' + (sel ? planColors[p] : 'var(--adm-border)') + ';border-radius:5px;font-size:8px;font-weight:800;cursor:pointer;background:' + (sel ? planColors[p] : 'transparent') + ';color:' + (sel ? '#000' : 'var(--adm-text-3)') + ';">' + (planLabels[p] || p) + '</button>';
+                        });
+                        h += '</div>';
+                        
+                        // License selector
+                        h += '<div style="display:flex;gap:3px;margin-bottom:6px;">';
+                        ['ativo','demo','suspenso'].forEach(function(st) {
+                            var sel = (ct.statusLicenca === st);
+                            h += '<button onclick="superSetLicense(\'' + escapeHtml(ct.nome).replace(/'/g, "\\'") + '\',\'' + st + '\',this)" style="flex:1;padding:5px;border:1.5px solid ' + (sel ? licColors[st] : 'var(--adm-border)') + ';border-radius:5px;font-size:9px;font-weight:800;cursor:pointer;background:' + (sel ? licColors[st] : 'transparent') + ';color:' + (sel ? '#000' : 'var(--adm-text-3)') + ';">' + (licLabels[st] || st) + '</button>';
+                        });
+                        h += '</div>';
+                        
+                        // Expiration (for demo)
+                        h += '<div style="display:flex;gap:6px;align-items:center;' + (ct.statusLicenca === 'demo' ? '' : 'display:none;') + '" id="superExp_' + ctId + '">';
+                        h += '<label style="font-size:9px;color:var(--adm-text-3);white-space:nowrap;">Expira:</label>';
+                        h += '<input type="date" value="' + (ct.dataExpiracao || '') + '" onchange="superSetExpiration(\'' + escapeHtml(ct.nome).replace(/'/g, "\\'") + '\',this.value)" style="flex:1;padding:4px;background:var(--adm-bg);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:4px;font-size:10px;">';
+                        h += '</div>';
+                        
+                        h += '</div>';
+                    });
+                    
+                    h += '</div>';
+                });
+                
+                container.innerHTML = h;
+            } catch(e) {
+                container.innerHTML = '<div class="admin-empty">Erro: ' + e.message + '</div>';
+            }
+        }
+
+        async function superSetPlan(ctName, plano, btn) {
+            var row = btn.closest('div');
+            row.querySelectorAll('button').forEach(function(b) { b.style.background = 'transparent'; b.style.color = 'var(--adm-text-3)'; b.style.borderColor = 'var(--adm-border)'; });
+            var planColors = { demo:'#64748b', basico:'#22c55e', profissional:'#3b82f6', avancado:'#a855f7', elite:'#fbbf24' };
+            btn.style.background = planColors[plano] || '#64748b'; btn.style.color = '#000'; btn.style.borderColor = planColors[plano] || '#64748b';
+            try {
+                await secureFetch('updateCTPlan', { ctName: ctName, plano: plano });
+            } catch(e) { alert('Erro: ' + e.message); }
+        }
+
+        async function superSetLicense(ctName, status, btn) {
+            var row = btn.closest('div');
+            row.querySelectorAll('button').forEach(function(b) { b.style.background = 'transparent'; b.style.color = 'var(--adm-text-3)'; b.style.borderColor = 'var(--adm-border)'; });
+            var licColors = { ativo:'#22c55e', demo:'#fbbf24', suspenso:'#f87171' };
+            btn.style.background = licColors[status]; btn.style.color = '#000'; btn.style.borderColor = licColors[status];
+            // Show/hide expiration
+            var ctId = ctName.replace(/[^a-zA-Z0-9]/g, '_');
+            var expDiv = document.getElementById('superExp_' + ctId);
+            if (expDiv) expDiv.style.display = (status === 'demo') ? 'flex' : 'none';
+            try {
+                await secureFetch('updateCTPlan', { ctName: ctName, statusLicenca: status });
+            } catch(e) { alert('Erro: ' + e.message); }
+        }
+
+        async function superSetExpiration(ctName, date) {
+            try {
+                await secureFetch('updateCTPlan', { ctName: ctName, dataExpiracao: date });
+            } catch(e) { alert('Erro: ' + e.message); }
         }
 
         function loadAdminProfile() {
@@ -16362,7 +16430,7 @@
                         }
                     }
                 }
-                if (isAdmin()) { _ctPlan = 'elite'; _ctLicenseStatus = 'ativo'; }
+                if (isAdmin() && !currentUser.grupo) { _ctPlan = 'elite'; _ctLicenseStatus = 'ativo'; }
                 if (isProfessor() && !isAdmin() && data && data.cts) {
                     var profCTs = currentUser.ctsProfessor ? currentUser.ctsProfessor.split(',').map(function(c){return c.trim();}).filter(Boolean) : [];
                     var planOrder = ['basico','profissional','avancado','elite'];
@@ -17449,6 +17517,59 @@
             }
         }
 
+        // ═══════════════════════════════════════════════════
+        // ADMIN CT MANAGEMENT (SUPER ADMIN ONLY)
+        // ═══════════════════════════════════════════════════
+        function initAdminCTMgmt() {
+            var section = document.getElementById('adminCTMgmtSection');
+            if (!section) return;
+            // Only show for super admin (no grupo)
+            if (currentUser && currentUser.grupo) {
+                section.style.display = 'none';
+                return;
+            }
+            section.style.display = '';
+            // Populate CT select
+            var sel = document.getElementById('newAdmCT');
+            if (sel && sel.options.length <= 1) {
+                secureFetch('getCTsList', {}).then(function(data) {
+                    if (data.success && data.cts) {
+                        data.cts.forEach(function(ct) {
+                            var name = typeof ct === 'string' ? ct : ct.name;
+                            var opt = document.createElement('option');
+                            opt.value = name; opt.textContent = name + (ct.grupo ? ' (' + ct.grupo + ')' : '');
+                            sel.appendChild(opt);
+                        });
+                    }
+                }).catch(function(){});
+            }
+        }
+
+        async function createAdminCT() {
+            var nome = document.getElementById('newAdmNome').value.trim();
+            var email = document.getElementById('newAdmEmail').value.trim();
+            var senha = document.getElementById('newAdmSenha').value;
+            var ct = document.getElementById('newAdmCT').value;
+            if (!nome || !email || !senha || !ct) {
+                showMessage('newAdmMsg', '⚠️ Preencha todos os campos', 'danger');
+                return;
+            }
+            showMessage('newAdmMsg', '⏳ Criando admin...', 'info');
+            try {
+                var data = await secureFetch('registerAdminCT', { nome: nome, email: email, senha: senha, ct: ct });
+                if (data.success) {
+                    showMessage('newAdmMsg', '✅ ' + data.message, 'success');
+                    document.getElementById('newAdmNome').value = '';
+                    document.getElementById('newAdmEmail').value = '';
+                    document.getElementById('newAdmSenha').value = '';
+                } else {
+                    showMessage('newAdmMsg', data.message || 'Erro', 'danger');
+                }
+            } catch(e) {
+                showMessage('newAdmMsg', '❌ Erro: ' + e.message, 'danger');
+            }
+        }
+
         async function loadSystemHealth() {
             var issuesDiv = document.getElementById('sysHealthIssues');
             if (issuesDiv) issuesDiv.innerHTML = '<div class="admin-empty">Verificando sistema...</div>';
@@ -17501,6 +17622,84 @@
 
                 // --- CT SCHEDULE MANAGEMENT ---
         var ctScheduleCache = {};
+
+        // ═══════════════════════════════════════════════════
+        // ADMINISTRADORES DE CT
+        // ═══════════════════════════════════════════════════
+
+        async function loadAdminCTList() {
+            var container = document.getElementById('adminCTListContainer');
+            if (!container) return;
+            container.innerHTML = '<div class="admin-empty">Carregando...</div>';
+            try {
+                var data = await secureFetch('getAdminCTList', {});
+                if (data.success && data.admins) {
+                    if (data.admins.length === 0) {
+                        container.innerHTML = '<div class="admin-empty">Nenhum admin de CT cadastrado</div>';
+                        return;
+                    }
+                    var h = '';
+                    data.admins.forEach(function(adm) {
+                        h += '<div style="display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);border-radius:8px;margin:0 12px 4px;">';
+                        h += '<div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#000;">' + (adm.name || '?').charAt(0).toUpperCase() + '</div>';
+                        h += '<div style="flex:1;min-width:0;">';
+                        h += '<div style="font-size:12px;font-weight:700;color:var(--adm-text-1);">' + escapeHtml(adm.name) + '</div>';
+                        h += '<div style="font-size:10px;color:var(--adm-text-3);">' + escapeHtml(adm.email) + ' · 📍 ' + escapeHtml(adm.ct) + '</div>';
+                        if (adm.grupo) h += '<div style="font-size:9px;color:var(--adm-primary);font-weight:700;">🏷️ ' + escapeHtml(adm.grupo) + '</div>';
+                        h += '</div>';
+                        h += '<button onclick="deleteAdminCT(\'' + (adm.email || '').replace(/'/g, "\\'") + '\')" style="padding:4px 8px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.2);border-radius:4px;color:#f87171;font-size:9px;cursor:pointer;">🗑</button>';
+                        h += '</div>';
+                    });
+                    container.innerHTML = h;
+                } else {
+                    container.innerHTML = '<div class="admin-empty">Erro ao carregar</div>';
+                }
+            } catch(e) { container.innerHTML = '<div class="admin-empty">Erro: ' + e.message + '</div>'; }
+            // Populate CT select
+            try {
+                var ctData = await secureFetch('getCTsList', {});
+                var sel = document.getElementById('newAdmCTSelect');
+                if (sel && ctData.success && ctData.cts) {
+                    sel.innerHTML = '<option value="">CT do admin</option>';
+                    ctData.cts.forEach(function(ct) {
+                        var name = typeof ct === 'string' ? ct : ct.name;
+                        sel.innerHTML += '<option value="' + escapeHtml(name) + '">' + escapeHtml(name) + '</option>';
+                    });
+                }
+            } catch(e2) {}
+        }
+
+        async function registerAdminCT() {
+            var nome = document.getElementById('newAdmCTNome').value.trim();
+            var email = document.getElementById('newAdmCTEmail').value.trim();
+            var senha = document.getElementById('newAdmCTSenha').value;
+            var ct = document.getElementById('newAdmCTSelect').value;
+            if (!nome || !email || !senha || !ct) {
+                showMessage('newAdmCTMsg', '⚠️ Preencha todos os campos', 'danger');
+                return;
+            }
+            showMessage('newAdmCTMsg', 'Criando...', 'info');
+            try {
+                var data = await secureFetch('registerAdminCT', { nome: nome, email: email, senha: senha, ct: ct });
+                if (data.success) {
+                    showMessage('newAdmCTMsg', '✅ ' + data.message, 'success');
+                    document.getElementById('newAdmCTNome').value = '';
+                    document.getElementById('newAdmCTEmail').value = '';
+                    document.getElementById('newAdmCTSenha').value = '';
+                    loadAdminCTList();
+                } else {
+                    showMessage('newAdmCTMsg', data.message || 'Erro', 'danger');
+                }
+            } catch(e) { showMessage('newAdmCTMsg', 'Erro: ' + e.message, 'danger'); }
+        }
+
+        async function deleteAdminCT(email) {
+            if (!confirm('Remover admin "' + email + '"?')) return;
+            try {
+                var data = await secureFetch('deleteAdminCT', { email: email });
+                if (data.success) { loadAdminCTList(); } else { alert(data.message || 'Erro'); }
+            } catch(e) { alert('Erro: ' + e.message); }
+        }
 
         async function loadCTScheduleAdmin() {
             var container = document.getElementById('adminCTScheduleList');
@@ -17564,6 +17763,14 @@
                         html += '<label style="font-size:9px;color:var(--adm-text-3);display:block;margin-bottom:2px;">Data de expiração (demo)</label>';
                         html += '<input type="date" id="ctExpDate_' + i + '" value="' + ctExpDate + '" oninput="markCTUnsaved(' + i + ')" style="width:100%;padding:6px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:11px;">';
                         html += '</div></div>';
+                        html += '</div>';
+
+                        // ===== GRUPO (REDE/CLIENTE) =====
+                        var ctGrupo = ct.grupo || '';
+                        html += '<div style="padding:0 12px 8px;">';
+                        html += '<label style="font-size:10px;color:var(--adm-text-3);display:block;margin-bottom:4px;font-weight:700;">🏷️ Grupo / Rede (isola clientes)</label>';
+                        html += '<input type="text" id="ctGrupo_' + i + '" value="' + escapeHtml(ctGrupo) + '" placeholder="Ex: Alliance Serginho" oninput="markCTUnsaved(' + i + ')" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">';
+                        html += '<div style="font-size:8px;color:var(--adm-text-3);margin-top:2px;">CTs com o mesmo grupo compartilham alunos e dados.</div>';
                         html += '</div>';
 
                         // ===== SIMPLE DAY ROWS =====
@@ -17785,7 +17992,8 @@
                     telefone: (document.getElementById('ctDet_tel_' + cardIdx) || {}).value || '',
                     plano: _ctPlanSelections[ctName] || '',
                     statusLicenca: _ctLicSelections[ctName] || '',
-                    dataExpiracao: (document.getElementById('ctExpDate_' + cardIdx) || {}).value || ''
+                    dataExpiracao: (document.getElementById('ctExpDate_' + cardIdx) || {}).value || '',
+                    grupo: (document.getElementById('ctGrupo_' + cardIdx) || {}).value || ''
                 };
 
                 details.token = getSessionToken();
@@ -17974,6 +18182,9 @@
 
             // Core fields
             document.getElementById('stuName').value = s.name || '';
+            document.getElementById('stuFaixa').innerHTML = '';
+            renderFaixaOptions('stuFaixa');
+            renderFaixaOptions('gradFaixa');
             document.getElementById('stuFaixa').value = s.faixa || 'Branca';
             updateGrauOptions('stuFaixa', 'stuGrau');
             document.getElementById('stuGrau').value = s.grau || '0';
