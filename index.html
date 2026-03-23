@@ -6802,6 +6802,25 @@
                         </div>
                     </div>
 
+                    <!-- Filiais -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">🏢 Filiais <span class="admin-badge green" id="admFilialBadge" style="display:none">0</span></div>
+                            <button class="admin-refresh-btn" onclick="loadAdmFiliais()">↻</button>
+                        </div>
+                        <p style="font-size:10px;color:var(--adm-text-3);padding:0 12px 8px;">Vincule CTs como filiais para que alunos possam treinar em todas as unidades.</p>
+                        <div id="admFiliaisList" style="padding:0 12px;"><div class="admin-empty">Carregando...</div></div>
+                        <div style="margin-top:10px;padding:0 12px 12px;">
+                            <div style="display:flex;gap:6px;">
+                                <select id="admAddFilial" style="flex:1;padding:10px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:12px;">
+                                    <option value="">+ Vincular CT como filial...</option>
+                                </select>
+                                <button onclick="admLinkFilial()" style="padding:10px 16px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:8px;font-weight:700;font-size:11px;cursor:pointer;white-space:nowrap;">🔗</button>
+                            </div>
+                            <div id="admFilialMsg" style="margin-top:4px;"></div>
+                        </div>
+                    </div>
+
                     <!-- System Health -->
                     <div class="admin-section">
                         <div class="admin-section-header">
@@ -6932,9 +6951,8 @@
                     <div class="admin-section">
                         <div class="admin-section-header">
                             <div class="admin-section-title">📝 Contas Pendentes <span class="admin-badge" id="profPendingBadge" style="display:none">0</span></div>
-                            <button class="admin-refresh-btn" onclick="loadProfPendingAccounts()">↻</button>
                         </div>
-                        <div id="profPendingList"><div class="admin-empty">Carregando...</div></div>
+                        <div id="profPendingList"><div class="admin-empty" style="font-size:10px;">Aprovação de novos alunos é feita pelo Administrador do CT.</div></div>
                     </div>
                     <!-- Check-ins Pendentes (inclui retroativos) -->
                     <div class="admin-section">
@@ -7528,7 +7546,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxhVBFf2BA_5kD-s6Npv7QfjSfmiTFQcIMz5E0eR6anCCqMM3SIedFdW8CB_S6lGcS2/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzOj-WKbTDS1YnFrzkHz1rk8dJT42CCjL7EQR7obujzRXemMYMXAsRr5QlCvxtD9phP-w/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -7638,6 +7656,10 @@
                 const r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'login', email: email, password: password }) });
                 const data = await r.json();
                 if (data.authenticated === true) {
+                    if (data.isSuperAdmin) {
+                        showMessage('loginMessage', '🛡️ Super Admin deve acessar pelo painel exclusivo (super_admin.html)', 'warning');
+                        return;
+                    }
                     if (data.token) { setSessionToken(data.token); }
                     var userData = Object.assign({}, data);
                     delete userData.token;
@@ -12351,7 +12373,90 @@
             if (tabName === 'adm-alunos') loadStudentsList();
             if (tabName === 'adm-presenca') initPresencaList();
             if (tabName === 'adm-campeonato') initCampAdmin();
-            if (tabName === 'adm-sistema') { loadAdmPlanBadge(); loadSystemHealth(); loadAdminCTs(); loadAdminProfile(); loadGradConfig(); loadCTScheduleAdmin(); }
+            if (tabName === 'adm-sistema') { loadAdmPlanBadge(); loadAdmFiliais(); loadSystemHealth(); loadAdminCTs(); loadAdminProfile(); loadGradConfig(); loadCTScheduleAdmin(); }
+        }
+
+        // ═══════════════════════════════════════════════════
+        // 🏢 ADMIN FILIAIS
+        // ═══════════════════════════════════════════════════
+
+        async function loadAdmFiliais() {
+            var container = document.getElementById('admFiliaisList');
+            if (!container) return;
+            container.innerHTML = '<div class="admin-empty">Carregando...</div>';
+            try {
+                var data = await secureFetch('getMyFiliais', {});
+                if (!data.success) { container.innerHTML = '<div class="admin-empty">' + (data.message || 'Erro') + '</div>'; return; }
+
+                var planColors = { demo:'#64748b', basico:'#22c55e', profissional:'#3b82f6', avancado:'#a855f7', elite:'#fbbf24' };
+                var planLabels = { demo:'Demo', basico:'Básico', profissional:'Pro', avancado:'Avançado', elite:'Elite' };
+                var licColors = { ativo:'#22c55e', demo:'#fbbf24', suspenso:'#f87171' };
+
+                // My CTs = all CTs in my grupo (excluding my own CT)
+                var filiais = data.myCTs.filter(function(ct) { return ct.nome !== data.myCT; });
+                var badge = document.getElementById('admFilialBadge');
+                if (badge) { badge.textContent = filiais.length; badge.style.display = filiais.length > 0 ? 'inline-block' : 'none'; }
+
+                if (filiais.length === 0) {
+                    container.innerHTML = '<div class="admin-empty">Nenhuma filial vinculada</div>';
+                } else {
+                    var h = '';
+                    filiais.forEach(function(f) {
+                        var pc = planColors[f.plano] || '#64748b';
+                        var lc = licColors[f.statusLicenca] || '#22c55e';
+                        h += '<div style="display:flex;align-items:center;gap:8px;padding:10px;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);border-radius:8px;margin-bottom:4px;border-left:3px solid ' + pc + ';">';
+                        h += '<div style="font-size:16px;">🏢</div>';
+                        h += '<div style="flex:1;min-width:0;">';
+                        h += '<div style="font-size:12px;font-weight:700;color:var(--adm-text-1);">' + escapeHtml(f.nome) + '</div>';
+                        h += '<div style="font-size:9px;color:var(--adm-text-3);">' + (planLabels[f.plano] || f.plano) + ' · <span style="color:' + lc + ';">' + (f.statusLicenca || 'ativo') + '</span></div>';
+                        h += '</div>';
+                        h += '<button onclick="admUnlinkFilial(\'' + escapeHtml(f.nome).replace(/'/g, "\\'") + '\')" style="padding:5px 10px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.2);border-radius:6px;color:#f87171;font-size:9px;font-weight:700;cursor:pointer;">✕ Desvincular</button>';
+                        h += '</div>';
+                    });
+                    container.innerHTML = h;
+                }
+
+                // Populate available CTs dropdown
+                var sel = document.getElementById('admAddFilial');
+                if (sel) {
+                    sel.innerHTML = '<option value="">+ Vincular CT como filial...</option>';
+                    (data.availableCTs || []).forEach(function(ct) {
+                        sel.innerHTML += '<option value="' + escapeHtml(ct.nome) + '">' + escapeHtml(ct.nome) + '</option>';
+                    });
+                }
+            } catch(e) {
+                container.innerHTML = '<div class="admin-empty">Erro: ' + e.message + '</div>';
+            }
+        }
+
+        async function admLinkFilial() {
+            var sel = document.getElementById('admAddFilial');
+            var ctName = sel ? sel.value : '';
+            if (!ctName) { showMessage('admFilialMsg', '⚠️ Selecione um CT', 'danger'); return; }
+            showMessage('admFilialMsg', '🔗 Vinculando...', 'info');
+            try {
+                var data = await secureFetch('linkFilial', { ctName: ctName });
+                if (data.success) {
+                    showMessage('admFilialMsg', '✅ ' + data.message, 'success');
+                    setTimeout(loadAdmFiliais, 800);
+                } else {
+                    showMessage('admFilialMsg', data.message || 'Erro', 'danger');
+                }
+            } catch(e) { showMessage('admFilialMsg', 'Erro: ' + e.message, 'danger'); }
+        }
+
+        async function admUnlinkFilial(ctName) {
+            if (!confirm('Desvincular "' + ctName + '"?\n\nAlunos não poderão mais treinar nesta filial.')) return;
+            showMessage('admFilialMsg', '🔓 Desvinculando...', 'info');
+            try {
+                var data = await secureFetch('unlinkFilial', { ctName: ctName });
+                if (data.success) {
+                    showMessage('admFilialMsg', '✅ ' + data.message, 'success');
+                    setTimeout(loadAdmFiliais, 800);
+                } else {
+                    showMessage('admFilialMsg', data.message || 'Erro', 'danger');
+                }
+            } catch(e) { showMessage('admFilialMsg', 'Erro: ' + e.message, 'danger'); }
         }
 
         function loadAdmPlanBadge() {
@@ -16229,12 +16334,20 @@
                     if (now > expDate) { showLicenseBlock(userCT, 'demo_expirado', ctInfo.dataExpiracao); return; }
                     showDemoBanner(Math.ceil((expDate - now) / (1000*60*60*24)), ctInfo.dataExpiracao);
                 }
-                // Resolve features
+                // Resolve features (CT override > plan defaults)
                 var plan = PLANS[_ctPlan] || PLANS.basico;
                 _planFeatures = {};
                 var defKeys = Object.keys(PLAN_FEATURES_DEFAULT);
+                var override = null;
+                if (ctInfo && ctInfo.featuresOverride) {
+                    try { override = JSON.parse(ctInfo.featuresOverride); } catch(e) {}
+                }
                 for (var k = 0; k < defKeys.length; k++) {
-                    _planFeatures[defKeys[k]] = plan.features[defKeys[k]] === true;
+                    if (override && override[defKeys[k]] !== undefined) {
+                        _planFeatures[defKeys[k]] = override[defKeys[k]] === true;
+                    } else {
+                        _planFeatures[defKeys[k]] = plan.features[defKeys[k]] === true;
+                    }
                 }
                 _activeModules = {};
                 MODULE_DEFS.forEach(function(m) { _activeModules[m.id] = _planFeatures[m.id] === true; });
@@ -16479,7 +16592,7 @@
 
         async function loadProfPanel() {
             loadProfStudentsList();
-            loadProfPendingAccounts();
+            loadProfPendingCount();
             loadProfPendingCheckins();
             loadPendingGraduacoes();
             loadProfGradAlerts();
@@ -16631,67 +16744,19 @@
             } catch(e) { alert('Erro'); }
         }
 
-        async function loadProfPendingAccounts() {
+        async function loadProfPendingCount() {
             try {
                 var data = await secureFetch('getPendingAccounts', {});
                 if (data.success && data.accounts) {
-                    var profCTs = currentUser.ctsProfessor ? currentUser.ctsProfessor.split(',').map(function(c){return c.trim();}) : (currentUser.ct ? [currentUser.ct] : []);
-                    var filtered = data.accounts.filter(function(a) {
-                        return profCTs.length === 0 || profCTs.indexOf(a.ct) !== -1;
-                    });
                     var badge = document.getElementById('profPendingBadge');
-                    var container = document.getElementById('profPendingList');
-                    if (filtered.length > 0) {
-                        badge.textContent = filtered.length; badge.style.display = 'inline-block';
-                        var h = '';
-                        filtered.forEach(function(a) {
-                            h += '<div class="admin-student-card" style="padding:10px;" id="profAcc_' + (a.email||'').replace(/[^a-zA-Z0-9]/g,'_') + '">';
-                            h += '<div class="admin-card-avatar">' + (a.name||'?').charAt(0).toUpperCase() + '</div>';
-                            h += '<div class="admin-student-info"><div class="admin-student-name">' + escapeHtml(a.name) + '</div>';
-                            h += '<div class="admin-student-meta">' + escapeHtml(a.email) + ' · 📍 ' + escapeHtml(a.ct||'') + '</div></div>';
-                            h += '<div style="display:flex;gap:4px;">';
-                            h += '<button onclick="profApproveAccount(\'' + (a.email||'').replace(/'/g,"\\'") + '\')" style="padding:5px 10px;background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);border-radius:6px;color:#22c55e;font-size:10px;font-weight:700;cursor:pointer;">✓</button>';
-                            h += '<button onclick="profRejectAccount(\'' + (a.email||'').replace(/'/g,"\\'") + '\')" style="padding:5px 10px;background:rgba(248,113,113,0.15);border:1px solid rgba(248,113,113,0.3);border-radius:6px;color:#f87171;font-size:10px;font-weight:700;cursor:pointer;">✕</button>';
-                            h += '</div></div>';
-                        });
-                        container.innerHTML = h;
-                    } else {
-                        badge.style.display = 'none';
-                        container.innerHTML = '<div class="admin-empty">Nenhuma conta pendente</div>';
+                    if (data.accounts.length > 0 && badge) {
+                        badge.textContent = data.accounts.length;
+                        badge.style.display = 'inline-block';
+                        var container = document.getElementById('profPendingList');
+                        if (container) container.innerHTML = '<div class="admin-empty" style="font-size:10px;">⏳ ' + data.accounts.length + ' aluno(s) aguardando aprovação do Administrador do CT.</div>';
                     }
                 }
-            } catch(e) { document.getElementById('profPendingList').innerHTML = '<div class="admin-empty">Erro</div>'; }
-        }
-
-        async function profApproveAccount(email) {
-            var cardId = 'profAcc_' + email.replace(/[^a-zA-Z0-9]/g,'_');
-            var card = document.getElementById(cardId);
-            if (card) card.style.opacity = '0.5';
-            try {
-                var data = await secureFetch('approveAccount', { email: email });
-                if (data.success) {
-                    if (card) { card.style.background = 'rgba(45,138,78,0.1)'; card.innerHTML = '<div class="admin-empty" style="color:#2d8a4e">✅ ' + escapeHtml(email) + ' aprovado!</div>'; }
-                    setTimeout(loadProfPendingAccounts, 1500);
-                    setTimeout(loadProfStudentsList, 2000);
-                } else {
-                    alert(data.message || 'Erro ao aprovar');
-                    if (card) card.style.opacity = '1';
-                }
-            } catch(e) { alert('Erro: ' + e.message); if (card) card.style.opacity = '1'; }
-        }
-
-        async function profRejectAccount(email) {
-            if (!confirm('Rejeitar cadastro de ' + email + '?')) return;
-            var cardId = 'profAcc_' + email.replace(/[^a-zA-Z0-9]/g,'_');
-            var card = document.getElementById(cardId);
-            if (card) card.style.opacity = '0.5';
-            try {
-                var data = await secureFetch('rejectAccount', { email: email });
-                if (data.success) {
-                    if (card) { card.style.background = 'rgba(232,93,93,0.1)'; card.innerHTML = '<div class="admin-empty" style="color:var(--coral)">❌ Rejeitado</div>'; }
-                    setTimeout(loadProfPendingAccounts, 1500);
-                } else { alert(data.message || 'Erro'); if (card) card.style.opacity = '1'; }
-            } catch(e) { alert('Erro: ' + e.message); if (card) card.style.opacity = '1'; }
+            } catch(e) {}
         }
 
         async function loadProfStudentsList() {
