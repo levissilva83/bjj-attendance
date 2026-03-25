@@ -5695,8 +5695,6 @@
                     <div id="sub-aulas" class="subtab-content">
                         <div style="padding:12px 0;">
                             <!-- KPI bar -->
-                            <!-- Filtro de CT para alunos com filiais liberadas -->
-                            <div id="cronoCTFilterBar" class="crono-filter-bar" style="display:none;align-items:center;gap:4px;margin-bottom:8px;flex-wrap:wrap;"></div>
                             <div class="crono-kpi-bar" id="cronoKPIs"></div>
 
                             <!-- Calendar -->
@@ -6804,23 +6802,14 @@
                         </div>
                     </div>
 
-                    <!-- Filiais -->
+                    <!-- Filiais (read-only - gerenciadas pelo Super Admin) -->
                     <div class="admin-section">
                         <div class="admin-section-header">
-                            <div class="admin-section-title">🏢 Filiais <span class="admin-badge green" id="admFilialBadge" style="display:none">0</span></div>
+                            <div class="admin-section-title">🏢 Filiais da Matriz <span class="admin-badge green" id="admFilialBadge" style="display:none">0</span></div>
                             <button class="admin-refresh-btn" onclick="loadAdmFiliais()">↻</button>
                         </div>
-                        <p style="font-size:10px;color:var(--adm-text-3);padding:0 12px 8px;">Vincule CTs como filiais para que alunos possam treinar em todas as unidades.</p>
-                        <div id="admFiliaisList" style="padding:0 12px;"><div class="admin-empty">Carregando...</div></div>
-                        <div style="margin-top:10px;padding:0 12px 12px;">
-                            <div style="display:flex;gap:6px;">
-                                <select id="admAddFilial" style="flex:1;padding:10px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:12px;">
-                                    <option value="">+ Vincular CT como filial...</option>
-                                </select>
-                                <button onclick="admLinkFilial()" style="padding:10px 16px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:8px;font-weight:700;font-size:11px;cursor:pointer;white-space:nowrap;">🔗</button>
-                            </div>
-                            <div id="admFilialMsg" style="margin-top:4px;"></div>
-                        </div>
+                        <p style="font-size:10px;color:var(--adm-text-3);padding:0 12px 4px;">Filiais vinculadas à sua Matriz. Gerenciado pelo Super Admin.</p>
+                        <div id="admFiliaisList" style="padding:0 12px 12px;"><div class="admin-empty">Carregando...</div></div>
                     </div>
 
                     <!-- System Health -->
@@ -7294,22 +7283,6 @@
                         <label style="font-size:10px;color:var(--adm-text-3);display:block;margin-bottom:4px;">CTs do Professor (separe com vírgula)</label>
                         <input type="text" id="stuProfCTs" placeholder="CT Serginho, CT Taz" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
                     </div>
-                    <!-- CTs Liberados para o aluno (check-in + cronograma em filiais) -->
-                    <div class="stu-section" id="stuCTsLiberadosRow" style="margin-top:12px;padding:12px;background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.18);border-radius:10px;">
-                        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-                            <div style="font-size:11px;font-weight:700;color:#38bdf8;">🏢 Filiais Liberadas</div>
-                            <div style="font-size:9px;color:var(--adm-text-3);">Check-in e cronograma</div>
-                        </div>
-                        <div id="stuCTsLiberadosChips" style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px;min-height:24px;"></div>
-                        <div style="display:flex;gap:6px;align-items:center;">
-                            <select id="stuCTsLiberadosAdd" style="flex:1;padding:7px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:7px;font-size:11px;">
-                                <option value="">+ Selecionar filial...</option>
-                            </select>
-                            <button type="button" onclick="stuAddCTLiberado()" style="padding:7px 12px;background:linear-gradient(135deg,#3b82f6,#1d4ed8);color:#fff;border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;">Liberar</button>
-                        </div>
-                        <div id="stuCTsLiberadosMsg" style="margin-top:6px;font-size:10px;"></div>
-                        <button type="button" onclick="stuRevokeCTs()" id="stuRevokeCTsBtn" style="display:none;margin-top:8px;width:100%;padding:7px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.25);color:#f87171;border-radius:7px;font-size:10px;font-weight:700;cursor:pointer;">✕ Revogar todas as liberações</button>
-                    </div>
                 </div>
 
                 <!-- Personal -->
@@ -7564,7 +7537,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwX4YDMVDo9IuVfRu0OUMYUcw1lfPJuTZuo2TEIj6-h_BuZi1WQ35IV_BQiqUycisPC/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwWPYpVlySHOgxIRWMp4TKPg3HEtcqO1w8wnC_RsdkcVAcWUmnOHRnRlpuJ4iE0C0Ii/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -8327,26 +8300,15 @@
                             else titleEl.textContent = 'Onde você treinou?';
                         }
 
-                        // CTs liberados pelo professor para check-in em filiais
-                        var ctsLiberados = (currentUser && currentUser.ctsLiberados)
-                            ? currentUser.ctsLiberados.split(',').map(function(c){ return c.trim(); }).filter(Boolean)
-                            : [];
-
                         data.cts.forEach(ct => {
                             const name = typeof ct === 'string' ? ct : ct.name || ct.toString();
 
                             // Kids: só mostra o CT do perfil (1:1)
                             // Admin: mostra TODOS os CTs (1:N)
                             // Professor: mostra só seus CTs (1:N)
-                            // Aluno normal: CT principal + filiais liberadas
+                            // Aluno: filtra por dia de treino
                             if (isKid && userCT && name !== userCT) return;
                             if (isProf && profCTsList.length > 0 && profCTsList.indexOf(name) === -1) return;
-                            // Aluno (não admin, não kids, não professor): filtra por CT principal + liberados
-                            if (!isAdm && !isKid && !isProf) {
-                                var isMainCT = (name === userCT);
-                                var isLiberado = ctsLiberados.indexOf(name) !== -1;
-                                if (!isMainCT && !isLiberado) return;
-                            }
 
                             var schedule = ctSchedules[name];
                             // Admin/Professor: mostra CTs sempre (sem filtro de dia)
@@ -8376,16 +8338,10 @@
                             // Para aluno (não admin, não kids): verificar se OUTROS CTs têm aula hoje
                             var outrosCTsHoje = [];
                             if (!isAdm && !isKid) {
-                                // Mostra apenas filiais liberadas com aula hoje
-                                var ctsLib2 = (currentUser && currentUser.ctsLiberados)
-                                    ? currentUser.ctsLiberados.split(',').map(function(c){ return c.trim(); }).filter(Boolean)
-                                    : [];
                                 data.cts.forEach(function(ct2) {
                                     if (typeof ct2 === 'string') return;
                                     var ct2Name = ct2.name || '';
                                     if (ct2Name === userCT) return; // pula o CT do aluno
-                                    // Só mostra filiais liberadas (não exibe todos os CTs do sistema)
-                                    if (!isProf && ctsLib2.indexOf(ct2Name) === -1) return;
                                     var sch2 = ct2.schedule || {};
                                     var temCfg2 = Object.values(sch2).some(function(v) { return v === true; });
                                     if (temCfg2 && sch2[hoje]) {
@@ -8414,7 +8370,7 @@
                                     if (o.horarios) h += ' às <strong>' + escapeHtml(o.horarios) + '</strong>';
                                     h += '</div>';
                                 });
-                                h += '<div style="font-size:10px;color:var(--text-3);margin-top:8px;font-style:italic;">💬 Você tem permissão para treinar nestes CTs.</div>';
+                                h += '<div style="font-size:10px;color:var(--text-3);margin-top:8px;font-style:italic;">💬 Consulte seu professor para treinar em outro CT.</div>';
                                 h += '</div>';
                             } else {
                                 // Nenhum CT tem aula hoje (geral)
@@ -12427,15 +12383,14 @@
                 var planLabels = { demo:'Demo', basico:'Básico', profissional:'Pro', avancado:'Avançado', elite:'Elite' };
                 var licColors = { ativo:'#22c55e', demo:'#fbbf24', suspenso:'#f87171' };
 
-                // My CTs = all CTs in my grupo (excluding my own CT)
                 var filiais = data.myCTs.filter(function(ct) { return ct.nome !== data.myCT; });
                 var badge = document.getElementById('admFilialBadge');
                 if (badge) { badge.textContent = filiais.length; badge.style.display = filiais.length > 0 ? 'inline-block' : 'none'; }
 
                 if (filiais.length === 0) {
-                    container.innerHTML = '<div class="admin-empty">Nenhuma filial vinculada</div>';
+                    container.innerHTML = '<div class="admin-empty">Nenhuma filial vinculada à sua Matriz.<br><span style="font-size:9px;">O Super Admin gerencia as filiais.</span></div>';
                 } else {
-                    var h = '';
+                    var h = '<div style="font-size:10px;color:var(--adm-primary-bright);font-weight:700;margin-bottom:6px;">🏢 Matriz: ' + escapeHtml(data.grupo || currentUser.grupo || '-') + '</div>';
                     filiais.forEach(function(f) {
                         var pc = planColors[f.plano] || '#64748b';
                         var lc = licColors[f.statusLicenca] || '#22c55e';
@@ -12444,54 +12399,13 @@
                         h += '<div style="flex:1;min-width:0;">';
                         h += '<div style="font-size:12px;font-weight:700;color:var(--adm-text-1);">' + escapeHtml(f.nome) + '</div>';
                         h += '<div style="font-size:9px;color:var(--adm-text-3);">' + (planLabels[f.plano] || f.plano) + ' · <span style="color:' + lc + ';">' + (f.statusLicenca || 'ativo') + '</span></div>';
-                        h += '</div>';
-                        h += '<button onclick="admUnlinkFilial(\'' + escapeHtml(f.nome).replace(/'/g, "\\'") + '\')" style="padding:5px 10px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.2);border-radius:6px;color:#f87171;font-size:9px;font-weight:700;cursor:pointer;">✕ Desvincular</button>';
-                        h += '</div>';
+                        h += '</div></div>';
                     });
                     container.innerHTML = h;
-                }
-
-                // Populate available CTs dropdown
-                var sel = document.getElementById('admAddFilial');
-                if (sel) {
-                    sel.innerHTML = '<option value="">+ Vincular CT como filial...</option>';
-                    (data.availableCTs || []).forEach(function(ct) {
-                        sel.innerHTML += '<option value="' + escapeHtml(ct.nome) + '">' + escapeHtml(ct.nome) + '</option>';
-                    });
                 }
             } catch(e) {
                 container.innerHTML = '<div class="admin-empty">Erro: ' + e.message + '</div>';
             }
-        }
-
-        async function admLinkFilial() {
-            var sel = document.getElementById('admAddFilial');
-            var ctName = sel ? sel.value : '';
-            if (!ctName) { showMessage('admFilialMsg', '⚠️ Selecione um CT', 'danger'); return; }
-            showMessage('admFilialMsg', '🔗 Vinculando...', 'info');
-            try {
-                var data = await secureFetch('linkFilial', { ctName: ctName });
-                if (data.success) {
-                    showMessage('admFilialMsg', '✅ ' + data.message, 'success');
-                    setTimeout(loadAdmFiliais, 800);
-                } else {
-                    showMessage('admFilialMsg', data.message || 'Erro', 'danger');
-                }
-            } catch(e) { showMessage('admFilialMsg', 'Erro: ' + e.message, 'danger'); }
-        }
-
-        async function admUnlinkFilial(ctName) {
-            if (!confirm('Desvincular "' + ctName + '"?\n\nAlunos não poderão mais treinar nesta filial.')) return;
-            showMessage('admFilialMsg', '🔓 Desvinculando...', 'info');
-            try {
-                var data = await secureFetch('unlinkFilial', { ctName: ctName });
-                if (data.success) {
-                    showMessage('admFilialMsg', '✅ ' + data.message, 'success');
-                    setTimeout(loadAdmFiliais, 800);
-                } else {
-                    showMessage('admFilialMsg', data.message || 'Erro', 'danger');
-                }
-            } catch(e) { showMessage('admFilialMsg', 'Erro: ' + e.message, 'danger'); }
         }
 
         function loadAdmPlanBadge() {
@@ -13675,50 +13589,19 @@
         var _aulasSelectedDate = null;
         var _cronoValidationEdits = {};
 
-        var _cronoCTAtivo = ''; // CT selecionado no filtro de cronograma
-
-        async function loadCronograma(ctFiltro) {
+        async function loadCronograma() {
             try {
-                var fetchParams = { email: currentUser.email };
-                if (ctFiltro) fetchParams.ct = ctFiltro;
-                var data = await secureFetch('getCronogramaAulas', fetchParams);
+                var data = await secureFetch('getCronogramaAulas', { email: currentUser.email });
                 if (data.success) {
                     _cronoAulas = data.aulas || [];
+                    // Init calendar to current month
                     var now = new Date();
                     _aulasCalYear = now.getFullYear();
                     _aulasCalMonth = now.getMonth();
-                    renderCronoCTFilter();
                     renderCronoKPIs();
                     renderAulasCalendar();
                 }
             } catch(e) { console.error('loadCronograma:', e); }
-        }
-
-        function renderCronoCTFilter() {
-            var bar = document.getElementById('cronoCTFilterBar');
-            if (!bar) return;
-            var ctsLib = (currentUser && currentUser.ctsLiberados)
-                ? currentUser.ctsLiberados.split(',').map(function(c){ return c.trim(); }).filter(Boolean)
-                : [];
-            var userCT = currentUser ? (currentUser.ct || '') : '';
-            // Só mostra a barra se houver filiais liberadas
-            if (ctsLib.length === 0 || !userCT) { bar.style.display = 'none'; return; }
-            bar.style.display = '';
-            var allOpts = [userCT].concat(ctsLib);
-            if (!_cronoCTAtivo) _cronoCTAtivo = userCT;
-            var h = allOpts.map(function(ct) {
-                var active = ct === _cronoCTAtivo ? ' active' : '';
-                var ctShort = ct.replace(/^CT\s*/i, '');
-                return '<button class="crono-filter-btn' + active + '" onclick="cronoCTSwitch(\'' + escapeHtml(ct).replace(/'/g,"\'") + '\')" style="white-space:nowrap;">' +
-                    '📍 ' + escapeHtml(ctShort) +
-                '</button>';
-            }).join('');
-            bar.innerHTML = '<div style="font-size:9px;font-weight:700;color:var(--text-3);align-self:center;margin-right:2px;">Filial:</div>' + h;
-        }
-
-        function cronoCTSwitch(ctName) {
-            _cronoCTAtivo = ctName;
-            loadCronograma(ctName);
         }
 
         function renderCronoKPIs() {
@@ -13924,27 +13807,26 @@
         var _admCronoSelectedCTs = [];
 
         async function loadAdminCronograma() {
-            // Sempre busca CTs frescos para garantir que os chips aparecem
-            try {
-                var ctData = await secureFetch('getCTsList', {});
-                if (ctData.success && ctData.cts) {
-                    allCTs = ctData.cts;
-                    ctSchedules = {};
-                    ctData.cts.forEach(function(ct) {
-                        if (typeof ct === 'object' && ct.schedule) ctSchedules[ct.name] = ct.schedule;
-                    });
-                }
-            } catch(e) { console.error('loadCTs for crono:', e); }
-
+            // Ensure allCTs is loaded
+            if (!allCTs || allCTs.length === 0) {
+                try {
+                    var ctData = await secureFetch('getCTsList', {});
+                    if (ctData.success && ctData.cts) {
+                        allCTs = ctData.cts;
+                        ctSchedules = {};
+                        ctData.cts.forEach(function(ct) {
+                            if (typeof ct === 'object' && ct.schedule) ctSchedules[ct.name] = ct.schedule;
+                        });
+                    }
+                } catch(e) { console.error('loadCTs:', e); }
+            }
             renderAdmCTChips();
-
             if (!_admCronoCalYear) {
                 var now = new Date();
                 _admCronoCalYear = now.getFullYear();
                 _admCronoCalMonth = now.getMonth();
             }
             renderAdmCronoCal();
-
             try {
                 var data = await secureFetch('getCronogramaAulas', {});
                 if (data.success) {
@@ -17917,16 +17799,6 @@
             else { profToggle.classList.remove('on'); profCTsRow.style.display = 'none'; }
             document.getElementById('stuProfCTs').value = s.ctsProfessor || s.ct || '';
 
-            // CTs Liberados (filiais)
-            var ctsLibRow = document.getElementById('stuCTsLiberadosRow');
-            if (ctsLibRow) {
-                ctsLibRow.style.display = adminOnly ? '' : 'none';
-                if (adminOnly) {
-                    stuRenderCTsLiberadosChips(s.ctsLiberados || '');
-                    stuPopulateCTsLiberadosDropdown(s.ct || '');
-                }
-            }
-
             // Profile fields
             var nascimento = s.nascimento || '';
             if (nascimento && nascimento.indexOf('T') > 0) nascimento = nascimento.split('T')[0];
@@ -18015,88 +17887,6 @@
             });
             updateStuDiasHint(ctName);
         }
-
-        // ===== CTs LIBERADOS (FILIAIS) — GERENCIAMENTO NO MODAL =====
-
-        var _stuCTsLiberadosSet = [];
-
-        function stuRenderCTsLiberadosChips(ctsStr) {
-            _stuCTsLiberadosSet = ctsStr ? ctsStr.split(',').map(function(c){ return c.trim(); }).filter(Boolean) : [];
-            var chips = document.getElementById('stuCTsLiberadosChips');
-            var revokeBtn = document.getElementById('stuRevokeCTsBtn');
-            if (!chips) return;
-            if (_stuCTsLiberadosSet.length === 0) {
-                chips.innerHTML = '<span style="font-size:10px;color:var(--adm-text-3);font-style:italic;">Nenhuma filial liberada</span>';
-                if (revokeBtn) revokeBtn.style.display = 'none';
-            } else {
-                chips.innerHTML = _stuCTsLiberadosSet.map(function(ct) {
-                    return '<span style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);border-radius:20px;font-size:10px;color:#38bdf8;font-weight:700;">' +
-                        escapeHtml(ct) +
-                        '<button type="button" onclick="stuRemoveCTLiberado(\'' + escapeHtml(ct).replace(/'/g,"\'") + '\')" style="background:none;border:none;color:#f87171;cursor:pointer;font-size:10px;padding:0;margin-left:2px;">✕</button>' +
-                    '</span>';
-                }).join('');
-                if (revokeBtn) revokeBtn.style.display = '';
-            }
-        }
-
-        function stuPopulateCTsLiberadosDropdown(mainCT) {
-            var sel = document.getElementById('stuCTsLiberadosAdd');
-            if (!sel || !allCTs) return;
-            sel.innerHTML = '<option value="">+ Selecionar filial...</option>';
-            allCTs.forEach(function(ct) {
-                var name = typeof ct === 'string' ? ct : ct.name;
-                if (name === mainCT) return; // CT principal não precisa ser liberado
-                if (_stuCTsLiberadosSet.indexOf(name) !== -1) return; // já liberado
-                var opt = document.createElement('option');
-                opt.value = name;
-                opt.textContent = '📍 ' + name;
-                sel.appendChild(opt);
-            });
-        }
-
-        function stuAddCTLiberado() {
-            var sel = document.getElementById('stuCTsLiberadosAdd');
-            var msg = document.getElementById('stuCTsLiberadosMsg');
-            if (!sel || !sel.value) return;
-            var ct = sel.value.trim();
-            if (!ct) return;
-            if (_stuCTsLiberadosSet.indexOf(ct) !== -1) return;
-            _stuCTsLiberadosSet.push(ct);
-            stuSaveCTsLiberados(msg);
-        }
-
-        function stuRemoveCTLiberado(ct) {
-            var msg = document.getElementById('stuCTsLiberadosMsg');
-            _stuCTsLiberadosSet = _stuCTsLiberadosSet.filter(function(c){ return c !== ct; });
-            stuSaveCTsLiberados(msg);
-        }
-
-        function stuRevokeCTs() {
-            if (!confirm('Revogar TODAS as liberações de filiais para este aluno?')) return;
-            var msg = document.getElementById('stuCTsLiberadosMsg');
-            _stuCTsLiberadosSet = [];
-            stuSaveCTsLiberados(msg);
-        }
-
-        async function stuSaveCTsLiberados(msgEl) {
-            if (!stuModalEmail) return;
-            var ctsStr = _stuCTsLiberadosSet.join(',');
-            if (msgEl) { msgEl.style.color = '#38bdf8'; msgEl.textContent = '💾 Salvando...'; }
-            try {
-                var res = await secureFetch('grantStudentCTs', { email: stuModalEmail, ctsLiberados: ctsStr });
-                if (res.success) {
-                    stuRenderCTsLiberadosChips(ctsStr);
-                    stuPopulateCTsLiberadosDropdown(document.getElementById('stuCT').value);
-                    if (msgEl) { msgEl.style.color = '#4ade80'; msgEl.textContent = '✅ Salvo!'; setTimeout(function(){ if(msgEl) msgEl.textContent = ''; }, 2000); }
-                } else {
-                    if (msgEl) { msgEl.style.color = '#f87171'; msgEl.textContent = '❌ ' + (res.message || 'Erro'); }
-                }
-            } catch(e) {
-                if (msgEl) { msgEl.style.color = '#f87171'; msgEl.textContent = '❌ Erro de conexão'; }
-            }
-        }
-
-        // ===== FIM CTs LIBERADOS =====
 
         function closeStuModal() {
             document.getElementById('stuModal').style.display = 'none';
