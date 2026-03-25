@@ -7,16 +7,10 @@
     <meta name="theme-color" content="#08080a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Idesystems">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Idesystems">
-    <meta name="description" content="Gestão de CT - Sistema para Academias de Jiu-Jitsu">
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-TileColor" content="#08080a">
-    <title>Idesystems - Gestão de CT</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABx0lEQVR4nGNkQALJaR//M9ABzJ3FzwhjM9HbcnS7GNEF1qxUpqnlIeF34ey5s/gZGelpOTZHwKOAWMunT5/MsGjRfIY3b54zzJ49Ay724cNrhri4GKLMQLaLCY86vMDR0ZVBV1eHgZ+fHy728eNHks0h2wH79+9muHLlKoqlUlJSJJsDTwP0in8YgKUDskOAWoCFFMVFtU8YLp5ZyHDq6BSG1PzTDP///2PYsbGAwTNgEsObVzcZnj0+xaBnHMuwfJ4fw/On54gyczQKRh1AMBHOqHmGVTyjRQouD2NT3QG4LIfJ7bn9nYGBAbVsRweEEjdFUeCiyolCYwP4HMfAQGI5gA5gIUAJwBsC+OKWWMsJRQHBEMDnCPTgJacwIzsNEIpbmjsABpB9TY6jyHIANYKeIgd8+Zh5C5lmYGBg0NNjuYXNcYQAydlwzZqVS2VkpD5yc3/cNmWKnNWRIwdmsLKy/v3//xFjapL6OklJsQqaOiAvr9D32bNnfAwMDAzBwYFXbGwcMkg1AxmQHAUwyxkYGBjWrl2vQ4nlZDmA2gDuAGrla2IASscEuaNID0dgdM1gHHp2TmGWMzAgRQFySNDLcgYGBgYAyo2wvENbtToAAAAASUVORK5CYII=">
-    <link rel="icon" type="image/png" sizes="192x192" href="data:image/png;base64,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">
-    <link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,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">
+    <title>JIU JITSU ACADEMY - Checkin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -2796,6 +2790,7 @@
         /* Admin screen wrapper - distinct background */
         #adminScreen {
             background: var(--adm-bg);
+            min-height: calc(100vh - 120px);
             padding-bottom: 100px;
         }
 
@@ -2827,12 +2822,15 @@
 
         #professorScreen, #adminScreen {
             padding-bottom: 100px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
         #professorScreen .admin-container {
             padding-bottom: 60px;
         }
         #professorScreen {
             background: var(--adm-bg);
+            min-height: calc(100vh - 120px);
         }
 
         /* Admin welcome banner */
@@ -3504,7 +3502,7 @@
         .ct-schedule-save:disabled { opacity: 0.5; cursor: default; }
 
         .adm-tab { display: none; }
-        .adm-tab.active { display: block; padding-bottom: 80px; }
+        .adm-tab.active { display: block; }
 
         /* ===== BIRTHDAY CELEBRATION ===== */
         .bday-overlay {
@@ -5267,7 +5265,7 @@
         <div class="hdr">
             <div class="hdr-brand">
                                 <div style="display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;">
-                    <div class="hdr-title">IDESYSTEMS</div>
+                    <div class="hdr-title">JIU JITSU ACADEMY</div>
                     <div id="headerSubtitle" style="font-size:10px;letter-spacing:1.5px;color:var(--text-2);font-weight:600;text-transform:uppercase;font-family:'Sora',sans-serif;">Checkin</div>
                 </div>
             </div>
@@ -5287,8 +5285,8 @@
             <!-- LOGIN -->
             <div id="loginScreen">
                 <div class="login-hero">
-                    <h1 class="login-title">IDESYSTEMS</h1>
-                    <p class="login-sub">Gestão de CT</p>
+                    <h1 class="login-title">JIU JITSU ACADEMY</h1>
+                    <p class="login-sub">Checkin de Treinos</p>
                 </div>
 
                 <div class="login-box">
@@ -5353,14 +5351,24 @@
                                 <div id="regCategoriaInfo" style="display:none;padding:8px 12px;border-radius:10px;margin-bottom:10px;font-size:12px;font-weight:700;text-align:center;"></div>
                                 <div class="form-group">
                                     <label class="form-label">Faixa</label>
-                                    <select id="regFaixa" required onchange="updateGrauOptions('regFaixa','regGrau')">
+                                    <select id="regFaixa" required>
                                         <option value="">Selecione sua faixa</option>
+                                        <option value="Branca">⚪ Branca</option>
+                                        <option value="Azul">🔵 Azul</option>
+                                        <option value="Roxa">🟣 Roxa</option>
+                                        <option value="Marrom">🟤 Marrom</option>
+                                        <option value="Preta">⚫ Preta</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Grau</label>
                                     <select id="regGrau" required>
-                                        <option value="0">0º Grau</option>
+                                        <option value="">Selecione o grau</option>
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -5416,7 +5424,7 @@
                         <button class="subtab-btn active" data-module="checkin" onclick="switchSubTab('treino-tab','sub-checkin',event)">✍️ Check-in</button>
                         <button class="subtab-btn" data-module="evolucao" onclick="switchSubTab('treino-tab','sub-evolucao',event)">📈 Evolução</button>
                         <button class="subtab-btn" data-module="presencas" onclick="switchSubTab('treino-tab','sub-presencas',event)">📅 Presenças</button>
-                        <button class="subtab-btn" data-module="aulas" onclick="switchSubTab('treino-tab','sub-aulas',event)">📚 Cronograma</button>
+                        <button class="subtab-btn" data-module="aulas" onclick="switchSubTab('treino-tab','sub-aulas',event)">📚 Aulas</button>
                     </div>
 
                     <!-- SUB: CHECK-IN -->
@@ -5597,8 +5605,22 @@
                                             <option value="faixa">🥋 Faixa</option>
                                         </select>
                                         <select id="evoDeclFaixa" onchange="updateGrauOptions('evoDeclFaixa','evoDeclGrau')">
+                                            <option value="Branca">Branca</option>
+                                            <option value="Cinza">Cinza</option>
+                                            <option value="Amarela">Amarela</option>
+                                            <option value="Laranja">Laranja</option>
+                                            <option value="Verde">Verde</option>
+                                            <option value="Azul">Azul</option>
+                                            <option value="Roxa">Roxa</option>
+                                            <option value="Marrom">Marrom</option>
+                                            <option value="Preta">Preta</option>
                                         </select>
                                         <select id="evoDeclGrau">
+                                            <option value="0">0º Grau</option>
+                                            <option value="1">1º Grau</option>
+                                            <option value="2">2º Grau</option>
+                                            <option value="3">3º Grau</option>
+                                            <option value="4">4º Grau</option>
                                         </select>
                                     </div>
                                     <div class="evo-declare-row">
@@ -5681,13 +5703,6 @@
 
                             <!-- Monthly List -->
                             <div class="prs-list" id="prsList"></div>
-
-                            <!-- Dica Check-in Retroativo -->
-                            <div style="margin-top:16px;padding:12px;background:rgba(245,158,11,0.06);border:1px dashed rgba(245,158,11,0.2);border-radius:12px;text-align:center;">
-                                <span style="font-size:14px;">💡</span>
-                                <span style="font-size:11px;color:var(--text-2);">Esqueceu o check-in? Clique no dia <span style="color:#f87171;font-weight:700;">vermelho</span> do calendário para solicitar.</span>
-                                <div id="retroPendingList" style="margin-top:8px;"></div>
-                            </div>
                         </div>
                     </div>
 
@@ -6523,13 +6538,8 @@
                             <div class="admin-section-title">👥 Alunos Cadastrados <span class="admin-badge green" id="adminStudentsBadge" style="display:none">0</span></div>
                             <button class="admin-refresh-btn" onclick="loadStudentsList()">↻</button>
                         </div>
-                        <div style="display:flex;gap:6px;margin-bottom:8px;">
-                            <select id="adminStudentCTFilter" onchange="filterStudentsList()" style="flex:1;padding:10px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:12px;">
-                                <option value="">📍 Todos os CTs</option>
-                            </select>
-                        </div>
                         <div style="margin-bottom:12px;">
-                            <input type="text" id="adminStudentSearch" placeholder="🔍 Buscar por nome ou email..." oninput="filterStudentsList()" style="width:100%;box-sizing:border-box;">
+                            <input type="text" id="adminStudentSearch" placeholder="Buscar por nome ou email..." oninput="filterStudentsList()" style="width:100%;box-sizing:border-box;">
                         </div>
                         <div id="adminStudentsList">
                             <div class="admin-empty">Carregando...</div>
@@ -6786,30 +6796,22 @@
                 <div class="admin-container">
                     <div class="adm-page-title">
                         <h2>Sistema & Manutenção</h2>
-                        <p>Configurações do CT</p>
+                        <p>Saúde do sistema, configurações e perfil</p>
                     </div>
 
-                    <!-- Plano Ativo (read-only) -->
-                    <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);border-radius:12px;margin-bottom:14px;">
-                        <div style="font-size:22px;">📋</div>
-                        <div style="flex:1;">
-                            <div style="font-size:10px;color:var(--adm-text-3);font-weight:700;text-transform:uppercase;">Plano Ativo</div>
-                            <div style="font-size:15px;font-weight:800;color:var(--adm-primary-bright);" id="admPlanoBadge">—</div>
-                        </div>
-                        <div style="text-align:right;">
-                            <div style="font-size:10px;color:var(--adm-text-3);font-weight:700;text-transform:uppercase;">Licença</div>
-                            <div style="font-size:13px;font-weight:800;" id="admLicencaBadge">—</div>
-                        </div>
-                    </div>
-
-                    <!-- Filiais (read-only - gerenciadas pelo Super Admin) -->
+                    <!-- Planos & Licenças (info) -->
                     <div class="admin-section">
                         <div class="admin-section-header">
-                            <div class="admin-section-title">🏢 Filiais da Matriz <span class="admin-badge green" id="admFilialBadge" style="display:none">0</span></div>
-                            <button class="admin-refresh-btn" onclick="loadAdmFiliais()">↻</button>
+                            <div class="admin-section-title">🧩 Planos & Módulos</div>
                         </div>
-                        <p style="font-size:10px;color:var(--adm-text-3);padding:0 12px 4px;">Filiais vinculadas à sua Matriz. Gerenciado pelo Super Admin.</p>
-                        <div id="admFiliaisList" style="padding:0 12px 12px;"><div class="admin-empty">Carregando...</div></div>
+                        <p style="font-size:10px;color:var(--adm-text-3);padding:0 12px 8px;">Os módulos são controlados pelo plano de cada CT. Gerencie em <strong>Centros de Treinamento</strong> abaixo.</p>
+                        <div style="padding:0 12px 12px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
+                            <div style="padding:8px;background:rgba(100,116,139,0.06);border:1px solid rgba(100,116,139,0.15);border-radius:8px;text-align:center;"><div style="font-size:10px;font-weight:800;color:#64748b;">DEMO</div><div style="font-size:8px;color:var(--adm-text-3);">7 dias grátis</div></div>
+                            <div style="padding:8px;background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.15);border-radius:8px;text-align:center;"><div style="font-size:10px;font-weight:800;color:#22c55e;">BÁSICO</div><div style="font-size:8px;color:var(--adm-text-3);">até 80 alunos</div></div>
+                            <div style="padding:8px;background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.15);border-radius:8px;text-align:center;"><div style="font-size:10px;font-weight:800;color:#3b82f6;">PROFISSIONAL</div><div style="font-size:8px;color:var(--adm-text-3);">até 150 alunos</div></div>
+                            <div style="padding:8px;background:rgba(168,85,247,0.06);border:1px solid rgba(168,85,247,0.15);border-radius:8px;text-align:center;"><div style="font-size:10px;font-weight:800;color:#a855f7;">AVANÇADO</div><div style="font-size:8px;color:var(--adm-text-3);">até 300 alunos</div></div>
+                            <div style="padding:8px;background:rgba(251,191,36,0.06);border:1px solid rgba(251,191,36,0.15);border-radius:8px;text-align:center;"><div style="font-size:10px;font-weight:800;color:#fbbf24;">ELITE</div><div style="font-size:8px;color:var(--adm-text-3);">ilimitado</div></div>
+                        </div>
                     </div>
 
                     <!-- System Health -->
@@ -6836,9 +6838,15 @@
                             <button class="admin-refresh-btn" onclick="loadCTScheduleAdmin()">↻</button>
                         </div>
                         <div id="adminCTScheduleList"><div class="admin-empty">Carregando...</div></div>
+                        <div style="margin-top:10px;padding:0 12px;">
+                            <div style="font-size:11px;font-weight:700;color:var(--adm-text-2);margin-bottom:6px;">+ Novo CT</div>
+                            <div style="display:flex;gap:6px;">
+                                <input type="text" id="newCTNome" placeholder="Nome do CT" style="flex:1;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                                <button onclick="createNewCT()" style="padding:8px 16px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:6px;font-weight:700;font-size:11px;cursor:pointer;">Criar</button>
+                            </div>
+                            <div id="newCTMsg" style="margin-top:4px;"></div>
+                        </div>
                     </div>
-
-                    <!-- Administradores de CT -->
 
                     <!-- Graduation Config per CT -->
                     <div class="admin-section">
@@ -6878,6 +6886,48 @@
                         <button onclick="saveGradConfig()" style="margin-top:10px;width:100%;padding:12px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;">💾 Salvar Configuração</button>
                     </div>
 
+                    <!-- Registro de Aula (Professor) -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">✍️ Registro de Aula</div>
+                        </div>
+                        <p style="font-size:11px;color:var(--adm-text-3);margin-bottom:10px;">Registre aulas ministradas para controle de cobrança.</p>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+                            <div>
+                                <label style="font-size:10px;color:var(--adm-text-3);display:block;margin-bottom:4px;">CT</label>
+                                <select id="admAulaCT" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;"></select>
+                            </div>
+                            <div>
+                                <label style="font-size:10px;color:var(--adm-text-3);display:block;margin-bottom:4px;">Data</label>
+                                <input type="date" id="admAulaData" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                            </div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+                            <div>
+                                <label style="font-size:10px;color:var(--adm-text-3);display:block;margin-bottom:4px;">Horário</label>
+                                <input type="time" id="admAulaHorario" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                            </div>
+                            <div>
+                                <label style="font-size:10px;color:var(--adm-text-3);display:block;margin-bottom:4px;">Valor (R$)</label>
+                                <input type="text" id="admAulaValor" placeholder="0,00" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                            </div>
+                        </div>
+                        <div style="margin-bottom:8px;">
+                            <label style="font-size:10px;color:var(--adm-text-3);display:block;margin-bottom:4px;">Tipo de aula</label>
+                            <select id="admAulaTipo" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                                <option value="BJJ Adulto">🥋 BJJ Adulto</option>
+                                <option value="BJJ Kids">🧒 BJJ Kids</option>
+                                <option value="No-Gi">🤼 No-Gi</option>
+                                <option value="Open Mat">🏟 Open Mat</option>
+                                <option value="Particular">👤 Particular</option>
+                            </select>
+                        </div>
+                        <div id="admAulaMsg" style="margin-bottom:6px;"></div>
+                        <button onclick="saveAdmAula()" style="width:100%;padding:10px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;">💰 Registrar Aula</button>
+                        <div id="admAulaHistorico" style="margin-top:12px;"></div>
+                    </div>
+                        <div id="admAttendanceMessage"></div>
+                    </div>
 
                     <!-- Admin Profile -->
                     <div class="admin-section">
@@ -6914,7 +6964,6 @@
             </div>
 
         </div>
-
         <!-- end adminScreen -->
 
         <!-- ============================================= -->
@@ -6942,17 +6991,9 @@
                     <div class="admin-section">
                         <div class="admin-section-header">
                             <div class="admin-section-title">📝 Contas Pendentes <span class="admin-badge" id="profPendingBadge" style="display:none">0</span></div>
+                            <button class="admin-refresh-btn" onclick="loadProfPendingAccounts()">↻</button>
                         </div>
-                        <div id="profPendingList"><div class="admin-empty" style="font-size:10px;">Aprovação de novos alunos é feita pelo Administrador do CT.</div></div>
-                    </div>
-                    <!-- Check-ins Pendentes (inclui retroativos) -->
-                    <div class="admin-section">
-                        <div class="admin-section-header">
-                            <div class="admin-section-title">✅ Check-ins Pendentes <span class="admin-badge" id="profCheckinBadge" style="display:none">0</span></div>
-                            <button class="admin-refresh-btn" onclick="loadProfPendingCheckins()">↻</button>
-                        </div>
-                        <div id="profCheckinsList"><div class="admin-empty">Carregando...</div></div>
-                        <button id="profBulkApproveBtn" onclick="profBulkApproveCheckins()" style="display:none;width:100%;padding:10px;margin-top:6px;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;">✓ Aprovar Todos</button>
+                        <div id="profPendingList"><div class="admin-empty">Carregando...</div></div>
                     </div>
                     <!-- Graduações Pendentes -->
                     <div class="admin-section">
@@ -6961,14 +7002,6 @@
                             <button class="admin-refresh-btn" onclick="loadPendingGraduacoes()">↻</button>
                         </div>
                         <div id="profGradList"><div class="admin-empty">Carregando...</div></div>
-                    </div>
-                    <!-- Alunos próximos da graduação -->
-                    <div class="admin-section">
-                        <div class="admin-section-header">
-                            <div class="admin-section-title">🎓 Próximos da Graduação</div>
-                            <button class="admin-refresh-btn" onclick="loadProfGradAlerts()">↻</button>
-                        </div>
-                        <div id="profGradAlerts" style="max-height:40vh;overflow-y:auto;-webkit-overflow-scrolling:touch;"><div class="admin-empty">Carregando...</div></div>
                     </div>
                     <!-- Aniversariantes -->
                     <div class="admin-section">
@@ -6992,15 +7025,10 @@
                             <div class="admin-section-title">👥 Alunos <span class="admin-badge" id="profStudentsBadge" style="display:none">0</span></div>
                             <button class="admin-refresh-btn" onclick="loadProfStudentsList()">↻</button>
                         </div>
-                        <div style="display:flex;gap:6px;margin-bottom:8px;">
-                            <select id="profStudentCTFilter" onchange="filterProfStudentsByCT()" style="flex:1;padding:10px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:12px;">
-                                <option value="">📍 Todos os CTs</option>
-                            </select>
-                        </div>
                         <div class="admin-search" style="margin-bottom:8px;">
-                            <input type="text" id="profStudentSearch" placeholder="🔍 Buscar aluno..." oninput="filterProfStudents(this.value)" style="width:100%;padding:10px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:12px;">
+                            <input type="text" id="profStudentSearch" placeholder="Buscar aluno..." oninput="filterProfStudents(this.value)" style="width:100%;padding:10px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:12px;">
                         </div>
-                        <div id="profStudentsList" style="max-height:60vh;overflow-y:auto;-webkit-overflow-scrolling:touch;"><div class="admin-empty">Carregando...</div></div>
+                        <div id="profStudentsList"><div class="admin-empty">Carregando...</div></div>
                     </div>
                 </div>
             </div>
@@ -7023,7 +7051,7 @@
                             <button class="admin-filter-btn" onclick="setProfPresListPeriod('mes',this)">Mês</button>
                         </div>
                         <div id="profPresListKPI" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px;"></div>
-                        <div id="profPresListResults" style="max-height:50vh;overflow-y:auto;-webkit-overflow-scrolling:touch;"><div class="admin-empty">Selecione CT e data</div></div>
+                        <div id="profPresListResults"><div class="admin-empty">Selecione CT e data</div></div>
                         <div style="margin-top:12px;text-align:center;">
                             <button onclick="gerarProfRelatorioPresenca()" style="padding:10px 24px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;">📊 Gerar Relatório</button>
                         </div>
@@ -7037,31 +7065,42 @@
                 <div class="admin-container">
                     <div class="adm-page-title">
                         <h2>✍️ Registro de Aula</h2>
-                        <p>Confirme a aula ministrada</p>
+                        <p>Registre aulas para controle de cobrança</p>
                     </div>
                     <div class="admin-section">
-                        <div style="margin-bottom:10px;">
-                            <label style="font-size:10px;color:var(--adm-text-3);display:block;margin-bottom:4px;">📍 CT</label>
-                            <select id="profAulaCT" style="width:100%;padding:10px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:13px;"></select>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+                            <div>
+                                <label style="font-size:10px;color:var(--adm-text-3);display:block;margin-bottom:4px;">CT</label>
+                                <select id="profAulaCT" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;"></select>
+                            </div>
+                            <div>
+                                <label style="font-size:10px;color:var(--adm-text-3);display:block;margin-bottom:4px;">Data</label>
+                                <input type="date" id="profAulaData" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                            </div>
                         </div>
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
                             <div>
-                                <label style="font-size:10px;color:var(--adm-text-3);display:block;margin-bottom:4px;">📅 Data</label>
-                                <input type="date" id="profAulaData" style="width:100%;padding:10px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:13px;">
+                                <label style="font-size:10px;color:var(--adm-text-3);display:block;margin-bottom:4px;">Horário</label>
+                                <input type="time" id="profAulaHorario" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
                             </div>
                             <div>
-                                <label style="font-size:10px;color:var(--adm-text-3);display:block;margin-bottom:4px;">🥋 Tipo</label>
-                                <select id="profAulaTipo" style="width:100%;padding:10px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:13px;">
-                                    <option value="BJJ Adulto">🥋 BJJ Adulto</option>
-                                    <option value="BJJ Kids">🧒 BJJ Kids</option>
-                                    <option value="No-Gi">🤼 No-Gi</option>
-                                    <option value="Open Mat">🏟 Open Mat</option>
-                                </select>
+                                <label style="font-size:10px;color:var(--adm-text-3);display:block;margin-bottom:4px;">Valor (R$)</label>
+                                <input type="text" id="profAulaValor" placeholder="0,00" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
                             </div>
+                        </div>
+                        <div style="margin-bottom:8px;">
+                            <label style="font-size:10px;color:var(--adm-text-3);display:block;margin-bottom:4px;">Tipo de aula</label>
+                            <select id="profAulaTipo" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                                <option value="BJJ Adulto">🥋 BJJ Adulto</option>
+                                <option value="BJJ Kids">🧒 BJJ Kids</option>
+                                <option value="No-Gi">🤼 No-Gi</option>
+                                <option value="Open Mat">🏟 Open Mat</option>
+                                <option value="Particular">👤 Particular</option>
+                            </select>
                         </div>
                         <div id="profAulaMsg" style="margin-bottom:6px;"></div>
-                        <button onclick="saveProfAula()" style="width:100%;padding:12px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:10px;font-weight:800;font-size:14px;cursor:pointer;">✅ Confirmar Aula</button>
-                        <div id="profAulaHistorico" style="margin-top:14px;max-height:40vh;overflow-y:auto;-webkit-overflow-scrolling:touch;"></div>
+                        <button onclick="saveProfAula()" style="width:100%;padding:10px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;">💰 Registrar Aula</button>
+                        <div id="profAulaHistorico" style="margin-top:12px;"></div>
                     </div>
                 </div>
             </div>
@@ -7246,11 +7285,28 @@
                         <div class="stu-field">
                             <label>Faixa</label>
                             <select id="stuFaixa" onchange="updateGrauOptions('stuFaixa','stuGrau')">
+                                <option value="Branca">Branca</option>
+                                <option value="Cinza">Cinza</option>
+                                <option value="Amarela">Amarela</option>
+                                <option value="Laranja">Laranja</option>
+                                <option value="Verde">Verde</option>
+                                <option value="Azul">Azul</option>
+                                <option value="Roxa">Roxa</option>
+                                <option value="Marrom">Marrom</option>
+                                <option value="Preta">Preta</option>
+                                <option value="Coral">Coral</option>
+                                <option value="Vermelha">Vermelha</option>
                             </select>
                         </div>
                         <div class="stu-field">
                             <label>Grau</label>
                             <select id="stuGrau">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
                             </select>
                         </div>
                     </div>
@@ -7404,8 +7460,22 @@
                             <option value="faixa">🟣 Graduação de faixa</option>
                         </select>
                         <select id="gradFaixa" onchange="updateGrauOptions('gradFaixa','gradGrau')">
+                            <option value="Branca">Branca</option>
+                            <option value="Cinza">Cinza</option>
+                            <option value="Amarela">Amarela</option>
+                            <option value="Laranja">Laranja</option>
+                            <option value="Verde">Verde</option>
+                            <option value="Azul">Azul</option>
+                            <option value="Roxa">Roxa</option>
+                            <option value="Marrom">Marrom</option>
+                            <option value="Preta">Preta</option>
                         </select>
                         <select id="gradGrau">
+                            <option value="0">0º Grau</option>
+                            <option value="1">1º Grau</option>
+                            <option value="2">2º Grau</option>
+                            <option value="3">3º Grau</option>
+                            <option value="4">4º Grau</option>
                         </select>
                         <input type="text" id="gradObs" placeholder="Obs (opcional)" style="min-width:100px;">
                         <button class="grad-add-btn" onclick="addGraduacao()">✅ Aprovar</button>
@@ -7537,7 +7607,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwWPYpVlySHOgxIRWMp4TKPg3HEtcqO1w8wnC_RsdkcVAcWUmnOHRnRlpuJ4iE0C0Ii/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzkWZTOewVIU7NiJiCU9Lxsq7Wjoe-cecYVtpg0Fd-S4G5OqTtbd1p3FuBWvH9at4vs/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -7562,10 +7632,6 @@
             }
             var body = Object.assign({}, payload || {}, { action: action });
             if (token) body.token = token;
-            // Auto-inject grupo for tenant isolation
-            if (currentUser && currentUser.grupo && !body.grupo) {
-                body.grupo = currentUser.grupo;
-            }
             var response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(body) });
             var data = await response.json();
             if (data.unauthorized === true) { handleSessionExpired(); throw new Error('Sessão expirada'); }
@@ -7647,10 +7713,6 @@
                 const r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'login', email: email, password: password }) });
                 const data = await r.json();
                 if (data.authenticated === true) {
-                    if (data.isSuperAdmin) {
-                        showMessage('loginMessage', '🛡️ Super Admin deve acessar pelo painel exclusivo (super_admin.html)', 'warning');
-                        return;
-                    }
                     if (data.token) { setSessionToken(data.token); }
                     var userData = Object.assign({}, data);
                     delete userData.token;
@@ -7699,32 +7761,10 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // PWA Manifest (inline — no separate file needed)
-            var _manifest = {
-                name: 'Idesystems Tecnologia',
-                short_name: 'Idesystems',
-                description: 'Gestão de CT - Sistema para Academias de Jiu-Jitsu',
-                start_url: '.',
-                display: 'standalone',
-                background_color: '#08080a',
-                theme_color: '#08080a',
-                orientation: 'portrait-primary',
-                icons: [
-                    { src: 'data:image/png;base64,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', sizes: '192x192', type: 'image/png' },
-                    { src: 'data:image/png;base64,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5fXXD691FkplZWXUp59+1nv27Lk9du3a3bKoqCg+OblJaadOnXKHDh1yeNKkCVnp6e0vBPo848dPuHvZshVXBFPbyy+/tMJ9lF1SUhL7yiuv3fj11992ys09m5SU1LCic+dOZ0eOvGH/5MkTs1q3bl3ouY8ePa5+xte+p03749JHHnloo/uyu+++b8KSJUu71FdXx45XnOvT5+qT/ta3adOmYOjQIUdWr/7+cn+Pady4cfnnn//rs/bt211wX/7TT5vb/OEPfxy+ceNPbaurqx29evXMfvHF51a7ZjhERFJSWhR//vmn/77uuhGPnj59pmF99QbC9f4kJCRUpaa2Lhw06JqjTzzx+Ppu3bqecT0mMTGx8h//eG/euXN5iatWre4Q6D61qM9dbGxszSeffPDF4MGDjrovLy0tjX3vvX8MnDt3XrdDhw43i4qKcrZr1zb/2muHHn7wwQc2du7cKdf1WD0+F4CWCADQ3cMPP7BxxIjrD7gvy8/PT7jrrkmTf/yx9rXsZ8/mJp09m5u0du269DffnHbd6NGjdnn+EdZKXFxc9bBhQw67L5s27e1hM2d+0Nf17/LyvAY//LC+/Q8/rG//hz+8OfyeeyZvCXYGIxSTJk3Y6v7vysrKqIKCwoTmzZuV/PyYu7LqCgAvvDD1+44drzjnvmzt2nXpY8feOaWioiK69rL1Uz76aOaXt902ardreevWrQtfe+2VZY8//uQYLV6TS1lZWczhw0eaHj58pOnnn3/R86233lzywAP3/eRaHxMTUzNjxt/m9urV91clJSWxWj53oB555KEN11137SH3ZXl5eQ1Gj77jvh07drZyX75nz96UPXv2psyYMbP/lCl3b66oqODvKiyBQwDQVXx8XPULLzz/vefyZ599fpRn8/fkdDplwYJFXV988Te36FFbixYtij2PsZ84caKJv8dXVVVFffjhx32mTXt7mB71uDgcDrnrrvHb3ZctX77yirlz53VzXzZ69G27kpKSfE43N2rUqPyhhx6oNcqsqalxPPXUM6Pdm7/7uqlTX7jVs+Heeef4bW3btg3rRLa6VFdXO55//j9u3bhxU1v35S1bphR71h8p8fFx1c8992ym5/JnnnnuNs/m787pdMrHH3969eeff3GVvhUC2iAAQFeDBg066j5qFRHZv/9A83nzFnTzt02kVFZ6N8LHHnvk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', sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
-                ]
-            };
-            var _manifestBlob = new Blob([JSON.stringify(_manifest)], { type: 'application/json' });
-            var _manifestUrl = URL.createObjectURL(_manifestBlob);
-            var _manifestLink = document.createElement('link');
-            _manifestLink.rel = 'manifest';
-            _manifestLink.href = _manifestUrl;
-            document.head.appendChild(_manifestLink);
             const regPw = document.getElementById('regPassword');
             const regPwC = document.getElementById('regPasswordConfirm');
             if (regPw) regPw.addEventListener('input', checkPasswordMatch);
             if (regPwC) regPwC.addEventListener('input', checkPasswordMatch);
-            
         });
 
         async function handleRegister(event) {
@@ -7947,13 +7987,10 @@
             var switcher = document.getElementById('modeSwitcher');
             var profBtn = document.getElementById('modeOptProf');
             var adminBtn = document.getElementById('modeOptAdmin');
-            var alunoBtn = document.getElementById('modeOptAluno');
 
             if (isAdmin()) {
-                var isAdminCT = currentUser.isAdminCT === true;
+                // Admin sees: Aluno + Professor + Admin
                 switcher.classList.add('visible');
-                // Admin CT: hide aluno mode (they're not students)
-                if (alunoBtn) alunoBtn.style.display = isAdminCT ? 'none' : '';
                 profBtn.style.display = '';
                 adminBtn.style.display = '';
                 _currentViewMode = 'admin';
@@ -7974,9 +8011,8 @@
         }
 
         async function checkMandatoryProfile() {
-            // Skip for kids profiles and admin CTs
+            // Skip for kids profiles — their data is filled by parent at registration
             if (currentUser.isKids) return;
-            if (currentUser.isAdminCT) return;
             
             try {
                 var data = await secureFetch('getProfile', { email: currentUser.email });
@@ -8129,7 +8165,6 @@
             document.getElementById('forgotTab').style.display = 'none';
             document.getElementById('registerTab').style.display = 'block';
             loadCTs();
-            renderFaixaOptions('regFaixa', { empty: true });
         }
 
         function showForgotPassword() {
@@ -9078,83 +9113,19 @@
          * Preta (IBJJF): 0º-6º Grau
          * Others: 0º-4º Grau
          */
-        // ═══════════════════════════════════════════════════
-        // IBJJF BELT SYSTEM (CENTRALIZED)
-        // ═══════════════════════════════════════════════════
-        var IBJJF_BELTS = {
-            adulto: [
-                { id: 'Branca',   emoji: '⚪', nome: 'Branca',   maxGrau: 4 },
-                { id: 'Azul',     emoji: '🔵', nome: 'Azul',     maxGrau: 4 },
-                { id: 'Roxa',     emoji: '🟣', nome: 'Roxa',     maxGrau: 4 },
-                { id: 'Marrom',   emoji: '🟤', nome: 'Marrom',   maxGrau: 4 },
-                { id: 'Preta',    emoji: '⚫', nome: 'Preta',    maxGrau: 6 },
-                { id: 'CoralRP',  emoji: '🔴⚫', nome: 'Coral Vermelho e Preto (7º)', maxGrau: 0 },
-                { id: 'CoralRB',  emoji: '🔴⚪', nome: 'Coral Vermelho e Branco (8º)', maxGrau: 0 },
-                { id: 'Vermelha', emoji: '🔴', nome: 'Vermelha (9º/10º)', maxGrau: 0 }
-            ],
-            kids: [
-                { id: 'Branca',          emoji: '⚪', nome: 'Branca' },
-                { id: 'CinzaBranca',     emoji: '⚪🩶', nome: 'Cinza e Branca' },
-                { id: 'Cinza',           emoji: '🩶', nome: 'Cinza' },
-                { id: 'CinzaPreta',      emoji: '🩶⚫', nome: 'Cinza e Preta' },
-                { id: 'AmarelaBranca',   emoji: '⚪🟡', nome: 'Amarela e Branca' },
-                { id: 'Amarela',         emoji: '🟡', nome: 'Amarela' },
-                { id: 'AmarelaPreta',    emoji: '🟡⚫', nome: 'Amarela e Preta' },
-                { id: 'LaranjaBranca',   emoji: '⚪🟠', nome: 'Laranja e Branca' },
-                { id: 'Laranja',         emoji: '🟠', nome: 'Laranja' },
-                { id: 'LaranjaPreta',    emoji: '🟠⚫', nome: 'Laranja e Preta' },
-                { id: 'VerdeBranca',     emoji: '⚪🟢', nome: 'Verde e Branca' },
-                { id: 'Verde',           emoji: '🟢', nome: 'Verde' },
-                { id: 'VerdePreta',      emoji: '🟢⚫', nome: 'Verde e Preta' }
-            ]
-        };
-
-        function getIBJJFBelts(isKids) {
-            return isKids ? IBJJF_BELTS.kids : IBJJF_BELTS.adulto;
-        }
-
-        function getMaxGrau(faixa) {
-            for (var i = 0; i < IBJJF_BELTS.adulto.length; i++) {
-                if (IBJJF_BELTS.adulto[i].id === faixa) return IBJJF_BELTS.adulto[i].maxGrau || 0;
-            }
-            return 4; // default
-        }
-
-        function renderFaixaOptions(selectId, opts) {
-            var sel = document.getElementById(selectId);
-            if (!sel) return;
-            var currentVal = sel.value;
-            var isKids = (opts && opts.kids) || false;
-            var includeEmpty = (opts && opts.empty) || false;
-            var belts = getIBJJFBelts(isKids);
-            var html = '';
-            if (includeEmpty) html += '<option value="">Selecione a faixa</option>';
-            belts.forEach(function(b) {
-                html += '<option value="' + b.id + '">' + b.emoji + ' ' + b.nome + '</option>';
-            });
-            sel.innerHTML = html;
-            if (currentVal) sel.value = currentVal;
-        }
-
         function updateGrauOptions(faixaSelectId, grauSelectId) {
             var faixaSel = document.getElementById(faixaSelectId);
             var grauSel = document.getElementById(grauSelectId);
             if (!faixaSel || !grauSel) return;
             var faixa = faixaSel.value;
             var currentVal = grauSel.value;
-            var maxGrau = getMaxGrau(faixa);
+            var maxGrau = faixa === 'Preta' ? 6 : 4;
             var html = '';
-            if (maxGrau === 0) {
-                html = '<option value="0">—</option>';
-                grauSel.innerHTML = html;
-                grauSel.parentElement.style.display = 'none';
-                return;
-            }
             for (var g = 0; g <= maxGrau; g++) {
                 html += '<option value="' + g + '">' + g + 'º Grau</option>';
             }
             grauSel.innerHTML = html;
-            grauSel.parentElement.style.display = '';
+            // Restore value if within range
             if (parseInt(currentVal) <= maxGrau) grauSel.value = currentVal;
         }
         const SEMESTER_MAX_CLASSES = 48;
@@ -9163,8 +9134,6 @@
 
         function loadEvolucao() {
             if (!currentUser) return;
-            // Populate faixa select for graduation request
-            renderFaixaOptions('evoDeclFaixa');
             const faixa = currentUser.faixa || 'Branca';
             const grau = parseInt(currentUser.grau) || 0;
             const totalTreinos = parseInt(currentUser.treinos) || 0;
@@ -9333,8 +9302,8 @@
             }
         }
 
-        /* ===== IBJJF FULL BELT SYSTEM (ROADMAP) ===== */
-        var IBJJF_ROADMAP = [
+        /* ===== IBJJF FULL BELT SYSTEM ===== */
+        var IBJJF_BELTS = [
             { id: 'branca',  name: 'Branca',  cls: 'branca',  age: '16+', graus: 4, minMonths: 0,  minTreinos: 0 },
             { id: 'azul',    name: 'Azul',    cls: 'azul',    age: '16+', graus: 4, minMonths: 24, minTreinos: 120 },
             { id: 'roxa',    name: 'Roxa',    cls: 'roxa',    age: '16+', graus: 4, minMonths: 24, minTreinos: 430 },
@@ -9344,7 +9313,7 @@
 
         var FAIXA_TO_IBJJF = { 'Branca': 'branca', 'Azul': 'azul', 'Roxa': 'roxa', 'Marrom': 'marrom', 'Preta': 'preta' };
 
-        var IBJJF_ROADMAP_KIDS = [
+        var IBJJF_BELTS_KIDS = [
             { id: 'branca',       name: 'Branca',          cls: 'branca',    age: '4+',  graus: 0, minMonths: 0,  minTreinos: 0 },
             { id: 'cinza-b',      name: 'Cinza/Branca',    cls: 'cinza-b',   age: '4+',  graus: 0, minMonths: 6,  minTreinos: 30 },
             { id: 'cinza',        name: 'Cinza',           cls: 'cinza',     age: '4+',  graus: 0, minMonths: 6,  minTreinos: 50 },
@@ -9367,7 +9336,7 @@
             'Verde-Branca': 'verde-b', 'Verde': 'verde', 'Verde-Preta': 'verde-p'
         };
 
-        function getRoadmapBelts() { return _isKidsMode ? IBJJF_ROADMAP_KIDS : IBJJF_ROADMAP; }
+        function getIBJJFBelts() { return _isKidsMode ? IBJJF_BELTS_KIDS : IBJJF_BELTS; }
         function getFaixaToIBJJF() { return _isKidsMode ? FAIXA_TO_IBJJF_KIDS : FAIXA_TO_IBJJF; }
 
         function renderIBJJFRoadmap(faixaAtual, grauAtual, totalTreinos) {
@@ -9376,7 +9345,7 @@
             track.innerHTML = '';
             track.appendChild(fillEl);
 
-            var belts = getRoadmapBelts();
+            var belts = getIBJJFBelts();
             var faixaMap = getFaixaToIBJJF();
             var currentId = faixaMap[faixaAtual] || 'branca';
             var currentIdx = -1;
@@ -9480,36 +9449,6 @@
             } catch(e) {
                 if (grid) grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--coral);">Erro ao carregar</div>';
             }
-            // Load pending retro requests list
-            loadMyRetroRequests();
-        }
-
-        // Old retro form replaced by calendar-based inline form (prsRequestRetro)
-
-        async function loadMyRetroRequests() {
-            var container = document.getElementById('retroPendingList');
-            if (!container) return;
-            try {
-                var data = await secureFetch('getMyRetroRequests', {});
-                if (data.success && data.requests && data.requests.length > 0) {
-                    var h = '<div style="font-size:10px;font-weight:700;color:var(--text-2);margin-bottom:6px;">📋 Minhas solicitações</div>';
-                    data.requests.forEach(function(r) {
-                        var statusColor = r.status === 'APROVADO' ? '#22c55e' : r.status === 'REJEITADO' ? '#f87171' : '#fbbf24';
-                        var statusIcon = r.status === 'APROVADO' ? '✅' : r.status === 'REJEITADO' ? '❌' : '⏳';
-                        h += '<div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;margin-bottom:4px;">';
-                        h += '<div style="font-size:14px;">' + statusIcon + '</div>';
-                        h += '<div style="flex:1;min-width:0;">';
-                        h += '<div style="font-size:11px;font-weight:700;color:var(--text-1);">' + escapeHtml(r.data) + ' · ' + escapeHtml(r.horario) + ' · ' + escapeHtml(r.ct) + '</div>';
-                        h += '<div style="font-size:9px;color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + escapeHtml(r.justificativa) + '</div>';
-                        h += '</div>';
-                        h += '<span style="font-size:9px;font-weight:800;color:' + statusColor + ';">' + r.status + '</span>';
-                        h += '</div>';
-                    });
-                    container.innerHTML = h;
-                } else {
-                    container.innerHTML = '';
-                }
-            } catch(e) { container.innerHTML = ''; }
         }
 
         function prsChangeMonth(delta) {
@@ -9637,55 +9576,18 @@
             }
             document.getElementById('prsList').innerHTML = listHtml;
 
-            // Show detail if day selected (handled by prsSelectDay)
-            if (_prsSelectedDay && !dayMap[_prsSelectedDay]) {
-                // Missed day — prsSelectDay will handle the detail
-            } else if (_prsSelectedDay && dayMap[_prsSelectedDay]) {
-                prsShowDayDetail(_prsSelectedDay, dayMap[_prsSelectedDay], false, false);
+            // Show detail if day selected
+            if (_prsSelectedDay && dayMap[_prsSelectedDay]) {
+                prsShowDayDetail(_prsSelectedDay, dayMap[_prsSelectedDay]);
             }
         }
 
         function prsSelectDay(day) {
             _prsSelectedDay = (_prsSelectedDay === day) ? null : day;
             renderPresencas();
-
-            if (!_prsSelectedDay) {
-                document.getElementById('prsDetail').style.display = 'none';
-                return;
-            }
-
-            // Build attendance map for selected day
-            var monthKey = _prsYear + '-' + String(_prsMonth + 1).padStart(2, '0');
-            var entries = [];
-            if (_prsData) {
-                for (var i = 0; i < _prsData.length; i++) {
-                    var r = _prsData[i];
-                    if (r.date && r.date.substring(0, 7) === monthKey) {
-                        var dn = parseInt(r.date.substring(8, 10));
-                        if (dn === day) entries.push({ hora: r.hora, ct: r.ct });
-                    }
-                }
-            }
-
-            // Check if this is a missed day
-            var DAY_KEYS = ['dom','seg','ter','qua','qui','sex','sab'];
-            var dt = new Date(_prsYear, _prsMonth, day);
-            var dayOfWeek = DAY_KEYS[dt.getDay()];
-            var stuDiasTreino = [];
-            if (currentUser && currentUser.diasTreino) stuDiasTreino = currentUser.diasTreino.split(',');
-            var now = new Date();
-            var isExpected = stuDiasTreino.indexOf(dayOfWeek) !== -1;
-            var isPast = dt < new Date(now.getFullYear(), now.getMonth(), now.getDate());
-            var isMissed = isExpected && isPast && entries.length === 0;
-
-            // Check if within 7 days
-            var diffDays = Math.floor((now - dt) / (1000*60*60*24));
-            var canRetro = isMissed && diffDays <= 7 && diffDays >= 0;
-
-            prsShowDayDetail(day, entries, canRetro, isMissed);
         }
 
-        function prsShowDayDetail(day, entries, canRetro, isMissed) {
+        function prsShowDayDetail(day, entries) {
             var DIAS_SEMANA = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
             var dt = new Date(_prsYear, _prsMonth, day);
             var detail = document.getElementById('prsDetail');
@@ -9694,106 +9596,18 @@
 
             header.textContent = '📅 ' + DIAS_SEMANA[dt.getDay()] + ', ' + day + '/' + (_prsMonth + 1);
             var html = '';
-
-            if (entries.length > 0) {
-                for (var i = 0; i < entries.length; i++) {
-                    html += '<div class="prs-detail-item">' +
-                        '<div class="prs-detail-time">' + (entries[i].hora || '—') + '</div>' +
-                        '<div class="prs-detail-ct">📍 ' + (entries[i].ct || '—') + '</div>' +
-                        '<div class="prs-detail-badge">✅ Confirmado</div>' +
-                        '</div>';
-                }
-            } else if (canRetro) {
-                // Missed day within 7 days — show retro request inline
-                var dateStr = _prsYear + '-' + String(_prsMonth + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
-                html += '<div style="text-align:center;padding:8px 0;">';
-                html += '<div style="font-size:24px;margin-bottom:4px;">😅</div>';
-                html += '<div style="font-size:12px;font-weight:700;color:#f87171;margin-bottom:2px;">Faltou neste dia</div>';
-                html += '<div style="font-size:10px;color:var(--text-3);margin-bottom:10px;">Solicite o check-in retroativo</div>';
-                html += '</div>';
-
-                // CT selector
-                html += '<div style="margin-bottom:8px;">';
-                html += '<label style="font-size:9px;color:var(--text-3);display:block;margin-bottom:2px;">CT que treinou</label>';
-                html += '<select id="prsRetroCT" style="width:100%;padding:8px;background:var(--bg-elevated);color:var(--text-1);border:1px solid var(--border);border-radius:8px;font-size:12px;">';
-                html += '<option value="">Selecione o CT</option>';
-                html += '</select>';
-                html += '</div>';
-
-                // Time
-                html += '<div style="margin-bottom:8px;">';
-                html += '<label style="font-size:9px;color:var(--text-3);display:block;margin-bottom:2px;">Horário que treinou</label>';
-                html += '<input type="time" id="prsRetroTime" style="width:100%;padding:8px;background:var(--bg-elevated);color:var(--text-1);border:1px solid var(--border);border-radius:8px;font-size:12px;">';
-                html += '</div>';
-
-                // Justificativa
-                html += '<div style="margin-bottom:8px;">';
-                html += '<label style="font-size:9px;color:var(--text-3);display:block;margin-bottom:2px;">Motivo</label>';
-                html += '<input type="text" id="prsRetroMotivo" placeholder="Ex: Esqueci de fazer check-in" maxlength="200" style="width:100%;padding:8px;background:var(--bg-elevated);color:var(--text-1);border:1px solid var(--border);border-radius:8px;font-size:12px;">';
-                html += '</div>';
-
-                html += '<div id="prsRetroMsg" style="margin-bottom:6px;"></div>';
-                html += '<button onclick="prsRequestRetro(\'' + dateStr + '\')" style="width:100%;padding:10px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;">📩 Solicitar Check-in Retroativo</button>';
-            } else if (isMissed) {
-                // Missed but older than 7 days
-                html += '<div style="text-align:center;padding:12px;color:var(--text-3);font-size:12px;">';
-                html += '<div style="font-size:20px;margin-bottom:4px;">😔</div>';
-                html += 'Faltou neste dia<br><span style="font-size:10px;color:#f87171;">Prazo de 7 dias para retroativo expirado</span></div>';
-            } else {
-                html += '<div style="text-align:center;padding:12px;color:var(--text-3);font-size:12px;">Sem registro neste dia</div>';
+            for (var i = 0; i < entries.length; i++) {
+                html += '<div class="prs-detail-item">' +
+                    '<div class="prs-detail-time">' + (entries[i].hora || '—') + '</div>' +
+                    '<div class="prs-detail-ct">📍 ' + (entries[i].ct || '—') + '</div>' +
+                    '<div class="prs-detail-badge">✅ Confirmado</div>' +
+                    '</div>';
             }
-
+            if (entries.length === 0) {
+                html = '<div style="text-align:center;padding:12px;color:var(--text-3);font-size:12px;">Sem registro neste dia</div>';
+            }
             list.innerHTML = html;
             detail.style.display = 'block';
-
-            // Populate CT selector if retro form shown
-            if (canRetro) {
-                prsLoadRetroCTs();
-            }
-        }
-
-        async function prsLoadRetroCTs() {
-            var sel = document.getElementById('prsRetroCT');
-            if (!sel) return;
-            try {
-                var data = await secureFetch('getCTsList', {});
-                if (data.success && data.cts) {
-                    data.cts.forEach(function(ct) {
-                        var name = typeof ct === 'string' ? ct : ct.name;
-                        var opt = document.createElement('option');
-                        opt.value = name; opt.textContent = '📍 ' + name;
-                        if (currentUser && currentUser.ct === name) opt.selected = true;
-                        sel.appendChild(opt);
-                    });
-                }
-            } catch(e) {}
-        }
-
-        async function prsRequestRetro(dateStr) {
-            var ct = document.getElementById('prsRetroCT').value;
-            var horario = document.getElementById('prsRetroTime').value;
-            var motivo = document.getElementById('prsRetroMotivo').value.trim();
-
-            if (!ct) { showMessage('prsRetroMsg', '⚠️ Selecione o CT', 'danger'); return; }
-            if (!horario) { showMessage('prsRetroMsg', '⚠️ Informe o horário', 'danger'); return; }
-            if (!motivo || motivo.length < 3) { showMessage('prsRetroMsg', '⚠️ Informe o motivo', 'danger'); return; }
-
-            showMessage('prsRetroMsg', '📩 Enviando...', 'info');
-            try {
-                var data = await secureFetch('requestRetroCheckin', {
-                    data: dateStr, horario: horario, ct: ct, justificativa: motivo
-                });
-                if (data.success) {
-                    showMessage('prsRetroMsg', '✅ Solicitação enviada!', 'success');
-                    // Reset presença data to force reload
-                    _prsData = null;
-                    setTimeout(function() { loadPresencas(); }, 1500);
-                } else {
-                    showMessage('prsRetroMsg', data.message || 'Erro', 'danger');
-                }
-            } catch(e) {
-                showMessage('prsRetroMsg', '❌ Erro: ' + e.message, 'danger');
-            }
         }
 
         // ===== GRADUATION TIMELINE =====
@@ -12364,61 +12178,7 @@
             if (tabName === 'adm-alunos') loadStudentsList();
             if (tabName === 'adm-presenca') initPresencaList();
             if (tabName === 'adm-campeonato') initCampAdmin();
-            if (tabName === 'adm-sistema') { loadAdmPlanBadge(); loadAdmFiliais(); loadSystemHealth(); loadAdminCTs(); loadAdminProfile(); loadGradConfig(); loadCTScheduleAdmin(); }
-        }
-
-        // ═══════════════════════════════════════════════════
-        // 🏢 ADMIN FILIAIS
-        // ═══════════════════════════════════════════════════
-
-        async function loadAdmFiliais() {
-            var container = document.getElementById('admFiliaisList');
-            if (!container) return;
-            container.innerHTML = '<div class="admin-empty">Carregando...</div>';
-            try {
-                var data = await secureFetch('getMyFiliais', {});
-                if (!data.success) { container.innerHTML = '<div class="admin-empty">' + (data.message || 'Erro') + '</div>'; return; }
-
-                var planColors = { demo:'#64748b', basico:'#22c55e', profissional:'#3b82f6', avancado:'#a855f7', elite:'#fbbf24' };
-                var planLabels = { demo:'Demo', basico:'Básico', profissional:'Pro', avancado:'Avançado', elite:'Elite' };
-                var licColors = { ativo:'#22c55e', demo:'#fbbf24', suspenso:'#f87171' };
-
-                var filiais = data.myCTs.filter(function(ct) { return ct.nome !== data.myCT; });
-                var badge = document.getElementById('admFilialBadge');
-                if (badge) { badge.textContent = filiais.length; badge.style.display = filiais.length > 0 ? 'inline-block' : 'none'; }
-
-                if (filiais.length === 0) {
-                    container.innerHTML = '<div class="admin-empty">Nenhuma filial vinculada à sua Matriz.<br><span style="font-size:9px;">O Super Admin gerencia as filiais.</span></div>';
-                } else {
-                    var h = '<div style="font-size:10px;color:var(--adm-primary-bright);font-weight:700;margin-bottom:6px;">🏢 Matriz: ' + escapeHtml(data.grupo || currentUser.grupo || '-') + '</div>';
-                    filiais.forEach(function(f) {
-                        var pc = planColors[f.plano] || '#64748b';
-                        var lc = licColors[f.statusLicenca] || '#22c55e';
-                        h += '<div style="display:flex;align-items:center;gap:8px;padding:10px;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);border-radius:8px;margin-bottom:4px;border-left:3px solid ' + pc + ';">';
-                        h += '<div style="font-size:16px;">🏢</div>';
-                        h += '<div style="flex:1;min-width:0;">';
-                        h += '<div style="font-size:12px;font-weight:700;color:var(--adm-text-1);">' + escapeHtml(f.nome) + '</div>';
-                        h += '<div style="font-size:9px;color:var(--adm-text-3);">' + (planLabels[f.plano] || f.plano) + ' · <span style="color:' + lc + ';">' + (f.statusLicenca || 'ativo') + '</span></div>';
-                        h += '</div></div>';
-                    });
-                    container.innerHTML = h;
-                }
-            } catch(e) {
-                container.innerHTML = '<div class="admin-empty">Erro: ' + e.message + '</div>';
-            }
-        }
-
-        function loadAdmPlanBadge() {
-            var planLabels = { demo:'Demo', basico:'Básico', profissional:'Profissional', avancado:'Avançado', elite:'Elite' };
-            var planColors = { demo:'#64748b', basico:'#22c55e', profissional:'#3b82f6', avancado:'#a855f7', elite:'#fbbf24' };
-            var licLabels = { ativo:'✅ Ativo', demo:'⏰ Demo', suspenso:'🔒 Suspenso' };
-            var licColors = { ativo:'#22c55e', demo:'#fbbf24', suspenso:'#f87171' };
-            var plan = (typeof _ctPlan !== 'undefined') ? _ctPlan : 'basico';
-            var lic = (typeof _ctLicenseStatus !== 'undefined') ? _ctLicenseStatus : 'ativo';
-            var pb = document.getElementById('admPlanoBadge');
-            var lb = document.getElementById('admLicencaBadge');
-            if (pb) { pb.textContent = planLabels[plan] || plan; pb.style.color = planColors[plan] || '#22c55e'; }
-            if (lb) { lb.textContent = licLabels[lic] || lic; lb.style.color = licColors[lic] || '#22c55e'; }
+            if (tabName === 'adm-sistema') { loadSystemHealth(); loadAdminCTs(); loadAdminProfile(); loadGradConfig(); loadCTScheduleAdmin(); initAdmAulaForm(); }
         }
 
         function loadAdminProfile() {
@@ -16148,8 +15908,8 @@
 
         var PLANS = {
             demo: {
-                nome: 'Demo', cor: '#64748b', maxAlunos: 20, maxCTs: 1, dias: 15,
-                desc: 'Teste completo por 15 dias',
+                nome: 'Demo', cor: '#64748b', maxAlunos: 20, maxCTs: 1, dias: 7,
+                desc: 'Teste completo por 7 dias',
                 features: {
                     checkin:true, presencas:true, perfil:true, perfilAvatar:true,
                     evolucao:true, cronograma:true, cronoValidacao:true,
@@ -16228,7 +15988,7 @@
             { id: 'checkin', icon: '✍️', nome: 'Check-in' },
             { id: 'evolucao', icon: '📈', nome: 'Evolução' },
             { id: 'presencas', icon: '📅', nome: 'Presenças' },
-            { id: 'cronograma', icon: '📚', nome: 'Cronograma' },
+            { id: 'cronograma', icon: '📚', nome: 'Aulas' },
             { id: 'musculacao', icon: '🏋️', nome: 'Prep. Física' },
             { id: 'ranking', icon: '🏆', nome: 'Ranking' },
             { id: 'campeonato', icon: '🏅', nome: 'Campeonato' },
@@ -16260,7 +16020,7 @@
                         }
                     }
                 }
-                if (isAdmin() && !currentUser.grupo) { _ctPlan = 'elite'; _ctLicenseStatus = 'ativo'; }
+                if (isAdmin()) { _ctPlan = 'elite'; _ctLicenseStatus = 'ativo'; }
                 if (isProfessor() && !isAdmin() && data && data.cts) {
                     var profCTs = currentUser.ctsProfessor ? currentUser.ctsProfessor.split(',').map(function(c){return c.trim();}).filter(Boolean) : [];
                     var planOrder = ['basico','profissional','avancado','elite'];
@@ -16283,20 +16043,12 @@
                     if (now > expDate) { showLicenseBlock(userCT, 'demo_expirado', ctInfo.dataExpiracao); return; }
                     showDemoBanner(Math.ceil((expDate - now) / (1000*60*60*24)), ctInfo.dataExpiracao);
                 }
-                // Resolve features (CT override > plan defaults)
+                // Resolve features
                 var plan = PLANS[_ctPlan] || PLANS.basico;
                 _planFeatures = {};
                 var defKeys = Object.keys(PLAN_FEATURES_DEFAULT);
-                var override = null;
-                if (ctInfo && ctInfo.featuresOverride) {
-                    try { override = JSON.parse(ctInfo.featuresOverride); } catch(e) {}
-                }
                 for (var k = 0; k < defKeys.length; k++) {
-                    if (override && override[defKeys[k]] !== undefined) {
-                        _planFeatures[defKeys[k]] = override[defKeys[k]] === true;
-                    } else {
-                        _planFeatures[defKeys[k]] = plan.features[defKeys[k]] === true;
-                    }
+                    _planFeatures[defKeys[k]] = plan.features[defKeys[k]] === true;
                 }
                 _activeModules = {};
                 MODULE_DEFS.forEach(function(m) { _activeModules[m.id] = _planFeatures[m.id] === true; });
@@ -16339,6 +16091,7 @@
             presReportBtns.forEach(function(el) { el.style.display = hasFeature('relatorioPresenca') ? '' : 'none'; });
 
             // Registro de Aula section (admin Sistema tab)
+            var admAulaSection = document.querySelector('#adm-sistema [onclick*="saveAdmAula"]');
             if (admAulaSection) {
                 var sec = admAulaSection.closest('.admin-section');
                 if (sec) sec.style.display = hasFeature('registroAula') ? '' : 'none';
@@ -16541,171 +16294,72 @@
 
         async function loadProfPanel() {
             loadProfStudentsList();
-            loadProfPendingCount();
-            loadProfPendingCheckins();
+            loadProfPendingAccounts();
             loadPendingGraduacoes();
-            loadProfGradAlerts();
             loadBirthdays();
         }
 
-        var _profPendingCheckins = [];
-
-        async function loadProfGradAlerts() {
-            var container = document.getElementById('profGradAlerts');
-            if (!container) return;
-            container.innerHTML = '<div class="admin-empty">Analisando...</div>';
+        async function loadProfPendingAccounts() {
             try {
-                // Uses cached students from loadProfStudentsList
-                if (!_profStudentsCache || _profStudentsCache.length === 0) {
-                    var data = await secureFetch('getStudentsList', {});
-                    if (data.success && data.students) _profStudentsCache = data.students;
-                }
-                if (!_profStudentsCache || _profStudentsCache.length === 0) {
-                    container.innerHTML = '<div class="admin-empty">Nenhum aluno</div>';
-                    return;
-                }
-                // Load grad config
-                var gradData = await secureFetch('getGradConfig', {});
-                var gradConfig = {};
-                if (gradData.success && gradData.config) gradConfig = gradData.config;
-                var defaults = { Branca: 30, Azul: 78, Roxa: 108, Marrom: 130 };
-
-                var alerts = [];
-                _profStudentsCache.forEach(function(s) {
-                    if (s.status === 'DESATIVADO') return;
-                    var faixa = s.faixa || 'Branca';
-                    var grau = parseInt(s.grau) || 0;
-                    var treinos = parseInt(s.treinos) || 0;
-                    // Get required treinos for next grau
-                    var configKey = s.ct ? (faixa + '_' + s.ct) : faixa;
-                    var aulasPerGrau = (gradConfig[configKey] || gradConfig[faixa] || defaults[faixa] || 30);
-                    var treinosNeeded = aulasPerGrau * (grau + 1);
-                    var remaining = treinosNeeded - treinos;
-                    var maxGrau = (faixa === 'Preta') ? 6 : 4;
-                    if (grau >= maxGrau) return; // already max
-                    if (remaining <= 10 && remaining >= 0) {
-                        alerts.push({ name: s.name, email: s.email, faixa: faixa, grau: grau, treinos: treinos, falta: remaining, ct: s.ct });
-                    } else if (remaining < 0) {
-                        alerts.push({ name: s.name, email: s.email, faixa: faixa, grau: grau, treinos: treinos, falta: 0, ct: s.ct, ready: true });
-                    }
-                });
-
-                if (alerts.length === 0) {
-                    container.innerHTML = '<div class="admin-empty">Nenhum aluno próximo da graduação</div>';
-                    return;
-                }
-
-                alerts.sort(function(a, b) { return a.falta - b.falta; });
-                var h = '';
-                alerts.forEach(function(a) {
-                    var icon = a.ready ? '🏅' : '⏳';
-                    var color = a.ready ? '#22c55e' : '#fbbf24';
-                    var msg = a.ready ? 'APTO para ' + (a.grau + 1) + 'º grau!' : 'Faltam ' + a.falta + ' aulas para ' + (a.grau + 1) + 'º grau';
-                    h += '<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);border-radius:8px;margin-bottom:4px;border-left:3px solid ' + color + ';">';
-                    h += '<div style="font-size:16px;">' + icon + '</div>';
-                    h += '<div style="flex:1;min-width:0;">';
-                    h += '<div style="font-size:11px;font-weight:700;color:var(--adm-text-1);">' + escapeHtml(a.name) + '</div>';
-                    h += '<div style="font-size:9px;color:var(--adm-text-3);">🥋 ' + a.faixa + ' ' + a.grau + 'º · 📍 ' + escapeHtml(a.ct || '-') + ' · 💪 ' + a.treinos + ' treinos</div>';
-                    h += '<div style="font-size:10px;font-weight:700;color:' + color + ';">' + msg + '</div>';
-                    h += '</div></div>';
-                });
-                container.innerHTML = h;
-            } catch(e) {
-                container.innerHTML = '<div class="admin-empty">Erro: ' + e.message + '</div>';
-            }
-        }
-
-        async function loadProfPendingCheckins() {
-            var container = document.getElementById('profCheckinsList');
-            if (!container) return;
-            container.innerHTML = '<div class="admin-empty">Carregando...</div>';
-            try {
-                var data = await secureFetch('getPendingCheckins', { filter: 'todos' });
-                if (data.success) {
+                var data = await secureFetch('getPendingAccounts', {});
+                if (data.success && data.accounts) {
                     var profCTs = currentUser.ctsProfessor ? currentUser.ctsProfessor.split(',').map(function(c){return c.trim();}) : (currentUser.ct ? [currentUser.ct] : []);
-                    _profPendingCheckins = (data.pending || []).filter(function(ck) {
-                        return profCTs.length === 0 || profCTs.indexOf(ck.ct) !== -1;
+                    var filtered = data.accounts.filter(function(a) {
+                        return profCTs.length === 0 || profCTs.indexOf(a.ct) !== -1;
                     });
-                    var badge = document.getElementById('profCheckinBadge');
-                    var bulkBtn = document.getElementById('profBulkApproveBtn');
-                    if (_profPendingCheckins.length > 0) {
-                        if (badge) { badge.textContent = _profPendingCheckins.length; badge.style.display = 'inline-block'; }
-                        if (bulkBtn) { bulkBtn.style.display = _profPendingCheckins.length > 1 ? 'block' : 'none'; bulkBtn.textContent = '✓ Aprovar Todos (' + _profPendingCheckins.length + ')'; }
+                    var badge = document.getElementById('profPendingBadge');
+                    var container = document.getElementById('profPendingList');
+                    if (filtered.length > 0) {
+                        badge.textContent = filtered.length; badge.style.display = 'inline-block';
                         var h = '';
-                        _profPendingCheckins.forEach(function(ck, idx) {
-                            var initial = (ck.name || '?').charAt(0).toUpperCase();
-                            var retroBadge = ck.isRetro ? ' <span style="font-size:8px;background:rgba(251,191,36,0.15);color:#fbbf24;padding:1px 6px;border-radius:4px;font-weight:700;">RETROATIVO</span>' : '';
-                            var justLine = ck.isRetro && ck.justificativa ? '<div style="font-size:10px;color:var(--adm-text-3);padding:2px 0;font-style:italic;">💬 "' + escapeHtml(ck.justificativa) + '"</div>' : '';
-                            h += '<div class="admin-card" id="profCkCard' + idx + '">';
-                            h += '<div class="admin-card-top"><div class="admin-card-avatar">' + initial + '</div>';
-                            h += '<div class="admin-card-info"><div class="admin-card-name">' + escapeHtml(ck.name || '-') + retroBadge + '</div>';
-                            h += '<div class="admin-card-meta">' + escapeHtml(ck.email || '') + '</div></div>';
-                            h += '<span class="admin-checkin-status pendente">pendente</span></div>';
-                            h += '<div class="admin-card-detail">📍 ' + escapeHtml(ck.ct || '-') + ' · ⏰ ' + (ck.hora || ck.horario || '-') + ' · 📅 ' + (ck.dataFormatada || '-') + '</div>';
-                            h += justLine;
-                            h += '<div class="admin-card-actions">';
-                            h += '<button class="admin-btn approve" onclick="profApproveCheckin(' + ck.rowIndex + ',' + idx + ')">✓ Aprovar</button>';
-                            h += '<button class="admin-btn reject" onclick="profRejectCheckin(' + ck.rowIndex + ',' + idx + ')">✕ Rejeitar</button>';
+                        filtered.forEach(function(a) {
+                            h += '<div class="admin-student-card" style="padding:10px;" id="profAcc_' + (a.email||'').replace(/[^a-zA-Z0-9]/g,'_') + '">';
+                            h += '<div class="admin-card-avatar">' + (a.name||'?').charAt(0).toUpperCase() + '</div>';
+                            h += '<div class="admin-student-info"><div class="admin-student-name">' + escapeHtml(a.name) + '</div>';
+                            h += '<div class="admin-student-meta">' + escapeHtml(a.email) + ' · 📍 ' + escapeHtml(a.ct||'') + '</div></div>';
+                            h += '<div style="display:flex;gap:4px;">';
+                            h += '<button onclick="profApproveAccount(\'' + (a.email||'').replace(/'/g,"\\'") + '\')" style="padding:5px 10px;background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);border-radius:6px;color:#22c55e;font-size:10px;font-weight:700;cursor:pointer;">✓</button>';
+                            h += '<button onclick="profRejectAccount(\'' + (a.email||'').replace(/'/g,"\\'") + '\')" style="padding:5px 10px;background:rgba(248,113,113,0.15);border:1px solid rgba(248,113,113,0.3);border-radius:6px;color:#f87171;font-size:10px;font-weight:700;cursor:pointer;">✕</button>';
                             h += '</div></div>';
                         });
                         container.innerHTML = h;
                     } else {
-                        if (badge) badge.style.display = 'none';
-                        if (bulkBtn) bulkBtn.style.display = 'none';
-                        container.innerHTML = '<div class="admin-empty">Nenhum check-in pendente 🎉</div>';
+                        badge.style.display = 'none';
+                        container.innerHTML = '<div class="admin-empty">Nenhuma conta pendente</div>';
                     }
                 }
-            } catch(e) { container.innerHTML = '<div class="admin-empty">Erro</div>'; }
+            } catch(e) { document.getElementById('profPendingList').innerHTML = '<div class="admin-empty">Erro</div>'; }
         }
 
-        async function profApproveCheckin(rowIndex, cardIdx) {
-            var card = document.getElementById('profCkCard' + cardIdx);
+        async function profApproveAccount(email) {
+            var cardId = 'profAcc_' + email.replace(/[^a-zA-Z0-9]/g,'_');
+            var card = document.getElementById(cardId);
             if (card) card.style.opacity = '0.5';
             try {
-                var data = await secureFetch('approveCheckin', { rowIndex: rowIndex, approvedBy: currentUser.email });
+                var data = await secureFetch('approveAccount', { email: email });
                 if (data.success) {
-                    if (card) { card.style.background = 'rgba(45,138,78,0.1)'; card.innerHTML = '<div class="admin-empty" style="color:#2d8a4e">✅ Aprovado!</div>'; }
-                    setTimeout(loadProfPendingCheckins, 1000);
-                } else { alert(data.message || 'Erro'); if (card) card.style.opacity = '1'; }
-            } catch(e) { alert('Erro'); if (card) card.style.opacity = '1'; }
+                    if (card) { card.style.background = 'rgba(45,138,78,0.1)'; card.innerHTML = '<div class="admin-empty" style="color:#2d8a4e">✅ ' + escapeHtml(email) + ' aprovado!</div>'; }
+                    setTimeout(loadProfPendingAccounts, 1500);
+                    setTimeout(loadProfStudentsList, 2000);
+                } else {
+                    alert(data.message || 'Erro ao aprovar');
+                    if (card) card.style.opacity = '1';
+                }
+            } catch(e) { alert('Erro: ' + e.message); if (card) card.style.opacity = '1'; }
         }
 
-        async function profRejectCheckin(rowIndex, cardIdx) {
-            if (!confirm('Rejeitar este check-in?')) return;
-            var card = document.getElementById('profCkCard' + cardIdx);
+        async function profRejectAccount(email) {
+            if (!confirm('Rejeitar cadastro de ' + email + '?')) return;
+            var cardId = 'profAcc_' + email.replace(/[^a-zA-Z0-9]/g,'_');
+            var card = document.getElementById(cardId);
             if (card) card.style.opacity = '0.5';
             try {
-                var data = await secureFetch('rejectCheckin', { rowIndex: rowIndex });
+                var data = await secureFetch('rejectAccount', { email: email });
                 if (data.success) {
                     if (card) { card.style.background = 'rgba(232,93,93,0.1)'; card.innerHTML = '<div class="admin-empty" style="color:var(--coral)">❌ Rejeitado</div>'; }
-                    setTimeout(loadProfPendingCheckins, 1000);
+                    setTimeout(loadProfPendingAccounts, 1500);
                 } else { alert(data.message || 'Erro'); if (card) card.style.opacity = '1'; }
-            } catch(e) { alert('Erro'); if (card) card.style.opacity = '1'; }
-        }
-
-        async function profBulkApproveCheckins() {
-            if (!confirm('Aprovar todos os ' + _profPendingCheckins.length + ' check-ins pendentes?')) return;
-            var rows = _profPendingCheckins.map(function(ck) { return ck.rowIndex; });
-            try {
-                var data = await secureFetch('bulkApproveCheckins', { rowIndexes: JSON.stringify(rows) });
-                if (data.success) { loadProfPendingCheckins(); }
-                else { alert(data.message || 'Erro'); }
-            } catch(e) { alert('Erro'); }
-        }
-
-        async function loadProfPendingCount() {
-            try {
-                var data = await secureFetch('getPendingAccounts', {});
-                if (data.success && data.accounts) {
-                    var badge = document.getElementById('profPendingBadge');
-                    if (data.accounts.length > 0 && badge) {
-                        badge.textContent = data.accounts.length;
-                        badge.style.display = 'inline-block';
-                        var container = document.getElementById('profPendingList');
-                        if (container) container.innerHTML = '<div class="admin-empty" style="font-size:10px;">⏳ ' + data.accounts.length + ' aluno(s) aguardando aprovação do Administrador do CT.</div>';
-                    }
-                }
-            } catch(e) {}
+            } catch(e) { alert('Erro: ' + e.message); if (card) card.style.opacity = '1'; }
         }
 
         async function loadProfStudentsList() {
@@ -16716,20 +16370,10 @@
                 var data = await secureFetch('getStudentsList', {});
                 if (data.success && data.students) {
                     _profStudentsCache = data.students;
-                    // Populate CT filter
-                    var ctSel = document.getElementById('profStudentCTFilter');
-                    if (ctSel && ctSel.options.length <= 1) {
-                        var ctSet = {};
-                        data.students.forEach(function(s) { if (s.ct) ctSet[s.ct] = true; });
-                        Object.keys(ctSet).sort().forEach(function(ct) {
-                            var opt = document.createElement('option');
-                            opt.value = ct; opt.textContent = '📍 ' + ct;
-                            ctSel.appendChild(opt);
-                        });
-                    }
                     renderProfStudentsList(_profStudentsCache);
                     var badge = document.getElementById('profStudentsBadge');
                     if (badge) { badge.textContent = data.students.length; badge.style.display = 'inline-block'; }
+                    // Update KPIs
                     var kpi = document.getElementById('profKPIs');
                     if (kpi) {
                         kpi.innerHTML = '<div class="admin-stat"><div class="admin-stat-num">' + data.students.length + '</div><div class="admin-stat-label">Alunos</div></div>';
@@ -16755,19 +16399,12 @@
             container.innerHTML = h;
         }
 
-        function filterProfStudentsByCT() {
-            var ctFilter = document.getElementById('profStudentCTFilter').value;
-            var q = (document.getElementById('profStudentSearch').value || '').toLowerCase();
+        function filterProfStudents(q) {
+            q = q.toLowerCase();
             var filtered = _profStudentsCache.filter(function(s) {
-                if (ctFilter && s.ct !== ctFilter) return false;
-                if (q && (s.name||'').toLowerCase().indexOf(q) === -1 && (s.email||'').toLowerCase().indexOf(q) === -1) return false;
-                return true;
+                return (s.name||'').toLowerCase().indexOf(q) !== -1 || (s.email||'').toLowerCase().indexOf(q) !== -1;
             });
             renderProfStudentsList(filtered);
-        }
-
-        function filterProfStudents(q) {
-            filterProfStudentsByCT();
         }
 
         // Professor Presença — reuses same logic as admin but with prof elements
@@ -17268,6 +16905,180 @@
         // ═══════════════════════════════════════════════════
         // REGISTRO DE AULA (PROFESSOR BILLING)
         // ═══════════════════════════════════════════════════
+        async function initAdmAulaForm() {
+            var sel = document.getElementById('admAulaCT');
+            if (!sel) return;
+            try {
+                var data = await secureFetch('getCTsList', {});
+                if (data.success && data.cts) {
+                    var h = '<option value="">Selecione CT</option>';
+                    data.cts.forEach(function(ct) {
+                        var nome = typeof ct === 'string' ? ct : ct.name;
+                        h += '<option value="' + escapeHtml(nome) + '">' + escapeHtml(nome) + '</option>';
+                    });
+                    sel.innerHTML = h;
+                }
+            } catch(e) {}
+            var dt = document.getElementById('admAulaData');
+            if (dt && !dt.value) {
+                var today = new Date();
+                dt.value = today.getFullYear() + '-' + ('0'+(today.getMonth()+1)).slice(-2) + '-' + ('0'+today.getDate()).slice(-2);
+            }
+            loadAdmAulaHistorico();
+        }
+
+        async function saveAdmAula() {
+            var ct = document.getElementById('admAulaCT').value;
+            var data = document.getElementById('admAulaData').value;
+            var horario = document.getElementById('admAulaHorario').value;
+            var valor = document.getElementById('admAulaValor').value;
+            var tipo = document.getElementById('admAulaTipo').value;
+            if (!ct || !data) { showMessage('admAulaMsg', '⚠️ CT e Data obrigatórios', 'danger'); return; }
+            showMessage('admAulaMsg', 'Salvando...', 'info');
+            try {
+                var result = await secureFetch('saveAulaProfessor', {
+                    ct: ct, data: data, horario: horario, valor: valor, tipo: tipo
+                });
+                if (result.success) {
+                    showMessage('admAulaMsg', '✅ Aula registrada!', 'success');
+                    loadAdmAulaHistorico();
+                } else {
+                    showMessage('admAulaMsg', result.message || 'Erro', 'danger');
+                }
+            } catch(e) { showMessage('admAulaMsg', 'Erro: ' + e.message, 'danger'); }
+        }
+
+        async function loadAdmAulaHistorico() {
+            var container = document.getElementById('admAulaHistorico');
+            if (!container) return;
+            try {
+                var data = await secureFetch('getAulasProfessor', {});
+                if (data.success && data.aulas && data.aulas.length > 0) {
+                    var total = 0;
+                    var h = '<div style="font-size:11px;font-weight:700;color:var(--adm-text-2);margin-bottom:6px;">📋 Últimas aulas registradas</div>';
+                    data.aulas.slice(0, 10).forEach(function(a) {
+                        var v = parseFloat((a.valor || '0').replace(',', '.')) || 0;
+                        total += v;
+                        h += '<div style="display:flex;align-items:center;gap:6px;padding:6px 8px;background:var(--adm-bg-elevated);border-radius:6px;margin-bottom:3px;font-size:11px;">';
+                        h += '<div style="flex:1;color:var(--adm-text-1);font-weight:600;">' + escapeHtml(a.data) + ' · ' + escapeHtml(a.horario || '--') + '</div>';
+                        h += '<div style="color:var(--adm-text-3);">' + escapeHtml(a.ct) + '</div>';
+                        h += '<div style="color:var(--adm-primary-bright);font-weight:700;min-width:60px;text-align:right;">R$ ' + v.toFixed(2) + '</div>';
+                        h += '</div>';
+                    });
+                    h += '<div style="text-align:right;font-size:12px;font-weight:800;color:var(--adm-primary-bright);margin-top:6px;">Total: R$ ' + total.toFixed(2) + '</div>';
+                    container.innerHTML = h;
+                } else {
+                    container.innerHTML = '';
+                }
+            } catch(e) { container.innerHTML = ''; }
+        }
+
+        // ═══════════════════════════════════════════════════
+        // ANIVERSARIANTES (ADMIN)
+        // ═══════════════════════════════════════════════════
+        async function loadBirthdays() {
+            var container = document.getElementById('adminBirthdayList');
+            var profContainer = document.getElementById('profBirthdayList');
+            var activeContainer = container || profContainer;
+            if (!activeContainer) return;
+            if (container) container.innerHTML = '<div class="admin-empty">Carregando...</div>';
+            if (profContainer) profContainer.innerHTML = '<div class="admin-empty">Carregando...</div>';
+            try {
+                var data = await secureFetch('getBirthdays', {});
+                if (data.success) {
+                    var list = data.birthdays || [];
+                    var todayCount = list.filter(function(b) { return b.isToday; }).length;
+                    ['adminBirthdayBadge'].forEach(function(id) {
+                        var badge = document.getElementById(id);
+                        if (badge) { if (todayCount > 0) { badge.textContent = todayCount; badge.style.display = 'inline-block'; } else { badge.style.display = 'none'; } }
+                    });
+                    if (list.length === 0) {
+                        var emptyMsg = '<div class="admin-empty">Nenhum aniversariante nos próximos dias</div>';
+                        if (container) container.innerHTML = emptyMsg;
+                        if (profContainer) profContainer.innerHTML = emptyMsg;
+                        return;
+                    }
+                    var h = '';
+                    list.forEach(function(b) {
+                        var isKid = b.idade < 16;
+                        var highlight = b.isToday ? 'background:rgba(255,204,0,0.08);border:1px solid rgba(255,204,0,0.2);' : 'background:var(--adm-bg-elevated);border:1px solid var(--adm-border);';
+                        h += '<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;margin-bottom:4px;' + highlight + '">';
+                        h += '<div style="font-size:24px;">' + (b.isToday ? '🎂' : '🎈') + '</div>';
+                        h += '<div style="flex:1;min-width:0;">';
+                        h += '<div style="font-size:12px;font-weight:700;color:var(--adm-text-1);">' + escapeHtml(b.name) + (isKid ? ' <span style="font-size:9px;background:#6c3ce0;color:#fff;padding:1px 6px;border-radius:4px;">KIDS</span>' : '') + '</div>';
+                        h += '<div style="font-size:10px;color:var(--adm-text-3);">' + escapeHtml(b.data) + ' · ' + b.idade + ' anos' + (b.ct ? ' · ' + escapeHtml(b.ct) : '') + '</div>';
+                        h += '</div>';
+                        if (b.isToday) h += '<div style="font-size:10px;font-weight:800;color:#ffcc00;">HOJE!</div>';
+                        else h += '<div style="font-size:10px;color:var(--adm-text-3);">' + b.diasFalta + 'd</div>';
+                        h += '</div>';
+                    });
+                    if (container) container.innerHTML = h;
+                    if (profContainer) profContainer.innerHTML = h;
+                } else {
+                    var errMsg = '<div class="admin-empty">Erro ao carregar</div>';
+                    if (container) container.innerHTML = errMsg;
+                    if (profContainer) profContainer.innerHTML = errMsg;
+                }
+            } catch(e) {
+                var errMsg2 = '<div class="admin-empty">Erro: ' + e.message + '</div>';
+                if (container) container.innerHTML = errMsg2;
+                if (profContainer) profContainer.innerHTML = errMsg2;
+            }
+        }
+
+        async function loadSystemHealth() {
+            var issuesDiv = document.getElementById('sysHealthIssues');
+            if (issuesDiv) issuesDiv.innerHTML = '<div class="admin-empty">Verificando sistema...</div>';
+            try {
+                var data = await secureFetch('getSystemHealth', {});
+                if (!data.success) return;
+
+                var scoreEl = document.getElementById('sysHealthScore');
+                var circleEl = document.getElementById('sysHealthCircle');
+                var numEl = document.getElementById('sysHealthNum');
+                var labelEl = document.getElementById('sysHealthLabel');
+                var timeEl = document.getElementById('sysHealthTime');
+                if (scoreEl) scoreEl.style.display = 'flex';
+                if (numEl) numEl.textContent = data.healthScore;
+                if (timeEl) timeEl.textContent = 'Verificado: ' + new Date().toLocaleTimeString('pt-BR');
+                if (circleEl) {
+                    circleEl.className = 'sys-health-circle';
+                    if (data.healthScore >= 80) { if(labelEl) labelEl.textContent = '✅ Sistema saudável'; }
+                    else if (data.healthScore >= 50) { circleEl.classList.add('warn'); if(labelEl) labelEl.textContent = '⚠️ Atenção necessária'; }
+                    else { circleEl.classList.add('bad'); if(labelEl) labelEl.textContent = '🔴 Problemas detectados'; }
+                }
+
+                var statsEl = document.getElementById('sysHealthStats');
+                if (statsEl && data.stats) {
+                    statsEl.style.display = 'grid';
+                    statsEl.innerHTML = rptStatCards([
+                        {num: data.stats.totalAlunos||0, label:'Alunos'},
+                        {num: data.stats.totalPresenca||0, label:'Presenças'},
+                        {num: data.stats.totalCTs||0, label:'CTs'},
+                        {num: (data.stats.presencaPendentes||0) + (data.stats.contasPendentes||0) + (data.stats.resetsPendentes||0), label:'Pendências', cls: (data.stats.presencaPendentes||0) > 0 ? 'warn' : ''}
+                    ]);
+                }
+
+                if (issuesDiv) {
+                    if (!data.issues || data.issues.length === 0) {
+                        issuesDiv.innerHTML = '<div class="admin-empty">Nenhum problema encontrado! 🎉</div>';
+                    } else {
+                        var icons = {error:'🔴', warning:'🟡', info:'ℹ️'};
+                        var ih = '';
+                        data.issues.forEach(function(issue) {
+                            ih += '<div class="sys-issue ' + issue.type + '"><div class="sys-issue-icon">' + (icons[issue.type]||'ℹ️') + '</div><div><span class="sys-issue-area">[' + issue.area + ']</span> ' + issue.msg + '</div></div>';
+                        });
+                        issuesDiv.innerHTML = ih;
+                    }
+                }
+            } catch(e) {
+                if (issuesDiv) issuesDiv.innerHTML = '<div class="admin-empty" style="color:#f87171;">Erro: ' + (e.message||'falha na verificação') + '</div>';
+            }
+        }
+
+                // --- CT SCHEDULE MANAGEMENT ---
+        var ctScheduleCache = {};
+
         async function loadCTScheduleAdmin() {
             var container = document.getElementById('adminCTScheduleList');
             container.innerHTML = '<div class="admin-empty">Carregando...</div>';
@@ -17286,17 +17097,15 @@
                         var schedule = (typeof ct === 'object' && ct.schedule) ? ct.schedule : {};
                         var hpd = ct.horariosPorDia || {};
                         ctScheduleCache[ctName] = JSON.parse(JSON.stringify(schedule));
-                        var _isSA = currentUser && !currentUser.grupo;
 
                         html += '<div class="ct-schedule-card" id="ctSched_' + i + '">';
                         html += '<div class="ct-schedule-header">';
                         html += '<div class="ct-schedule-name">📍 ' + ctName + '</div>';
-                        if (_isSA) html += '<button onclick="deleteCT(\'' + ctName.replace(/'/g, "\\'") + '\')" style="padding:4px 8px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.2);border-radius:6px;color:#f87171;font-size:9px;font-weight:700;cursor:pointer;">🗑 Excluir</button>';
+                        html += '<button onclick="deleteCT(\'' + ctName.replace(/'/g, "\\'") + '\')" style="padding:4px 8px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.2);border-radius:6px;color:#f87171;font-size:9px;font-weight:700;cursor:pointer;">🗑 Excluir</button>';
                         html += '<span class="ct-schedule-status saved" id="ctSchedStatus_' + i + '">salvo</span>';
                         html += '</div>';
 
-                      if (_isSA) {
-                        // ===== PLANO DO CT (super admin only) =====
+                        // ===== PLANO DO CT =====
                         var ctPlano = ct.plano ? ct.plano.toLowerCase() : 'basico';
                         var planColors = { demo:'#64748b', basico:'#22c55e', profissional:'#3b82f6', avancado:'#a855f7', elite:'#fbbf24' };
                         var planLabels = { demo:'Demo', basico:'Básico', profissional:'Profissional', avancado:'Avançado', elite:'Elite' };
@@ -17333,15 +17142,6 @@
                         html += '<input type="date" id="ctExpDate_' + i + '" value="' + ctExpDate + '" oninput="markCTUnsaved(' + i + ')" style="width:100%;padding:6px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:11px;">';
                         html += '</div></div>';
                         html += '</div>';
-
-                        // ===== GRUPO (REDE/CLIENTE) =====
-                        var ctGrupo = ct.grupo || '';
-                        html += '<div style="padding:0 12px 8px;">';
-                        html += '<label style="font-size:10px;color:var(--adm-text-3);display:block;margin-bottom:4px;font-weight:700;">🏷️ Grupo / Rede (isola clientes)</label>';
-                        html += '<input type="text" id="ctGrupo_' + i + '" value="' + escapeHtml(ctGrupo) + '" placeholder="Ex: Alliance Serginho" oninput="markCTUnsaved(' + i + ')" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">';
-                        html += '<div style="font-size:8px;color:var(--adm-text-3);margin-top:2px;">CTs com o mesmo grupo compartilham alunos e dados.</div>';
-                        html += '</div>';
-                      } // end _isSA (super admin only)
 
                         // ===== SIMPLE DAY ROWS =====
                         html += '<div class="ct-detail-field"><label>📅 Horários de Aula</label></div>';
@@ -17562,8 +17362,7 @@
                     telefone: (document.getElementById('ctDet_tel_' + cardIdx) || {}).value || '',
                     plano: _ctPlanSelections[ctName] || '',
                     statusLicenca: _ctLicSelections[ctName] || '',
-                    dataExpiracao: (document.getElementById('ctExpDate_' + cardIdx) || {}).value || '',
-                    grupo: (document.getElementById('ctGrupo_' + cardIdx) || {}).value || ''
+                    dataExpiracao: (document.getElementById('ctExpDate_' + cardIdx) || {}).value || ''
                 };
 
                 details.token = getSessionToken();
@@ -17593,16 +17392,6 @@
                 var data = await secureFetch('getStudentsList', {});
                 if (data.success && data.students) {
                     adminStudentsCache = data.students;
-                    // Populate CT filter dropdown
-                    var ctSel = document.getElementById('adminStudentCTFilter');
-                    if (ctSel) {
-                        var ctSet = {};
-                        data.students.forEach(function(s) { if (s.ct) ctSet[s.ct] = true; });
-                        ctSel.innerHTML = '<option value="">📍 Todos os CTs</option>';
-                        Object.keys(ctSet).sort().forEach(function(ct) {
-                            ctSel.innerHTML += '<option value="' + escapeHtml(ct) + '">📍 ' + escapeHtml(ct) + '</option>';
-                        });
-                    }
                     renderStudentsList(adminStudentsCache);
                     var badge = document.getElementById('adminStudentsBadge');
                     badge.textContent = data.students.length;
@@ -17762,9 +17551,6 @@
 
             // Core fields
             document.getElementById('stuName').value = s.name || '';
-            document.getElementById('stuFaixa').innerHTML = '';
-            renderFaixaOptions('stuFaixa');
-            renderFaixaOptions('gradFaixa');
             document.getElementById('stuFaixa').value = s.faixa || 'Branca';
             updateGrauOptions('stuFaixa', 'stuGrau');
             document.getElementById('stuGrau').value = s.grau || '0';
@@ -17978,13 +17764,9 @@
 
         function filterStudentsList() {
             var q = (document.getElementById('adminStudentSearch').value || '').toLowerCase();
-            var ctFilter = '';
-            var ctSel = document.getElementById('adminStudentCTFilter');
-            if (ctSel) ctFilter = ctSel.value;
+            if (!q) { renderStudentsList(adminStudentsCache); return; }
             var filtered = adminStudentsCache.filter(function(s) {
-                if (ctFilter && s.ct !== ctFilter) return false;
-                if (q && (s.name || '').toLowerCase().indexOf(q) === -1 && (s.email || '').toLowerCase().indexOf(q) === -1) return false;
-                return true;
+                return ((s.name || '').toLowerCase().indexOf(q) !== -1) || ((s.email || '').toLowerCase().indexOf(q) !== -1);
             });
             renderStudentsList(filtered);
         }
@@ -18223,19 +18005,16 @@
             var initial = (ck.name || '?').charAt(0).toUpperCase();
             var dataStr = ck.dataFormatada || '-';
             var rowIndex = ck.rowIndex || 0;
-            var retroBadge = ck.isRetro ? ' <span style="font-size:8px;background:rgba(251,191,36,0.15);color:#fbbf24;padding:1px 6px;border-radius:4px;font-weight:700;">RETROATIVO</span>' : '';
-            var justLine = ck.isRetro && ck.justificativa ? '<div style="font-size:10px;color:var(--adm-text-3);padding:2px 0;font-style:italic;">💬 "' + escapeHtml(ck.justificativa) + '"</div>' : '';
             return '<div class="admin-card" id="ckCard' + idx + '">' +
                 '<div class="admin-card-top">' +
                     '<div class="admin-card-avatar">' + initial + '</div>' +
                     '<div class="admin-card-info">' +
-                        '<div class="admin-card-name">' + escapeHtml(ck.name || '-') + retroBadge + '</div>' +
-                        '<div class="admin-card-meta">' + escapeHtml(ck.email || '') + '</div>' +
+                        '<div class="admin-card-name">' + (ck.name || '-') + '</div>' +
+                        '<div class="admin-card-meta">' + (ck.email || '') + '</div>' +
                     '</div>' +
                     '<span class="admin-checkin-status pendente">pendente</span>' +
                 '</div>' +
-                '<div class="admin-card-detail">📍 ' + escapeHtml(ck.ct || '-') + ' · ⏰ ' + (ck.hora || ck.horario || '-') + ' · 📅 ' + dataStr + '</div>' +
-                justLine +
+                '<div class="admin-card-detail">📍 ' + (ck.ct || '-') + ' · ⏰ ' + (ck.hora || '-') + ' · 📅 ' + dataStr + '</div>' +
                 '<div class="admin-card-actions">' +
                     '<button class="admin-btn approve" onclick="approveCheckin(' + rowIndex + ',' + idx + ')">✓ Aprovar</button>' +
                     '<button class="admin-btn reject" onclick="rejectCheckin(' + rowIndex + ',' + idx + ')">✕ Rejeitar</button>' +
