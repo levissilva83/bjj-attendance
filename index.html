@@ -6549,6 +6549,19 @@
                         </div>
                     </div>
 
+                    <!-- Alertas de Graduação -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">🎯 Prontos para Graduar <span class="admin-badge" id="adminGradAlertBadge" style="display:none">0</span></div>
+                            <button class="admin-refresh-btn" onclick="loadGradAlerts()">↻</button>
+                        </div>
+                        <div id="adminGradAlertList"><div class="admin-empty">Carregando...</div></div>
+                        <div style="margin-top:6px;">
+                            <div class="admin-section-title" style="font-size:11px;opacity:0.7;">⚡ Próximos (80-99%)</div>
+                            <div id="adminGradNearList"><div class="admin-empty" style="font-size:11px;">—</div></div>
+                        </div>
+                    </div>
+
                     <!-- Exam Schedule Management -->
                     <div class="admin-section">
                         <div class="admin-section-header">
@@ -6608,86 +6621,85 @@
                         </div>
                     </div>
 
-                    <!-- Cronograma de Aulas -->
+                    <!-- Cronograma de Aulas — Agenda -->
                     <div class="admin-section">
                         <div class="admin-section-header">
                             <div class="admin-section-title">📚 Cronograma de Aulas</div>
-                            <button class="admin-refresh-btn" onclick="loadAdminCronograma()">↻</button>
+                            <div style="display:flex;gap:6px;">
+                                <button class="admin-refresh-btn" onclick="loadAdminCronograma()">↻</button>
+                                <button onclick="openCronoNewAulaPanel()" style="padding:4px 10px;border-radius:6px;background:var(--adm-primary);color:#000;border:none;font-size:11px;font-weight:700;cursor:pointer;">+ Aula</button>
+                            </div>
                         </div>
-                        <div style="padding:12px;">
-                            <!-- CTs (multi-select) -->
-                            <div style="margin-bottom:8px;">
-                                <label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">CTs <span style="font-weight:400;opacity:0.7;">(selecione um ou mais)</span></label>
-                                <div id="cronoAdmCTChips" style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;"></div>
-                            </div>
-                            <!-- Calendar picker -->
-                            <div style="background:var(--adm-bg-card);border:1px solid var(--adm-border);border-radius:12px;padding:10px;margin-bottom:8px;">
-                                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-                                    <button onclick="admCronoCalNav(-1)" style="width:28px;height:28px;border-radius:6px;border:1px solid var(--adm-border);background:var(--adm-bg-elevated);color:var(--adm-text-2);font-size:11px;cursor:pointer;">◀</button>
-                                    <div id="admCronoCalMonth" style="font-size:13px;font-weight:800;color:var(--adm-text-1);font-family:'Sora',sans-serif;"></div>
-                                    <button onclick="admCronoCalNav(1)" style="width:28px;height:28px;border-radius:6px;border:1px solid var(--adm-border);background:var(--adm-bg-elevated);color:var(--adm-text-2);font-size:11px;cursor:pointer;">▶</button>
-                                </div>
-                                <div style="display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:4px;">
-                                    <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding:3px 0;">S</div>
-                                    <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding:3px 0;">T</div>
-                                    <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding:3px 0;">Q</div>
-                                    <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding:3px 0;">Q</div>
-                                    <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding:3px 0;">S</div>
-                                    <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding:3px 0;">S</div>
-                                    <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding:3px 0;">D</div>
-                                </div>
-                                <div id="admCronoCalGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;"></div>
-                            </div>
-                            <!-- Selected dates chips -->
-                            <div id="admCronoSelectedDates" style="display:none;margin-bottom:8px;"></div>
-                            <!-- Horário + Tema -->
-                            <div style="display:grid;grid-template-columns:100px 1fr;gap:6px;margin-bottom:6px;">
-                                <div>
-                                    <label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Horário</label>
-                                    <input type="time" id="cronoAdmHorario" style="width:100%;padding:8px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
-                                </div>
-                                <div>
-                                    <label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Tema</label>
-                                    <input type="text" id="cronoAdmTema" placeholder="Ex: Guarda De La Riva" style="width:100%;padding:8px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
-                                </div>
-                            </div>
-                            <div style="margin-bottom:8px;">
-                                <label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Descrição</label>
-                                <textarea id="cronoAdmDesc" placeholder="Detalhes da aula..." rows="2" style="width:100%;padding:8px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;resize:vertical;"></textarea>
-                            </div>
-                            <button onclick="saveCronogramaAula()" id="cronoAdmSaveBtn" style="width:100%;padding:10px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;">📚 Salvar Aula</button>
-                            <div id="cronoAdmMsg" style="margin-top:6px;"></div>
+
+                        <!-- Filtro de CT -->
+                        <div style="padding:0 12px 8px;">
+                            <div style="font-size:10px;color:var(--adm-text-3);font-weight:600;margin-bottom:4px;">Filtrar por CT</div>
+                            <div id="cronoAdmCTChips" style="display:flex;flex-wrap:wrap;gap:4px;"></div>
                         </div>
-                        <!-- Aulas cadastradas -->
-                        <div style="padding:0 12px 12px;">
-                            <div style="font-size:11px;color:var(--adm-text-3);margin-bottom:6px;font-weight:600;">📋 Aulas Cadastradas</div>
-                            <div id="cronoAdmList"><div class="admin-empty">Nenhuma aula cadastrada</div></div>
+
+                        <!-- Navegação de mês -->
+                        <div style="padding:0 12px 8px;display:flex;align-items:center;justify-content:space-between;">
+                            <button onclick="admCronoCalNav(-1)" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--adm-border);background:var(--adm-bg-elevated);color:var(--adm-text-2);font-size:14px;cursor:pointer;">◀</button>
+                            <div id="admCronoCalMonth" style="font-size:14px;font-weight:800;color:var(--adm-text-1);font-family:'Sora',sans-serif;"></div>
+                            <button onclick="admCronoCalNav(1)" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--adm-border);background:var(--adm-bg-elevated);color:var(--adm-text-2);font-size:14px;cursor:pointer;">▶</button>
+                        </div>
+
+                        <!-- Calendário mini -->
+                        <div style="padding:0 12px 8px;background:var(--adm-bg-card);margin:0 12px;border:1px solid var(--adm-border);border-radius:12px;padding:10px;">
+                            <div style="display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:4px;">
+                                <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding:3px 0;">S</div>
+                                <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding:3px 0;">T</div>
+                                <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding:3px 0;">Q</div>
+                                <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding:3px 0;">Q</div>
+                                <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding:3px 0;">S</div>
+                                <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding:3px 0;">S</div>
+                                <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding:3px 0;">D</div>
+                            </div>
+                            <div id="admCronoCalGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;"></div>
+                        </div>
+
+                        <!-- Dias selecionados (chips) -->
+                        <div id="admCronoSelectedDates" style="display:none;padding:8px 12px;"></div>
+
+                        <!-- Agenda: lista de aulas do mês agrupada por dia -->
+                        <div style="padding:8px 12px 12px;" id="cronoAgendaList">
+                            <div class="admin-empty">Nenhuma aula cadastrada</div>
                         </div>
                     </div>
 
-                    <!-- Edit Aula Modal -->
-                    <div id="cronoEditModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:rgba(0,0,0,0.7);align-items:center;justify-content:center;padding:16px;">
-                        <div style="background:var(--adm-bg-card);border:1px solid var(--adm-border);border-radius:16px;width:100%;max-width:400px;padding:16px;max-height:80vh;overflow-y:auto;">
-                            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-                                <div style="font-size:14px;font-weight:800;color:var(--adm-text-1);">✏️ Editar Aula</div>
-                                <button onclick="closeCronoEditModal()" style="width:28px;height:28px;border-radius:50%;background:var(--adm-bg-elevated);color:var(--adm-text-2);border:1px solid var(--adm-border);cursor:pointer;font-size:13px;">✕</button>
-                            </div>
-                            <div style="font-size:10px;color:var(--adm-text-3);margin-bottom:8px;" id="cronoEditInfo"></div>
-                            <div style="margin-bottom:6px;">
-                                <label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Horário</label>
-                                <input type="time" id="cronoEditHorario" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
-                            </div>
-                            <div style="margin-bottom:6px;">
-                                <label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Tema</label>
-                                <input type="text" id="cronoEditTema" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
-                            </div>
-                            <div style="margin-bottom:8px;">
-                                <label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Descrição</label>
-                                <textarea id="cronoEditDesc" rows="3" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;resize:vertical;"></textarea>
-                            </div>
-                            <button onclick="saveEditCronoAula()" style="width:100%;padding:10px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;">💾 Salvar Alterações</button>
-                            <div id="cronoEditMsg" style="margin-top:6px;"></div>
+                    <!-- Painel Nova Aula (slide-in) -->
+                    <div id="cronoNewAulaPanel" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9000;background:var(--adm-bg-card);border-top:1px solid var(--adm-border);border-radius:16px 16px 0 0;padding:16px;max-height:90vh;overflow-y:auto;box-shadow:0 -8px 32px rgba(0,0,0,0.4);">
+                        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                            <div style="font-size:14px;font-weight:800;color:var(--adm-text-1);">📚 Nova Aula</div>
+                            <button onclick="closeCronoNewAulaPanel()" style="width:28px;height:28px;border-radius:50%;background:var(--adm-bg-elevated);color:var(--adm-text-2);border:1px solid var(--adm-border);cursor:pointer;font-size:14px;">✕</button>
                         </div>
+                        <!-- CTs (multi) -->
+                        <div style="margin-bottom:8px;">
+                            <label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">CTs <span style="opacity:0.6;">(selecione um ou mais)</span></label>
+                            <div id="cronoNewCTChips" style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;"></div>
+                        </div>
+                        <!-- Datas selecionadas no calendário -->
+                        <div style="margin-bottom:8px;">
+                            <label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Datas selecionadas no calendário</label>
+                            <div id="cronoNewDatesChips" style="margin-top:4px;font-size:11px;color:var(--adm-primary);font-weight:600;"></div>
+                        </div>
+                        <!-- Horário + Tema -->
+                        <div style="display:grid;grid-template-columns:100px 1fr;gap:6px;margin-bottom:6px;">
+                            <div>
+                                <label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Horário</label>
+                                <input type="time" id="cronoAdmHorario" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                            </div>
+                            <div>
+                                <label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Tema</label>
+                                <input type="text" id="cronoAdmTema" placeholder="Ex: Guarda De La Riva" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                            </div>
+                        </div>
+                        <div style="margin-bottom:8px;">
+                            <label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Descrição</label>
+                            <textarea id="cronoAdmDesc" placeholder="Detalhes da aula..." rows="2" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;resize:vertical;"></textarea>
+                        </div>
+                        <button onclick="saveCronogramaAula()" id="cronoAdmSaveBtn" style="width:100%;padding:12px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;">📚 Salvar Aula(s)</button>
+                        <div id="cronoAdmMsg" style="margin-top:6px;"></div>
                     </div>
                     <!-- Aniversariantes -->
                     <div class="admin-section">
@@ -7706,7 +7718,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwb7IaVGJWVZZggVR4Bt6jA0_90iIf0b-xo-HfBktFd0RQqUqW6qOIymkpxLuB6gwSe/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzbJdwAcdUx5tSv0e_miIeuwQF0czsnpMy94QQS3GExXrZn3DAi6TIPbUP-lGZGpEo/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -7783,6 +7795,8 @@
                     loadAttendanceInfo();
                     loadCTs();
                     checkMotivation(currentUser);
+                    // Verifica aniversariantes do dia (notifica todos os alunos)
+                    checkAllBirthdaysToday();
                     // Restore avatar immediately from localStorage
                     loadAvatarFromData(null);
                     // Carregar perfil do cache e atualizar do backend
@@ -7823,6 +7837,8 @@
                     loadCTs();
                     checkMotivation(currentUser);
                     fetchProfileFromBackend();
+                    // Verifica aniversariantes do dia (notifica todos os alunos)
+                    checkAllBirthdaysToday();
                 } else {
                     showMessage('loginMessage', data.message || 'Erro ao fazer login', 'danger');
                 }
@@ -9415,11 +9431,11 @@
 
                     let cls = 'locked', icon = '🔒', lbl = '', prog = '';
                     if (i <= grauAtual) {
-                        // Grau already registered in profile = conquered
+                        // Grau registered by professor = conquered
                         cls = 'unlocked'; icon = '⭐'; lbl = 'unlocked'; prog = '✅ Conquistado';
                     } else if (hasEnoughTreinos) {
-                        // Has enough classes but grau not yet registered
-                        cls = 'current-target'; icon = '✅'; lbl = 'current-target'; prog = '🎉 Apto!';
+                        // Reached minimum classes — but only professor can unlock
+                        cls = 'current-target'; icon = '🎯'; lbl = 'current-target'; prog = '✅ Apto — aguardando professor';
                     } else {
                         // Locked: not enough classes
                         var progress = Math.min(totalTreinos, min);
@@ -12400,6 +12416,7 @@
             loadPendingAccounts();
             loadPendingResets();
             loadPendingGraduacoes();
+            loadGradAlerts();
             loadPendingCheckins();
             loadAdminExamSchedule();
             loadAdminRanking();
@@ -14076,164 +14093,233 @@
         }
 
         function toggleAdmCronoDate(dateStr) {
-            var idx = _admCronoSelectedDates.indexOf(dateStr);
-            if (idx !== -1) _admCronoSelectedDates.splice(idx, 1);
-            else _admCronoSelectedDates.push(dateStr);
-            _admCronoSelectedDates.sort();
-            renderAdmCronoCal();
+            if (_cronoNewAulaMode) {
+                // Modo nova aula: acumula datas para cadastro em lote
+                var idx = _admCronoSelectedDates.indexOf(dateStr);
+                if (idx !== -1) _admCronoSelectedDates.splice(idx, 1);
+                else _admCronoSelectedDates.push(dateStr);
+                _admCronoSelectedDates.sort();
+                renderAdmCronoCal();
+                openCronoNewAulaPanel(); // atualiza chips
+            } else {
+                // Modo agenda: single-select, mostra aulas do dia
+                if (_admCronoSelectedDates.length === 1 && _admCronoSelectedDates[0] === dateStr) {
+                    _admCronoSelectedDates = [];
+                } else {
+                    _admCronoSelectedDates = [dateStr];
+                }
+                renderAdmCronoCal();
+                renderCronoAgenda();
+                var agendaEl = document.getElementById('cronoAgendaList');
+                if (agendaEl && _admCronoSelectedDates.length > 0) {
+                    setTimeout(function() { agendaEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 100);
+                }
+            }
         }
 
         function renderAdmSelectedDates() {
+            // No modo agenda, não exibimos os chips de datas — a agenda já mostra o dia selecionado
             var el = document.getElementById('admCronoSelectedDates');
-            if (!el) return;
-            if (_admCronoSelectedDates.length === 0) { el.style.display = 'none'; return; }
-            el.style.display = 'block';
-            var dayNames = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
-            var h = '<div style="font-size:10px;font-weight:700;color:var(--adm-primary);margin-bottom:4px;">📅 ' + _admCronoSelectedDates.length + ' dia(s) selecionado(s)</div>';
-            h += '<div style="display:flex;flex-wrap:wrap;gap:3px;">';
-            _admCronoSelectedDates.forEach(function(ds) {
-                var label = ds;
-                try { var p = ds.split('-'); var dt = new Date(parseInt(p[0]), parseInt(p[1]) - 1, parseInt(p[2])); label = dayNames[dt.getDay()] + ' ' + p[2] + '/' + p[1]; } catch(x) {}
-                h += '<span style="padding:3px 8px;background:rgba(212,165,41,0.1);border:1px solid rgba(212,165,41,0.2);border-radius:6px;font-size:10px;color:var(--adm-primary-bright);font-weight:600;display:flex;align-items:center;gap:3px;">' + label;
-                h += '<span onclick="event.stopPropagation();removeAdmCronoDate(\'' + ds + '\')" style="cursor:pointer;opacity:0.6;font-size:8px;">✕</span></span>';
-            });
-            h += '</div>';
-            el.innerHTML = h;
+            if (el) el.style.display = 'none';
         }
 
-        function removeAdmCronoDate(dateStr) {
-            var idx = _admCronoSelectedDates.indexOf(dateStr);
-            if (idx !== -1) _admCronoSelectedDates.splice(idx, 1);
-            renderAdmCronoCal();
-        }
-
-        function renderAdminCronoList() {
-            var el = document.getElementById('cronoAdmList');
-            if (!el) return;
-            if (_admCronoAulas.length === 0) { el.innerHTML = '<div class="admin-empty">Nenhuma aula cadastrada</div>'; _admCronoSeries = []; return; }
-            // Group by tema
-            var series = {};
-            _admCronoAulas.forEach(function(a) {
-                var key = (a.tema || '').trim();
-                if (!series[key]) series[key] = { tema: a.tema, descricao: a.descricao, cts: {}, aulas: [], key: key };
-                series[key].cts[a.ct] = true;
-                series[key].aulas.push(a);
-            });
-            var seriesArr = Object.keys(series).map(function(k) { return series[k]; });
-            seriesArr.sort(function(a, b) { var ad = a.aulas[0] ? a.aulas[0].data : ''; var bd = b.aulas[0] ? b.aulas[0].data : ''; return ad > bd ? -1 : ad < bd ? 1 : 0; });
-            _admCronoSeries = seriesArr;
-            var h = '';
-            seriesArr.forEach(function(s, sIdx) {
-                var count = s.aulas.length;
-                var ctNames = Object.keys(s.cts).join(', ');
-                var sorted = s.aulas.slice().sort(function(a, b) { return a.data < b.data ? -1 : 1; });
-                var first = '', last = '';
-                try { var p1 = sorted[0].data.split('-'); first = p1[2] + '/' + p1[1]; } catch(x) {}
-                try { var p2 = sorted[sorted.length - 1].data.split('-'); last = p2[2] + '/' + p2[1]; } catch(x) {}
-                var dateRange = count === 1 ? first : first + ' → ' + last;
-                h += '<div style="background:var(--adm-bg-elevated);border:1px solid var(--adm-border);border-radius:10px;margin-bottom:6px;overflow:hidden;">';
-                // Header (clickable to expand)
-                h += '<div onclick="toggleCronoSerieExpand(' + sIdx + ')" style="display:flex;align-items:center;gap:8px;padding:10px;cursor:pointer;">';
-                h += '<div style="flex:1;min-width:0;">';
-                h += '<div style="font-size:13px;font-weight:800;color:var(--adm-text-1);">' + escapeHtml(s.tema) + '</div>';
-                h += '<div style="font-size:10px;color:var(--adm-text-3);">' + escapeHtml(ctNames) + ' · ' + dateRange + ' · <strong style="color:var(--adm-primary);">' + count + ' aula' + (count !== 1 ? 's' : '') + '</strong></div>';
-                h += '</div>';
-                h += '<span id="cronoSerieArrow_' + sIdx + '" style="font-size:10px;color:var(--adm-text-3);transition:transform 0.2s;">▼</span>';
-                h += '<button onclick="event.stopPropagation();deleteCronoSerie(' + sIdx + ')" style="width:24px;height:24px;border-radius:50%;background:rgba(248,113,113,0.12);color:#f87171;border:none;font-size:11px;cursor:pointer;flex-shrink:0;">✕</button>';
-                h += '</div>';
-                // Expandable aula list
-                h += '<div id="cronoSerieBody_' + sIdx + '" style="display:none;border-top:1px solid var(--adm-border);padding:6px 10px 10px;">';
-                sorted.forEach(function(a) {
-                    var dayNames = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
-                    var dLabel = a.data;
-                    try { var pp = a.data.split('-'); var dd = new Date(parseInt(pp[0]), parseInt(pp[1]) - 1, parseInt(pp[2])); dLabel = dayNames[dd.getDay()] + ' ' + pp[2] + '/' + pp[1]; } catch(x) {}
-                    h += '<div style="display:flex;align-items:center;gap:6px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);">';
-                    h += '<div style="flex:1;min-width:0;">';
-                    h += '<div style="font-size:11px;font-weight:700;color:var(--adm-text-1);">' + dLabel + (a.horario ? ' <span style="color:var(--adm-primary);font-weight:600;">· ' + a.horario + '</span>' : '') + '</div>';
-                    h += '<div style="font-size:10px;color:var(--adm-text-3);">' + escapeHtml(a.ct) + (a.descricao ? ' · ' + escapeHtml(a.descricao).substring(0, 50) : '') + '</div>';
-                    h += '</div>';
-                    h += '<button onclick="openCronoEditModal(' + a.rowIndex + ')" style="width:26px;height:26px;border-radius:6px;background:rgba(56,189,248,0.1);color:#38bdf8;border:none;font-size:11px;cursor:pointer;" title="Editar">✏️</button>';
-                    h += '<button onclick="deleteCronogramaAula(' + a.rowIndex + ')" style="width:26px;height:26px;border-radius:6px;background:rgba(248,113,113,0.1);color:#f87171;border:none;font-size:11px;cursor:pointer;" title="Remover">✕</button>';
-                    h += '</div>';
-                });
-                h += '</div></div>';
-            });
-            el.innerHTML = h;
-        }
-
-        function toggleCronoSerieExpand(sIdx) {
-            var body = document.getElementById('cronoSerieBody_' + sIdx);
-            var arrow = document.getElementById('cronoSerieArrow_' + sIdx);
-            if (!body) return;
-            var isOpen = body.style.display !== 'none';
-            body.style.display = isOpen ? 'none' : 'block';
-            if (arrow) arrow.style.transform = isOpen ? '' : 'rotate(180deg)';
-        }
+        // ===== CRONOGRAMA AGENDA — renderização e edição inline =====
 
         var _cronoEditRowIndex = null;
 
-        function openCronoEditModal(rowIndex) {
-            _cronoEditRowIndex = rowIndex;
-            var aula = _admCronoAulas.find(function(a) { return a.rowIndex === rowIndex; });
-            if (!aula) return;
-            var dayNames = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
-            var dLabel = aula.data;
-            try { var pp = aula.data.split('-'); var dd = new Date(parseInt(pp[0]), parseInt(pp[1]) - 1, parseInt(pp[2])); dLabel = dayNames[dd.getDay()] + ', ' + pp[2] + '/' + pp[1] + '/' + pp[0]; } catch(x) {}
-            document.getElementById('cronoEditInfo').textContent = dLabel + ' · ' + aula.ct;
-            document.getElementById('cronoEditHorario').value = aula.horario || '';
-            document.getElementById('cronoEditTema').value = aula.tema || '';
-            document.getElementById('cronoEditDesc').value = aula.descricao || '';
-            document.getElementById('cronoEditMsg').innerHTML = '';
-            var modal = document.getElementById('cronoEditModal');
-            modal.style.display = 'flex';
-        }
-
-        function closeCronoEditModal() {
-            document.getElementById('cronoEditModal').style.display = 'none';
-            _cronoEditRowIndex = null;
-        }
-
-        async function saveEditCronoAula() {
-            if (!_cronoEditRowIndex) return;
-            var aula = _admCronoAulas.find(function(a) { return a.rowIndex === _cronoEditRowIndex; });
-            if (!aula) return;
-            var horario = document.getElementById('cronoEditHorario').value || '';
-            var tema = document.getElementById('cronoEditTema').value || '';
-            var descricao = document.getElementById('cronoEditDesc').value || '';
-            if (!tema) { showMessage('cronoEditMsg', 'Tema é obrigatório', 'danger'); return; }
-            showMessage('cronoEditMsg', 'Salvando...', 'info');
-            try {
-                var result = await secureFetch('saveCronogramaAula', {
-                    rowIndex: _cronoEditRowIndex,
-                    data: aula.data,
-                    ct: aula.ct,
-                    horario: horario,
-                    tema: tema,
-                    descricao: descricao
+        function openCronoNewAulaPanel() {
+            // Sync CTs chips
+            var el = document.getElementById('cronoNewCTChips');
+            if (el) {
+                el.innerHTML = '';
+                (allCTs || []).forEach(function(ct) {
+                    var name = typeof ct === 'string' ? ct : ct.name || ct.toString();
+                    var isSelected = _admCronoSelectedCTs.indexOf(name) !== -1;
+                    var btn = document.createElement('button');
+                    btn.style.cssText = 'padding:6px 12px;border-radius:8px;font-size:11px;font-weight:' + (isSelected ? '800' : '600') + ';cursor:pointer;border:1px solid ' + (isSelected ? 'var(--adm-primary)' : 'var(--adm-border)') + ';background:' + (isSelected ? 'var(--adm-primary)' : 'var(--adm-bg-elevated)') + ';color:' + (isSelected ? '#000' : 'var(--adm-text-2)') + ';';
+                    btn.textContent = (isSelected ? '✓ ' : '') + name;
+                    btn.addEventListener('click', function() {
+                        var idx = _admCronoSelectedCTs.indexOf(name);
+                        if (idx !== -1) _admCronoSelectedCTs.splice(idx, 1); else _admCronoSelectedCTs.push(name);
+                        openCronoNewAulaPanel();
+                    });
+                    el.appendChild(btn);
                 });
-                if (result.success) {
-                    closeCronoEditModal();
-                    loadAdminCronograma();
-                } else { showMessage('cronoEditMsg', result.message, 'danger'); }
-            } catch(e) { showMessage('cronoEditMsg', 'Erro: ' + e.message, 'danger'); }
+            }
+            // Datas selecionadas
+            var datesEl = document.getElementById('cronoNewDatesChips');
+            if (datesEl) {
+                if (_admCronoSelectedDates.length === 0) {
+                    datesEl.innerHTML = '<span style="font-size:11px;color:var(--adm-text-3);">⚠️ Toque nas datas do calendário para selecionar</span>';
+                } else {
+                    var dayNames = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+                    var chips = _admCronoSelectedDates.map(function(ds) {
+                        var label = ds;
+                        try { var p = ds.split('-'); var d = new Date(parseInt(p[0]),parseInt(p[1])-1,parseInt(p[2])); label = dayNames[d.getDay()] + ' ' + p[2] + '/' + p[1]; } catch(x) {}
+                        return '<span style="padding:3px 9px;background:rgba(212,165,41,0.12);border:1px solid rgba(212,165,41,0.25);border-radius:6px;font-size:11px;color:var(--adm-primary);font-weight:700;">' + label + '</span>';
+                    }).join(' ');
+                    datesEl.innerHTML = chips;
+                }
+            }
+            document.getElementById('cronoNewAulaPanel').style.display = 'block';
         }
+
+        function closeCronoNewAulaPanel() {
+            document.getElementById('cronoNewAulaPanel').style.display = 'none';
+            _cronoNewAulaMode = false;
+            // Voltar ao modo agenda: manter só 1 data (a última selecionada)
+            if (_admCronoSelectedDates.length > 1) {
+                _admCronoSelectedDates = [_admCronoSelectedDates[0]];
+                renderAdmCronoCal();
+                renderCronoAgenda();
+            }
+        }
+
+        function renderAdminCronoList() {
+            renderCronoAgenda();
+        }
+
+        function renderCronoAgenda() {
+            var el = document.getElementById('cronoAgendaList');
+            if (!el) return;
+
+            // Se nenhum dia selecionado, instrução
+            if (_admCronoSelectedDates.length === 0) {
+                el.innerHTML = '<div class="admin-empty" style="padding:16px 0;color:var(--adm-text-3);">👆 Toque em uma data no calendário para ver as aulas</div>';
+                return;
+            }
+
+            // Mostrar apenas o primeiro dia selecionado (agenda-style)
+            var dateStr = _admCronoSelectedDates[0];
+
+            // Filtrar aulas do dia
+            var ctFilter = _admCronoSelectedCTs.length > 0 ? _admCronoSelectedCTs : null;
+            var aulas = _admCronoAulas.filter(function(a) {
+                if (a.data !== dateStr) return false;
+                if (ctFilter && ctFilter.indexOf(a.ct) === -1) return false;
+                return true;
+            });
+            aulas.sort(function(a,b){ return (a.horario||'') < (b.horario||'') ? -1 : 1; });
+
+            // Label do dia — parse manual para evitar bug de fuso
+            var dayNames = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+            var dayLabel = dateStr;
+            try {
+                var p = dateStr.split('-');
+                var d = new Date(parseInt(p[0]), parseInt(p[1]) - 1, parseInt(p[2]));
+                dayLabel = dayNames[d.getDay()] + ', ' + p[2] + '/' + p[1] + '/' + p[0];
+            } catch(x) {}
+
+            var today = new Date();
+            var todayStr = today.getFullYear() + '-' + ('0'+(today.getMonth()+1)).slice(-2) + '-' + ('0'+today.getDate()).slice(-2);
+            var isToday = dateStr === todayStr;
+            var isPast  = dateStr < todayStr;
+            var headerColor = isToday ? 'var(--adm-primary)' : (isPast ? 'var(--adm-text-3)' : 'var(--adm-text-1)');
+
+            var h = '';
+            // Cabeçalho do dia
+            h += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--adm-border);">';
+            h += '<div style="flex:1;font-size:13px;font-weight:800;color:' + headerColor + ';">';
+            h += dayLabel;
+            if (isToday) h += ' <span style="font-size:9px;background:var(--adm-primary);color:#000;padding:1px 7px;border-radius:4px;vertical-align:middle;">HOJE</span>';
+            h += '</div>';
+            h += '<button onclick="cronoAgendaAddDay(\'' + dateStr + '\')" style="display:flex;align-items:center;gap:4px;padding:5px 10px;border-radius:8px;background:var(--adm-primary);color:#000;border:none;font-size:11px;font-weight:700;cursor:pointer;">+ Aula</button>';
+            h += '</div>';
+
+            if (aulas.length === 0) {
+                h += '<div class="admin-empty" style="padding:12px 0;">Nenhuma aula cadastrada neste dia</div>';
+            } else {
+                aulas.forEach(function(a) {
+                    var cardBg = isToday ? 'rgba(212,165,41,0.05)' : (isPast ? 'rgba(255,255,255,0.02)' : 'var(--adm-bg-elevated)');
+                    h += '<div id="cronoCard_' + a.rowIndex + '" style="border-radius:10px;margin-bottom:6px;overflow:hidden;">';
+                    // Card
+                    h += '<div style="display:flex;align-items:center;gap:8px;padding:10px 12px;background:' + cardBg + ';border:1px solid var(--adm-border);border-radius:10px;">';
+                    h += '<div style="width:3px;height:36px;background:var(--adm-primary);border-radius:2px;flex-shrink:0;"></div>';
+                    h += '<div style="min-width:36px;font-size:12px;font-weight:800;color:var(--adm-primary);">' + (a.horario || '—') + '</div>';
+                    h += '<div style="flex:1;min-width:0;">';
+                    h += '<div style="font-size:12px;font-weight:800;color:var(--adm-text-1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + escapeHtml(a.tema || '') + '</div>';
+                    h += '<div style="font-size:10px;color:var(--adm-text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + escapeHtml(a.ct || '') + (a.descricao ? '  ·  ' + escapeHtml(a.descricao).substring(0,50) : '') + '</div>';
+                    h += '</div>';
+                    h += '<div style="display:flex;gap:4px;flex-shrink:0;">';
+                    h += '<button onclick="cronoAgendaEdit(' + a.rowIndex + ')" style="width:28px;height:28px;border-radius:6px;background:rgba(56,189,248,0.1);color:#38bdf8;border:none;font-size:13px;cursor:pointer;" title="Editar">✏️</button>';
+                    h += '<button onclick="deleteCronogramaAula(' + a.rowIndex + ')" style="width:28px;height:28px;border-radius:6px;background:rgba(248,113,113,0.1);color:#f87171;border:none;font-size:13px;cursor:pointer;" title="Remover">✕</button>';
+                    h += '</div>';
+                    h += '</div>';
+                    // Inline edit
+                    h += '<div id="cronoInlineEdit_' + a.rowIndex + '" style="display:none;padding:12px;border:1px solid var(--adm-primary);border-top:none;border-radius:0 0 10px 10px;background:rgba(212,165,41,0.04);margin-top:-6px;">';
+                    h += '<div style="display:grid;grid-template-columns:90px 1fr;gap:6px;margin-bottom:6px;">';
+                    h += '<div><label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Horário</label>';
+                    h += '<input type="time" id="ceHorario_' + a.rowIndex + '" value="' + escapeHtml(a.horario||'') + '" style="width:100%;padding:6px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;"></div>';
+                    h += '<div><label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Tema</label>';
+                    h += '<input type="text" id="ceTema_' + a.rowIndex + '" value="' + escapeHtml(a.tema||'') + '" style="width:100%;padding:6px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;"></div>';
+                    h += '</div>';
+                    h += '<div style="margin-bottom:8px;"><label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Descrição</label>';
+                    h += '<textarea id="ceDesc_' + a.rowIndex + '" rows="2" style="width:100%;padding:6px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:11px;resize:vertical;">' + escapeHtml(a.descricao||'') + '</textarea></div>';
+                    h += '<div style="display:flex;gap:6px;">';
+                    h += '<button onclick="cronoAgendaSaveEdit(' + a.rowIndex + ',\'' + dateStr + '\',\'' + escapeHtml(a.ct) + '\')" style="flex:1;padding:8px;background:var(--adm-primary);color:#000;border:none;border-radius:6px;font-weight:700;font-size:12px;cursor:pointer;">💾 Salvar</button>';
+                    h += '<button onclick="cronoAgendaCloseEdit(' + a.rowIndex + ')" style="padding:8px 12px;background:var(--adm-bg-elevated);color:var(--adm-text-2);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;cursor:pointer;">✕</button>';
+                    h += '</div>';
+                    h += '<div id="ceMsg_' + a.rowIndex + '" style="margin-top:4px;"></div>';
+                    h += '</div>';
+                    h += '</div>';
+                });
+            }
+            el.innerHTML = h;
+        }
+        function cronoAgendaEdit(rowIndex) {
+            // Fechar outros abertos
+            document.querySelectorAll('[id^="cronoInlineEdit_"]').forEach(function(el) { el.style.display = 'none'; });
+            var el = document.getElementById('cronoInlineEdit_' + rowIndex);
+            if (el) el.style.display = 'block';
+        }
+
+        function cronoAgendaCloseEdit(rowIndex) {
+            var el = document.getElementById('cronoInlineEdit_' + rowIndex);
+            if (el) el.style.display = 'none';
+        }
+
+        async function cronoAgendaSaveEdit(rowIndex, data, ct) {
+            var horario = (document.getElementById('ceHorario_' + rowIndex) || {}).value || '';
+            var tema    = (document.getElementById('ceTema_' + rowIndex) || {}).value || '';
+            var desc    = (document.getElementById('ceDesc_' + rowIndex) || {}).value || '';
+            var msgEl   = document.getElementById('ceMsg_' + rowIndex);
+            if (!tema) { if (msgEl) msgEl.innerHTML = '<span style="color:var(--coral);font-size:11px;">Tema obrigatório</span>'; return; }
+            if (msgEl) msgEl.innerHTML = '<span style="font-size:11px;color:var(--adm-text-3);">Salvando...</span>';
+            try {
+                var result = await secureFetch('saveCronogramaAula', { rowIndex: rowIndex, data: data, ct: ct, horario: horario, tema: tema, descricao: desc });
+                if (result.success) { cronoAgendaCloseEdit(rowIndex); loadAdminCronograma(); }
+                else if (msgEl) msgEl.innerHTML = '<span style="color:var(--coral);font-size:11px;">' + escapeHtml(result.message) + '</span>';
+            } catch(e) { if (msgEl) msgEl.innerHTML = '<span style="color:var(--coral);font-size:11px;">Erro de conexão</span>'; }
+        }
+
+        function cronoAgendaAddDay(dateStr) {
+            // Ao clicar em "+ Aula" de um dia da agenda: seleciona esse dia e abre painel
+            // No painel, o usuário pode adicionar mais datas clicando no calendário
+            // Mudar o comportamento do toggle para acumular (modo new-aula)
+            _cronoNewAulaMode = true;
+            if (_admCronoSelectedDates.indexOf(dateStr) === -1) {
+                _admCronoSelectedDates = [dateStr];
+            }
+            renderAdmCronoCal();
+            openCronoNewAulaPanel();
+        }
+
+        var _cronoNewAulaMode = false;
 
         async function saveCronogramaAula() {
-            var tema = (document.getElementById('cronoAdmTema') || {}).value;
+            var tema = (document.getElementById('cronoAdmTema') || {}).value || '';
             var descricao = (document.getElementById('cronoAdmDesc') || {}).value || '';
             var horario = (document.getElementById('cronoAdmHorario') || {}).value || '';
             if (_admCronoSelectedCTs.length === 0) { showMessage('cronoAdmMsg', 'Selecione pelo menos um CT', 'danger'); return; }
             if (!tema) { showMessage('cronoAdmMsg', 'Preencha o tema', 'danger'); return; }
             if (_admCronoSelectedDates.length === 0) { showMessage('cronoAdmMsg', 'Selecione pelo menos uma data no calendário', 'danger'); return; }
             var totalAulas = _admCronoSelectedCTs.length * _admCronoSelectedDates.length;
-            showMessage('cronoAdmMsg', 'Cadastrando ' + totalAulas + ' aula(s) em ' + _admCronoSelectedCTs.length + ' CT(s)...', 'info');
+            showMessage('cronoAdmMsg', 'Cadastrando ' + totalAulas + ' aula(s)...', 'info');
             try {
                 var result = await secureFetch('saveCronogramaAula', {
                     cts: _admCronoSelectedCTs.join(','),
                     datas: _admCronoSelectedDates.join(','),
-                    horario: horario,
-                    tema: tema,
-                    descricao: descricao
+                    horario: horario, tema: tema, descricao: descricao
                 });
                 showMessage('cronoAdmMsg', result.success ? '✅ ' + result.message : result.message, result.success ? 'success' : 'danger');
                 if (result.success) {
@@ -14241,20 +14327,20 @@
                     document.getElementById('cronoAdmDesc').value = '';
                     document.getElementById('cronoAdmHorario').value = '';
                     _admCronoSelectedDates = [];
+                    _cronoNewAulaMode = false;
+                    closeCronoNewAulaPanel();
                     loadAdminCronograma();
                 }
             } catch(e) { showMessage('cronoAdmMsg', 'Erro: ' + e.message, 'danger'); }
         }
 
         async function deleteCronoSerie(serieIdx) {
-            var s = _admCronoSeries[serieIdx];
+            var s = _admCronoSeries ? _admCronoSeries[serieIdx] : null;
             if (!s) return;
-            var ctNames = Object.keys(s.cts).join(', ');
-            if (!confirm('Remover ' + s.aulas.length + ' aula(s)?\n\n' + s.tema + '\nCTs: ' + ctNames)) return;
+            if (!confirm('Remover ' + s.aulas.length + ' aula(s) do tema "' + s.tema + '"?')) return;
             try {
                 var data = await secureFetch('deleteCronogramaAula', { deleteTema: s.tema });
-                if (data.success) { showMessage('cronoAdmMsg', '✅ ' + data.message, 'success'); loadAdminCronograma(); }
-                else alert(data.message || 'Erro');
+                if (data.success) { loadAdminCronograma(); } else alert(data.message || 'Erro');
             } catch(e) { alert('Erro: ' + e.message); }
         }
 
@@ -17195,6 +17281,113 @@
         // ═══════════════════════════════════════════════════
         // ANIVERSARIANTES (ADMIN)
         // ═══════════════════════════════════════════════════
+        // ===== ALERTAS DE GRADUAÇÃO =====
+        async function loadGradAlerts() {
+            var el = document.getElementById('adminGradAlertList');
+            var elNear = document.getElementById('adminGradNearList');
+            if (!el) return;
+            el.innerHTML = '<div class="admin-empty">Carregando...</div>';
+            try {
+                var data = await secureFetch('getGradAlerts', {});
+                if (!data.success) { el.innerHTML = '<div class="admin-empty">Erro ao carregar</div>'; return; }
+
+                var alerts = data.alerts || [];
+                var near   = data.nearAlerts || [];
+
+                // Badge
+                var badge = document.getElementById('adminGradAlertBadge');
+                if (badge) { badge.textContent = alerts.length; badge.style.display = alerts.length > 0 ? 'inline-block' : 'none'; }
+
+                var faixaEmoji = { 'Branca':'⚪','Azul':'🔵','Roxa':'🟣','Marrom':'🟤','Preta':'⚫' };
+
+                // Prontos
+                if (alerts.length === 0) {
+                    el.innerHTML = '<div class="admin-empty">Nenhum aluno atingiu o mínimo ainda 🎉</div>';
+                } else {
+                    var h = '';
+                    alerts.forEach(function(a) {
+                        h += '<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;margin-bottom:4px;background:rgba(45,138,78,0.08);border:1px solid rgba(45,138,78,0.25);">';
+                        h += '<div style="font-size:22px;">' + (faixaEmoji[a.faixa] || '🥋') + '</div>';
+                        h += '<div style="flex:1;min-width:0;">';
+                        h += '<div style="font-size:12px;font-weight:800;color:var(--adm-text-1);">' + escapeHtml(a.nome) + '</div>';
+                        h += '<div style="font-size:10px;color:var(--adm-text-3);">' + escapeHtml(a.faixa) + ' · ' + a.grau + 'º→' + a.proximoGrau + 'º grau · ' + escapeHtml(a.ct) + '</div>';
+                        h += '<div style="font-size:10px;color:#4ade80;font-weight:700;">' + a.totalTreinos + '/' + a.minTreinos + ' aulas ✅</div>';
+                        h += '</div>';
+                        h += '<span style="font-size:10px;font-weight:800;color:#4ade80;white-space:nowrap;">PRONTO!</span>';
+                        h += '</div>';
+                    });
+                    el.innerHTML = h;
+                }
+
+                // Próximos (80-99%)
+                if (elNear) {
+                    if (near.length === 0) {
+                        elNear.innerHTML = '<div class="admin-empty" style="font-size:11px;">Nenhum aluno próximo</div>';
+                    } else {
+                        var h2 = '';
+                        near.forEach(function(a) {
+                            h2 += '<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;margin-bottom:3px;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);">';
+                            h2 += '<div style="font-size:18px;">' + (faixaEmoji[a.faixa] || '🥋') + '</div>';
+                            h2 += '<div style="flex:1;min-width:0;">';
+                            h2 += '<div style="font-size:11px;font-weight:700;color:var(--adm-text-1);">' + escapeHtml(a.nome) + '</div>';
+                            h2 += '<div style="font-size:9px;color:var(--adm-text-3);">' + escapeHtml(a.faixa) + ' · ' + a.grau + 'º→' + a.proximoGrau + 'º · ' + escapeHtml(a.ct) + '</div>';
+                            h2 += '</div>';
+                            h2 += '<div style="text-align:right;">';
+                            h2 += '<div style="font-size:11px;font-weight:800;color:var(--adm-primary);">' + a.pct + '%</div>';
+                            h2 += '<div style="font-size:9px;color:var(--adm-text-3);">' + a.totalTreinos + '/' + a.minTreinos + '</div>';
+                            h2 += '</div>';
+                            h2 += '</div>';
+                        });
+                        elNear.innerHTML = h2;
+                    }
+                }
+            } catch(e) {
+                el.innerHTML = '<div class="admin-empty">Erro: ' + e.message + '</div>';
+            }
+        }
+
+        // ===== ANIVERSARIANTES DO DIA — notificação para TODOS os alunos =====
+        async function checkAllBirthdaysToday() {
+            if (!currentUser) return;
+            // Só exibe uma vez por sessão por dia
+            var storageKey = 'bjjBirthdayNotif_' + new Date().toISOString().substring(0, 10);
+            try { if (sessionStorage.getItem(storageKey)) return; } catch(e) {}
+            try {
+                var data = await secureFetch('getAllBirthdaysToday', {});
+                if (!data.success || !data.birthdays || data.birthdays.length === 0) return;
+
+                // Não notificar o próprio aniversariante (ele já vê a tela de celebração)
+                var others = data.birthdays.filter(function(b) {
+                    return b.nome.toLowerCase() !== (currentUser.name || '').toLowerCase();
+                });
+                if (others.length === 0) return;
+
+                // Marca como exibido na sessão
+                try { sessionStorage.setItem(storageKey, '1'); } catch(e) {}
+
+                // Monta toast/banner suave
+                var faixaEmoji = { 'Branca':'⚪','Azul':'🔵','Roxa':'🟣','Marrom':'🟤','Preta':'⚫' };
+                var names = others.map(function(b) {
+                    return (faixaEmoji[b.faixa] || '🥋') + ' ' + b.nome.split(' ')[0] + ' (' + b.ct + ')';
+                }).join(' · ');
+
+                var toast = document.createElement('div');
+                toast.style.cssText = [
+                    'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);',
+                    'background:linear-gradient(135deg,#6c3ce0,#9b59b6);color:#fff;',
+                    'padding:12px 18px;border-radius:14px;font-size:12px;font-weight:700;',
+                    'z-index:10000;box-shadow:0 4px 24px rgba(108,60,224,0.4);',
+                    'max-width:320px;text-align:center;cursor:pointer;',
+                    'animation:slideUp 0.4s ease;'
+                ].join('');
+                toast.innerHTML = '🎂 <strong>Aniversariantes hoje!</strong><br><span style="font-weight:400;font-size:11px;">' + escapeHtml(names) + '</span><br><span style="font-size:9px;opacity:0.7;margin-top:4px;display:block;">Toque para fechar</span>';
+                toast.addEventListener('click', function() { if (toast.parentNode) toast.parentNode.removeChild(toast); });
+                document.body.appendChild(toast);
+                // Remove automaticamente após 8s
+                setTimeout(function() { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 8000);
+            } catch(e) { console.log('checkAllBirthdaysToday error:', e); }
+        }
+
         async function loadBirthdays() {
             var container = document.getElementById('adminBirthdayList');
             if (!container) return;
