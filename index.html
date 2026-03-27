@@ -7706,7 +7706,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyhs2Zy2EseNq-nzzjNth5o0TVOjh0CyxgpzxCX-KwG0IM7_Pb0VxMhslX62Y6M2MOZ/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwb7IaVGJWVZZggVR4Bt6jA0_90iIf0b-xo-HfBktFd0RQqUqW6qOIymkpxLuB6gwSe/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -7779,12 +7779,6 @@
                 try {
                     if (!getSessionToken()) { clearSession(); return; }
                     currentUser = JSON.parse(s);
-                    // Restaura ctsliberados do cache local (não armazenado no backend)
-                    try {
-                        var libCache2 = JSON.parse(localStorage.getItem('bjjCTsLiberados') || '{}');
-                        if (libCache2[currentUser.email] && !currentUser.ctsliberados)
-                            currentUser.ctsliberados = libCache2[currentUser.email];
-                    } catch(e2) {}
                     showAppScreen();
                     loadAttendanceInfo();
                     loadCTs();
@@ -7822,11 +7816,6 @@
                     var userData = Object.assign({}, data);
                     delete userData.token;
                     currentUser = userData;
-                    // Restaura ctsliberados do cache local (não armazenado no backend)
-                    try {
-                        var libCache = JSON.parse(localStorage.getItem('bjjCTsLiberados') || '{}');
-                        if (libCache[currentUser.email]) currentUser.ctsliberados = libCache[currentUser.email];
-                    } catch(e) {}
                     localStorage.setItem('bjjUser', JSON.stringify(currentUser));
                     
                     showAppScreen();
@@ -10266,8 +10255,11 @@
                         currentUser.diasTreino = data.profile.diasTreino;
                         changed = true;
                     }
-                    // ctsliberados não é armazenado no backend; mantém valor em cache local
-                    // (campo gerenciado pelo admin via adminUpdateStudent)
+                    // ctsliberados vem do backend (col AC da planilha)
+                    if (data.profile.ctsliberados !== undefined) {
+                        currentUser.ctsliberados = data.profile.ctsliberados;
+                        changed = true;
+                    }
                     if (changed) localStorage.setItem('bjjUser', JSON.stringify(currentUser));
                     // Check birthday after profile loads
                     checkBirthday(data.profile);
@@ -17570,15 +17562,11 @@
             try {
                 var data = await secureFetch('getStudentsList', {});
                 if (data.success && data.students) {
-                    // Enrich students with ctsliberados from localStorage cache (não armazenado no backend)
-                    try {
-                        var libCache = JSON.parse(localStorage.getItem('bjjCTsLiberados') || '{}');
-                        data.students.forEach(function(s) {
-                            if (libCache[s.email] !== undefined) s.ctsliberados = libCache[s.email];
-                            // ctsProfessor já vem do backend; alias para compatibilidade com renderStuCTSections
-                            if (!s.ctsdoprof && s.ctsProfessor) s.ctsdoprof = s.ctsProfessor;
-                        });
-                    } catch(e) {}
+                    // ctsliberados e ctsProfessor já vêm do backend (planilha col AC e AB)
+                    data.students.forEach(function(s) {
+                        // alias para compatibilidade com renderStuCTSections
+                        if (!s.ctsdoprof && s.ctsProfessor) s.ctsdoprof = s.ctsProfessor;
+                    });
                     adminStudentsCache = data.students;
                     renderStudentsList(adminStudentsCache);
                     var badge = document.getElementById('adminStudentsBadge');
@@ -18035,12 +18023,7 @@
                     document.getElementById('stuHeroFaixa').textContent = payload.faixa;
                     document.getElementById('stuHeroCT').textContent = payload.ct.replace('CT ','');
                     document.getElementById('stuAvatar').textContent = (payload.name || '?').charAt(0).toUpperCase();
-                    // Persiste ctsliberados no localStorage (backend não armazena este campo)
-                    try {
-                        var libCache = JSON.parse(localStorage.getItem('bjjCTsLiberados') || '{}');
-                        libCache[payload.email] = ctsliberados;
-                        localStorage.setItem('bjjCTsLiberados', JSON.stringify(libCache));
-                    } catch(e) {}
+                    // ctsliberados agora salvo no backend — recarrega lista para refletir
                     setTimeout(function() { loadStudentsList(); }, 1500);
                 } else {
                     msg.className = 'stu-modal-msg error';
