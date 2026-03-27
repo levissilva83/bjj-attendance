@@ -6697,6 +6697,24 @@
                         </div>
                         <div id="adminBirthdayList"><div class="admin-empty">Carregando...</div></div>
                     </div>
+                    <!-- Check-ins Pendentes -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">⏳ Check-ins Pendentes <span class="admin-badge" id="adminCheckinBadge" style="display:none">0</span></div>
+                            <button class="admin-refresh-btn" onclick="loadPendingCheckins()">↻</button>
+                        </div>
+                        <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;">
+                            <button class="admin-filter-btn active" onclick="filterAdminCheckins('hoje', event)">Hoje</button>
+                            <button class="admin-filter-btn" onclick="filterAdminCheckins('semana', event)">Semana</button>
+                            <button class="admin-filter-btn" onclick="filterAdminCheckins('todos', event)">Todos</button>
+                        </div>
+                        <div id="adminCheckinsList">
+                            <div class="admin-empty">Carregando...</div>
+                        </div>
+                        <button id="adminBulkApproveBtn" class="admin-bulk-btn" onclick="bulkApproveCheckins()" style="display:none;width:100%;margin-top:10px;padding:10px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;">✓ Aprovar Todos</button>
+                    </div>
+
+                    <!-- Aprovados Hoje -->
                     <div class="admin-section">
                         <div class="admin-section-header">
                             <div class="admin-section-title">✅ Aprovados Hoje <span class="admin-badge green" id="adminApprovedBadge" style="display:none">0</span></div>
@@ -7688,7 +7706,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwKeuB23gqM4X9b9guewaIJMT8Py9iOgw_bD3zlAXBUZibNrodZRIh3XRj58vuXh10z/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyhs2Zy2EseNq-nzzjNth5o0TVOjh0CyxgpzxCX-KwG0IM7_Pb0VxMhslX62Y6M2MOZ/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -7761,6 +7779,12 @@
                 try {
                     if (!getSessionToken()) { clearSession(); return; }
                     currentUser = JSON.parse(s);
+                    // Restaura ctsliberados do cache local (não armazenado no backend)
+                    try {
+                        var libCache2 = JSON.parse(localStorage.getItem('bjjCTsLiberados') || '{}');
+                        if (libCache2[currentUser.email] && !currentUser.ctsliberados)
+                            currentUser.ctsliberados = libCache2[currentUser.email];
+                    } catch(e2) {}
                     showAppScreen();
                     loadAttendanceInfo();
                     loadCTs();
@@ -7798,6 +7822,11 @@
                     var userData = Object.assign({}, data);
                     delete userData.token;
                     currentUser = userData;
+                    // Restaura ctsliberados do cache local (não armazenado no backend)
+                    try {
+                        var libCache = JSON.parse(localStorage.getItem('bjjCTsLiberados') || '{}');
+                        if (libCache[currentUser.email]) currentUser.ctsliberados = libCache[currentUser.email];
+                    } catch(e) {}
                     localStorage.setItem('bjjUser', JSON.stringify(currentUser));
                     
                     showAppScreen();
@@ -8405,7 +8434,7 @@
                         if (titleEl) {
                             if (isKid) titleEl.textContent = '📍 Seu CT';
                             else if (isAdm) {
-                                var profCTsCount = (currentUser.ctsdoprof || '').split(',').filter(function(x){ return x.trim(); }).length;
+                                var profCTsCount = (currentUser.ctsProfessor || '').split(',').filter(function(x){ return x.trim(); }).length;
                                 titleEl.textContent = profCTsCount > 0 ? '📍 Seus CTs' : '📍 Selecione o CT';
                             }
                             else titleEl.textContent = 'Onde você treinou?';
@@ -8418,9 +8447,9 @@
                             if (isKid && userCT && name !== userCT) return;
 
                             // Admin/Professor: mostra apenas os CTs onde dá aula
-                            // Se ctsdoprof não estiver configurado, mostra todos (fallback seguro)
+                            // Se ctsProfessor não estiver configurado, mostra todos (fallback seguro)
                             if (isAdm) {
-                                var profCTsList = (currentUser.ctsdoprof || '').split(',').map(function(x){ return x.trim(); }).filter(Boolean);
+                                var profCTsList = (currentUser.ctsProfessor || '').split(',').map(function(x){ return x.trim(); }).filter(Boolean);
                                 if (profCTsList.length > 0 && profCTsList.indexOf(name) === -1) return;
                             }
 
@@ -10237,10 +10266,8 @@
                         currentUser.diasTreino = data.profile.diasTreino;
                         changed = true;
                     }
-                    if (data.profile.ctsliberados !== undefined) {
-                        currentUser.ctsliberados = data.profile.ctsliberados;
-                        changed = true;
-                    }
+                    // ctsliberados não é armazenado no backend; mantém valor em cache local
+                    // (campo gerenciado pelo admin via adminUpdateStudent)
                     if (changed) localStorage.setItem('bjjUser', JSON.stringify(currentUser));
                     // Check birthday after profile loads
                     checkBirthday(data.profile);
@@ -12381,6 +12408,7 @@
             loadPendingAccounts();
             loadPendingResets();
             loadPendingGraduacoes();
+            loadPendingCheckins();
             loadAdminExamSchedule();
             loadAdminRanking();
             loadExameConfig();
@@ -17542,6 +17570,15 @@
             try {
                 var data = await secureFetch('getStudentsList', {});
                 if (data.success && data.students) {
+                    // Enrich students with ctsliberados from localStorage cache (não armazenado no backend)
+                    try {
+                        var libCache = JSON.parse(localStorage.getItem('bjjCTsLiberados') || '{}');
+                        data.students.forEach(function(s) {
+                            if (libCache[s.email] !== undefined) s.ctsliberados = libCache[s.email];
+                            // ctsProfessor já vem do backend; alias para compatibilidade com renderStuCTSections
+                            if (!s.ctsdoprof && s.ctsProfessor) s.ctsdoprof = s.ctsProfessor;
+                        });
+                    } catch(e) {}
                     adminStudentsCache = data.students;
                     renderStudentsList(adminStudentsCache);
                     var badge = document.getElementById('adminStudentsBadge');
@@ -17593,7 +17630,7 @@
                 html += '<div class="admin-student-info" onclick="openStuModal(\'' + (s.email || '').replace(/'/g, "\\'") + '\')" style="cursor:pointer;">';
                 html += '<div class="admin-student-name">' + (s.name || '-') + (isAdm ? ' <span class="admin-header-badge">PROF</span>' : '') + statusBadge + '</div>';
                 html += '<div class="admin-student-meta">' + (s.email || '') + '</div>';
-                html += '<div class="admin-student-belt">🥋 ' + (s.faixa || '-') + ' · 📍 ' + (s.ct || '-') + (isAdm ? ' · 🏫 ' + ((s.ctsdoprof || '').split(',').filter(function(x){ return x.trim(); }).length || '?') + ' CT(s)' : ' · 💪 ' + treinos);
+                html += '<div class="admin-student-belt">🥋 ' + (s.faixa || '-') + ' · 📍 ' + (s.ct || '-') + (isAdm ? ' · 🏫 ' + ((s.ctsProfessor || '').split(',').filter(function(x){ return x.trim(); }).length || '?') + ' CT(s)' : ' · 💪 ' + treinos);
                 if (!isAdm && diasAusente > 0) html += ' · 📅 ' + diasAusente + 'd ausente';
                 html += '</div>';
                 html += alertaAusencia;
@@ -17826,7 +17863,7 @@
                 // Popula grid de CTs do professor
                 buildCTLibGrid(
                     'stuProfCTsGrid',
-                    (s.ctsdoprof || '').split(',').map(function(x){ return x.trim(); }).filter(Boolean),
+                    (s.ctsProfessor || '').split(',').map(function(x){ return x.trim(); }).filter(Boolean),
                     allCTs,          // mostra TODOS os CTs (professor pode lecionar em qualquer um)
                     null,            // sem CT "principal" para excluir
                     '🏫 ',
@@ -17907,7 +17944,7 @@
             // Recria as seções com dados atuais do modal
             var fakeS = {
                 ct:          document.getElementById('stuCT').value,
-                ctsdoprof:   (function() {
+                ctsProfessor: (function() {
                     var v = [];
                     document.querySelectorAll('#stuProfCTsGrid .stu-ct-lib-card.on').forEach(function(c){ v.push(c.getAttribute('data-ct')); });
                     return v.join(',');
@@ -17979,7 +18016,8 @@
                     });
                     return dias.join(',');
                 })(),
-                ctsdoprof:    ctsdoprof,
+                isProfessor:  isAdminStu,
+                ctsProfessor: ctsdoprof,
                 ctsliberados: ctsliberados
             };
 
@@ -17997,6 +18035,12 @@
                     document.getElementById('stuHeroFaixa').textContent = payload.faixa;
                     document.getElementById('stuHeroCT').textContent = payload.ct.replace('CT ','');
                     document.getElementById('stuAvatar').textContent = (payload.name || '?').charAt(0).toUpperCase();
+                    // Persiste ctsliberados no localStorage (backend não armazena este campo)
+                    try {
+                        var libCache = JSON.parse(localStorage.getItem('bjjCTsLiberados') || '{}');
+                        libCache[payload.email] = ctsliberados;
+                        localStorage.setItem('bjjCTsLiberados', JSON.stringify(libCache));
+                    } catch(e) {}
                     setTimeout(function() { loadStudentsList(); }, 1500);
                 } else {
                     msg.className = 'stu-modal-msg error';
