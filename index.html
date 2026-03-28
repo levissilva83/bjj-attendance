@@ -6552,12 +6552,17 @@
                     <!-- Alertas de Graduação -->
                     <div class="admin-section">
                         <div class="admin-section-header">
-                            <div class="admin-section-title">🎯 Prontos para Graduar <span class="admin-badge" id="adminGradAlertBadge" style="display:none">0</span></div>
+                            <div class="admin-section-title">🎓 Graduações <span class="admin-badge" id="adminGradAlertBadge" style="display:none">0</span></div>
                             <button class="admin-refresh-btn" onclick="loadGradAlerts()">↻</button>
                         </div>
-                        <div id="adminGradAlertList"><div class="admin-empty">Carregando...</div></div>
-                        <div style="margin-top:6px;">
-                            <div class="admin-section-title" style="font-size:11px;opacity:0.7;">⚡ Próximos (80-99%)</div>
+                        <!-- Prontos: cumpriram o mínimo de aulas -->
+                        <div style="margin-bottom:10px;">
+                            <div style="font-size:10px;font-weight:700;color:#4ade80;letter-spacing:0.5px;padding:0 2px 6px;">✅ PRONTOS PARA GRADUAR</div>
+                            <div id="adminGradAlertList"><div class="admin-empty">Carregando...</div></div>
+                        </div>
+                        <!-- Próximos: 80–99% -->
+                        <div>
+                            <div style="font-size:10px;font-weight:700;color:var(--adm-primary);letter-spacing:0.5px;padding:0 2px 6px;">⚡ PRÓXIMOS (80–99%)</div>
                             <div id="adminGradNearList"><div class="admin-empty" style="font-size:11px;">—</div></div>
                         </div>
                     </div>
@@ -7718,7 +7723,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzbJdwAcdUx5tSv0e_miIeuwQF0czsnpMy94QQS3GExXrZn3DAi6TIPbUP-lGZGpEo/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw2Kf8iVLXh0r8HxZRhZTYeLb0umVdpyTtv538a3aaYOYGw4PN26KQa76GE78rZEHIF/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -12401,7 +12406,7 @@
             if (tabName === 'adm-alunos') loadStudentsList();
             if (tabName === 'adm-presenca') initPresencaList();
             if (tabName === 'adm-campeonato') initCampAdmin();
-            if (tabName === 'adm-sistema') { loadModulesConfig(); loadSystemHealth(); loadAdminCTs(); loadAdminProfile(); loadGradConfig(); loadCTScheduleAdmin(); initAdmAulaForm(); if (isSysAdmin()) loadLicencas(); }
+            if (tabName === 'adm-sistema') { loadModulesConfig(); loadSystemHealth(); loadAdminCTs(); loadAdminProfile(); loadGradConfig(); loadCTScheduleAdmin(); initAdmAulaForm(); }
         }
 
         function loadAdminProfile() {
@@ -13578,11 +13583,9 @@
             if (cts.length <= 1) { el.style.display = 'none'; return; }
             el.style.display = '';
 
-            // Monta lista de CTs com acesso: do _cronoCTsPermitidos (carregado pelo tab Cronograma)
-            // OU do currentUser.ctsliberados (disponível desde o login/fetchProfile)
-            var permList = _cronoCTsPermitidos.slice(); // cópia
+            // Monta lista de CTs com acesso
+            var permList = _cronoCTsPermitidos.slice();
             if (permList.length === 0 && currentUser) {
-                // Fallback: usa dados do currentUser enquanto o tab Cronograma não foi aberto
                 if (currentUser.ct) permList.push(currentUser.ct);
                 var libStr = currentUser.ctsliberados || '';
                 libStr.split(',').map(function(x){ return x.trim(); }).filter(Boolean).forEach(function(c) {
@@ -13590,19 +13593,29 @@
                 });
             }
 
-            var temContrato = function(nome) {
-                return permList.indexOf(nome) !== -1;
-            };
+            var temContrato = function(nome) { return permList.indexOf(nome) !== -1; };
 
             var dayKeys = ['dom','seg','ter','qua','qui','sex','sab'];
             var hojeKey = dayKeys[new Date().getDay()];
+
+            // Filtrar: apenas CTs com aula hoje OU o CT ativo (sempre visível)
+            var ctsVisiveis = cts.filter(function(ct) {
+                var nome = ct.name || '';
+                if (nome === _cronoCTAtivo) return true; // CT ativo sempre visível
+                var schedule = ct.schedule || {};
+                var temConfig = Object.values(schedule).some(function(v) { return v === true; });
+                if (!temConfig) return true; // sem config → mostra sempre
+                return !!schedule[hojeKey];
+            });
+
+            if (ctsVisiveis.length <= 1) { el.style.display = 'none'; return; }
 
             var h = '<div class="crono-ct-selector-header">';
             h += '<span class="crono-ct-selector-title">🏛️ Escolha o CT</span>';
             h += '<span class="crono-ct-selector-hint">Toque para ver o cronograma</span>';
             h += '</div><div class="crono-ct-bar">';
 
-            cts.forEach(function(ct) {
+            ctsVisiveis.forEach(function(ct) {
                 var nome = ct.name || '';
                 var isAtivo = nome === _cronoCTAtivo;
                 var contrato = temContrato(nome);
@@ -13925,23 +13938,39 @@
             var grid = document.getElementById('perfilCTsLiberadosGrid');
             if (!sec || !grid) return;
             if (!todosPermitidos || todosPermitidos.length <= 1) { sec.style.display = 'none'; return; }
+
+            // Mostrar apenas CTs com aula hoje
+            var dayKeys = ['dom','seg','ter','qua','qui','sex','sab'];
+            var hojeKey = dayKeys[new Date().getDay()];
+
+            var ctsHoje = todosPermitidos.filter(function(ct) {
+                var schedule = ctSchedules[ct];
+                if (!schedule) return true; // sem config → sempre mostra
+                var temConfig = Object.values(schedule).some(function(v) { return v === true; });
+                if (!temConfig) return true; // sem dias configurados → sempre mostra
+                return !!schedule[hojeKey];
+            });
+
+            // Esconde seção se não houver nenhum CT diferente do principal com aula hoje
+            var ctsExtras = ctsHoje.filter(function(ct) { return !(currentUser && ct === currentUser.ct); });
+            if (ctsExtras.length === 0) { sec.style.display = 'none'; return; }
+
             sec.style.display = '';
             grid.innerHTML = '';
-            todosPermitidos.forEach(function(ct) {
+            ctsHoje.forEach(function(ct) {
                 var isPrincipal = (currentUser && ct === currentUser.ct);
                 var isAtivo = ct === ctAtivo;
                 var btn = document.createElement('button');
                 btn.type = 'button';
                 btn.className = 'perfil-ct-lib-btn';
                 btn.style.border = isAtivo ? '1.5px solid var(--accent)' : '';
-                btn.innerHTML = '<div class="pclb-dot" style="background:' + (isAtivo?'var(--accent)':'var(--text-3)') + ';"></div><div class="pclb-label">' + escapeHtml(ct) + (isPrincipal?' <span style="font-size:9px;opacity:0.5;">(principal)</span>':'') + '</div><div class="pclb-arrow">' + (isAtivo?'✓':'→') + '</div>';
-                btn.addEventListener('click', function() {
-                    navegarParaCronoComCT(ct, false);
-                });
+                btn.innerHTML = '<div class="pclb-dot" style="background:' + (isAtivo ? 'var(--accent)' : 'var(--text-3)') + ';"></div>' +
+                    '<div class="pclb-label">' + escapeHtml(ct) + (isPrincipal ? ' <span style="font-size:9px;opacity:0.5;">(principal)</span>' : '') + '</div>' +
+                    '<div class="pclb-arrow">' + (isAtivo ? '✓' : '→') + '</div>';
+                btn.addEventListener('click', function() { navegarParaCronoComCT(ct, false); });
                 grid.appendChild(btn);
             });
         }
-
         // CT pendente para carregar ao abrir o cronograma (evita race condition)
         var _cronoPendingCT = null;
         var _cronoPendingVisualizar = false;
@@ -16393,7 +16422,7 @@
         // ═══════════════════════════════════════════════════
 
         function isSysAdmin() {
-            return currentUser && currentUser.role === 'sysadmin';
+            return false; // sem modo SaaS multi-tenant
         }
 
         function isAdmin() {
@@ -16432,26 +16461,14 @@
 
         // ─── Inicializa ao entrar no painel ──────────────────
         function initAdminPlano() {
-            // Licença já vem no currentUser desde o login
-            _licenca = currentUser.licenca || null;
-            renderAdminPlanBadge();
-            // Mostra seção sysadmin só para donos do SaaS
+            // Planos removidos — todos os módulos liberados
             var licSec = document.getElementById('sysAdminLicSection');
-            if (licSec) licSec.style.display = isSysAdmin() ? 'block' : 'none';
+            if (licSec) licSec.style.display = 'none';
         }
 
         function renderAdminPlanBadge() {
             var el = document.getElementById('adminPlanBadge');
-            if (!el) return;
-            var planoKey = isSysAdmin() ? 'sysadmin' : (_licenca ? _licenca.plano : 'starter');
-            var p = PLANO_LABELS[planoKey] || PLANO_LABELS.starter;
-            var expStr = '';
-            if (_licenca && _licenca.expiracao) {
-                var dias = Math.ceil((new Date(_licenca.expiracao) - new Date()) / 86400000);
-                if (dias <= 30) expStr = ' · <span style="color:#f87171;">vence em ' + dias + 'd</span>';
-                else expStr = ' · até ' + _licenca.expiracao.substring(0,10).split('-').reverse().join('/');
-            }
-            el.innerHTML = '<span class="lic-plan-badge ' + p.cor + '">' + p.icon + ' ' + p.label + '</span>' + (expStr ? '<span style="font-size:10px;color:var(--adm-text-3);margin-left:4px;">' + expStr + '</span>' : '');
+            if (el) el.innerHTML = ''; // planos removidos
         }
 
         // ─── Carrega config de módulos do backend ─────────────
@@ -16462,12 +16479,11 @@
                 var data = await secureFetch('getModulesConfig', {});
                 if (data.success) {
                     _modulesConfig = data.modules || {};
-                    if (data.licenca) { _licenca = data.licenca; renderAdminPlanBadge(); }
+                    // Garante que todos os módulos são ativos por padrão
                     MODULE_DEFS.forEach(function(m) {
                         if (_modulesConfig[m.id] === undefined) _modulesConfig[m.id] = true;
                     });
                     renderModulesToggle();
-                    renderModuloPlanInfo();
                 }
             } catch(e) {
                 if (container) container.innerHTML = '<div class="admin-empty">Erro: ' + e.message + '</div>';
@@ -16475,25 +16491,12 @@
         }
 
         function isModuloLicenciado(modId) {
-            if (isSysAdmin()) return true;
-            if (!_licenca || !_licenca.ativo) return false;
-            return _licenca.modulos && _licenca.modulos.indexOf(modId) !== -1;
+            return true; // todos os módulos liberados
         }
 
         function renderModuloPlanInfo() {
             var el = document.getElementById('modulosPlanInfo');
-            if (!el) return;
-            var planoKey = isSysAdmin() ? 'sysadmin' : (_licenca ? _licenca.plano : 'starter');
-            var p = PLANO_LABELS[planoKey] || PLANO_LABELS.starter;
-            var licAtiva = isSysAdmin() || (_licenca && _licenca.ativo);
-            var expWarn = '';
-            if (_licenca && _licenca.expiracao) {
-                var dias = Math.ceil((new Date(_licenca.expiracao) - new Date()) / 86400000);
-                if (dias <= 30 && dias > 0) expWarn = '<div class="lic-expiry-warn">⚠️ Licença vence em <strong>' + dias + ' dias</strong>. Renove para não perder acesso.</div>';
-                else if (dias <= 0) expWarn = '<div class="lic-expiry-warn">🔴 Licença expirada! Módulos premium bloqueados.</div>';
-            }
-            el.innerHTML = '<span class="lic-plan-badge ' + p.cor + '">' + p.icon + ' Plano ' + p.label + '</span>' +
-                (licAtiva ? '<span style="font-size:10px;color:#4ade80;font-weight:600;">✓ ativo</span>' : '<span style="font-size:10px;color:#f87171;font-weight:600;">⛔ inativo</span>') + (expWarn ? '</div><div style="padding:0 0 8px;">' + expWarn + '</div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">' : '');
+            if (el) el.innerHTML = ''; // planos removidos
         }
 
         function renderModulesToggle() {
@@ -16513,27 +16516,19 @@
                 h += '<div class="mod-tier-group">';
                 h += '<div class="mod-tier-label">' + g.label + '</div>';
                 g.mods.forEach(function(m) {
-                    var licenciado = isModuloLicenciado(m.id);
-                    var isOn = licenciado && _modulesConfig[m.id] !== false;
-                    var rowCls = 'mod-toggle-row' + (!licenciado ? ' locked' : (isOn ? ' active' : ''));
+                    var isOn = _modulesConfig[m.id] !== false;
+                    var rowCls = 'mod-toggle-row' + (isOn ? ' active' : '');
                     h += '<div class="' + rowCls + '">';
                     h += '<div class="mod-toggle-icon">' + m.icon + '</div>';
                     h += '<div class="mod-toggle-info">';
                     h += '<div class="mod-toggle-name">' + escapeHtml(m.nome) + '</div>';
-                    if (!licenciado) {
-                        h += '<div class="mod-toggle-desc" style="color:#f87171;">Não incluído no seu plano atual</div>';
-                    } else {
-                        h += '<div class="mod-toggle-desc">' + escapeHtml(m.desc) + '</div>';
-                    }
+                    h += '<div class="mod-toggle-desc">' + escapeHtml(m.desc) + '</div>';
                     h += '</div>';
-                    if (!licenciado) {
-                        h += '<span class="mod-lock-badge" onclick="showModuloUpgradeInfo(\'' + m.id + '\')">🔒 Upgrade</span>';
-                    } else {
-                        h += '<label class="mod-switch">';
-                        h += '<input type="checkbox" ' + (isOn ? 'checked' : '') + ' onchange="toggleModuleConfig(\'' + m.id + '\', this.checked)">';
-                        h += '<div class="mod-switch-track"></div>';
-                        h += '</label>';
-                    }
+                    // Todos os módulos desbloqueados — sempre mostra toggle
+                    h += '<label class="mod-switch">';
+                    h += '<input type="checkbox" ' + (isOn ? 'checked' : '') + ' onchange="toggleModuleConfig(\'' + m.id + '\', this.checked)">';
+                    h += '<div class="mod-switch-track"></div>';
+                    h += '</label>';
                     h += '</div>';
                 });
                 h += '</div>';
@@ -16542,12 +16537,7 @@
         }
 
         async function toggleModuleConfig(moduleId, enabled) {
-            // Valida licença client-side também
-            if (enabled && !isModuloLicenciado(moduleId)) {
-                showModuloUpgradeInfo(moduleId);
-                renderModulesToggle();
-                return;
-            }
+            // Todos os módulos são permitidos
             _modulesConfig[moduleId] = enabled;
             renderModulesToggle();
             try {
@@ -16660,236 +16650,14 @@
         var _licFormPlano     = 'academia';
         var _licEditEmail     = null; // null = novo, string = editando
 
-        async function loadLicencas() {
-            if (!isSysAdmin()) return;
-            var list = document.getElementById('licencasList');
-            if (list) list.innerHTML = '<div class="admin-empty">Carregando...</div>';
-            try {
-                var data = await secureFetch('getLicencas', {});
-                if (!data.success) { if (list) list.innerHTML = '<div class="admin-empty">Erro: ' + escapeHtml(data.message||'') + '</div>'; return; }
-                _licencasData  = data.licencas  || [];
-                _licAdminsData = data.admins    || [];
-
-                // Badge count
-                var badge = document.getElementById('licBadge');
-                if (badge) { badge.textContent = _licencasData.length; badge.style.display = _licencasData.length ? 'inline-block' : 'none'; }
-
-                // Expiry warnings
-                var warnEl = document.getElementById('licExpiryWarn');
-                if (warnEl) {
-                    var expiring = _licencasData.filter(function(l) {
-                        if (!l.expiracao) return false;
-                        var dias = Math.ceil((new Date(l.expiracao) - new Date()) / 86400000);
-                        return dias >= 0 && dias <= 14;
-                    });
-                    if (expiring.length > 0) {
-                        warnEl.style.display = 'block';
-                        warnEl.innerHTML = expiring.map(function(l) {
-                            var dias = Math.ceil((new Date(l.expiracao) - new Date()) / 86400000);
-                            return '<div class="lic-expiry-warn">⚠️ <strong>' + escapeHtml(l.email) + '</strong> vence em ' + dias + ' dia' + (dias !== 1 ? 's' : '') + '</div>';
-                        }).join('');
-                    } else { warnEl.style.display = 'none'; }
-                }
-
-                renderLicencasList();
-            } catch(e) {
-                if (list) list.innerHTML = '<div class="admin-empty">Erro: ' + e.message + '</div>';
-            }
-        }
-
-        function renderLicencasList() {
-            var list = document.getElementById('licencasList');
-            if (!list) return;
-            if (_licencasData.length === 0) {
-                list.innerHTML = '<div class="admin-empty">Nenhuma licença cadastrada.<br><span style="font-size:10px;">Clique em "+ Nova Licença" para adicionar a primeira academia.</span></div>';
-                return;
-            }
-            var h = '';
-            _licencasData.forEach(function(l) {
-                var planoKey = l.plano || 'starter';
-                var p = PLANO_LABELS[planoKey] || PLANO_LABELS.starter;
-                var expStr = '', expCls = '';
-                if (l.expiracao) {
-                    var dias = Math.ceil((new Date(l.expiracao) - new Date()) / 86400000);
-                    if (dias < 0) { expStr = '⛔ expirado'; expCls = 'warn'; }
-                    else if (dias <= 14) { expStr = '⚠️ vence em ' + dias + 'd'; expCls = 'warn'; }
-                    else { expStr = 'até ' + l.expiracao.substring(0,10).split('-').reverse().join('/'); }
-                } else { expStr = 'sem expiração'; }
-                var cls = 'lic-card' + (!l.ativo ? ' lic-inactive' : '');
-                h += '<div class="' + cls + '">';
-                h += '<div class="lic-card-header">';
-                h += '<div style="width:34px;height:34px;border-radius:10px;background:rgba(212,165,41,0.08);border:1px solid rgba(212,165,41,0.15);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">' + p.icon + '</div>';
-                h += '<div style="flex:1;min-width:0;">';
-                h += '<div class="lic-card-email">' + escapeHtml(l.email) + '</div>';
-                h += '<div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:3px;">';
-                h += '<span class="lic-plan-badge ' + p.cor + '">' + p.label + '</span>';
-                h += '<span class="lic-card-exp ' + expCls + '">' + expStr + '</span>';
-                if (!l.ativo) h += '<span class="lic-plan-badge starter">SUSPENSO</span>';
-                h += '</div>';
-                if (l.obs) h += '<div style="font-size:9px;color:var(--adm-text-3);margin-top:3px;font-style:italic;">' + escapeHtml(l.obs) + '</div>';
-                h += '</div>';
-                h += '</div>';
-                // Module pills
-                var modsAtivos = [];
-                if (l.plano && window.PLANOS_JS && window.PLANOS_JS[l.plano]) modsAtivos = window.PLANOS_JS[l.plano];
-                h += '<div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:10px;">';
-                var defMods = (function() {
-                    var planoMods = { starter:['checkin','presencas','perfil'], professor:['checkin','presencas','perfil','cronograma','evolucao','manual'], academia:['checkin','presencas','perfil','cronograma','evolucao','manual','ranking','campeonato','exame'], completo:['checkin','presencas','perfil','cronograma','evolucao','manual','ranking','campeonato','exame','musculacao','jogos'] };
-                    return planoMods[l.plano] || planoMods.starter;
-                })();
-                defMods.forEach(function(mid) {
-                    var md = MODULE_DEFS.find(function(x){return x.id===mid;});
-                    if (md) h += '<span style="font-size:8.5px;padding:2px 6px;border-radius:5px;background:rgba(212,165,41,0.08);border:1px solid rgba(212,165,41,0.15);color:var(--adm-primary);font-weight:600;">' + md.icon + ' ' + md.nome + '</span>';
-                });
-                h += '</div>';
-                h += '<div style="display:flex;gap:5px;">';
-                h += '<button onclick="openLicForm(\'' + escapeHtml(l.email) + '\')" style="flex:1;padding:7px;background:rgba(56,189,248,0.08);color:#38bdf8;border:1px solid rgba(56,189,248,0.2);border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;">✏️ Editar</button>';
-                h += '<button onclick="toggleLicAtivo(\'' + escapeHtml(l.email) + '\',' + (!l.ativo) + ')" style="padding:7px 12px;background:' + (l.ativo ? 'rgba(248,113,113,0.08)' : 'rgba(74,222,128,0.08)') + ';color:' + (l.ativo ? '#f87171' : '#4ade80') + ';border:1px solid ' + (l.ativo ? 'rgba(248,113,113,0.2)' : 'rgba(74,222,128,0.2)') + ';border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;">' + (l.ativo ? '🔴 Suspender' : '✅ Reativar') + '</button>';
-                h += '</div>';
-                h += '</div>';
-            });
-            list.innerHTML = h;
-        }
-
-        var _licPlanosModulos = {
-            starter:   ['checkin','presencas','perfil'],
-            professor: ['checkin','presencas','perfil','cronograma','evolucao','manual'],
-            academia:  ['checkin','presencas','perfil','cronograma','evolucao','manual','ranking','campeonato','exame'],
-            completo:  ['checkin','presencas','perfil','cronograma','evolucao','manual','ranking','campeonato','exame','musculacao','jogos']
-        };
-
-        function openLicForm(emailToEdit) {
-            _licEditEmail = emailToEdit || null;
-            var form = document.getElementById('licAddForm');
-            var addBtn = document.getElementById('licAddBtn');
-            var title = document.getElementById('licFormTitle');
-            if (!form) return;
-            form.style.display = 'block';
-            if (addBtn) addBtn.style.display = 'none';
-            // Render admin suggestions
-            renderLicAdminSuggest('');
-            var emailInput = document.getElementById('licFormEmail');
-            var expInput   = document.getElementById('licFormExpiracao');
-            var ativoSel   = document.getElementById('licFormAtivo');
-            var obsInput   = document.getElementById('licFormObs');
-            if (emailToEdit) {
-                // Editing existing
-                if (title) title.textContent = '✏️ Editar Licença';
-                var lic = _licencasData.find(function(l){ return l.email === emailToEdit; });
-                if (emailInput) { emailInput.value = emailToEdit; emailInput.readOnly = true; emailInput.style.opacity = '0.6'; }
-                if (expInput   && lic) expInput.value   = lic.expiracao ? lic.expiracao.substring(0,10) : '';
-                if (ativoSel   && lic) ativoSel.value   = lic.ativo ? 'true' : 'false';
-                if (obsInput   && lic) obsInput.value   = lic.obs || '';
-                if (lic) selectLicPlano(lic.plano || 'academia', null);
-            } else {
-                // New
-                if (title) title.textContent = '+ Nova Licença';
-                if (emailInput) { emailInput.value = ''; emailInput.readOnly = false; emailInput.style.opacity = ''; }
-                if (expInput) {
-                    // Default: 1 year from now
-                    var d = new Date(); d.setFullYear(d.getFullYear() + 1);
-                    expInput.value = d.toISOString().substring(0,10);
-                }
-                if (ativoSel) ativoSel.value = 'true';
-                if (obsInput) obsInput.value = '';
-                selectLicPlano('academia', null);
-            }
-            var msgEl = document.getElementById('licSaveMsg');
-            if (msgEl) msgEl.innerHTML = '';
-            setTimeout(function() { form.scrollIntoView({ behavior:'smooth', block:'nearest' }); }, 100);
-        }
-
-        function closeLicForm() {
-            var form = document.getElementById('licAddForm');
-            var addBtn = document.getElementById('licAddBtn');
-            if (form) form.style.display = 'none';
-            if (addBtn) addBtn.style.display = 'block';
-            _licEditEmail = null;
-            var emailInput = document.getElementById('licFormEmail');
-            if (emailInput) { emailInput.readOnly = false; emailInput.style.opacity = ''; }
-        }
-
-        function selectLicPlano(plano, btn) {
-            _licFormPlano = plano;
-            document.querySelectorAll('.lic-plan-btn').forEach(function(b) {
-                b.classList.remove('active','starter','professor','academia','completo');
-            });
-            if (btn) { btn.classList.add('active', plano); }
-            else {
-                var target = document.querySelector('.lic-plan-btn[data-plano="' + plano + '"]');
-                if (target) target.classList.add('active', plano);
-            }
-            var infoEl = document.getElementById('licPlanoModulos');
-            if (infoEl) {
-                var mods = _licPlanosModulos[plano] || [];
-                var modLabels = mods.map(function(mid) {
-                    var md = MODULE_DEFS.find(function(x){return x.id===mid;});
-                    return md ? md.icon + ' ' + md.nome : mid;
-                });
-                infoEl.innerHTML = '<strong style="color:var(--adm-primary);">Módulos incluídos:</strong> ' + modLabels.join(' · ');
-            }
-        }
-
-        function renderLicAdminSuggest(filter) {
-            var el = document.getElementById('licAdminSuggest');
-            if (!el) return;
-            var adminsWithoutLic = _licAdminsData.filter(function(a) {
-                var hasLic = _licencasData.some(function(l){ return l.email.toLowerCase() === a.email.toLowerCase(); });
-                var matchFilter = !filter || a.email.toLowerCase().indexOf(filter.toLowerCase()) !== -1 || a.nome.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
-                return !hasLic && matchFilter;
-            });
-            if (adminsWithoutLic.length === 0) { el.innerHTML = ''; return; }
-            el.innerHTML = '<div style="font-size:9px;color:var(--adm-text-3);margin-bottom:3px;">Admins sem licença:</div>' +
-                adminsWithoutLic.slice(0,5).map(function(a) {
-                    return '<button onclick="document.getElementById(\'licFormEmail\').value=\'' + escapeHtml(a.email) + '\'" style="padding:3px 8px;border-radius:6px;background:rgba(212,165,41,0.08);border:1px solid rgba(212,165,41,0.15);color:var(--adm-primary);font-size:9px;font-weight:600;cursor:pointer;">' + escapeHtml(a.nome || a.email) + '</button>';
-                }).join('');
-        }
-
-        async function saveLicenca() {
-            var emailInput = document.getElementById('licFormEmail');
-            var expInput   = document.getElementById('licFormExpiracao');
-            var ativoSel   = document.getElementById('licFormAtivo');
-            var obsInput   = document.getElementById('licFormObs');
-            var saveBtn    = document.getElementById('licSaveBtn');
-            var email      = (emailInput ? emailInput.value : '').trim();
-            if (!email) { showMessage('licSaveMsg','Email obrigatório','danger'); return; }
-            if (!_licFormPlano) { showMessage('licSaveMsg','Selecione um plano','danger'); return; }
-            if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = '⏳ Salvando...'; }
-            try {
-                var result = await secureFetch('saveLicenca', {
-                    email:      email,
-                    plano:      _licFormPlano,
-                    expiracao:  expInput  ? expInput.value  : '',
-                    ativo:      ativoSel  ? ativoSel.value  : 'true',
-                    obs:        obsInput  ? obsInput.value  : ''
-                });
-                if (result.success) {
-                    showMessage('licSaveMsg', '✅ ' + result.message, 'success');
-                    setTimeout(function() { closeLicForm(); loadLicencas(); }, 900);
-                } else {
-                    showMessage('licSaveMsg', result.message || 'Erro', 'danger');
-                }
-            } catch(e) { showMessage('licSaveMsg', 'Erro: ' + e.message, 'danger'); }
-            if (saveBtn) { saveBtn.disabled = false; saveBtn.textContent = '💾 Salvar Licença'; }
-        }
-
-        async function toggleLicAtivo(email, novoAtivo) {
-            var lic = _licencasData.find(function(l){ return l.email === email; });
-            if (!lic) return;
-            var acao = novoAtivo ? 'Reativar' : 'Suspender';
-            if (!confirm(acao + ' licença de ' + email + '?')) return;
-            try {
-                var result = await secureFetch('saveLicenca', {
-                    email:     email,
-                    plano:     lic.plano || 'starter',
-                    expiracao: lic.expiracao || '',
-                    ativo:     novoAtivo ? 'true' : 'false',
-                    obs:       lic.obs || ''
-                });
-                if (result.success) { loadLicencas(); }
-                else { alert(result.message || 'Erro'); }
-            } catch(e) { alert('Erro: ' + e.message); }
-        }
+        async function loadLicencas() { /* planos removidos */ }
+        async function saveLicenca() { /* planos removidos */ }
+        async function toggleLicAtivo() { /* planos removidos */ }
+        function showModuloUpgradeInfo(modId) { /* planos removidos */ }
+        function renderLicencasList() { /* planos removidos */ }
+        function openLicForm() { /* planos removidos */ }
+        function closeLicForm() { /* planos removidos */ }
+        function selectLicPlano() { /* planos removidos */ }
 
         // DESABILITAR CONTA (ALUNO)
         // ═══════════════════════════════════════════════════
@@ -17283,7 +17051,7 @@
         // ═══════════════════════════════════════════════════
         // ===== ALERTAS DE GRADUAÇÃO =====
         async function loadGradAlerts() {
-            var el = document.getElementById('adminGradAlertList');
+            var el     = document.getElementById('adminGradAlertList');
             var elNear = document.getElementById('adminGradNearList');
             if (!el) return;
             el.innerHTML = '<div class="admin-empty">Carregando...</div>';
@@ -17291,50 +17059,62 @@
                 var data = await secureFetch('getGradAlerts', {});
                 if (!data.success) { el.innerHTML = '<div class="admin-empty">Erro ao carregar</div>'; return; }
 
-                var alerts = data.alerts || [];
-                var near   = data.nearAlerts || [];
+                // Prontos = quem cumpriu o mínimo (independente de há quantos dias)
+                var prontos = (data.overdueAlerts || []).concat(data.alerts || []);
+                var near    = data.nearAlerts || [];
 
-                // Badge
+                // Badge conta todos os prontos
                 var badge = document.getElementById('adminGradAlertBadge');
-                if (badge) { badge.textContent = alerts.length; badge.style.display = alerts.length > 0 ? 'inline-block' : 'none'; }
+                if (badge) {
+                    badge.textContent = prontos.length;
+                    badge.style.display = prontos.length > 0 ? 'inline-block' : 'none';
+                    badge.style.background = '';
+                }
 
                 var faixaEmoji = { 'Branca':'⚪','Azul':'🔵','Roxa':'🟣','Marrom':'🟤','Preta':'⚫' };
 
-                // Prontos
-                if (alerts.length === 0) {
-                    el.innerHTML = '<div class="admin-empty">Nenhum aluno atingiu o mínimo ainda 🎉</div>';
+                // ── PRONTOS ─────────────────────────────────────────
+                if (prontos.length === 0) {
+                    el.innerHTML = '<div class="admin-empty" style="font-size:11px;">Nenhum aluno atingiu o mínimo ainda</div>';
                 } else {
                     var h = '';
-                    alerts.forEach(function(a) {
-                        h += '<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;margin-bottom:4px;background:rgba(45,138,78,0.08);border:1px solid rgba(45,138,78,0.25);">';
-                        h += '<div style="font-size:22px;">' + (faixaEmoji[a.faixa] || '🥋') + '</div>';
+                    prontos.forEach(function(a) {
+                        h += '<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;margin-bottom:4px;background:rgba(74,222,128,0.06);border:1px solid rgba(74,222,128,0.25);">';
+                        h += '<div style="font-size:20px;flex-shrink:0;">' + (faixaEmoji[a.faixa] || '🥋') + '</div>';
                         h += '<div style="flex:1;min-width:0;">';
                         h += '<div style="font-size:12px;font-weight:800;color:var(--adm-text-1);">' + escapeHtml(a.nome) + '</div>';
-                        h += '<div style="font-size:10px;color:var(--adm-text-3);">' + escapeHtml(a.faixa) + ' · ' + a.grau + 'º→' + a.proximoGrau + 'º grau · ' + escapeHtml(a.ct) + '</div>';
-                        h += '<div style="font-size:10px;color:#4ade80;font-weight:700;">' + a.totalTreinos + '/' + a.minTreinos + ' aulas ✅</div>';
+                        h += '<div style="font-size:10px;color:var(--adm-text-3);">' + escapeHtml(a.faixa) + ' · ' + a.grau + 'º → ' + a.proximoGrau + 'º grau · ' + escapeHtml(a.ct) + '</div>';
+                        h += '<div style="font-size:10px;color:#4ade80;font-weight:700;margin-top:2px;">' + a.totalTreinos + '/' + a.minTreinos + ' aulas ✅</div>';
                         h += '</div>';
-                        h += '<span style="font-size:10px;font-weight:800;color:#4ade80;white-space:nowrap;">PRONTO!</span>';
+                        h += '<div style="font-size:11px;font-weight:800;color:#4ade80;flex-shrink:0;">PRONTO</div>';
                         h += '</div>';
                     });
                     el.innerHTML = h;
                 }
 
-                // Próximos (80-99%)
+                // ── PRÓXIMOS (80–99%) ────────────────────────────────
                 if (elNear) {
                     if (near.length === 0) {
-                        elNear.innerHTML = '<div class="admin-empty" style="font-size:11px;">Nenhum aluno próximo</div>';
+                        elNear.innerHTML = '<div class="admin-empty" style="font-size:11px;color:var(--adm-text-3);">Nenhum</div>';
                     } else {
                         var h2 = '';
                         near.forEach(function(a) {
-                            h2 += '<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;margin-bottom:3px;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);">';
-                            h2 += '<div style="font-size:18px;">' + (faixaEmoji[a.faixa] || '🥋') + '</div>';
+                            var faltam = a.minTreinos - a.totalTreinos;
+                            var barColor = a.pct >= 95 ? '#4ade80' : a.pct >= 90 ? '#fbbf24' : 'var(--adm-primary)';
+                            h2 += '<div style="padding:8px 12px;border-radius:8px;margin-bottom:4px;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);">';
+                            h2 += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">';
+                            h2 += '<div style="font-size:16px;">' + (faixaEmoji[a.faixa] || '🥋') + '</div>';
                             h2 += '<div style="flex:1;min-width:0;">';
                             h2 += '<div style="font-size:11px;font-weight:700;color:var(--adm-text-1);">' + escapeHtml(a.nome) + '</div>';
                             h2 += '<div style="font-size:9px;color:var(--adm-text-3);">' + escapeHtml(a.faixa) + ' · ' + a.grau + 'º→' + a.proximoGrau + 'º · ' + escapeHtml(a.ct) + '</div>';
                             h2 += '</div>';
                             h2 += '<div style="text-align:right;">';
-                            h2 += '<div style="font-size:11px;font-weight:800;color:var(--adm-primary);">' + a.pct + '%</div>';
-                            h2 += '<div style="font-size:9px;color:var(--adm-text-3);">' + a.totalTreinos + '/' + a.minTreinos + '</div>';
+                            h2 += '<div style="font-size:12px;font-weight:800;color:' + barColor + ';">' + a.pct + '%</div>';
+                            h2 += '<div style="font-size:9px;color:var(--adm-text-3);">faltam ' + faltam + '</div>';
+                            h2 += '</div>';
+                            h2 += '</div>';
+                            h2 += '<div style="height:4px;background:var(--adm-border);border-radius:2px;overflow:hidden;">';
+                            h2 += '<div style="height:100%;width:' + a.pct + '%;background:' + barColor + ';border-radius:2px;"></div>';
                             h2 += '</div>';
                             h2 += '</div>';
                         });
@@ -17345,7 +17125,6 @@
                 el.innerHTML = '<div class="admin-empty">Erro: ' + e.message + '</div>';
             }
         }
-
         // ===== ANIVERSARIANTES DO DIA — notificação para TODOS os alunos =====
         async function checkAllBirthdaysToday() {
             if (!currentUser) return;
