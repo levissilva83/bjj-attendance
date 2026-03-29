@@ -6760,6 +6760,47 @@
                 </div>
             </div>
 
+            <!-- TAB: GRADUAÇÕES -->
+            <div id="adm-graduacoes" class="adm-tab">
+                <div class="admin-container">
+                    <div class="adm-page-title">
+                        <h2>🎓 Graduações</h2>
+                        <p>Todos os alunos — progresso e previsão</p>
+                    </div>
+
+                    <!-- Filtros -->
+                    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;align-items:center;">
+                        <div id="gradTabCTFilter" style="display:flex;gap:4px;flex-wrap:wrap;"></div>
+                        <div id="gradTabFaixaFilter" style="display:flex;gap:4px;flex-wrap:wrap;margin-left:auto;"></div>
+                    </div>
+
+                    <!-- Prontos -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">✅ Prontos para Graduar <span class="admin-badge" id="gradTabProntoBadge" style="display:none">0</span></div>
+                            <button class="admin-refresh-btn" onclick="loadGradTab()">↻</button>
+                        </div>
+                        <div id="gradTabProntoList"><div class="admin-empty">Carregando...</div></div>
+                    </div>
+
+                    <!-- Próximos 80-99% -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">⚡ Próximos (80–99%)</div>
+                        </div>
+                        <div id="gradTabNearList"><div class="admin-empty">—</div></div>
+                    </div>
+
+                    <!-- Todos os demais com previsão -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">📊 Em progresso <span class="admin-badge blue" id="gradTabAllBadge" style="display:none">0</span></div>
+                        </div>
+                        <div id="gradTabAllList"><div class="admin-empty">—</div></div>
+                    </div>
+                </div>
+            </div>
+
             <!-- TAB: ALUNOS -->
             <div id="adm-alunos" class="adm-tab">
                 <div class="admin-container">
@@ -6771,9 +6812,11 @@
                             <div class="admin-section-title">👥 Alunos Cadastrados <span class="admin-badge green" id="adminStudentsBadge" style="display:none">0</span></div>
                             <button class="admin-refresh-btn" onclick="loadStudentsList()">↻</button>
                         </div>
-                        <div style="margin-bottom:12px;">
+                        <div style="margin-bottom:8px;">
                             <input type="text" id="adminStudentSearch" placeholder="Buscar por nome ou email..." oninput="filterStudentsList()" style="width:100%;box-sizing:border-box;">
                         </div>
+                        <!-- Filtro por CT -->
+                        <div id="adminStudentCTFilter" style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px;"></div>
                         <div id="adminStudentsList">
                             <div class="admin-empty">Carregando...</div>
                         </div>
@@ -7290,6 +7333,9 @@
                 <button class="bnav-btn" onclick="switchAdminTab('adm-alunos', event)">
                     <span class="bnav-icon">👥</span><span class="bnav-label">Alunos</span>
                 </button>
+                <button class="bnav-btn" onclick="switchAdminTab('adm-graduacoes', event)">
+                    <span class="bnav-icon">🎓</span><span class="bnav-label">Graduações</span>
+                </button>
                 <button class="bnav-btn" onclick="switchAdminTab('adm-presenca', event)">
                     <span class="bnav-icon">📋</span><span class="bnav-label">Presença</span>
                 </button>
@@ -7723,7 +7769,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw2Kf8iVLXh0r8HxZRhZTYeLb0umVdpyTtv538a3aaYOYGw4PN26KQa76GE78rZEHIF/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzfXiGVwUiRDfSdvQDcyqFqjrHnsTP4GSp4GRati5sDvgrwqeS8kumwDKav7-wRzOmo/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -8465,10 +8511,43 @@
 
                             var schedule = ctSchedules[name];
                             // Admin: sem filtro por dia (pode dar aula em qualquer horário)
-                            // Kids/Aluno: filtra por dia de treino
+                            // Kids/Aluno: filtra por dia de treino E por janela de horário
                             if (!isAdm && schedule) {
                                 var temConfig = Object.values(schedule).some(function(v) { return v === true; });
                                 if (temConfig && !schedule[hoje]) return;
+                            }
+
+                            // Filtro de horário: para alunos, só mostra CT se tiver
+                            // aula hoje com janela de check-in aberta ou abrindo em até 2h
+                            if (!isAdm && !isKid) {
+                                var ctObj = data.cts.find(function(c) {
+                                    return typeof c === 'object' && (c.name || '') === name;
+                                });
+                                if (ctObj) {
+                                    var hpdCT = ctObj.horariosPorDia || {};
+                                    var horCT = hpdCT[hoje] || ctObj.horarios || '';
+                                    if (horCT.indexOf('1899') > -1 || horCT.indexOf('GMT') > -1) {
+                                        var mx = horCT.match(/(\d{1,2}:\d{2})/g);
+                                        horCT = mx ? mx.join(',') : '';
+                                    }
+                                    if (horCT) {
+                                        var nowMin = new Date().getHours() * 60 + new Date().getMinutes();
+                                        var temJanelaAtiva = false;
+                                        horCT.split(',').forEach(function(t) {
+                                            t = t.trim();
+                                            var pm = t.match(/^(\d{1,2}):(\d{2})$/);
+                                            if (!pm) return;
+                                            var startMin    = parseInt(pm[1]) * 60 + parseInt(pm[2]);
+                                            var alertaMin   = startMin - 120; // aparece 2h antes
+                                            var checkinFim  = Math.min(startMin + 269, 1439); // fecha 4h29 depois
+                                            if (nowMin >= alertaMin && nowMin <= checkinFim) {
+                                                temJanelaAtiva = true;
+                                            }
+                                        });
+                                        // Se tem horários cadastrados mas nenhum no período, oculta
+                                        if (!temJanelaAtiva) return;
+                                    }
+                                }
                             }
                             const btn = document.createElement('button');
                             btn.type = 'button';
@@ -8945,22 +9024,22 @@
                 var hhR = Math.floor(minRestantes / 60), mmR = minRestantes % 60;
                 var tempoRestante = hhR > 0 ? hhR + 'h' + (mmR > 0 ? mmR + 'min' : '') : mmR + 'min';
                 title.textContent = '✅ Check-in liberado!';
-                sub.textContent = '🥋 Aula das ' + slotCheckinAberto.label + (multiCT ? ' · ' + slotCheckinAberto.ct : '') + ' · Confirme sua presença!';
+                sub.textContent = '🥋 Aula das ' + slotCheckinAberto.label + ' · ' + slotCheckinAberto.ct + ' · Confirme sua presença!';
                 timesDiv.innerHTML = '<div style="font-size:11px;color:rgba(74,222,128,0.6);">⏳ Janela encerra em <strong>' + tempoRestante + '</strong></div>';
             } else if (slotEmAndamento) {
                 var minParaCheckin = slotEmAndamento.checkinOpen - nowMin;
                 var hhC = Math.floor(minParaCheckin / 60), mmC = minParaCheckin % 60;
                 var tempoCheckin = hhC > 0 ? hhC + 'h' + (mmC > 0 ? mmC + 'min' : '') : mmC + 'min';
                 title.textContent = 'Aula em andamento!';
-                sub.textContent = '🥋 ' + slotEmAndamento.label + (multiCT ? ' · ' + slotEmAndamento.ct : '') + ' · Bora pro tatame!';
+                sub.textContent = '🥋 ' + slotEmAndamento.label + ' · ' + slotEmAndamento.ct + ' · Bora pro tatame!';
                 timesDiv.innerHTML = '<div style="font-size:11px;color:rgba(212,165,41,0.6);">⏳ Check-in libera em <strong>' + tempoCheckin + '</strong></div>';
             } else if (proximoSlot) {
                 var diffMin = proximoSlot.startMin - nowMin;
                 var hh = Math.floor(diffMin / 60), mm = diffMin % 60;
                 var countdown = hh > 0 ? hh + 'h' + (mm > 0 ? mm + 'min' : '') : mm + 'min';
                 title.textContent = 'Hoje tem treino!';
-                sub.textContent = '⏱️ Próxima aula em ' + countdown + (multiCT ? ' · ' + proximoSlot.ct : '');
-                timesDiv.innerHTML = '<div class="treino-alarm-time next"><span class="clock-icon">⏰</span> ' + proximoSlot.label + (multiCT ? ' · ' + proximoSlot.ct : '') + '</div>';
+                sub.textContent = '⏱️ Próxima aula em ' + countdown + ' · ' + proximoSlot.ct;
+                timesDiv.innerHTML = '<div class="treino-alarm-time next"><span class="clock-icon">⏰</span> ' + proximoSlot.label + ' · ' + proximoSlot.ct + '</div>';
             } else {
                 title.textContent = 'Hoje tem treino!';
                 sub.textContent = hojeName + ' · ' + ctLabel;
@@ -12404,6 +12483,7 @@
             }
             if (tabName === 'adm-painel') loadAdminPanel();
             if (tabName === 'adm-alunos') loadStudentsList();
+            if (tabName === 'adm-graduacoes') loadGradTab();
             if (tabName === 'adm-presenca') initPresencaList();
             if (tabName === 'adm-campeonato') initCampAdmin();
             if (tabName === 'adm-sistema') { loadModulesConfig(); loadSystemHealth(); loadAdminCTs(); loadAdminProfile(); loadGradConfig(); loadCTScheduleAdmin(); initAdmAulaForm(); }
@@ -17050,6 +17130,214 @@
         // ANIVERSARIANTES (ADMIN)
         // ═══════════════════════════════════════════════════
         // ===== ALERTAS DE GRADUAÇÃO =====
+        // ===== PAINEL DE GRADUAÇÕES (tab dedicada) =====
+        var _gradTabData   = null;
+        var _gradTabCT     = null;
+        var _gradTabFaixa  = null;
+
+        async function loadGradTab() {
+            var elPronto = document.getElementById('gradTabProntoList');
+            if (!elPronto) return;
+            elPronto.innerHTML = '<div class="admin-empty">Carregando...</div>';
+            try {
+                var data = await secureFetch('getGradAlerts', {});
+                if (!data.success) { elPronto.innerHTML = '<div class="admin-empty">Erro: ' + escapeHtml(data.message || 'falha desconhecida') + '</div>'; return; }
+                _gradTabData = {
+                    prontos:    (data.overdueAlerts || []).concat(data.alerts || []),
+                    near:       data.nearAlerts   || [],
+                    allStudents: data.allStudents || []
+                };
+                _gradTabCT    = null;
+                _gradTabFaixa = null;
+                renderGradTabFilters();
+                renderGradTab();
+            } catch(e) {
+                elPronto.innerHTML = '<div class="admin-empty">Erro: ' + e.message + '</div>';
+            }
+        }
+
+        function renderGradTabFilters() {
+            if (!_gradTabData) return;
+            var all = _gradTabData.prontos.concat(_gradTabData.near).concat(_gradTabData.allStudents);
+            var cts = {}, faixas = {};
+            all.forEach(function(a) {
+                if (a.ct) cts[a.ct] = true;
+                if (a.faixa) faixas[a.faixa] = true;
+            });
+            var faixaOrder = ['Branca','Azul','Roxa','Marrom','Preta'];
+
+            var ctEl = document.getElementById('gradTabCTFilter');
+            if (ctEl) {
+                var ctList = Object.keys(cts).sort();
+                if (ctList.length > 1) {
+                    var h = '';
+                    [null].concat(ctList).forEach(function(ct) {
+                        var active = _gradTabCT === ct;
+                        var label = ct || 'Todos';
+                        h += '<button onclick="setGradTabCT(' + (ct ? '\'' + ct.replace(/'/g,"\\'") + '\'' : 'null') + ')" style="padding:4px 10px;border-radius:6px;font-size:11px;font-weight:' + (active?'800':'600') + ';cursor:pointer;border:1px solid ' + (active?'var(--adm-primary)':'var(--adm-border)') + ';background:' + (active?'var(--adm-primary)':'var(--adm-bg-elevated)') + ';color:' + (active?'#000':'var(--adm-text-2)') + ';">' + escapeHtml(label) + '</button>';
+                    });
+                    ctEl.innerHTML = h; ctEl.style.display = 'flex';
+                } else { ctEl.innerHTML = ''; }
+            }
+
+            var faixaEl = document.getElementById('gradTabFaixaFilter');
+            if (faixaEl) {
+                var faixaList = faixaOrder.filter(function(f) { return faixas[f]; });
+                var faixaEmoji = { 'Branca':'⚪','Azul':'🔵','Roxa':'🟣','Marrom':'🟤','Preta':'⚫' };
+                if (faixaList.length > 1) {
+                    var h2 = '';
+                    [null].concat(faixaList).forEach(function(f) {
+                        var active = _gradTabFaixa === f;
+                        var label = f ? (faixaEmoji[f]||'') + ' ' + f : 'Todas';
+                        h2 += '<button onclick="setGradTabFaixa(' + (f ? '\'' + f + '\'' : 'null') + ')" style="padding:4px 10px;border-radius:6px;font-size:11px;font-weight:' + (active?'800':'600') + ';cursor:pointer;border:1px solid ' + (active?'var(--adm-primary)':'var(--adm-border)') + ';background:' + (active?'var(--adm-primary)':'var(--adm-bg-elevated)') + ';color:' + (active?'#000':'var(--adm-text-2)') + ';">' + label + '</button>';
+                    });
+                    faixaEl.innerHTML = h2; faixaEl.style.display = 'flex';
+                } else { faixaEl.innerHTML = ''; }
+            }
+        }
+
+        function setGradTabCT(ct)    { _gradTabCT = ct;    renderGradTabFilters(); renderGradTab(); }
+        function setGradTabFaixa(f)  { _gradTabFaixa = f;  renderGradTabFilters(); renderGradTab(); }
+
+        function previsaoLabel(dias) {
+            if (dias === null || dias === undefined) return '';
+            if (dias <= 0) return '✅ já pronto';
+            if (dias < 7)  return '~' + dias + 'd';
+            if (dias < 30) return '~' + Math.round(dias/7) + ' sem.';
+            if (dias < 365) return '~' + Math.round(dias/30) + ' mes.';
+            return '~' + (dias/365).toFixed(1) + ' anos';
+        }
+
+        function renderGradTab() {
+            if (!_gradTabData) return;
+            var elPronto = document.getElementById('gradTabProntoList');
+            var elNear   = document.getElementById('gradTabNearList');
+            var elAll    = document.getElementById('gradTabAllList');
+            var badge    = document.getElementById('gradTabProntoBadge');
+            var badgeAll = document.getElementById('gradTabAllBadge');
+            var faixaEmoji = { 'Branca':'⚪','Azul':'🔵','Roxa':'🟣','Marrom':'🟤','Preta':'⚫' };
+
+            function applyFilters(arr) {
+                return arr.filter(function(a) {
+                    if (_gradTabCT    && a.ct    !== _gradTabCT)    return false;
+                    if (_gradTabFaixa && a.faixa !== _gradTabFaixa) return false;
+                    return true;
+                });
+            }
+
+            var prontos = applyFilters(_gradTabData.prontos);
+            var near    = applyFilters(_gradTabData.near);
+            var rest    = applyFilters(_gradTabData.allStudents);
+
+            if (badge)    { badge.textContent = prontos.length;    badge.style.display = prontos.length ? 'inline-block' : 'none'; }
+            if (badgeAll) { badgeAll.textContent = rest.length;    badgeAll.style.display = rest.length ? 'inline-block' : 'none'; }
+
+            // ── PRONTOS ──────────────────────────────────────────
+            if (prontos.length === 0) {
+                elPronto.innerHTML = '<div class="admin-empty">Nenhum aluno pronto</div>';
+            } else {
+                var h = '';
+                prontos.forEach(function(a) {
+                    h += '<div style="padding:12px;border-radius:12px;margin-bottom:8px;background:rgba(74,222,128,0.05);border:1px solid rgba(74,222,128,0.2);">';
+                    h += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">';
+                    h += '<div style="width:38px;height:38px;border-radius:50%;background:rgba(74,222,128,0.12);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">' + (faixaEmoji[a.faixa]||'🥋') + '</div>';
+                    h += '<div style="flex:1;min-width:0;">';
+                    h += '<div style="font-size:13px;font-weight:800;color:var(--adm-text-1);">' + escapeHtml(a.nome) + '</div>';
+                    h += '<div style="font-size:10px;color:var(--adm-text-3);">' + escapeHtml(a.faixa) + ' · ' + a.grau + 'º → <strong style="color:#4ade80;">' + a.proximoGrau + 'º grau</strong> · ' + escapeHtml(a.ct) + '</div>';
+                    h += '</div>';
+                    h += '<div style="text-align:right;flex-shrink:0;">';
+                    h += '<div style="font-size:11px;font-weight:800;color:#4ade80;">PRONTO ✅</div>';
+                    if (a.diasAguardando > 0) h += '<div style="font-size:9px;color:var(--adm-text-3);">' + a.diasAguardando + 'd aguardando</div>';
+                    h += '</div></div>';
+                    h += '<div style="display:flex;gap:6px;">';
+                    h += '<div style="flex:1;background:rgba(74,222,128,0.08);border-radius:8px;padding:6px 10px;">';
+                    h += '<div style="font-size:9px;color:var(--adm-text-3);font-weight:600;">🏠 CT PRINCIPAL</div>';
+                    h += '<div style="font-size:16px;font-weight:800;color:#4ade80;">' + (a.treinosCTPrincipal||0) + '</div>';
+                    h += '</div>';
+                    if ((a.treinosOutrosCTs||0) > 0) {
+                        h += '<div style="flex:1;background:rgba(56,189,248,0.08);border-radius:8px;padding:6px 10px;">';
+                        h += '<div style="font-size:9px;color:var(--adm-text-3);font-weight:600;">🌍 OUTROS</div>';
+                        h += '<div style="font-size:16px;font-weight:800;color:#38bdf8;">' + (a.treinosOutrosCTs||0) + '</div>';
+                        h += '</div>';
+                    }
+                    h += '<div style="flex:1;background:rgba(212,165,41,0.08);border-radius:8px;padding:6px 10px;">';
+                    h += '<div style="font-size:9px;color:var(--adm-text-3);font-weight:600;">⚖️ PONDERADO</div>';
+                    h += '<div style="font-size:16px;font-weight:800;color:var(--adm-primary);">' + (a.totalPonderado||a.totalTreinos) + '<span style="font-size:10px;opacity:0.6;">/' + a.minTreinos + '</span></div>';
+                    h += '</div></div>';
+                    h += '<div style="margin-top:8px;"><button onclick="openStuModal(\'' + escapeHtml(a.email) + '\')" style="width:100%;padding:8px;background:linear-gradient(135deg,rgba(74,222,128,0.15),rgba(74,222,128,0.05));color:#4ade80;border:1px solid rgba(74,222,128,0.3);border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">🎓 Abrir perfil para graduar</button></div>';
+                    h += '</div>';
+                });
+                elPronto.innerHTML = h;
+            }
+
+            // ── PRÓXIMOS 80-99% ───────────────────────────────────
+            if (near.length === 0) {
+                elNear.innerHTML = '<div class="admin-empty" style="color:var(--adm-text-3);">Nenhum</div>';
+            } else {
+                var h2 = '';
+                near.forEach(function(a) {
+                    var faltam   = a.minTreinos - Math.round(a.totalPonderado||a.totalTreinos);
+                    var barColor = a.pct >= 95 ? '#4ade80' : a.pct >= 90 ? '#fbbf24' : 'var(--adm-primary)';
+                    var prev = previsaoLabel(a.previsaoDias);
+                    h2 += '<div style="padding:10px 12px;border-radius:10px;margin-bottom:6px;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);">';
+                    h2 += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">';
+                    h2 += '<div style="font-size:18px;">' + (faixaEmoji[a.faixa]||'🥋') + '</div>';
+                    h2 += '<div style="flex:1;min-width:0;">';
+                    h2 += '<div style="font-size:12px;font-weight:700;color:var(--adm-text-1);">' + escapeHtml(a.nome) + '</div>';
+                    h2 += '<div style="font-size:10px;color:var(--adm-text-3);">' + escapeHtml(a.faixa) + ' · ' + a.grau + 'º→' + a.proximoGrau + 'º · ' + escapeHtml(a.ct) + '</div>';
+                    h2 += '</div>';
+                    h2 += '<div style="text-align:right;">';
+                    h2 += '<div style="font-size:14px;font-weight:800;color:' + barColor + ';">' + a.pct + '%</div>';
+                    h2 += '<div style="font-size:9px;color:var(--adm-text-3);">faltam ' + faltam + (prev ? ' · ' + prev : '') + '</div>';
+                    h2 += '</div></div>';
+                    h2 += '<div style="height:5px;background:var(--adm-border);border-radius:3px;overflow:hidden;margin-bottom:7px;">';
+                    h2 += '<div style="height:100%;width:' + a.pct + '%;background:' + barColor + ';border-radius:3px;"></div></div>';
+                    h2 += '<div style="display:flex;gap:5px;">';
+                    h2 += '<div style="flex:1;background:rgba(74,222,128,0.06);border-radius:6px;padding:4px 8px;text-align:center;"><div style="font-size:12px;font-weight:800;color:#4ade80;">' + (a.treinosCTPrincipal||0) + '</div><div style="font-size:8px;color:var(--adm-text-3);">🏠 principal</div></div>';
+                    if ((a.treinosOutrosCTs||0) > 0) {
+                        h2 += '<div style="flex:1;background:rgba(56,189,248,0.06);border-radius:6px;padding:4px 8px;text-align:center;"><div style="font-size:12px;font-weight:800;color:#38bdf8;">' + (a.treinosOutrosCTs||0) + '</div><div style="font-size:8px;color:var(--adm-text-3);">🌍 outros</div></div>';
+                    }
+                    h2 += '<div style="flex:1;background:rgba(212,165,41,0.06);border-radius:6px;padding:4px 8px;text-align:center;"><div style="font-size:12px;font-weight:800;color:var(--adm-primary);">' + (a.totalPonderado||a.totalTreinos) + '/' + a.minTreinos + '</div><div style="font-size:8px;color:var(--adm-text-3);">⚖️ ponderado</div></div>';
+                    h2 += '</div></div>';
+                });
+                elNear.innerHTML = h2;
+            }
+
+            // ── EM PROGRESSO (<80%) com PREVISÃO ─────────────────
+            if (!elAll) return;
+            if (rest.length === 0) {
+                elAll.innerHTML = '<div class="admin-empty" style="color:var(--adm-text-3);">Nenhum</div>';
+            } else {
+                var h3 = '';
+                rest.forEach(function(a) {
+                    var faltam   = a.minTreinos - Math.round(a.totalPonderado||a.totalTreinos);
+                    var barColor = a.pct >= 60 ? '#fbbf24' : a.pct >= 30 ? 'var(--adm-primary)' : 'var(--adm-text-3)';
+                    var prev = previsaoLabel(a.previsaoDias);
+                    var prevColor = !prev ? 'var(--adm-text-3)' :
+                                    a.previsaoDias < 30 ? '#4ade80' :
+                                    a.previsaoDias < 90 ? '#fbbf24' : 'var(--adm-text-3)';
+                    h3 += '<div style="padding:9px 12px;border-radius:10px;margin-bottom:5px;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);display:flex;align-items:center;gap:10px;">';
+                    h3 += '<div style="font-size:16px;flex-shrink:0;">' + (faixaEmoji[a.faixa]||'🥋') + '</div>';
+                    h3 += '<div style="flex:1;min-width:0;">';
+                    h3 += '<div style="font-size:11px;font-weight:700;color:var(--adm-text-1);">' + escapeHtml(a.nome) + '</div>';
+                    h3 += '<div style="font-size:9px;color:var(--adm-text-3);margin-bottom:4px;">' + escapeHtml(a.faixa) + ' · ' + a.grau + 'º→' + a.proximoGrau + 'º · ' + escapeHtml(a.ct) + '</div>';
+                    // Mini barra
+                    h3 += '<div style="height:3px;background:var(--adm-border);border-radius:2px;overflow:hidden;">';
+                    h3 += '<div style="height:100%;width:' + a.pct + '%;background:' + barColor + ';border-radius:2px;"></div></div>';
+                    h3 += '</div>';
+                    h3 += '<div style="text-align:right;flex-shrink:0;min-width:64px;">';
+                    h3 += '<div style="font-size:12px;font-weight:800;color:' + barColor + ';">' + a.pct + '%</div>';
+                    h3 += '<div style="font-size:9px;color:var(--adm-text-3);">' + (a.totalPonderado||a.totalTreinos) + '/' + a.minTreinos + '</div>';
+                    if (prev) h3 += '<div style="font-size:9px;font-weight:700;color:' + prevColor + ';">' + prev + '</div>';
+                    else      h3 += '<div style="font-size:9px;color:var(--adm-text-3);">sem dados</div>';
+                    h3 += '</div>';
+                    h3 += '</div>';
+                });
+                elAll.innerHTML = h3;
+            }
+        }
+
+
         async function loadGradAlerts() {
             var el     = document.getElementById('adminGradAlertList');
             var elNear = document.getElementById('adminGradNearList');
@@ -17079,14 +17367,35 @@
                 } else {
                     var h = '';
                     prontos.forEach(function(a) {
-                        h += '<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;margin-bottom:4px;background:rgba(74,222,128,0.06);border:1px solid rgba(74,222,128,0.25);">';
+                        h += '<div style="padding:10px 12px;border-radius:10px;margin-bottom:4px;background:rgba(74,222,128,0.06);border:1px solid rgba(74,222,128,0.25);">';
+                        h += '<div style="display:flex;align-items:center;gap:10px;">';
                         h += '<div style="font-size:20px;flex-shrink:0;">' + (faixaEmoji[a.faixa] || '🥋') + '</div>';
                         h += '<div style="flex:1;min-width:0;">';
                         h += '<div style="font-size:12px;font-weight:800;color:var(--adm-text-1);">' + escapeHtml(a.nome) + '</div>';
                         h += '<div style="font-size:10px;color:var(--adm-text-3);">' + escapeHtml(a.faixa) + ' · ' + a.grau + 'º → ' + a.proximoGrau + 'º grau · ' + escapeHtml(a.ct) + '</div>';
-                        h += '<div style="font-size:10px;color:#4ade80;font-weight:700;margin-top:2px;">' + a.totalTreinos + '/' + a.minTreinos + ' aulas ✅</div>';
                         h += '</div>';
-                        h += '<div style="font-size:11px;font-weight:800;color:#4ade80;flex-shrink:0;">PRONTO</div>';
+                        h += '<div style="font-size:11px;font-weight:800;color:#4ade80;flex-shrink:0;">PRONTO ✅</div>';
+                        h += '</div>';
+                        // Detalhes de treinos por CT
+                        h += '<div style="margin-top:7px;padding-top:7px;border-top:1px solid rgba(74,222,128,0.15);display:flex;gap:8px;flex-wrap:wrap;">';
+                        h += '<div style="flex:1;min-width:0;background:rgba(74,222,128,0.08);border-radius:6px;padding:5px 8px;">';
+                        h += '<div style="font-size:9px;color:var(--adm-text-3);font-weight:600;margin-bottom:1px;">🏠 CT PRINCIPAL</div>';
+                        h += '<div style="font-size:13px;font-weight:800;color:#4ade80;">' + (a.treinosCTPrincipal || 0) + '</div>';
+                        h += '<div style="font-size:9px;color:var(--adm-text-3);">treinos em ' + escapeHtml(a.ct) + '</div>';
+                        h += '</div>';
+                        if ((a.treinosOutrosCTs || 0) > 0) {
+                            h += '<div style="flex:1;min-width:0;background:rgba(56,189,248,0.08);border-radius:6px;padding:5px 8px;">';
+                            h += '<div style="font-size:9px;color:var(--adm-text-3);font-weight:600;margin-bottom:1px;">🌍 OUTROS CTs</div>';
+                            h += '<div style="font-size:13px;font-weight:800;color:#38bdf8;">' + (a.treinosOutrosCTs || 0) + '</div>';
+                            h += '<div style="font-size:9px;color:var(--adm-text-3);">peso 0.5 cada</div>';
+                            h += '</div>';
+                        }
+                        h += '<div style="flex:1;min-width:0;background:rgba(212,165,41,0.08);border-radius:6px;padding:5px 8px;">';
+                        h += '<div style="font-size:9px;color:var(--adm-text-3);font-weight:600;margin-bottom:1px;">⚖️ PONDERADO</div>';
+                        h += '<div style="font-size:13px;font-weight:800;color:var(--adm-primary);">' + (a.totalPonderado || a.totalTreinos) + '</div>';
+                        h += '<div style="font-size:9px;color:var(--adm-text-3);">de ' + a.minTreinos + ' necessários</div>';
+                        h += '</div>';
+                        h += '</div>';
                         h += '</div>';
                     });
                     el.innerHTML = h;
@@ -17113,8 +17422,26 @@
                             h2 += '<div style="font-size:9px;color:var(--adm-text-3);">faltam ' + faltam + '</div>';
                             h2 += '</div>';
                             h2 += '</div>';
-                            h2 += '<div style="height:4px;background:var(--adm-border);border-radius:2px;overflow:hidden;">';
+                            // Barra de progresso
+                            h2 += '<div style="height:4px;background:var(--adm-border);border-radius:2px;overflow:hidden;margin-bottom:7px;">';
                             h2 += '<div style="height:100%;width:' + a.pct + '%;background:' + barColor + ';border-radius:2px;"></div>';
+                            h2 += '</div>';
+                            // Detalhe CT principal vs outros
+                            h2 += '<div style="display:flex;gap:6px;">';
+                            h2 += '<div style="flex:1;background:rgba(74,222,128,0.06);border-radius:5px;padding:4px 7px;text-align:center;">';
+                            h2 += '<div style="font-size:11px;font-weight:800;color:#4ade80;">' + (a.treinosCTPrincipal || 0) + '</div>';
+                            h2 += '<div style="font-size:8px;color:var(--adm-text-3);">🏠 CT principal</div>';
+                            h2 += '</div>';
+                            if ((a.treinosOutrosCTs || 0) > 0) {
+                                h2 += '<div style="flex:1;background:rgba(56,189,248,0.06);border-radius:5px;padding:4px 7px;text-align:center;">';
+                                h2 += '<div style="font-size:11px;font-weight:800;color:#38bdf8;">' + (a.treinosOutrosCTs || 0) + '</div>';
+                                h2 += '<div style="font-size:8px;color:var(--adm-text-3);">🌍 outros CTs</div>';
+                                h2 += '</div>';
+                            }
+                            h2 += '<div style="flex:1;background:rgba(212,165,41,0.06);border-radius:5px;padding:4px 7px;text-align:center;">';
+                            h2 += '<div style="font-size:11px;font-weight:800;color:var(--adm-primary);">' + (a.totalPonderado || a.totalTreinos) + '/' + a.minTreinos + '</div>';
+                            h2 += '<div style="font-size:8px;color:var(--adm-text-3);">⚖️ ponderado</div>';
+                            h2 += '</div>';
                             h2 += '</div>';
                             h2 += '</div>';
                         });
@@ -17540,6 +17867,8 @@
                         if (!s.ctsdoprof && s.ctsProfessor) s.ctsdoprof = s.ctsProfessor;
                     });
                     adminStudentsCache = data.students;
+                    _adminStudentCTFilter = null; // reset filtro ao recarregar
+                    renderStudentCTFilter();
                     renderStudentsList(adminStudentsCache);
                     var badge = document.getElementById('adminStudentsBadge');
                     badge.textContent = data.students.length;
@@ -17740,6 +18069,10 @@
                 if (diasArr.indexOf(d) !== -1) btn.classList.add('on');
                 else btn.classList.remove('on');
             });
+            // Se o aluno não tem dias configurados, aplica automaticamente os dias do CT
+            if (diasArr.length === 0 && s.ct) {
+                applyCTDays();
+            }
             updateStuDiasHint(s.ct);
 
             // Clear message
@@ -17774,6 +18107,8 @@
                     }
                 });
             }
+            // Aplicar dias do CT automaticamente ao mudar o CT principal
+            applyCTDays();
         }
 
         function updateStuDiasHint(ctName) {
@@ -18025,11 +18360,41 @@
             } catch (err) { alert('Erro de conexão'); }
         }
 
+        // CT selecionado no filtro de alunos (null = todos)
+        var _adminStudentCTFilter = null;
+
+        function renderStudentCTFilter() {
+            var el = document.getElementById('adminStudentCTFilter');
+            if (!el) return;
+            // Coletar CTs únicos dos alunos
+            var cts = {};
+            (adminStudentsCache || []).forEach(function(s) { if (s.ct) cts[s.ct] = (cts[s.ct] || 0) + 1; });
+            var ctList = Object.keys(cts).sort();
+            if (ctList.length <= 1) { el.style.display = 'none'; return; }
+            el.style.display = 'flex';
+            var h = '';
+            // Botão "Todos"
+            var allActive = _adminStudentCTFilter === null;
+            h += '<button onclick="setStudentCTFilter(null)" style="padding:4px 10px;border-radius:6px;font-size:11px;font-weight:' + (allActive?'800':'600') + ';cursor:pointer;border:1px solid ' + (allActive?'var(--adm-primary)':'var(--adm-border)') + ';background:' + (allActive?'var(--adm-primary)':'var(--adm-bg-elevated)') + ';color:' + (allActive?'#000':'var(--adm-text-2)') + ';">Todos</button>';
+            ctList.forEach(function(ct) {
+                var active = _adminStudentCTFilter === ct;
+                h += '<button onclick="setStudentCTFilter(\'' + ct.replace(/'/g,"\\'") + '\')" style="padding:4px 10px;border-radius:6px;font-size:11px;font-weight:' + (active?'800':'600') + ';cursor:pointer;border:1px solid ' + (active?'var(--adm-primary)':'var(--adm-border)') + ';background:' + (active?'var(--adm-primary)':'var(--adm-bg-elevated)') + ';color:' + (active?'#000':'var(--adm-text-2)') + ';">' + escapeHtml(ct) + ' <span style="opacity:0.6;">' + cts[ct] + '</span></button>';
+            });
+            el.innerHTML = h;
+        }
+
+        function setStudentCTFilter(ct) {
+            _adminStudentCTFilter = ct;
+            renderStudentCTFilter();
+            filterStudentsList();
+        }
+
         function filterStudentsList() {
             var q = (document.getElementById('adminStudentSearch').value || '').toLowerCase();
-            if (!q) { renderStudentsList(adminStudentsCache); return; }
             var filtered = adminStudentsCache.filter(function(s) {
-                return ((s.name || '').toLowerCase().indexOf(q) !== -1) || ((s.email || '').toLowerCase().indexOf(q) !== -1);
+                var matchText = !q || ((s.name || '').toLowerCase().indexOf(q) !== -1) || ((s.email || '').toLowerCase().indexOf(q) !== -1);
+                var matchCT  = !_adminStudentCTFilter || (s.ct || '') === _adminStudentCTFilter;
+                return matchText && matchCT;
             });
             renderStudentsList(filtered);
         }
