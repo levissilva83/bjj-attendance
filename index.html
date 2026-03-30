@@ -1299,18 +1299,19 @@
         .prs-day.empty { cursor: default; }
         .prs-day.today { outline: 2px solid var(--accent); outline-offset: -2px; }
         .prs-day.present { background: rgba(46,204,113,0.15); color: #2ecc71; }
-        .prs-day.present::after {
-            content: ''; position: absolute; bottom: 4px; width: 6px; height: 6px;
+        .prs-day.present::after {            content: ''; position: absolute; bottom: 4px; width: 6px; height: 6px;
             border-radius: 50%; background: #2ecc71;
         }
         .prs-day.missed { background: rgba(231,76,60,0.1); color: rgba(231,76,60,0.7); }
-        .prs-day.missed::after {
-            content: '✕'; position: absolute; bottom: 2px; font-size: 8px; color: rgba(231,76,60,0.5);
+        .prs-day.missed::after {            content: '✕'; position: absolute; bottom: 2px; font-size: 8px; color: rgba(231,76,60,0.5);
         }
         .prs-day.expected { background: rgba(251,191,36,0.08); }
-        .prs-day.expected::after {
-            content: ''; position: absolute; bottom: 4px; width: 4px; height: 4px;
+        .prs-day.expected::after {            content: ''; position: absolute; bottom: 4px; width: 4px; height: 4px;
             border-radius: 50%; background: rgba(251,191,36,0.3);
+        }
+        .prs-day.pending-esq { background: rgba(251,191,36,0.15); color: #fbbf24; }
+        .prs-day.pending-esq::after { content: ''; position: absolute; bottom: 4px; width: 6px; height: 6px;
+            border-radius: 50%; background: #fbbf24; opacity: 0.8;
         }
         .prs-day.multi::after { width: 10px; border-radius: 3px; height: 4px; }
         .prs-day.selected { outline: 2px solid var(--accent); outline-offset: -2px; }
@@ -2795,8 +2796,22 @@
         }
 
         /* Admin page title bar */
-        .adm-page-title {
-            padding: 20px 0 4px;
+        .sa-stat-card {
+            background: var(--adm-bg-elevated);
+            border: 1px solid var(--adm-border);
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            font-size: 11px;
+            color: var(--adm-text-3);
+        }
+        .sa-stat-card .sa-stat-num {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--adm-primary);
+            display: block;
+        }
+        .adm-page-title {            padding: 20px 0 4px;
             text-align: center;
         }
         .adm-page-title h2 {
@@ -5584,6 +5599,7 @@
                         <button class="subtab-btn" data-module="aulas" onclick="switchSubTab('treino-tab','sub-aulas',event)">📅 Cronograma</button>
                         <button class="subtab-btn" data-module="evolucao" onclick="switchSubTab('treino-tab','sub-evolucao',event)">📈 Evolução</button>
                         <button class="subtab-btn" data-module="presencas" onclick="switchSubTab('treino-tab','sub-presencas',event)">📅 Presenças</button>
+                        <button class="subtab-btn" data-module="feedback" onclick="switchSubTab('treino-tab','sub-feedback',event)">💬 Feedback</button>
                     </div>
 
                     <!-- SUB: CHECK-IN -->
@@ -5855,6 +5871,7 @@
                                 <div class="prs-legend-item"><span class="prs-dot present"></span> Treinou</div>
                                 <div class="prs-legend-item"><span class="prs-dot expected"></span> Dia de treino</div>
                                 <div class="prs-legend-item"><span class="prs-dot missed"></span> Faltou</div>
+                                <div class="prs-legend-item"><span class="prs-dot" style="background:#fbbf24;"></span> Aguardando</div>
                             </div>
 
                             <!-- Day Detail (expandable) -->
@@ -5932,18 +5949,72 @@
                         </div>
                     </div> <!-- /sub-aulas -->
 
+                    <!-- SUB: FEEDBACK -->
+                    <div id="sub-feedback" class="subtab-content">
+                        <div style="padding:16px 0;">
+                            <div style="font-size:13px;font-weight:800;color:var(--text-1);margin-bottom:4px;">💬 Enviar Feedback</div>
+                            <div style="font-size:11px;color:var(--text-3);margin-bottom:16px;">Elogie, sugira melhorias ou reporte um problema. Seu feedback é anônimo para outros alunos.</div>
+
+                            <!-- Tipo -->
+                            <div style="display:flex;gap:8px;margin-bottom:14px;">
+                                <button id="fbTipoElogio" onclick="setFeedbackTipo('elogio')" style="flex:1;padding:10px 6px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg-elevated);color:var(--text-2);font-size:12px;font-weight:700;cursor:pointer;transition:all 0.2s;">
+                                    😊 Elogio
+                                </button>
+                                <button id="fbTipoSugestao" onclick="setFeedbackTipo('sugestao')" style="flex:1;padding:10px 6px;border-radius:10px;border:1.5px solid var(--accent);background:var(--accent-dim);color:var(--accent);font-size:12px;font-weight:700;cursor:pointer;transition:all 0.2s;">
+                                    💡 Sugestão
+                                </button>
+                                <button id="fbTipoReclamacao" onclick="setFeedbackTipo('reclamacao')" style="flex:1;padding:10px 6px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg-elevated);color:var(--text-2);font-size:12px;font-weight:700;cursor:pointer;transition:all 0.2s;">
+                                    😤 Problema
+                                </button>
+                            </div>
+
+                            <!-- Mensagem -->
+                            <textarea id="fbMensagem" placeholder="Escreva sua mensagem aqui..." maxlength="1000"
+                                style="width:100%;box-sizing:border-box;min-height:120px;padding:12px;background:var(--bg-elevated);color:var(--text-1);border:1px solid var(--border);border-radius:10px;font-size:13px;line-height:1.5;resize:vertical;font-family:inherit;"
+                                oninput="document.getElementById('fbCharCount').textContent=this.value.length"></textarea>
+                            <div style="text-align:right;font-size:10px;color:var(--text-3);margin-top:3px;"><span id="fbCharCount">0</span>/1000</div>
+
+                            <button onclick="submitFeedback()" style="width:100%;margin-top:12px;padding:13px;background:var(--accent);color:#000;border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;">
+                                Enviar →
+                            </button>
+                            <div id="fbMsg" style="margin-top:10px;font-size:12px;text-align:center;"></div>
+                        </div>
+                    </div>
+
                 </div> <!-- /treino-tab -->
 
                 <!-- TAB: PREPARAÇÃO FÍSICA -->
                 <div id="prepfisica-tab" class="tab-content">
-                    <div style="padding:12px 16px 0;">
-                        <div style="font-family:'Sora',sans-serif;font-size:18px;font-weight:900;color:var(--text-1);margin-bottom:2px;">🏋️ Preparação Física</div>
-                        <div style="font-size:11px;color:var(--text-3);margin-bottom:14px;">Sua ficha de musculação complementar ao BJJ</div>
+                    <!-- Subtabs -->
+                    <div class="subtab-bar">
+                        <button class="subtab-btn active" data-module="treinos" onclick="switchSubTab('prepfisica-tab','sub-treinos',event)">🏋️ Treinos</button>
+                        <button class="subtab-btn" data-module="ibjjf" onclick="switchSubTab('prepfisica-tab','sub-ibjjf',event)">📋 Regras IBJJF <span id="ibjjfNewBadge" style="display:none;background:#f87171;color:#fff;font-size:8px;font-weight:800;padding:1px 5px;border-radius:8px;margin-left:2px;">NOVO</span></button>
                     </div>
-                    <div style="padding:0 16px 12px;" id="muscContainer">
-                        <div class="musc-empty-state">
-                            <div class="musc-empty-icon">💪</div>
-                            <div class="musc-empty-title">Carregando...</div>
+
+                    <!-- SUB: TREINOS -->
+                    <div id="sub-treinos" class="subtab-content active">
+                        <div style="padding:12px 16px 0;">
+                            <div style="font-family:'Sora',sans-serif;font-size:18px;font-weight:900;color:var(--text-1);margin-bottom:2px;">🏋️ Preparação Física</div>
+                            <div style="font-size:11px;color:var(--text-3);margin-bottom:14px;">Treinos complementares ao BJJ</div>
+                        </div>
+                        <div style="padding:0 16px 12px;" id="muscContainer">
+                            <div class="musc-empty-state"><div class="musc-empty-icon">💪</div><div class="musc-empty-title">Carregando...</div></div>
+                        </div>
+                        <!-- Histórico de treinos realizados -->
+                        <div style="padding:0 16px 16px;">
+                            <div style="font-size:13px;font-weight:800;color:var(--text-1);margin-bottom:10px;">📅 Meus Treinos Realizados</div>
+                            <div id="treinoHistoricoList"><div style="text-align:center;color:var(--text-3);font-size:12px;padding:16px;">Carregando...</div></div>
+                        </div>
+                    </div>
+
+                    <!-- SUB: IBJJF REGRAS -->
+                    <div id="sub-ibjjf" class="subtab-content">
+                        <div style="padding:14px 16px 0;">
+                            <div style="font-size:15px;font-weight:900;color:var(--text-1);font-family:Sora,sans-serif;margin-bottom:2px;">📋 Regras IBJJF</div>
+                            <div style="font-size:11px;color:var(--text-3);margin-bottom:14px;">Atualizações e novidades do regulamento</div>
+                        </div>
+                        <div id="ibjjfList" style="padding:0 16px 16px;">
+                            <div style="text-align:center;padding:40px 0;color:var(--text-3);font-size:12px;">Carregando...</div>
                         </div>
                     </div>
                 </div> <!-- /prepfisica-tab -->
@@ -6567,6 +6638,15 @@
                         </div>
                     </div>
 
+                    <!-- Feedbacks dos Alunos -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">💬 Feedbacks <span class="admin-badge" id="adminFeedbackBadge" style="display:none">0</span></div>
+                            <button class="admin-refresh-btn" onclick="loadAdminFeedbacks()">↻</button>
+                        </div>
+                        <div id="adminFeedbackList"><div class="admin-empty">Carregando...</div></div>
+                    </div>
+
                     <!-- Exam Schedule Management -->
                     <div class="admin-section">
                         <div class="admin-section-header">
@@ -6760,6 +6840,25 @@
                 </div>
             </div>
 
+            <!-- TAB: FEEDBACKS -->
+            <div id="adm-feedbacks" class="adm-tab">
+                <div class="admin-container">
+                    <div class="adm-page-title">
+                        <h2>💬 Feedbacks</h2>
+                        <p>Elogios, sugestões e problemas dos alunos</p>
+                    </div>
+                    <!-- Filtros tipo -->
+                    <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;">
+                        <button id="fbFilterAll"     onclick="setFbTabFilter(null)"          style="padding:5px 12px;border-radius:6px;font-size:11px;font-weight:800;cursor:pointer;border:1px solid var(--adm-primary);background:var(--adm-primary);color:#000;">Todos</button>
+                        <button id="fbFilterElogio"  onclick="setFbTabFilter('elogio')"      style="padding:5px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--adm-border);background:var(--adm-bg-elevated);color:var(--adm-text-2);">😊 Elogios</button>
+                        <button id="fbFilterSugest"  onclick="setFbTabFilter('sugestao')"    style="padding:5px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--adm-border);background:var(--adm-bg-elevated);color:var(--adm-text-2);">💡 Sugestões</button>
+                        <button id="fbFilterRecl"    onclick="setFbTabFilter('reclamacao')"  style="padding:5px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--adm-border);background:var(--adm-bg-elevated);color:var(--adm-text-2);">😤 Problemas</button>
+                        <button onclick="loadFeedbacksTab()" style="padding:5px 10px;border-radius:6px;font-size:11px;cursor:pointer;border:1px solid var(--adm-border);background:var(--adm-bg-elevated);color:var(--adm-text-2);margin-left:auto;">↻</button>
+                    </div>
+                    <div id="fbTabList"><div class="admin-empty">Carregando...</div></div>
+                </div>
+            </div>
+
             <!-- TAB: GRADUAÇÕES -->
             <div id="adm-graduacoes" class="adm-tab">
                 <div class="admin-container">
@@ -6797,6 +6896,122 @@
                             <div class="admin-section-title">📊 Em progresso <span class="admin-badge blue" id="gradTabAllBadge" style="display:none">0</span></div>
                         </div>
                         <div id="gradTabAllList"><div class="admin-empty">—</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: SUPER ADMIN -->
+            <div id="adm-superadmin" class="adm-tab">
+                <div class="admin-container">
+                    <div class="adm-page-title">
+                        <h2>🔑 Super Admin</h2>
+                        <p>Acesso restrito — configurações globais do sistema</p>
+                    </div>
+
+                    <!-- Trial / Período de Teste -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">⏳ Período de Teste</div>
+                            <button class="admin-refresh-btn" onclick="loadSuperAdminTrialConfig()">↻</button>
+                        </div>
+
+                        <!-- Status atual -->
+                        <div style="padding:12px;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);border-radius:10px;margin-bottom:12px;">
+                            <div style="font-size:10px;color:var(--adm-text-3);margin-bottom:4px;">STATUS ATUAL</div>
+                            <div id="saTrialStatus" style="font-size:14px;">Carregando...</div>
+                            <div style="margin-top:4px;font-size:10px;color:var(--adm-text-3);">Expira em: <span id="saTrialDataExp">—</span></div>
+                        </div>
+
+                        <!-- Definir período de trial -->
+                        <div style="margin-bottom:10px;">
+                            <div style="font-size:10px;font-weight:700;color:var(--adm-text-2);margin-bottom:6px;">DEFINIR PERÍODO DE TESTE</div>
+                            <div style="display:flex;gap:6px;margin-bottom:6px;">
+                                <input type="number" id="saTrialDias" min="1" max="365" placeholder="Dias" value="30"
+                                    style="width:80px;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:13px;text-align:center;">
+                                <input type="text" id="saTrialMotivo" placeholder="Motivo / nome do cliente..."
+                                    style="flex:1;padding:8px 10px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:12px;">
+                            </div>
+                            <button onclick="saTrialAcao('definir_trial')"
+                                style="width:100%;padding:10px;background:rgba(56,189,248,0.12);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);border-radius:8px;font-size:12px;font-weight:800;cursor:pointer;margin-bottom:6px;">
+                                ⏳ Iniciar período de teste
+                            </button>
+                        </div>
+
+                        <!-- Bloqueio manual -->
+                        <div style="margin-bottom:10px;">
+                            <div style="font-size:10px;font-weight:700;color:var(--adm-text-2);margin-bottom:6px;">CONTROLE MANUAL</div>
+                            <div style="display:flex;gap:6px;">
+                                <button onclick="saTrialAcao('bloquear')"
+                                    style="flex:1;padding:10px;background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.3);border-radius:8px;font-size:11px;font-weight:800;cursor:pointer;">
+                                    🔒 Bloquear agora
+                                </button>
+                                <button onclick="saTrialAcao('desbloquear')"
+                                    style="flex:1;padding:10px;background:rgba(74,222,128,0.1);color:#4ade80;border:1px solid rgba(74,222,128,0.3);border-radius:8px;font-size:11px;font-weight:800;cursor:pointer;">
+                                    🔓 Desbloquear
+                                </button>
+                                <button onclick="saTrialAcao('remover_trial')"
+                                    style="flex:1;padding:10px;background:var(--adm-bg-elevated);color:var(--adm-text-3);border:1px solid var(--adm-border);border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;">
+                                    ♾️ Sem limite
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="saTrialMsg" style="font-size:11px;text-align:center;margin-top:4px;"></div>
+                    </div>
+
+                    <!-- Stats gerais -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">📊 Visão Geral</div>
+                            <button class="admin-refresh-btn" onclick="loadSuperAdminData()">↻</button>
+                        </div>
+                        <div id="saStatsGrid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:4px;">
+                            <div class="sa-stat-card" id="saStatAlunos">—</div>
+                            <div class="sa-stat-card" id="saStatAdmins">—</div>
+                            <div class="sa-stat-card" id="saStatProfs">—</div>
+                        </div>
+                        <div id="saCTStatsBar" style="margin-top:8px;"></div>
+                    </div>
+
+                    <!-- Gerenciar CTs -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">🏢 Centros de Treinamento</div>
+                        </div>
+                        <!-- Criar CT -->
+                        <div style="display:flex;gap:8px;margin-bottom:12px;">
+                            <input type="text" id="saNovoCTNome" placeholder="Nome do novo CT..."
+                                style="flex:1;padding:10px 12px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:13px;">
+                            <button onclick="saCriarCT()" style="padding:10px 18px;background:var(--adm-primary);color:#000;border:none;border-radius:8px;font-weight:800;font-size:12px;cursor:pointer;white-space:nowrap;">+ Criar</button>
+                        </div>
+                        <div id="saCTMsg" style="font-size:11px;margin-bottom:8px;"></div>
+                        <div id="saCTList"><div class="admin-empty">Carregando...</div></div>
+                    </div>
+
+                    <!-- Admins cadastrados -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">👑 Administradores</div>
+                        </div>
+                        <div id="saAdminList"><div class="admin-empty">—</div></div>
+                    </div>
+
+                    <!-- Professores -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">🥋 Professores</div>
+                        </div>
+                        <div id="saProfList"><div class="admin-empty">—</div></div>
+                    </div>
+
+                    <!-- Super Admin emails -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">🔑 Emails Super Admin</div>
+                        </div>
+                        <div style="padding:10px 12px;background:rgba(212,165,41,0.06);border:1px solid rgba(212,165,41,0.2);border-radius:10px;font-size:11px;color:var(--adm-text-2);line-height:1.6;">
+                            Definidos diretamente no código fonte (<code style="font-size:10px;color:var(--adm-primary);">SUPER_ADMIN_EMAILS</code> em <code style="font-size:10px;">codigo_corrigido.gs</code>). Para adicionar ou remover superadmins, edite essa constante e faça novo deploy.
+                        </div>
                     </div>
                 </div>
             </div>
@@ -7167,7 +7382,7 @@
                             <button class="admin-refresh-btn" onclick="loadCTScheduleAdmin()">↻</button>
                         </div>
                         <div id="adminCTScheduleList"><div class="admin-empty">Carregando...</div></div>
-                        <div style="margin-top:10px;padding:0 12px;">
+                        <div id="newCTSection" style="margin-top:10px;padding:0 12px;display:none;">
                             <div style="font-size:11px;font-weight:700;color:var(--adm-text-2);margin-bottom:6px;">+ Novo CT</div>
                             <div style="display:flex;gap:6px;">
                                 <input type="text" id="newCTNome" placeholder="Nome do CT" style="flex:1;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
@@ -7178,6 +7393,46 @@
                     </div>
 
                     <!-- Graduation Config per CT -->
+                    <!-- Treinos Customizados -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">🏋️ Treinos Customizados</div>
+                            <button class="admin-refresh-btn" onclick="loadAdminTreinos()">↻</button>
+                        </div>
+                        <div id="adminTreinosList" style="margin-bottom:12px;"><div class="admin-empty">Carregando...</div></div>
+                        <!-- Form novo treino -->
+                        <div style="padding:12px;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);border-radius:10px;">
+                            <div style="font-size:11px;font-weight:700;color:var(--adm-text-2);margin-bottom:8px;">+ Novo Treino</div>
+                            <input type="text" id="adminTreinoNome" placeholder="Nome do treino (ex: BJJ Conditioning)" style="width:100%;box-sizing:border-box;padding:8px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;margin-bottom:6px;">
+                            <input type="text" id="adminTreinoDesc" placeholder="Descrição (ex: Condicionamento físico para BJJ)" style="width:100%;box-sizing:border-box;padding:8px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;margin-bottom:6px;">
+                            <div style="font-size:10px;color:var(--adm-text-3);margin-bottom:4px;">Exercícios (um por linha — formato: Nome | Séries):</div>
+                            <textarea id="adminTreinoExs" placeholder="Burpee | 3x15&#10;Prancha | 3x60s&#10;Agachamento com Salto | 4x12" rows="4" style="width:100%;box-sizing:border-box;padding:8px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:11px;resize:vertical;font-family:inherit;"></textarea>
+                            <div style="display:flex;gap:6px;margin-top:6px;align-items:center;">
+                                <label style="font-size:10px;color:var(--adm-text-3);">Cor:</label>
+                                <input type="color" id="adminTreinoCor" value="#3b82f6" style="width:36px;height:28px;border:none;border-radius:4px;cursor:pointer;background:transparent;">
+                                <button onclick="adminSalvarTreino()" style="flex:1;padding:8px;background:var(--adm-primary);color:#000;border:none;border-radius:8px;font-size:12px;font-weight:800;cursor:pointer;">Criar Treino</button>
+                            </div>
+                            <div id="adminTreinoMsg" style="font-size:11px;margin-top:6px;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Novidades IBJJF -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">📋 Novidades IBJJF</div>
+                            <button class="admin-refresh-btn" onclick="loadAdminIBJJF()">↻</button>
+                        </div>
+                        <div id="adminIBJJFList" style="margin-bottom:12px;"><div class="admin-empty">Carregando...</div></div>
+                        <!-- Form nova novidade -->
+                        <div style="padding:12px;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);border-radius:10px;">
+                            <div style="font-size:11px;font-weight:700;color:var(--adm-text-2);margin-bottom:8px;">+ Publicar Atualização</div>
+                            <input type="text" id="adminIBJJFTitulo" placeholder="Título (ex: Mudança nas regras de estrangulamento)" style="width:100%;box-sizing:border-box;padding:8px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;margin-bottom:6px;">
+                            <input type="text" id="adminIBJJFVersao" placeholder="Versão/Referência (ex: Regulamento 2024 · Art. 5)" style="width:100%;box-sizing:border-box;padding:8px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;margin-bottom:6px;">
+                            <textarea id="adminIBJJFConteudo" placeholder="Descreva o que mudou ou a novidade da regra..." rows="4" style="width:100%;box-sizing:border-box;padding:8px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;resize:vertical;font-family:inherit;"></textarea>
+                            <button onclick="adminPublicarIBJJF()" style="width:100%;margin-top:8px;padding:10px;background:var(--adm-primary);color:#000;border:none;border-radius:8px;font-size:12px;font-weight:800;cursor:pointer;">📢 Publicar</button>
+                            <div id="adminIBJJFMsg" style="font-size:11px;margin-top:6px;"></div>
+                        </div>
+                    </div>
                     <div class="admin-section">
                         <div class="admin-section-header">
                             <div class="admin-section-title">🎓 Aulas por Grau (Graduação)</div>
@@ -7336,6 +7591,9 @@
                 <button class="bnav-btn" onclick="switchAdminTab('adm-graduacoes', event)">
                     <span class="bnav-icon">🎓</span><span class="bnav-label">Graduações</span>
                 </button>
+                <button class="bnav-btn" onclick="switchAdminTab('adm-feedbacks', event)">
+                    <span class="bnav-icon">💬</span><span class="bnav-label">Feedback</span>
+                </button>
                 <button class="bnav-btn" onclick="switchAdminTab('adm-presenca', event)">
                     <span class="bnav-icon">📋</span><span class="bnav-label">Presença</span>
                 </button>
@@ -7345,11 +7603,26 @@
                 <button class="bnav-btn" onclick="switchAdminTab('adm-sistema', event)">
                     <span class="bnav-icon">🔧</span><span class="bnav-label">Sistema</span>
                 </button>
+                <button class="bnav-btn" id="bnavSuperAdmin" onclick="switchAdminTab('adm-superadmin', event)" style="display:none;">
+                    <span class="bnav-icon">🔑</span><span class="bnav-label">Super</span>
+                </button>
             </div>
         </div>
 
     </div>
     <!-- end app -->
+
+    <!-- TRIAL BLOQUEADO OVERLAY -->
+    <div id="trialBlockedOverlay" style="display:none;position:fixed;inset:0;background:#08080a;z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center;">
+        <div style="font-size:56px;margin-bottom:16px;">🔒</div>
+        <div style="font-size:20px;font-weight:800;color:#D4A529;margin-bottom:8px;">Sistema Indisponível</div>
+        <div id="trialBlockedMsg" style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.6;max-width:300px;margin-bottom:24px;">Entre em contato com o administrador para continuar.</div>
+        <div id="trialBlockedSub" style="font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:32px;"></div>
+        <a id="trialWALink" href="https://wa.me/5511999999999?text=Ol%C3%A1%2C%20gostaria%20de%20contratar%20o%20IDESystems" target="_blank"
+           style="padding:14px 28px;background:#D4A529;color:#000;border-radius:10px;font-weight:800;font-size:13px;text-decoration:none;display:inline-block;">
+            💬 Falar com Suporte
+        </a>
+    </div>
 
     <!-- EXAM CALENDAR MODAL (STUDENT) -->
     <!-- PROFILE COMPLETION OVERLAY -->
@@ -7769,7 +8042,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzfXiGVwUiRDfSdvQDcyqFqjrHnsTP4GSp4GRati5sDvgrwqeS8kumwDKav7-wRzOmo/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx37lVXlaZugSJF0iZ_GnnVITtfdlZELkgqZgJvjlXAbd9bd-0SzBHH6Rulqm7zD2Um/exec';
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -7836,7 +8109,11 @@
         }
 
         // ===== INIT =====
-        window.addEventListener('load', function() {
+        window.addEventListener('load', async function() {
+            // Verifica bloqueio ANTES de restaurar sessão
+            var bloqueado = await checkTrialStatus();
+            if (bloqueado) return;
+
             const s = localStorage.getItem('bjjUser');
             if (s) {
                 try {
@@ -7877,6 +8154,19 @@
                 const r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'login', email: email, password: password }) });
                 const data = await r.json();
                 if (data.authenticated === true) {
+                    // Verificar trial/bloqueio com dados já presentes na resposta do login
+                    if (data.trial && data.trial.bloqueado) {
+                        showTrialBlocked({
+                            motivoBloqueio: data.trial.motivo,
+                            suporteWhatsApp: data.trial.suporteWhatsApp,
+                            expirado: data.trial.diasRestantes !== null && data.trial.diasRestantes <= 0,
+                            dataExpiracao: null
+                        });
+                        return;
+                    }
+                    if (data.trial && data.trial.modoTrial && data.trial.diasRestantes > 0) {
+                        showTrialBanner(data.trial.diasRestantes);
+                    }
                     if (data.token) { setSessionToken(data.token); }
                     var userData = Object.assign({}, data);
                     delete userData.token;
@@ -8250,6 +8540,7 @@
                 if (firstAdmBtn) firstAdmBtn.classList.add('active');
                 loadAdminPanel();
                 initAdminPlano();
+                checkSuperAdmin(); // verifica superadmin e ajusta UI
             } else {
                 // STUDENT VIEW
                 document.getElementById('adminScreen').style.display = 'none';
@@ -8412,7 +8703,7 @@
                 }
             }
             if (tabName === 'quiz-tab') initGamesHub();
-            if (tabName === 'prepfisica-tab') loadMusculacao();
+            if (tabName === 'prepfisica-tab') { loadMusculacao(); loadTreinosCustom(); loadIBJJFUpdates(); loadHistoricoTreinos(); }
         }
 
         function switchSubTab(parentId, subId, evt) {
@@ -8433,6 +8724,8 @@
             if (subId === 'sub-ranking') loadRanking();
             if (subId === 'sub-evolucao') { loadEvolucao(); loadMyGraduacoes(); }
             if (subId === 'sub-presencas') loadPresencas();
+            if (subId === 'sub-feedback')  initFeedbackTab();
+            if (subId === 'sub-ibjjf')     loadIBJJFUpdates();
             if (subId === 'sub-campeonato') { loadChampions(); loadCampEventoAluno(); }
             if (subId === 'sub-aulas') {
                 // Se há um CT pendente (vindo do perfil), carrega ele — senão carrega normal
@@ -9758,9 +10051,10 @@
             // Title
             document.getElementById('prsMonthTitle').textContent = MESES[_prsMonth] + ' ' + _prsYear;
 
-            // Build attendance map for this month
+            // Build attendance map for this month — separar aprovados de pendentes
             var monthKey = _prsYear + '-' + String(_prsMonth + 1).padStart(2, '0');
-            var dayMap = {}; // { "15": [{hora, ct}, ...] }
+            var dayMap     = {}; // { "15": [{hora, ct, status}, ...] }
+            var pendingMap = {}; // { "15": true } — dias com solicitação pendente
             var ctSet = {};
             var totalMes = 0;
 
@@ -9769,10 +10063,14 @@
                     var r = _prsData[i];
                     if (r.date && r.date.substring(0, 7) === monthKey) {
                         var dayNum = parseInt(r.date.substring(8, 10));
-                        if (!dayMap[dayNum]) dayMap[dayNum] = [];
-                        dayMap[dayNum].push({ hora: r.hora, ct: r.ct });
-                        if (r.ct) ctSet[r.ct] = true;
-                        totalMes++;
+                        if (r.status === 'PENDENTE') {
+                            pendingMap[dayNum] = true;
+                        } else {
+                            if (!dayMap[dayNum]) dayMap[dayNum] = [];
+                            dayMap[dayNum].push({ hora: r.hora, ct: r.ct, status: r.status });
+                            if (r.ct) ctSet[r.ct] = true;
+                            totalMes++;
+                        }
                     }
                 }
             }
@@ -9782,7 +10080,6 @@
             if (currentUser && currentUser.diasTreino) {
                 stuDiasTreino = currentUser.diasTreino.split(',');
             } else {
-                // Fallback: read from profile cache
                 try {
                     var cached = JSON.parse(localStorage.getItem('bjjProfile') || '{}');
                     if (cached.diasTreino) stuDiasTreino = cached.diasTreino.split(',');
@@ -9796,20 +10093,20 @@
                     if (_cronoAulas[ca].data) aulasDates[_cronoAulas[ca].data] = true;
                 }
             }
+            var temCronograma = Object.keys(aulasDates).length > 0;
 
-            // Calculate expected training days this month — só conta se há aula no cronograma
+            // Calculate expected training days this month
             var daysInMonth = new Date(_prsYear, _prsMonth + 1, 0).getDate();
             var expectedDays = 0;
             var now = new Date();
             for (var ed = 1; ed <= daysInMonth; ed++) {
                 var edDate = new Date(_prsYear, _prsMonth, ed);
                 if (edDate > now) break;
-                var edKey = DAY_KEYS[edDate.getDay()];
                 var edStr = _prsYear + '-' + String(_prsMonth + 1).padStart(2,'0') + '-' + String(ed).padStart(2,'0');
-                // Conta como esperado apenas se tem aula no cronograma OU se diasTreino bate e não há cronograma configurado
-                var temNoCronograma = aulasDates[edStr];
-                // Conta como esperado SOMENTE se tem aula cadastrada no cronograma
-                if (temNoCronograma) expectedDays++;
+                var edKey = DAY_KEYS[edDate.getDay()];
+                // Com cronograma: conta só aulas cadastradas
+                // Sem cronograma: conta os diasTreino do perfil
+                if (temCronograma ? aulasDates[edStr] : stuDiasTreino.indexOf(edKey) !== -1) expectedDays++;
             }
 
             // Summary
@@ -9820,11 +10117,9 @@
 
             // Render calendar grid
             var firstDay = new Date(_prsYear, _prsMonth, 1).getDay();
-            // Adjust to start on Monday: 0=Mon...6=Sun
             var startOffset = (firstDay + 6) % 7;
             var html = '';
 
-            // Empty cells before first day
             for (var e = 0; e < startOffset; e++) {
                 html += '<div class="prs-day empty"></div>';
             }
@@ -9833,25 +10128,29 @@
             for (var d = 1; d <= daysInMonth; d++) {
                 var dt = new Date(_prsYear, _prsMonth, d);
                 var dayOfWeek = DAY_KEYS[dt.getDay()];
-                var isToday = d === today.getDate() && _prsMonth === today.getMonth() && _prsYear === today.getFullYear();
-                var isExpected = stuDiasTreino.indexOf(dayOfWeek) !== -1;
+                var isToday   = d === today.getDate() && _prsMonth === today.getMonth() && _prsYear === today.getFullYear();
                 var hasCheckin = dayMap[d] && dayMap[d].length > 0;
-                var isPast = dt < now && !isToday;
-                var isFuture = dt > now;
+                var isPending  = pendingMap[d];
+                var isPast     = dt < now && !isToday;
+                var isFuture   = dt > now;
+                var dateStrD   = _prsYear + '-' + String(_prsMonth + 1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+
+                // É dia de treino? Com cronograma = tem aula cadastrada. Sem = diasTreino do perfil
+                var ehDiaTreino = temCronograma
+                    ? !!aulasDates[dateStrD]
+                    : stuDiasTreino.indexOf(dayOfWeek) !== -1;
 
                 var cls = 'prs-day';
-                if (isToday) cls += ' today';
+                if (isToday)    cls += ' today';
                 if (hasCheckin) {
                     cls += ' present';
                     if (dayMap[d].length > 1) cls += ' multi';
-                } else {
-                    var dateStr2 = _prsYear + '-' + String(_prsMonth + 1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
-                    var cronogramaConfigurado2 = Object.keys(aulasDates).length > 0;
-                    var temAulaCronograma = aulasDates[dateStr2];
-                    var ehDiaTreino = stuDiasTreino.indexOf(dayOfWeek) !== -1;
-                    var deveMarcarFalta = temAulaCronograma; // Faltou SOMENTE se há aula cadastrada no cronograma
-                    if (deveMarcarFalta && isPast) cls += ' missed';
-                    else if (deveMarcarFalta && !isFuture) cls += ' expected';
+                } else if (isPending) {
+                    cls += ' pending-esq'; // amarelo
+                } else if (ehDiaTreino && isPast) {
+                    cls += ' missed';
+                } else if (ehDiaTreino && !isFuture) {
+                    cls += ' expected';
                 }
                 if (_prsSelectedDay === d) cls += ' selected';
 
@@ -9883,25 +10182,38 @@
             document.getElementById('prsList').innerHTML = listHtml;
 
             // Show detail if day selected
-            if (_prsSelectedDay && dayMap[_prsSelectedDay]) {
-                prsShowDayDetail(_prsSelectedDay, dayMap[_prsSelectedDay]);
+            if (_prsSelectedDay) {
+                var selDateStr = _prsYear + '-' + String(_prsMonth + 1).padStart(2,'0') + '-' + String(_prsSelectedDay).padStart(2,'0');
+                var selDt = new Date(_prsYear, _prsMonth, _prsSelectedDay);
+                var selIsPast = selDt < now && !(_prsSelectedDay === today.getDate() && _prsMonth === today.getMonth() && _prsYear === today.getFullYear());
+                var selEhDiaTreino = temCronograma ? !!aulasDates[selDateStr] : stuDiasTreino.indexOf(DAY_KEYS[selDt.getDay()]) !== -1;
+                prsShowDayDetail(
+                    _prsSelectedDay,
+                    dayMap[_prsSelectedDay] || [],
+                    pendingMap[_prsSelectedDay] || false,
+                    selEhDiaTreino && selIsPast,
+                    selDateStr
+                );
             }
         }
 
         function prsSelectDay(day) {
             _prsSelectedDay = (_prsSelectedDay === day) ? null : day;
+            if (!_prsSelectedDay) { document.getElementById('prsDetail').style.display = 'none'; }
             renderPresencas();
         }
 
-        function prsShowDayDetail(day, entries) {
+        function prsShowDayDetail(day, entries, isPending, podeSOlicitar, dateISO) {
             var DIAS_SEMANA = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
             var dt = new Date(_prsYear, _prsMonth, day);
             var detail = document.getElementById('prsDetail');
             var header = document.getElementById('prsDetailHeader');
-            var list = document.getElementById('prsDetailList');
+            var list   = document.getElementById('prsDetailList');
 
             header.textContent = '📅 ' + DIAS_SEMANA[dt.getDay()] + ', ' + day + '/' + (_prsMonth + 1);
             var html = '';
+
+            // Treinos aprovados
             for (var i = 0; i < entries.length; i++) {
                 html += '<div class="prs-detail-item">' +
                     '<div class="prs-detail-time">' + (entries[i].hora || '—') + '</div>' +
@@ -9909,9 +10221,29 @@
                     '<div class="prs-detail-badge">✅ Confirmado</div>' +
                     '</div>';
             }
-            if (entries.length === 0) {
-                html = '<div style="text-align:center;padding:12px;color:var(--text-3);font-size:12px;">Sem registro neste dia</div>';
+
+            // Solicitação pendente
+            if (isPending) {
+                html += '<div style="margin-top:8px;padding:10px 12px;background:rgba(251,191,36,0.08);border:1px dashed rgba(251,191,36,0.3);border-radius:8px;font-size:12px;color:#fbbf24;font-weight:600;">' +
+                    '⏳ Solicitação de presença enviada — aguardando aprovação do professor.' +
+                    '</div>';
             }
+
+            // Sem check-in + dia de treino + passado → botão de solicitar
+            if (!isPending && entries.length === 0 && podeSOlicitar) {
+                html += '<div style="margin-top:8px;padding:10px 12px;background:rgba(248,113,113,0.06);border:1px dashed rgba(248,113,113,0.2);border-radius:8px;font-size:12px;color:var(--text-2);margin-bottom:10px;">' +
+                    '❌ Sem check-in registrado neste dia de treino.' +
+                    '</div>';
+                html += '<button onclick="abrirModalEsquecimento(\'' + dateISO + '\',\'\')" ' +
+                    'style="width:100%;padding:11px;background:rgba(212,165,41,0.1);color:var(--accent);border:1px solid rgba(212,165,41,0.3);border-radius:10px;font-size:12px;font-weight:800;cursor:pointer;">' +
+                    '✋ Esqueci de fazer check-in — Solicitar presença' +
+                    '</button>';
+            }
+
+            if (entries.length === 0 && !isPending && !podeSOlicitar) {
+                html += '<div style="text-align:center;padding:16px;color:var(--text-3);font-size:12px;">Sem registro neste dia</div>';
+            }
+
             list.innerHTML = html;
             detail.style.display = 'block';
         }
@@ -12481,12 +12813,14 @@
                 var btn = evt.target.closest('.bnav-btn');
                 if (btn) btn.classList.add('active');
             }
-            if (tabName === 'adm-painel') loadAdminPanel();
+            if (tabName === 'adm-painel') { loadAdminPanel(); loadAdminFeedbacks(); }
             if (tabName === 'adm-alunos') loadStudentsList();
+            if (tabName === 'adm-feedbacks') loadFeedbacksTab();
             if (tabName === 'adm-graduacoes') loadGradTab();
             if (tabName === 'adm-presenca') initPresencaList();
             if (tabName === 'adm-campeonato') initCampAdmin();
-            if (tabName === 'adm-sistema') { loadModulesConfig(); loadSystemHealth(); loadAdminCTs(); loadAdminProfile(); loadGradConfig(); loadCTScheduleAdmin(); initAdmAulaForm(); }
+            if (tabName === 'adm-sistema') { loadModulesConfig(); loadSystemHealth(); loadAdminCTs(); loadAdminProfile(); loadGradConfig(); loadCTScheduleAdmin(); initAdmAulaForm(); loadAdminTreinos(); loadAdminIBJJF(); }
+            if (tabName === 'adm-superadmin') { if (isSuperAdmin()) { loadSuperAdminData(); loadSuperAdminTrialConfig(); } }
         }
 
         function loadAdminProfile() {
@@ -14551,6 +14885,202 @@
             return d.getFullYear() + '-' + ('0'+(d.getMonth()+1)).slice(-2) + '-' + ('0'+d.getDate()).slice(-2);
         }
 
+        // ===== TREINOS CUSTOMIZADOS =====
+        var _treinosCustom = [];     // carregados do backend
+        var _treinoRealizadoTimer = null;
+        var _treinoStartTime = null; // para calcular duração
+
+        async function loadTreinosCustom() {
+            try {
+                var data = await secureFetch('getTreinosCustom', {});
+                if (data.success) {
+                    _treinosCustom = data.treinos || [];
+                    // Mescla com MUSC_TREINOS padrão para o picker
+                    renderMuscHome();
+                }
+            } catch(e) {}
+        }
+
+        function getMuscTreinosAll() {
+            // Converte MUSC_TREINOS para formato unificado + adiciona customizados
+            var base = MUSC_TREINOS.map(function(t) {
+                return {
+                    id: t.id, nome: t.nome, descricao: t.sub,
+                    cor: t.cor, label: t.label,
+                    exercicios: t.exercicios.map(function(e) { return { nome: e.nome, sets: e.sets }; }),
+                    descanso: t.descanso || '', custom: false
+                };
+            });
+            var custom = _treinosCustom.map(function(t) {
+                return {
+                    id: t.id, nome: t.nome, descricao: t.descricao,
+                    cor: t.cor, label: t.nome,
+                    exercicios: t.exercicios,
+                    descanso: '', custom: true
+                };
+            });
+            return base.concat(custom);
+        }
+
+        // Botão "Salvar Treino" — registra no log e mostra mensagem motivacional
+        async function salvarTreinoRealizado(btn) {
+            var treinoId   = btn.getAttribute('data-id');
+            var treinoNome = btn.getAttribute('data-nome') || '';
+            var dateStr    = btn.getAttribute('data-date');
+            var duracao = '';
+            if (_treinoStartTime) {
+                var mins = Math.round((Date.now() - _treinoStartTime) / 60000);
+                if (mins > 0) duracao = mins + ' min';
+            }
+            try {
+                var result = await secureFetch('saveTreinoRealizado', {
+                    treinoId: treinoId,
+                    treinoNome: treinoNome,
+                    data: dateStr,
+                    duracao: duracao,
+                    observacao: ''
+                });
+                if (result.success) {
+                    _treinoStartTime = null;
+                    // Recarrega histórico
+                    loadHistoricoTreinos();
+                    // Toast motivacional
+                    var msgs = [
+                        '💪 Treino concluído! Cada rep te aproxima do seu melhor!',
+                        '🔥 Mandou bem! Consistência é o segredo do campeão!',
+                        '🏆 Mais um treino no banco! A faixa preta agradece!',
+                        '⚡ Treino salvo! O tatame vai sentir sua evolução!',
+                        '🥋 Corpo forte, mente afiada! Assim se constrói um lutador!',
+                        '💥 Trabalho feito! Recupera bem para o próximo round!'
+                    ];
+                    var msg = msgs[Math.floor(Math.random() * msgs.length)];
+                    var toast = document.createElement('div');
+                    toast.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#1a472a,#2d6a4f);color:#fff;padding:14px 22px;border-radius:14px;font-size:13px;font-weight:700;z-index:10000;box-shadow:0 4px 24px rgba(0,0,0,.5);white-space:nowrap;max-width:90vw;text-align:center;line-height:1.4;';
+                    toast.textContent = msg;
+                    document.body.appendChild(toast);
+                    setTimeout(function() { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 4000);
+                }
+            } catch(e) {}
+        }
+
+        // ===== HISTÓRICO DE TREINOS REALIZADOS =====
+        async function loadHistoricoTreinos() {
+            var el = document.getElementById('treinoHistoricoList');
+            if (!el) return;
+            try {
+                var data = await secureFetch('getHistoricoTreinos', {});
+                if (!data.success || !data.historico || data.historico.length === 0) {
+                    el.innerHTML = '<div style="text-align:center;color:var(--text-3);font-size:12px;padding:16px;">Nenhum treino salvo ainda.<br>Realize um treino e clique em <strong>Salvar Treino</strong>!</div>';
+                    return;
+                }
+                var h = '';
+                // Agrupar por mês
+                var meAtual = '';
+                data.historico.slice(0, 30).forEach(function(t) { // últimos 30
+                    var dataParts = (t.data || '').split('-');
+                    var mes = dataParts.length >= 2 ? dataParts[0] + '-' + dataParts[1] : '';
+                    var MESES = ['','Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+                    if (mes && mes !== meAtual) {
+                        meAtual = mes;
+                        var mNum = parseInt(dataParts[1]);
+                        h += '<div style="font-size:10px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:0.5px;margin:10px 0 5px;">' + (MESES[mNum]||mes) + ' ' + dataParts[0] + '</div>';
+                    }
+                    // Formatar data DD/MM
+                    var dLabel = dataParts.length === 3 ? dataParts[2] + '/' + dataParts[1] : t.data;
+                    h += '<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:10px;margin-bottom:5px;">';
+                    h += '<div style="width:36px;height:36px;border-radius:8px;background:rgba(59,130,246,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🏋️</div>';
+                    h += '<div style="flex:1;min-width:0;">';
+                    h += '<div style="font-size:12px;font-weight:700;color:var(--text-1);">' + escapeHtml(t.treinoNome || 'Treino') + '</div>';
+                    h += '<div style="font-size:10px;color:var(--text-3);">' + dLabel + (t.duracao ? ' · ' + t.duracao : '') + '</div>';
+                    if (t.obs) h += '<div style="font-size:10px;color:var(--text-2);margin-top:2px;font-style:italic;">' + escapeHtml(t.obs) + '</div>';
+                    h += '</div>';
+                    h += '<div style="font-size:10px;color:#4ade80;font-weight:700;">✓</div>';
+                    h += '</div>';
+                });
+                if (data.historico.length > 30) {
+                    h += '<div style="text-align:center;font-size:11px;color:var(--text-3);padding:8px;">... e mais ' + (data.historico.length - 30) + ' treinos anteriores</div>';
+                }
+                el.innerHTML = h;
+            } catch(e) {
+                el.innerHTML = '<div style="text-align:center;color:var(--text-3);font-size:12px;padding:16px;">Erro ao carregar histórico</div>';
+            }
+        }
+
+        // ===== IBJJF UPDATES =====
+        var _ibjjfUpdates   = [];
+        var _ibjjfLastSeen  = ''; // ISO date da última vez que o aluno viu
+
+        async function loadIBJJFUpdates() {
+            var el = document.getElementById('ibjjfList');
+            if (!el) return;
+            try {
+                var data = await secureFetch('getIBJJFUpdates', {});
+                if (!data.success) return;
+                _ibjjfUpdates = data.updates || [];
+
+                // Verificar novidades (não vistas)
+                try { _ibjjfLastSeen = localStorage.getItem('ibjjfLastSeen') || ''; } catch(e) {}
+                var hasNew = _ibjjfUpdates.length > 0 && (!_ibjjfLastSeen || _ibjjfUpdates[0].id > _ibjjfLastSeen);
+                var badge = document.getElementById('ibjjfNewBadge');
+                if (badge) badge.style.display = hasNew ? 'inline-block' : 'none';
+
+                renderIBJJFUpdates();
+            } catch(e) {}
+        }
+
+        function renderIBJJFUpdates() {
+            var el = document.getElementById('ibjjfList');
+            if (!el) return;
+
+            // Marcar como visto ao abrir
+            if (_ibjjfUpdates.length > 0) {
+                try { localStorage.setItem('ibjjfLastSeen', _ibjjfUpdates[0].id); } catch(e) {}
+                var badge = document.getElementById('ibjjfNewBadge');
+                if (badge) badge.style.display = 'none';
+            }
+
+            if (_ibjjfUpdates.length === 0) {
+                el.innerHTML = '<div style="text-align:center;padding:40px 0;color:var(--text-3);font-size:12px;">Nenhuma atualização publicada ainda.<br>Seu professor publicará novidades aqui.</div>';
+                return;
+            }
+
+            var h = '';
+            _ibjjfUpdates.forEach(function(u, idx) {
+                var lastSeenId = '';
+                try { lastSeenId = localStorage.getItem('ibjjfLastSeen') || ''; } catch(e) {}
+                var isNew = !lastSeenId || u.id > lastSeenId;
+                h += '<div style="background:var(--bg-elevated);border:1px solid ' + (isNew && idx === 0 ? 'rgba(248,113,113,0.4)' : 'var(--border)') + ';border-radius:12px;margin-bottom:10px;overflow:hidden;">';
+                // Header clicável
+                h += '<div onclick="toggleIBJJF(\'' + u.id + '\')" style="padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;">';
+                h += '<div style="flex:1;min-width:0;">';
+                if (isNew && idx === 0) h += '<span style="background:#f87171;color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:6px;margin-right:6px;">NOVO</span>';
+                h += '<span style="font-size:13px;font-weight:800;color:var(--text-1);">' + escapeHtml(u.titulo) + '</span>';
+                if (u.versao) h += '<div style="font-size:10px;color:var(--text-3);margin-top:2px;">📋 ' + escapeHtml(u.versao) + (u.data ? ' · ' + escapeHtml(u.data) : '') + '</div>';
+                h += '</div>';
+                if (isNew && idx === 0) {
+                    h += '<span style="font-size:10px;font-weight:800;color:#f87171;white-space:nowrap;margin-right:6px;">Clique para ler →</span>';
+                }
+                h += '<span id="ibjjf-arrow-' + u.id + '" style="font-size:14px;color:var(--text-3);transition:transform 0.2s;">▼</span>';
+                h += '</div>';
+                // Conteúdo (colapsável)
+                h += '<div id="ibjjf-body-' + u.id + '" style="display:none;padding:0 14px 14px;border-top:1px solid var(--border);font-size:13px;color:var(--text-2);line-height:1.7;white-space:pre-wrap;">' + escapeHtml(u.conteudo) + '</div>';
+                h += '</div>';
+            });
+            el.innerHTML = h;
+
+            // Abrir o primeiro automaticamente se for novo
+            if (_ibjjfUpdates.length > 0) toggleIBJJF(_ibjjfUpdates[0].id);
+        }
+
+        function toggleIBJJF(id) {
+            var body  = document.getElementById('ibjjf-body-' + id);
+            var arrow = document.getElementById('ibjjf-arrow-' + id);
+            if (!body) return;
+            var open = body.style.display !== 'none';
+            body.style.display  = open ? 'none' : 'block';
+            if (arrow) arrow.style.transform = open ? '' : 'rotate(180deg)';
+        }
+
         async function loadMusculacao() {
             var container = document.getElementById('muscContainer');
             container.innerHTML = '<div class="musc-empty-state"><div class="musc-empty-icon">⏳</div><div class="musc-empty-title">Carregando...</div></div>';
@@ -14607,7 +15137,7 @@
                 if (isToday) cls += ' today';
                 if (isSel) cls += ' active';
                 if (log && log.treinoId) {
-                    var tr = MUSC_TREINOS.find(function(t) { return t.id === log.treinoId; });
+                    var tr = getMuscTreinosAll().find(function(t) { return t.id === log.treinoId; });
                     var totalEx = tr ? tr.exercicios.length : 0;
                     var doneCount = (log.done || []).length;
                     if (totalEx > 0 && doneCount >= totalEx) cls += ' complete';
@@ -14617,8 +15147,8 @@
                 h += '<div class="musc-chip-day">' + dayNames[dd.getDay()] + '</div>';
                 h += '<div style="font-size:12px;font-weight:800;">' + ('0'+dd.getDate()).slice(-2) + '</div>';
                 if (log && log.treinoId) {
-                    var t2 = MUSC_TREINOS.find(function(t) { return t.id === log.treinoId; });
-                    h += '<div class="musc-chip-label" style="color:' + (t2 ? t2.cor : 'var(--text-3)') + ';">' + (t2 ? t2.label.replace('Treino ','') : '✓') + '</div>';
+                    var t2 = getMuscTreinosAll().find(function(t) { return t.id === log.treinoId; });
+                    h += '<div class="musc-chip-label" style="color:' + (t2 ? t2.cor : 'var(--text-3)') + ';">' + (t2 ? (t2.label||t2.nome||'✓').replace('Treino ','').substring(0,3) : '✓') + '</div>';
                 } else {
                     h += '<div class="musc-chip-label">—</div>';
                 }
@@ -14630,9 +15160,9 @@
             var selLog = _muscLogs[_muscSelectedDate];
             var selTreino = null;
             if (_muscSelectedTreino) {
-                selTreino = MUSC_TREINOS.find(function(t) { return t.id === _muscSelectedTreino; });
+                selTreino = getMuscTreinosAll().find(function(t) { return t.id === _muscSelectedTreino; });
             } else if (selLog && selLog.treinoId) {
-                selTreino = MUSC_TREINOS.find(function(t) { return t.id === selLog.treinoId; });
+                selTreino = getMuscTreinosAll().find(function(t) { return t.id === selLog.treinoId; });
                 _muscSelectedTreino = selLog.treinoId;
             }
 
@@ -14651,12 +15181,13 @@
             h += '<div style="font-size:15px;font-weight:900;color:var(--text-1);font-family:Sora,sans-serif;">Escolha seu treino</div>';
             h += '</div>';
 
-            MUSC_TREINOS.forEach(function(t) {
-                h += '<div onclick="selectMuscTreino(\'' + t.id + '\')" style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--bg-elevated);border:1.5px solid var(--border);border-radius:12px;margin-bottom:6px;cursor:pointer;transition:all 0.2s;" ontouchstart="this.style.transform=\'scale(0.98)\'" ontouchend="this.style.transform=\'\'">';
-                h += '<div style="width:42px;height:42px;border-radius:12px;background:' + t.cor + ';display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;color:#fff;font-weight:900;">' + t.label.replace('Treino ','') + '</div>';
+            var todos = getMuscTreinosAll();
+            todos.forEach(function(t) {
+                h += '<div onclick="selectMuscTreino(\'' + t.id + '\')" style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--bg-elevated);border:1.5px solid var(--border);border-radius:12px;margin-bottom:6px;cursor:pointer;" ontouchstart="this.style.transform=\'scale(0.98)\'" ontouchend="this.style.transform=\'\'">';
+                h += '<div style="width:42px;height:42px;border-radius:12px;background:' + (t.cor||'#3b82f6') + ';display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:#fff;font-weight:900;">' + escapeHtml((t.label||t.nome).substring(0,2)) + '</div>';
                 h += '<div style="flex:1;min-width:0;">';
-                h += '<div style="font-size:13px;font-weight:800;color:var(--text-1);">' + escapeHtml(t.nome) + '</div>';
-                h += '<div style="font-size:10px;color:var(--text-3);">' + escapeHtml(t.sub) + '</div>';
+                h += '<div style="font-size:13px;font-weight:800;color:var(--text-1);">' + escapeHtml(t.nome) + (t.custom ? ' <span style="font-size:9px;background:rgba(212,165,41,0.2);color:var(--accent);padding:1px 5px;border-radius:4px;">CUSTOM</span>' : '') + '</div>';
+                h += '<div style="font-size:10px;color:var(--text-3);">' + escapeHtml(t.descricao||t.sub||'') + '</div>';
                 h += '</div>';
                 h += '<div style="font-size:16px;color:var(--text-3);">▶</div>';
                 h += '</div>';
@@ -14675,8 +15206,8 @@
             h += '<div class="musc-day-header" style="background:' + treino.cor + ';">';
             h += '<div style="display:flex;align-items:center;justify-content:space-between;">';
             h += '<div>';
-            h += '<div class="musc-day-title">' + escapeHtml(treino.label) + ' — ' + escapeHtml(treino.nome) + '</div>';
-            h += '<div class="musc-day-sub">' + escapeHtml(treino.sub) + '</div>';
+            h += '<div class="musc-day-title">' + escapeHtml(treino.label || treino.nome) + (treino.label && treino.label !== treino.nome ? ' — ' + escapeHtml(treino.nome) : '') + '</div>';
+            h += '<div class="musc-day-sub">' + escapeHtml(treino.descricao || treino.sub || '') + '</div>';
             h += '</div>';
             h += '<button onclick="changeMuscTreino(\'' + dateStr + '\')" style="padding:6px 10px;background:rgba(0,0,0,0.2);border:none;border-radius:8px;color:#fff;font-size:10px;font-weight:700;cursor:pointer;">↩ Trocar</button>';
             h += '</div>';
@@ -14691,12 +15222,24 @@
                 h += '<div class="musc-ex-item' + (isDone ? ' done' : '') + '" onclick="toggleMuscEx(\'' + treino.id + '\',' + idx + ',\'' + dateStr + '\')">';
                 h += '<div class="musc-ex-check">' + (isDone ? '✓' : (idx + 1)) + '</div>';
                 h += '<div class="musc-ex-name">' + escapeHtml(ex.nome) + '</div>';
-                h += '<div class="musc-ex-sets">' + escapeHtml(ex.sets) + '</div>';
+                h += '<div class="musc-ex-sets">' + escapeHtml(ex.sets || '') + '</div>';
                 h += '</div>';
             });
 
             if (treino.descanso) {
                 h += '<div class="musc-rest">⏱ Descanso entre séries: ' + escapeHtml(treino.descanso) + '</div>';
+            }
+
+            // Botão Salvar Treino — usa data-attributes para evitar escaping problemático
+            if (doneCount > 0) {
+                var _nomeEsc = (treino.nome || '').replace(/"/g, '&quot;');
+                h += '<button onclick="salvarTreinoRealizado(this)"'
+                   + ' data-id="' + treino.id + '"'
+                   + ' data-nome="' + _nomeEsc + '"'
+                   + ' data-date="' + dateStr + '"'
+                   + ' style="width:100%;margin-top:12px;padding:13px;background:linear-gradient(135deg,#1a472a,#2d6a4f);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;">'
+                   + (pct >= 100 ? '🏆 Salvar Treino Completo' : '💾 Salvar Progresso (' + pct + '%)')
+                   + '</button>';
             }
 
             return h;
@@ -16501,6 +17044,250 @@
         // ROLES & MÓDULOS — SISTEMA DE 3 CAMADAS
         // ═══════════════════════════════════════════════════
 
+        // ===== SUPER ADMIN =====
+        async function loadSuperAdminData() {
+            var elCT    = document.getElementById('saCTList');
+            var elAdm   = document.getElementById('saAdminList');
+            var elProf  = document.getElementById('saProfList');
+            if (!elCT) return;
+            elCT.innerHTML = '<div class="admin-empty">Carregando...</div>';
+            try {
+                var data = await secureFetch('getSuperAdminData', {});
+                if (!data.success) { elCT.innerHTML = '<div class="admin-empty">Acesso negado</div>'; return; }
+
+                // Stats
+                var statAlunos = document.getElementById('saStatAlunos');
+                var statAdmins = document.getElementById('saStatAdmins');
+                var statProfs  = document.getElementById('saStatProfs');
+                if (statAlunos) statAlunos.innerHTML = '<span class="sa-stat-num">' + data.totalAlunos + '</span>Alunos ativos';
+                if (statAdmins) statAdmins.innerHTML = '<span class="sa-stat-num">' + (data.admins||[]).length + '</span>Admins';
+                if (statProfs)  statProfs.innerHTML  = '<span class="sa-stat-num">' + (data.professores||[]).length + '</span>Professores';
+
+                // Bar de alunos por CT
+                var barEl = document.getElementById('saCTStatsBar');
+                if (barEl && data.ctStats) {
+                    var total = data.totalAlunos || 1;
+                    var h = '<div style="font-size:10px;color:var(--adm-text-3);margin-bottom:6px;">Distribuição por CT</div>';
+                    Object.keys(data.ctStats).sort().forEach(function(ct) {
+                        var n = data.ctStats[ct];
+                        var pct = Math.round(n / total * 100);
+                        h += '<div style="margin-bottom:5px;">';
+                        h += '<div style="display:flex;justify-content:space-between;font-size:10px;color:var(--adm-text-2);margin-bottom:2px;"><span>' + escapeHtml(ct) + '</span><span>' + n + ' (' + pct + '%)</span></div>';
+                        h += '<div style="height:4px;background:var(--adm-border);border-radius:2px;overflow:hidden;"><div style="height:100%;width:' + pct + '%;background:var(--adm-primary);border-radius:2px;"></div></div>';
+                        h += '</div>';
+                    });
+                    barEl.innerHTML = h;
+                }
+
+                // Lista de CTs
+                var cts = data.cts || [];
+                if (cts.length === 0) {
+                    elCT.innerHTML = '<div class="admin-empty">Nenhum CT cadastrado</div>';
+                } else {
+                    var h2 = '';
+                    cts.forEach(function(ct) {
+                        h2 += '<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;margin-bottom:4px;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);">';
+                        h2 += '<div style="font-size:16px;">' + (ct.ativo ? '🟢' : '🔴') + '</div>';
+                        h2 += '<div style="flex:1;font-size:12px;font-weight:700;color:var(--adm-text-1);">' + escapeHtml(ct.nome) + '</div>';
+                        h2 += '<div style="font-size:10px;color:var(--adm-text-3);">' + (data.ctStats && data.ctStats[ct.nome] ? data.ctStats[ct.nome] + ' alunos' : '0 alunos') + '</div>';
+                        h2 += '<button onclick="saExcluirCT(\'' + ct.nome.replace(/'/g,"\\'") + '\')" style="padding:4px 10px;background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.25);border-radius:6px;font-size:10px;font-weight:700;cursor:pointer;">Excluir</button>';
+                        h2 += '</div>';
+                    });
+                    elCT.innerHTML = h2;
+                }
+
+                // Admins
+                renderSAPessoaList(elAdm, data.admins || [], '👑', '#fbbf24');
+                // Professores
+                renderSAPessoaList(elProf, data.professores || [], '🥋', 'var(--adm-primary)');
+
+            } catch(e) {
+                elCT.innerHTML = '<div class="admin-empty">Erro: ' + e.message + '</div>';
+            }
+        }
+
+        function renderSAPessoaList(el, lista, icon, cor) {
+            if (!el) return;
+            if (lista.length === 0) { el.innerHTML = '<div class="admin-empty" style="color:var(--adm-text-3);">Nenhum</div>'; return; }
+            var h = '';
+            lista.forEach(function(p) {
+                h += '<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;margin-bottom:3px;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);">';
+                h += '<span style="font-size:14px;">' + icon + '</span>';
+                h += '<div style="flex:1;min-width:0;">';
+                h += '<div style="font-size:12px;font-weight:700;color:var(--adm-text-1);">' + escapeHtml(p.nome||p.email) + '</div>';
+                h += '<div style="font-size:10px;color:var(--adm-text-3);">' + escapeHtml(p.email) + ' · ' + escapeHtml(p.ct||'') + '</div>';
+                h += '</div>';
+                h += '<span style="font-size:10px;font-weight:700;color:' + cor + ';">ATIVO</span>';
+                h += '</div>';
+            });
+            el.innerHTML = h;
+        }
+
+        async function saCriarCT() {
+            var nome = (document.getElementById('saNovoCTNome').value || '').trim();
+            var msg  = document.getElementById('saCTMsg');
+            if (!nome) { msg.style.color='#f87171'; msg.textContent='⚠️ Informe o nome do CT'; return; }
+            msg.style.color='var(--adm-text-3)'; msg.textContent='Criando...';
+            try {
+                var result = await secureFetch('createCT', { nome: nome });
+                if (result.success) {
+                    msg.style.color='#4ade80'; msg.textContent='✅ CT criado!';
+                    document.getElementById('saNovoCTNome').value = '';
+                    loadSuperAdminData();
+                    loadCTs(); // atualiza o grid de check-in
+                } else {
+                    msg.style.color='#f87171'; msg.textContent='❌ ' + (result.message || 'Erro');
+                }
+            } catch(e) { msg.style.color='#f87171'; msg.textContent='❌ ' + e.message; }
+        }
+
+        async function saExcluirCT(nome) {
+            if (!confirm('Excluir CT "' + nome + '"?\nEsta ação não pode ser desfeita.')) return;
+            try {
+                var result = await secureFetch('deleteCT', { nome: nome });
+                if (result.success) { loadSuperAdminData(); loadCTs(); }
+                else alert(result.message || 'Erro ao excluir');
+            } catch(e) { alert('Erro: ' + e.message); }
+        }
+
+        var _isSuperAdmin = null;
+
+        function isSuperAdmin() {
+            return _isSuperAdmin === true;
+        }
+
+        // ===== TRIAL / BLOQUEIO DE SISTEMA =====
+        async function checkTrialStatus() {
+            try {
+                var r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'checkTrialStatus' }) });
+                var data = await r.json();
+                if (data.success && data.bloqueado) {
+                    showTrialBlocked(data);
+                    return true; // bloqueado
+                }
+                // Exibir banner de trial se ativo e não bloqueado
+                if (data.modoTrial && data.diasRestantes !== null && data.diasRestantes > 0) {
+                    showTrialBanner(data.diasRestantes);
+                }
+                return false;
+            } catch(e) {
+                return false; // fail-open
+            }
+        }
+
+        function showTrialBlocked(data) {
+            var overlay = document.getElementById('trialBlockedOverlay');
+            if (!overlay) return;
+            var msg = document.getElementById('trialBlockedMsg');
+            var sub = document.getElementById('trialBlockedSub');
+            var waLink = document.getElementById('trialWALink');
+            if (msg) msg.textContent = data.motivoBloqueio || 'Sistema temporariamente bloqueado. Entre em contato com o administrador.';
+            if (sub) {
+                if (data.expirado && data.dataExpiracao) {
+                    var d = new Date(data.dataExpiracao);
+                    sub.textContent = 'Período de teste encerrado em ' + d.toLocaleDateString('pt-BR');
+                } else {
+                    sub.textContent = '';
+                }
+            }
+            // Atualiza link WhatsApp com número do backend
+            if (waLink && data.suporteWhatsApp) {
+                waLink.href = 'https://wa.me/' + data.suporteWhatsApp + '?text=Ol%C3%A1%2C%20gostaria%20de%20contratar%20o%20IDESystems';
+            }
+            overlay.style.display = 'flex';
+            ['appScreen','adminScreen','loginScreen','bottomNav','adminNav'].forEach(function(id) {
+                var el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
+        }
+
+        function showTrialBanner(diasRestantes) {
+            var existing = document.getElementById('trialBanner');
+            if (existing) existing.remove();
+            var cor = diasRestantes <= 3 ? '#f87171' : diasRestantes <= 7 ? '#fbbf24' : '#38bdf8';
+            var banner = document.createElement('div');
+            banner.id  = 'trialBanner';
+            // Posiciona abaixo do header fixo sem sobrepor
+            banner.style.cssText = 'position:fixed;top:56px;left:0;right:0;z-index:900;background:' + cor + ';color:#000;text-align:center;padding:5px 12px;font-size:11px;font-weight:800;';
+            banner.textContent = '⏳ Período de teste: ' + diasRestantes + ' dia' + (diasRestantes !== 1 ? 's' : '') + ' restante' + (diasRestantes !== 1 ? 's' : '');
+            document.body.prepend(banner);
+        }
+
+        async function loadSuperAdminTrialConfig() {
+            try {
+                var data = await secureFetch('getTrialConfig', {});
+                if (!data.success) return;
+                var bloqueado     = data.bloqueado;
+                var dataExp       = data.dataExpiracao;
+                var motivo        = data.motivo || '';
+
+                // Atualizar UI
+                var statusEl = document.getElementById('saTrialStatus');
+                if (statusEl) {
+                    if (bloqueado) {
+                        statusEl.innerHTML = '<span style="color:#f87171;font-weight:800;">🔒 BLOQUEADO</span>';
+                    } else if (dataExp) {
+                        var d = new Date(dataExp);
+                        var hoje = new Date();
+                        var diff = Math.ceil((d - hoje) / (86400000));
+                        if (diff <= 0) {
+                            statusEl.innerHTML = '<span style="color:#f87171;font-weight:800;">⏰ EXPIRADO</span>';
+                        } else {
+                            statusEl.innerHTML = '<span style="color:#fbbf24;font-weight:800;">⏳ TRIAL: ' + diff + ' dias restantes</span>';
+                        }
+                    } else {
+                        statusEl.innerHTML = '<span style="color:#4ade80;font-weight:800;">✅ ATIVO (sem restrição)</span>';
+                    }
+                }
+                var motivoEl = document.getElementById('saTrialMotivo');
+                if (motivoEl) motivoEl.value = motivo;
+                var dataExpEl = document.getElementById('saTrialDataExp');
+                if (dataExpEl && dataExp) {
+                    var d2 = new Date(dataExp);
+                    dataExpEl.textContent = d2.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
+                } else if (dataExpEl) {
+                    dataExpEl.textContent = '—';
+                }
+            } catch(e) {}
+        }
+
+        async function saTrialAcao(acao) {
+            var dias    = parseInt(document.getElementById('saTrialDias')?.value) || 0;
+            var motivo  = (document.getElementById('saTrialMotivo')?.value || '').trim();
+            var msgEl   = document.getElementById('saTrialMsg');
+            if (msgEl) { msgEl.style.color='var(--adm-text-3)'; msgEl.textContent='Salvando...'; }
+            try {
+                var payload = { acao: acao, motivo: motivo };
+                if (acao === 'definir_trial') {
+                    if (!dias || dias < 1) { if (msgEl) { msgEl.style.color='#f87171'; msgEl.textContent='⚠️ Informe o número de dias'; } return; }
+                    payload.dias = dias;
+                }
+                if (acao === 'bloquear' && !motivo) {
+                    if (msgEl) { msgEl.style.color='#f87171'; msgEl.textContent='⚠️ Informe o motivo do bloqueio'; } return;
+                }
+                var data = await secureFetch('saveTrialConfig', payload);
+                if (data.success) {
+                    if (msgEl) { msgEl.style.color='#4ade80'; msgEl.textContent='✅ ' + data.message; }
+                    loadSuperAdminTrialConfig();
+                } else {
+                    if (msgEl) { msgEl.style.color='#f87171'; msgEl.textContent='❌ ' + (data.message||'Erro'); }
+                }
+            } catch(e) {
+                if (msgEl) { msgEl.style.color='#f87171'; msgEl.textContent='❌ ' + e.message; }
+            }
+        }
+
+        async function checkSuperAdmin() {
+            try {
+                var data = await secureFetch('checkIsSuperAdmin', {});
+                _isSuperAdmin = !!(data && data.isSuperAdmin);
+                var saBtn = document.getElementById('bnavSuperAdmin');
+                if (saBtn) saBtn.style.display = _isSuperAdmin ? '' : 'none';
+                var newCTSection = document.getElementById('newCTSection');
+                if (newCTSection) newCTSection.style.display = _isSuperAdmin ? '' : 'none';
+            } catch(e) { _isSuperAdmin = false; }
+        }
+
         function isSysAdmin() {
             return false; // sem modo SaaS multi-tenant
         }
@@ -17337,6 +18124,296 @@
             }
         }
 
+
+        // ===== FEEDBACK =====
+        var _feedbackTipo = 'sugestao';
+
+        function initFeedbackTab() {
+            setFeedbackTipo('sugestao');
+            document.getElementById('fbMensagem').value = '';
+            document.getElementById('fbCharCount').textContent = '0';
+            document.getElementById('fbMsg').textContent = '';
+        }
+
+        function setFeedbackTipo(tipo) {
+            _feedbackTipo = tipo;
+            var tipos = { elogio: '😊 Elogio', sugestao: '💡 Sugestão', reclamacao: '😤 Problema' };
+            var colors = { elogio: '#4ade80', sugestao: 'var(--accent)', reclamacao: '#f87171' };
+            Object.keys(tipos).forEach(function(t) {
+                var btn = document.getElementById('fbTipo' + t.charAt(0).toUpperCase() + t.slice(1));
+                if (!btn) return;
+                var active = t === tipo;
+                btn.style.border    = '1.5px solid ' + (active ? colors[t] : 'var(--border)');
+                btn.style.background = active ? 'rgba(255,255,255,0.05)' : 'var(--bg-elevated)';
+                btn.style.color     = active ? colors[t] : 'var(--text-2)';
+            });
+        }
+
+        async function submitFeedback() {
+            var mensagem = (document.getElementById('fbMensagem').value || '').trim();
+            var msgEl    = document.getElementById('fbMsg');
+            if (!mensagem) { msgEl.style.color='#f87171'; msgEl.textContent='⚠️ Escreva uma mensagem antes de enviar.'; return; }
+            msgEl.style.color='var(--text-3)'; msgEl.textContent='Enviando...';
+            try {
+                var data = await secureFetch('submitFeedback', { tipo: _feedbackTipo, mensagem: mensagem });
+                if (data.success) {
+                    msgEl.style.color='#4ade80';
+                    msgEl.textContent='✅ Enviado! Obrigado pelo seu feedback.';
+                    document.getElementById('fbMensagem').value = '';
+                    document.getElementById('fbCharCount').textContent = '0';
+                    setFeedbackTipo('sugestao');
+                } else {
+                    msgEl.style.color='#f87171';
+                    msgEl.textContent='❌ ' + (data.message || 'Erro ao enviar');
+                }
+            } catch(e) {
+                msgEl.style.color='#f87171';
+                msgEl.textContent='❌ Erro de conexão';
+            }
+        }
+
+        async function loadAdminFeedbacks() {
+            var el = document.getElementById('adminFeedbackList');
+            if (!el) return;
+            el.innerHTML = '<div class="admin-empty">Carregando...</div>';
+            try {
+                var data = await secureFetch('getFeedbacks', {});
+                if (!data.success) { el.innerHTML = '<div class="admin-empty">Erro ao carregar</div>'; return; }
+                var feedbacks = data.feedbacks || [];
+                var badge = document.getElementById('adminFeedbackBadge');
+                if (badge) { badge.textContent = data.naoLidos; badge.style.display = data.naoLidos > 0 ? 'inline-block' : 'none'; }
+                if (feedbacks.length === 0) { el.innerHTML = '<div class="admin-empty">Nenhum feedback ainda</div>'; return; }
+                var tipoIcon  = { elogio: '😊', sugestao: '💡', reclamacao: '😤' };
+                var tipoCor   = { elogio: 'rgba(74,222,128,0.12)', sugestao: 'rgba(212,165,41,0.1)', reclamacao: 'rgba(248,113,113,0.1)' };
+                var tipoBorda = { elogio: 'rgba(74,222,128,0.25)', sugestao: 'rgba(212,165,41,0.25)', reclamacao: 'rgba(248,113,113,0.25)' };
+                var h = '';
+                feedbacks.forEach(function(f) {
+                    var tipo = f.tipo || 'sugestao';
+                    h += '<div style="padding:10px 12px;border-radius:10px;margin-bottom:6px;background:' + (tipoCor[tipo]||'var(--adm-bg-elevated)') + ';border:1px solid ' + (tipoBorda[tipo]||'var(--adm-border)') + ';">';
+                    h += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">';
+                    h += '<span style="font-size:16px;">' + (tipoIcon[tipo]||'💬') + '</span>';
+                    h += '<div style="flex:1;">';
+                    h += '<div style="font-size:11px;font-weight:700;color:var(--adm-text-1);">' + escapeHtml(f.nome || f.email) + ' <span style="font-weight:400;color:var(--adm-text-3);">· ' + escapeHtml(f.ct) + '</span></div>';
+                    h += '<div style="font-size:9px;color:var(--adm-text-3);">' + escapeHtml(f.data) + (f.lido ? '' : ' · <strong style="color:var(--adm-primary);">NOVO</strong>') + '</div>';
+                    h += '</div></div>';
+                    h += '<div style="font-size:12px;color:var(--adm-text-1);line-height:1.5;">' + escapeHtml(f.mensagem) + '</div>';
+                    h += '</div>';
+                });
+                el.innerHTML = h;
+            } catch(e) {
+                el.innerHTML = '<div class="admin-empty">Erro: ' + e.message + '</div>';
+            }
+        }
+
+        // ===== ABA FEEDBACKS (admin) =====
+        var _fbTabFilter = null;
+        var _fbTabCache  = [];
+
+        async function loadFeedbacksTab() {
+            var el = document.getElementById('fbTabList');
+            if (!el) return;
+            el.innerHTML = '<div class="admin-empty">Carregando...</div>';
+            try {
+                var data = await secureFetch('getFeedbacks', {});
+                if (!data.success) { el.innerHTML = '<div class="admin-empty">Erro ao carregar</div>'; return; }
+                _fbTabCache = data.feedbacks || [];
+                // Atualiza badge no nav
+                var badge = document.getElementById('adminFeedbackBadge');
+                if (badge) { badge.textContent = data.naoLidos; badge.style.display = data.naoLidos > 0 ? 'inline-block' : 'none'; }
+                renderFeedbacksTab();
+            } catch(e) {
+                el.innerHTML = '<div class="admin-empty">Erro: ' + e.message + '</div>';
+            }
+        }
+
+        function setFbTabFilter(tipo) {
+            _fbTabFilter = tipo;
+            var ids = { null: 'fbFilterAll', elogio: 'fbFilterElogio', sugestao: 'fbFilterSugest', reclamacao: 'fbFilterRecl' };
+            Object.keys(ids).forEach(function(k) {
+                var btn = document.getElementById(ids[k]);
+                if (!btn) return;
+                var active = (k === 'null' ? null : k) === tipo;
+                btn.style.fontWeight  = active ? '800' : '600';
+                btn.style.border      = '1px solid ' + (active ? 'var(--adm-primary)' : 'var(--adm-border)');
+                btn.style.background  = active ? 'var(--adm-primary)' : 'var(--adm-bg-elevated)';
+                btn.style.color       = active ? '#000' : 'var(--adm-text-2)';
+            });
+            renderFeedbacksTab();
+        }
+
+        function renderFeedbacksTab() {
+            var el = document.getElementById('fbTabList');
+            if (!el) return;
+            var list = _fbTabFilter ? _fbTabCache.filter(function(f){ return f.tipo === _fbTabFilter; }) : _fbTabCache;
+            if (list.length === 0) { el.innerHTML = '<div class="admin-empty">Nenhum feedback</div>'; return; }
+
+            var tipoIcon  = { elogio: '😊', sugestao: '💡', reclamacao: '😤' };
+            var tipoCor   = { elogio: 'rgba(74,222,128,0.1)', sugestao: 'rgba(212,165,41,0.08)', reclamacao: 'rgba(248,113,113,0.1)' };
+            var tipoBorda = { elogio: 'rgba(74,222,128,0.2)', sugestao: 'rgba(212,165,41,0.2)', reclamacao: 'rgba(248,113,113,0.2)' };
+
+            var h = '';
+            list.forEach(function(f) {
+                var tipo = f.tipo || 'sugestao';
+                var opacity = f.lido ? 'opacity:0.55;' : '';
+                h += '<div id="fbcard-' + f.rowIndex + '" style="padding:12px;border-radius:10px;margin-bottom:8px;' + opacity + 'background:' + (tipoCor[tipo]||'var(--adm-bg-elevated)') + ';border:1px solid ' + (tipoBorda[tipo]||'var(--adm-border)') + ';">';
+                // Header
+                h += '<div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;">';
+                h += '<span style="font-size:18px;flex-shrink:0;">' + (tipoIcon[tipo]||'💬') + '</span>';
+                h += '<div style="flex:1;min-width:0;">';
+                h += '<div style="font-size:12px;font-weight:800;color:var(--adm-text-1);">' + escapeHtml(f.nome||f.email) + '</div>';
+                h += '<div style="font-size:10px;color:var(--adm-text-3);">' + escapeHtml(f.ct||'') + ' · ' + escapeHtml(f.data) + '</div>';
+                h += '</div>';
+                if (!f.lido) {
+                    h += '<button onclick="markFbRead(' + f.rowIndex + ')" style="padding:3px 8px;background:rgba(212,165,41,0.15);color:var(--adm-primary);border:1px solid rgba(212,165,41,0.3);border-radius:5px;font-size:9px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;">✓ Lido</button>';
+                } else {
+                    h += '<span style="font-size:9px;color:var(--adm-text-3);">✓ Lido</span>';
+                }
+                h += '</div>';
+                // Mensagem
+                h += '<div style="font-size:12px;color:var(--adm-text-1);line-height:1.5;padding:8px 10px;background:rgba(0,0,0,0.15);border-radius:6px;">' + escapeHtml(f.mensagem) + '</div>';
+                h += '</div>';
+            });
+            el.innerHTML = h;
+        }
+
+        async function markFbRead(rowIndex) {
+            try {
+                await secureFetch('markFeedbackRead', { rowIndex: rowIndex });
+                // Atualiza localmente sem reload
+                var card = document.getElementById('fbcard-' + rowIndex);
+                if (card) card.style.opacity = '0.55';
+                var item = _fbTabCache.find(function(f){ return f.rowIndex === rowIndex; });
+                if (item) item.lido = true;
+                // Atualiza badge
+                var naoLidos = _fbTabCache.filter(function(f){ return !f.lido; }).length;
+                var badge = document.getElementById('adminFeedbackBadge');
+                if (badge) { badge.textContent = naoLidos; badge.style.display = naoLidos > 0 ? 'inline-block' : 'none'; }
+                // Remove botão e substitui por "✓ Lido"
+                var btn = card ? card.querySelector('button[onclick]') : null;
+                if (btn) { var sp = document.createElement('span'); sp.style.cssText='font-size:9px;color:var(--adm-text-3);'; sp.textContent='✓ Lido'; btn.replaceWith(sp); }
+            } catch(e) {}
+        }
+
+        // ===== ADMIN: TREINOS CUSTOMIZADOS =====
+        async function loadAdminTreinos() {
+            var el = document.getElementById('adminTreinosList');
+            if (!el) return;
+            try {
+                var data = await secureFetch('getTreinosCustom', {});
+                if (!data.success || !data.treinos.length) {
+                    el.innerHTML = '<div class="admin-empty" style="font-size:11px;">Nenhum treino customizado ainda</div>';
+                    return;
+                }
+                var h = '';
+                data.treinos.forEach(function(t) {
+                    h += '<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;margin-bottom:4px;background:var(--adm-bg-card);border:1px solid var(--adm-border);">';
+                    h += '<div style="width:14px;height:14px;border-radius:50%;background:' + escapeHtml(t.cor) + ';flex-shrink:0;"></div>';
+                    h += '<div style="flex:1;min-width:0;">';
+                    h += '<div style="font-size:12px;font-weight:700;color:var(--adm-text-1);">' + escapeHtml(t.nome) + '</div>';
+                    h += '<div style="font-size:10px;color:var(--adm-text-3);">' + (t.exercicios.length) + ' exercícios' + (t.descricao ? ' · ' + escapeHtml(t.descricao) : '') + '</div>';
+                    h += '</div>';
+                    h += '<button onclick="adminExcluirTreino(\'' + t.id + '\')" style="padding:4px 8px;background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.2);border-radius:5px;font-size:10px;cursor:pointer;">✕</button>';
+                    h += '</div>';
+                });
+                el.innerHTML = h;
+            } catch(e) {
+                el.innerHTML = '<div class="admin-empty">Erro: ' + e.message + '</div>';
+            }
+        }
+
+        async function adminSalvarTreino() {
+            var nome  = (document.getElementById('adminTreinoNome').value || '').trim();
+            var desc  = (document.getElementById('adminTreinoDesc').value || '').trim();
+            var exsRaw = (document.getElementById('adminTreinoExs').value || '').trim();
+            var cor   = document.getElementById('adminTreinoCor').value || '#3b82f6';
+            var msg   = document.getElementById('adminTreinoMsg');
+            if (!nome) { msg.style.color='#f87171'; msg.textContent='⚠️ Nome obrigatório'; return; }
+            // Parse exercícios: "Nome | Séries" por linha
+            var exs = exsRaw.split('\n').map(function(l) {
+                l = l.trim(); if (!l) return null;
+                var parts = l.split('|');
+                return { nome: (parts[0]||'').trim(), sets: (parts[1]||'').trim() };
+            }).filter(Boolean);
+            msg.style.color='var(--adm-text-3)'; msg.textContent='Salvando...';
+            try {
+                var result = await secureFetch('saveTreinoCustom', {
+                    nome: nome, descricao: desc,
+                    exercicios: JSON.stringify(exs), cor: cor
+                });
+                if (result.success) {
+                    msg.style.color='#4ade80'; msg.textContent='✅ ' + result.message;
+                    document.getElementById('adminTreinoNome').value = '';
+                    document.getElementById('adminTreinoDesc').value = '';
+                    document.getElementById('adminTreinoExs').value  = '';
+                    loadAdminTreinos();
+                    _treinosCustom = []; // força reload no frontend do aluno
+                } else { msg.style.color='#f87171'; msg.textContent='❌ ' + (result.message||'Erro'); }
+            } catch(e) { msg.style.color='#f87171'; msg.textContent='❌ ' + e.message; }
+        }
+
+        async function adminExcluirTreino(id) {
+            if (!confirm('Excluir este treino?')) return;
+            try {
+                var result = await secureFetch('deleteTreinoCustom', { id: id });
+                if (result.success) loadAdminTreinos();
+                else alert(result.message || 'Erro');
+            } catch(e) { alert('Erro: ' + e.message); }
+        }
+
+        // ===== ADMIN: IBJJF UPDATES =====
+        async function loadAdminIBJJF() {
+            var el = document.getElementById('adminIBJJFList');
+            if (!el) return;
+            try {
+                var data = await secureFetch('getIBJJFUpdates', {});
+                if (!data.success || !data.updates.length) {
+                    el.innerHTML = '<div class="admin-empty" style="font-size:11px;">Nenhuma novidade publicada ainda</div>';
+                    return;
+                }
+                var h = '';
+                data.updates.forEach(function(u) {
+                    h += '<div style="padding:8px 10px;border-radius:8px;margin-bottom:4px;background:var(--adm-bg-card);border:1px solid var(--adm-border);">';
+                    h += '<div style="display:flex;align-items:center;gap:8px;">';
+                    h += '<div style="flex:1;min-width:0;">';
+                    h += '<div style="font-size:12px;font-weight:700;color:var(--adm-text-1);">' + escapeHtml(u.titulo) + '</div>';
+                    h += '<div style="font-size:10px;color:var(--adm-text-3);">' + (u.versao ? escapeHtml(u.versao) + ' · ' : '') + escapeHtml(u.data||'') + '</div>';
+                    h += '</div>';
+                    h += '<button onclick="adminRemoverIBJJF(\'' + u.id + '\')" style="padding:4px 8px;background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.2);border-radius:5px;font-size:10px;cursor:pointer;">✕</button>';
+                    h += '</div>';
+                    h += '</div>';
+                });
+                el.innerHTML = h;
+            } catch(e) {
+                el.innerHTML = '<div class="admin-empty">Erro: ' + e.message + '</div>';
+            }
+        }
+
+        async function adminPublicarIBJJF() {
+            var titulo   = (document.getElementById('adminIBJJFTitulo').value   || '').trim();
+            var versao   = (document.getElementById('adminIBJJFVersao').value   || '').trim();
+            var conteudo = (document.getElementById('adminIBJJFConteudo').value || '').trim();
+            var msg = document.getElementById('adminIBJJFMsg');
+            if (!titulo || !conteudo) { msg.style.color='#f87171'; msg.textContent='⚠️ Título e conteúdo obrigatórios'; return; }
+            msg.style.color='var(--adm-text-3)'; msg.textContent='Publicando...';
+            try {
+                var result = await secureFetch('saveIBJJFUpdate', { titulo: titulo, versao: versao, conteudo: conteudo });
+                if (result.success) {
+                    msg.style.color='#4ade80'; msg.textContent='✅ Publicado!';
+                    document.getElementById('adminIBJJFTitulo').value   = '';
+                    document.getElementById('adminIBJJFVersao').value   = '';
+                    document.getElementById('adminIBJJFConteudo').value = '';
+                    loadAdminIBJJF();
+                } else { msg.style.color='#f87171'; msg.textContent='❌ ' + (result.message||'Erro'); }
+            } catch(e) { msg.style.color='#f87171'; msg.textContent='❌ ' + e.message; }
+        }
+
+        async function adminRemoverIBJJF(id) {
+            if (!confirm('Remover esta novidade?')) return;
+            try {
+                var result = await secureFetch('saveIBJJFUpdate', { id: id, titulo: '-', conteudo: '-', ativo: false });
+                if (result.success) loadAdminIBJJF();
+            } catch(e) {}
+        }
 
         async function loadGradAlerts() {
             var el     = document.getElementById('adminGradAlertList');
@@ -18757,6 +19834,8 @@
                 var result = await secureFetch('solicitarPresencaEsquecimento', { dataAula: dataISO, horario: horario, observacao: obs });
                 if (result.success) {
                     fecharModalEsquecimento();
+                    _prsData = null; // força reload do calendário de presenças
+                    if (typeof renderPresencas === 'function') loadPresencas();
                     _cronoAulas = null; // força reload do cronograma
                     if (typeof loadCronograma === 'function') await loadCronograma();
                     if (_aulasSelectedDate) renderAulaDayDetail(_aulasSelectedDate);
