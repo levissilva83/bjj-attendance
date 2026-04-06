@@ -7422,6 +7422,16 @@
                         <p>Saúde do sistema, configurações e perfil</p>
                     </div>
 
+                    <!-- QR CODE CHECK-IN -->
+                    <div class="admin-section">
+                        <div class="admin-section-header">
+                            <div class="admin-section-title">📲 QR Code de Check-in</div>
+                            <button class="admin-refresh-btn" onclick="loadQRCodes()">↻</button>
+                        </div>
+                        <p style="font-size:11px;color:var(--adm-text-3);margin-bottom:12px;">Gere e imprima o QR Code do seu CT. O aluno escaneia e é redirecionado direto para o check-in.</p>
+                        <div id="qrCodesList" style="display:flex;flex-direction:column;gap:12px;"></div>
+                    </div>
+
                     <!-- SYSADMIN: Gerenciamento de Licenças (visível só para dono do SaaS) -->
                     <div class="admin-section" id="sysAdminLicSection" style="display:none;">
                         <div class="admin-section-header">
@@ -8232,7 +8242,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyn2zFwbFUm-0l7WO5ysjorvYfIlrOk52jg-_jMj4JiVe-SiKptQKf5qbCzy3jmxsSm/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby-WeYeNJsCHuEgBBDXdmWCnaElibw8LAe2joQtKr96SgcV0vUQva9jAQ5EmLeCq5U5/exec';
 
         // ===== PWA INSTALL PROMPT =====
         (function() {
@@ -8539,6 +8549,57 @@
             }
         }
 
+
+        // ===== QR CODE CHECK-IN: detecta parâmetro na URL e redireciona =====
+        (function() {
+            try {
+                var params = new URLSearchParams(window.location.search);
+                var qrCT   = params.get('qr');   // ex: ?qr=CT+Taz
+                var qrAcao = params.get('acao');  // sempre 'checkin'
+                if (qrCT && qrAcao === 'checkin') {
+                    // Guarda no sessionStorage para usar após login
+                    sessionStorage.setItem('qrCheckinCT', decodeURIComponent(qrCT));
+                    sessionStorage.setItem('qrCheckinPendente', '1');
+                    // Limpa URL sem recarregar
+                    if (window.history && window.history.replaceState) {
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                    }
+                }
+            } catch(e) {}
+        })();
+
+        function checkQRCheckinPendente() {
+            try {
+                if (sessionStorage.getItem('qrCheckinPendente') !== '1') return;
+                var ct = sessionStorage.getItem('qrCheckinCT') || '';
+                sessionStorage.removeItem('qrCheckinPendente');
+                sessionStorage.removeItem('qrCheckinCT');
+                // Vai direto para o check-in com o CT pré-selecionado
+                setTimeout(function() {
+                    // Muda para aba do aluno > check-in
+                    if (typeof switchToAlunoMode === 'function') switchToAlunoMode();
+                    if (typeof switchTab === 'function') switchTab('treino-tab');
+                    if (typeof switchSubTab === 'function') switchSubTab('treino-tab', 'sub-checkin');
+                    // Pré-seleciona o CT
+                    if (ct && typeof selectedCT !== 'undefined') {
+                        selectedCT = ct;
+                        var ctBtns = document.querySelectorAll('.ct-btn');
+                        ctBtns.forEach(function(btn) {
+                            if (btn.textContent.trim() === ct || btn.getAttribute('data-ct') === ct) {
+                                btn.click();
+                            }
+                        });
+                    }
+                    // Mostra banner informando sobre o QR
+                    var toast = document.createElement('div');
+                    toast.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);background:rgba(212,165,41,0.15);border:1px solid rgba(212,165,41,0.4);color:#d4a829;padding:10px 20px;border-radius:12px;font-size:12px;font-weight:700;z-index:9999;white-space:nowrap;';
+                    toast.textContent = '📲 Check-in via QR Code' + (ct ? ' — ' + ct : '');
+                    document.body.appendChild(toast);
+                    setTimeout(function() { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 4000);
+                }, 800);
+            } catch(e) {}
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const regPw = document.getElementById('regPassword');
             const regPwC = document.getElementById('regPasswordConfirm');
@@ -8767,6 +8828,8 @@
                 _currentViewMode = 'aluno';
                 applyViewMode('aluno');
             }
+            // Verifica se veio de QR Code e redireciona para check-in
+            checkQRCheckinPendente();
         }
 
         async function checkMandatoryProfile() {
@@ -13142,7 +13205,7 @@
             if (tabName === 'adm-graduacoes') loadGradTab();
             if (tabName === 'adm-presenca') initPresencaList();
             if (tabName === 'adm-campeonato') initCampAdmin();
-            if (tabName === 'adm-sistema') { loadModulesConfig(); loadSystemHealth(); loadAdminCTs(); loadAdminProfile(); loadGradConfig(); loadCTScheduleAdmin(); initAdmAulaForm(); loadAdminTreinos(); loadAdminIBJJF(); }
+            if (tabName === 'adm-sistema') { loadModulesConfig(); loadSystemHealth(); loadAdminCTs(); loadAdminProfile(); loadGradConfig(); loadCTScheduleAdmin(); initAdmAulaForm(); loadAdminTreinos(); loadAdminIBJJF(); loadQRCodes(); }
             if (tabName === 'adm-superadmin') { if (isSuperAdmin()) { loadSuperAdminData(); loadSuperAdminTrialConfig(); } }
         }
 
@@ -18695,6 +18758,137 @@
                 var btn = card ? card.querySelector('button[onclick]') : null;
                 if (btn) { var sp = document.createElement('span'); sp.style.cssText='font-size:9px;color:var(--adm-text-3);'; sp.textContent='✓ Lido'; btn.replaceWith(sp); }
             } catch(e) {}
+        }
+
+        // ===== QR CODE CHECK-IN =====
+        function loadQRCodes() {
+            var el = document.getElementById('qrCodesList');
+            if (!el) return;
+            if (!allCTs || allCTs.length === 0) {
+                el.innerHTML = '<div class="admin-empty">Nenhum CT cadastrado. Cadastre CTs primeiro em Sistema.</div>';
+                return;
+            }
+            el.innerHTML = '';
+            var baseURL = window.location.href.split('?')[0];
+            allCTs.forEach(function(ct) {
+                var ctName = typeof ct === 'string' ? ct : (ct.name || ct.toString());
+                var checkinURL = baseURL + '?qr=' + encodeURIComponent(ctName) + '&acao=checkin';
+
+                var card = document.createElement('div');
+                card.style.cssText = 'background:var(--adm-bg-elevated);border:1px solid var(--adm-border);border-radius:14px;padding:16px;';
+
+                card.innerHTML =
+                    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">' +
+                        '<div>' +
+                            '<div style="font-size:13px;font-weight:800;color:var(--adm-text-1);">📍 ' + escapeHtml(ctName) + '</div>' +
+                            '<div style="font-size:10px;color:var(--adm-text-3);margin-top:2px;">Check-in via QR Code</div>' +
+                        '</div>' +
+                        '<div style="display:flex;gap:6px;">' +
+                            '<button onclick="downloadQRCard(\'' + escapeHtml(ctName) + '\')" style="padding:6px 12px;border-radius:8px;background:var(--adm-primary);color:#000;border:none;font-size:11px;font-weight:800;cursor:pointer;">⬇ Baixar</button>' +
+                            '<button onclick="printQRCard(\'' + escapeHtml(ctName) + '\')" style="padding:6px 12px;border-radius:8px;background:rgba(56,189,248,0.1);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);font-size:11px;font-weight:700;cursor:pointer;">🖨 Imprimir</button>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div style="display:flex;justify-content:center;padding:12px;background:#fff;border-radius:10px;">' +
+                        '<canvas id="qrCanvas_' + btoa(ctName).replace(/[^a-zA-Z0-9]/g,'') + '" width="160" height="160"></canvas>' +
+                    '</div>' +
+                    '<div style="font-size:9px;color:var(--adm-text-3);text-align:center;margin-top:8px;word-break:break-all;">' + escapeHtml(checkinURL) + '</div>';
+
+                el.appendChild(card);
+
+                // Gera o QR code no canvas
+                var canvasId = 'qrCanvas_' + btoa(ctName).replace(/[^a-zA-Z0-9]/g,'');
+                generateQRCode(checkinURL, canvasId);
+            });
+        }
+
+        // Gerador de QR Code puro (sem biblioteca externa)
+        function generateQRCode(url, canvasId) {
+            // Usa a API do QR Server (online) via Image para não depender de biblioteca
+            var canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            var ctx = canvas.getContext('2d');
+            var size = 160;
+            var img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.onload = function() {
+                ctx.clearRect(0,0,size,size);
+                ctx.drawImage(img, 0, 0, size, size);
+                // Adiciona logo no centro
+                ctx.fillStyle = 'rgba(255,255,255,0.9)';
+                ctx.fillRect(size/2-16, size/2-16, 32, 32);
+                ctx.font = '20px serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('🥋', size/2, size/2);
+            };
+            img.onerror = function() {
+                // Fallback: mostra texto com link
+                ctx.fillStyle = '#f8f8f8';
+                ctx.fillRect(0,0,size,size);
+                ctx.fillStyle = '#333';
+                ctx.font = '10px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('QR Code', size/2, size/2 - 10);
+                ctx.font = '8px sans-serif';
+                ctx.fillStyle = '#666';
+                ctx.fillText('(requer internet)', size/2, size/2 + 6);
+            };
+            img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=160x160&format=png&margin=4&data=' + encodeURIComponent(url);
+        }
+
+        function buildQRPrintHTML(ctName) {
+            var baseURL = window.location.href.split('?')[0];
+            var checkinURL = baseURL + '?qr=' + encodeURIComponent(ctName) + '&acao=checkin';
+            var qrImgSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&format=png&margin=10&data=' + encodeURIComponent(checkinURL);
+            return '<!DOCTYPE html><html><head><meta charset="UTF-8">' +
+                '<style>' +
+                'body{margin:0;background:#fff;display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:Arial,sans-serif;}' +
+                '.card{text-align:center;padding:40px;border:2px solid #d4a829;border-radius:20px;max-width:400px;box-shadow:0 4px 20px rgba(0,0,0,0.1);}' +
+                '.logo{font-size:48px;margin-bottom:8px;}' +
+                '.title{font-size:24px;font-weight:900;color:#1a1a0f;margin-bottom:4px;letter-spacing:-0.5px;}' +
+                '.ct{font-size:18px;font-weight:700;color:#d4a829;margin-bottom:20px;}' +
+                '.qr{border-radius:12px;border:3px solid #d4a829;margin-bottom:16px;}' +
+                '.instr{font-size:13px;color:#555;line-height:1.6;margin-bottom:12px;}' +
+                '.step{display:inline-block;background:#f5f0e0;border-radius:20px;padding:4px 12px;margin:3px;font-size:12px;font-weight:600;}' +
+                '.url{font-size:8px;color:#999;word-break:break-all;margin-top:8px;}' +
+                '@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact;} @page{margin:0.5cm;}}' +
+                '</style></head><body>' +
+                '<div class="card">' +
+                '<div class="logo">🥋</div>' +
+                '<div class="title">JIU JITSU ACADEMY</div>' +
+                '<div class="ct">📍 ' + ctName + '</div>' +
+                '<img src="' + qrImgSrc + '" width="220" height="220" class="qr" alt="QR Code">' +
+                '<div class="instr">' +
+                '<strong>Como fazer check-in:</strong><br>' +
+                '<span class="step">1️⃣ Abra a câmera</span>' +
+                '<span class="step">2️⃣ Aponte para o QR</span>' +
+                '<span class="step">3️⃣ Faça login</span>' +
+                '<span class="step">4️⃣ Check-in automático ✅</span>' +
+                '</div>' +
+                '<div class="url">' + checkinURL + '</div>' +
+                '</div>' +
+                '</body></html>';
+        }
+
+        function downloadQRCard(ctName) {
+            var html = buildQRPrintHTML(ctName);
+            var blob = new Blob([html], { type: 'text/html' });
+            var url  = URL.createObjectURL(blob);
+            var a    = document.createElement('a');
+            a.href   = url;
+            a.download = 'qr-checkin-' + ctName.replace(/\s+/g,'-').toLowerCase() + '.html';
+            a.click();
+            setTimeout(function() { URL.revokeObjectURL(url); }, 2000);
+        }
+
+        function printQRCard(ctName) {
+            var html = buildQRPrintHTML(ctName);
+            var win  = window.open('', '_blank', 'width=500,height=700');
+            if (win) {
+                win.document.write(html);
+                win.document.close();
+                setTimeout(function() { win.print(); }, 800);
+            }
         }
 
         // ===== ADMIN: TREINOS CUSTOMIZADOS =====
