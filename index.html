@@ -7,9 +7,18 @@
     <meta name="theme-color" content="#08080a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="JJ Academy">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-TileColor" content="#08080a">
+    <meta name="description" content="Sistema de gestão para academias de Jiu-Jitsu">
+
+    <!-- Apple Touch Icons (PWA iOS) -->
+    <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='36' fill='%2308080a'/%3E%3Ccircle cx='90' cy='90' r='70' fill='none' stroke='%23d4a829' stroke-width='6'/%3E%3Ctext x='90' y='108' font-size='72' text-anchor='middle' fill='%23d4a829'%3E🥋%3C/text%3E%3C/svg%3E">
+
+    <!-- Web App Manifest (inline via blob para funcionar no GAS) -->
+    <link rel="manifest" id="pwaManifest">
+
     <title>JIU JITSU ACADEMY - Checkin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -612,7 +621,15 @@
 
         .tab-content.active { display: block; }
 
-        @keyframes fadeIn {
+        @keyframes slideUpBanner {
+            from { transform: translateY(100%); opacity: 0; }
+            to   { transform: translateY(0);    opacity: 1; }
+        }
+        @keyframes slideDownBanner {
+            from { transform: translateY(0);    opacity: 1; }
+            to   { transform: translateY(100%); opacity: 0; }
+        }
+                @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
@@ -2689,8 +2706,75 @@
             .podium { gap: 6px; }
         }
 
+        /* ===== MOBILE FIRST — todos os tamanhos ===== */
+        /* Admin nav: 8 botões — reduz label e padding para caber */
+        #adminNav .bnav-inner {
+            max-width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            justify-content: flex-start;
+            padding: 0 4px;
+        }
+        #adminNav .bnav-inner::-webkit-scrollbar { display: none; }
+        #adminNav .bnav-btn {
+            min-width: 52px;
+            padding: 6px 4px;
+            flex-shrink: 0;
+        }
+        #adminNav .bnav-btn .bnav-label { font-size: 8px; }
+
+        /* Grids que podem ser muito estreitos em mobile */
+        .sa-stat-card { padding: 8px 6px; }
+        .sa-stat-card .sa-stat-num { font-size: 18px; }
+
+        /* Tabelas: scroll horizontal */
+        table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+        /* Containers: nunca vazar da tela */
+        .admin-container { padding: 0 8px; box-sizing: border-box; }
+        .esq-modal { width: calc(100vw - 32px) !important; max-width: 440px; }
+
+        /* Inputs e textareas: nunca maiores que a tela */
+        input, textarea, select {
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 360px) {
+            /* Telefones muito pequenos (ex: iPhone SE 1ª geração) */
+            .bnav-btn .bnav-label { font-size: 8px; }
+            .bnav-btn { min-width: 44px; padding: 6px 2px; }
+            .ct-btn { font-size: 12px; padding: 8px 6px; }
+            .checkin-name { font-size: 15px; }
+            .subtab-btn { font-size: 11px; padding: 7px 8px; }
+            .admin-container { padding: 0 4px; }
+        }
+
         @media (min-width: 769px) {
+            /* Desktop / tablet largo */
             .main { padding: 24px; padding-bottom: 80px; max-width: 560px; margin: 0 auto; }
+            .admin-container { max-width: 640px; margin: 0 auto; padding: 0 16px; }
+
+            /* Nav centralizado no desktop */
+            .bnav-inner { max-width: 560px; margin: 0 auto; justify-content: space-around; }
+            #adminNav .bnav-inner {
+                max-width: 640px;
+                justify-content: space-around;
+                overflow-x: visible;
+            }
+            #adminNav .bnav-btn { min-width: unset; }
+            #adminNav .bnav-btn .bnav-label { font-size: 9px; }
+
+            /* Cards e modais mais largos no desktop */
+            .esq-modal { max-width: 480px; }
+            .sa-stat-card .sa-stat-num { font-size: 22px; }
+        }
+
+        @media (min-width: 1024px) {
+            /* Telas grandes: limita largura do app */
+            #app { max-width: 480px; margin: 0 auto; box-shadow: 0 0 60px rgba(0,0,0,0.5); }
+            .bnav, #adminNav { left: 50%; transform: translateX(-50%); width: 480px; }
         }
 
         /* ===== BROAD COMPATIBILITY ===== */
@@ -3174,7 +3258,6 @@
         }
         #adminNav .bnav-btn { color: var(--adm-text-3); padding: 6px 6px; }
         #adminNav .bnav-btn .bnav-label { font-size: 9px; }
-        #adminNav .bnav-inner { max-width: 520px; }
         #adminNav .bnav-btn.active { color: var(--adm-primary-bright); }
         #adminNav .bnav-btn.active::after {
             content: '';
@@ -3705,31 +3788,40 @@
         .subtab-bar {
             display: flex;
             gap: 4px;
-            padding: 6px;
-            margin: 0 16px 12px;
+            padding: 5px;
+            margin: 0 12px 12px;
             background: rgba(255,255,255,0.03);
             border-radius: 12px;
             border: 1px solid var(--border);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
         }
+        .subtab-bar::-webkit-scrollbar { display: none; }
         .subtab-btn {
-            flex: 1;
-            padding: 8px 4px;
+            flex: 0 0 auto;
+            min-width: 64px;
+            padding: 7px 8px;
             background: none;
             border: none;
             border-radius: 9px;
             color: var(--text-3);
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             font-family: 'Sora', sans-serif;
             cursor: pointer;
             transition: all 0.25s;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.2px;
+            white-space: nowrap;
+            text-align: center;
         }
         .subtab-btn.active {
             background: rgba(212,175,55,0.12);
             color: var(--gold);
             border: 1px solid rgba(212,175,55,0.2);
         }
+        .subtab-btn br { line-height: 1; }
+        .subtab-btn span { font-size: 9px; display: block; margin-top: 2px; opacity: 0.85; }
         .subtab-content { display: none; }
         .subtab-content.active { display: block; }
         /* Cronograma Aulas */
@@ -5527,11 +5619,27 @@
                                     <label class="form-label">Faixa</label>
                                     <select id="regFaixa" required>
                                         <option value="">Selecione sua faixa</option>
-                                        <option value="Branca">⚪ Branca</option>
-                                        <option value="Azul">🔵 Azul</option>
-                                        <option value="Roxa">🟣 Roxa</option>
-                                        <option value="Marrom">🟤 Marrom</option>
-                                        <option value="Preta">⚫ Preta</option>
+                                        <optgroup label="🥋 Adultos">
+                                            <option value="Branca">⚪ Branca</option>
+                                            <option value="Azul">🔵 Azul</option>
+                                            <option value="Roxa">🟣 Roxa</option>
+                                            <option value="Marrom">🟤 Marrom</option>
+                                            <option value="Preta">⚫ Preta</option>
+                                        </optgroup>
+                                        <optgroup label="🧒 Kids">
+                                            <option value="Cinza-Branca">⬜ Cinza-Branca</option>
+                                            <option value="Cinza">🩶 Cinza</option>
+                                            <option value="Cinza-Preta">🖤 Cinza-Preta</option>
+                                            <option value="Amarela-Branca">⬜ Amarela-Branca</option>
+                                            <option value="Amarela">🟡 Amarela</option>
+                                            <option value="Amarela-Preta">🖤 Amarela-Preta</option>
+                                            <option value="Laranja-Branca">⬜ Laranja-Branca</option>
+                                            <option value="Laranja">🟠 Laranja</option>
+                                            <option value="Laranja-Preta">🖤 Laranja-Preta</option>
+                                            <option value="Verde-Branca">⬜ Verde-Branca</option>
+                                            <option value="Verde">🟢 Verde</option>
+                                            <option value="Verde-Preta">🖤 Verde-Preta</option>
+                                        </optgroup>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -5595,11 +5703,11 @@
                 <!-- TAB: TREINO (main) -->
                 <div id="treino-tab" class="tab-content active">
                     <div class="subtab-bar" id="treinoSubtabs">
-                        <button class="subtab-btn active" data-module="checkin" onclick="switchSubTab('treino-tab','sub-checkin',event)">✍️ Check-in</button>
-                        <button class="subtab-btn" data-module="aulas" onclick="switchSubTab('treino-tab','sub-aulas',event)">📅 Cronograma</button>
-                        <button class="subtab-btn" data-module="evolucao" onclick="switchSubTab('treino-tab','sub-evolucao',event)">📈 Evolução</button>
-                        <button class="subtab-btn" data-module="presencas" onclick="switchSubTab('treino-tab','sub-presencas',event)">📅 Presenças</button>
-                        <button class="subtab-btn" data-module="feedback" onclick="switchSubTab('treino-tab','sub-feedback',event)">💬 Feedback</button>
+                        <button class="subtab-btn active" data-module="checkin" onclick="switchSubTab('treino-tab','sub-checkin',event)">✍️<br><span>Check-in</span></button>
+                        <button class="subtab-btn" data-module="aulas" onclick="switchSubTab('treino-tab','sub-aulas',event)">📅<br><span>Cronograma</span></button>
+                        <button class="subtab-btn" data-module="evolucao" onclick="switchSubTab('treino-tab','sub-evolucao',event)">📈<br><span>Evolução</span></button>
+                        <button class="subtab-btn" data-module="presencas" onclick="switchSubTab('treino-tab','sub-presencas',event)">🗓️<br><span>Presenças</span></button>
+                        <button class="subtab-btn" data-module="feedback" onclick="switchSubTab('treino-tab','sub-feedback',event)">💬<br><span>Feedback</span></button>
                     </div>
 
                     <!-- SUB: CHECK-IN -->
@@ -5987,8 +6095,8 @@
                 <div id="prepfisica-tab" class="tab-content">
                     <!-- Subtabs -->
                     <div class="subtab-bar">
-                        <button class="subtab-btn active" data-module="treinos" onclick="switchSubTab('prepfisica-tab','sub-treinos',event)">🏋️ Treinos</button>
-                        <button class="subtab-btn" data-module="ibjjf" onclick="switchSubTab('prepfisica-tab','sub-ibjjf',event)">📋 Regras IBJJF <span id="ibjjfNewBadge" style="display:none;background:#f87171;color:#fff;font-size:8px;font-weight:800;padding:1px 5px;border-radius:8px;margin-left:2px;">NOVO</span></button>
+                        <button class="subtab-btn active" data-module="treinos" onclick="switchSubTab('prepfisica-tab','sub-treinos',event)">🏋️<br><span>Treinos</span></button>
+                        <button class="subtab-btn" data-module="ibjjf" onclick="switchSubTab('prepfisica-tab','sub-ibjjf',event)">📋<br><span>Regras IBJJF <span id="ibjjfNewBadge" style="display:none;background:#f87171;color:#fff;font-size:7px;font-weight:800;padding:1px 4px;border-radius:6px;">NOVO</span></span></button>
                     </div>
 
                     <!-- SUB: TREINOS -->
@@ -6708,85 +6816,109 @@
 
                     <!-- Cronograma de Aulas — Agenda -->
                     <div class="admin-section">
+                        <!-- ╔══ CRONOGRAMA DE AULAS — ADMIN ══╗ -->
                         <div class="admin-section-header">
                             <div class="admin-section-title">📚 Cronograma de Aulas</div>
-                            <div style="display:flex;gap:6px;">
-                                <button class="admin-refresh-btn" onclick="loadAdminCronograma()">↻</button>
-                                <button onclick="openCronoNewAulaPanel()" style="padding:4px 10px;border-radius:6px;background:var(--adm-primary);color:#000;border:none;font-size:11px;font-weight:700;cursor:pointer;">+ Aula</button>
+                            <div style="display:flex;gap:6px;align-items:center;">
+                                <button class="admin-refresh-btn" onclick="loadAdminCronograma()" title="Atualizar">↻</button>
+                                <button id="btnNovaAula" onclick="openCronoNewAulaPanel()" style="padding:6px 14px;border-radius:8px;background:var(--adm-primary);color:#000;border:none;font-size:12px;font-weight:800;cursor:pointer;">+ Aula</button>
                             </div>
                         </div>
 
                         <!-- Filtro de CT -->
-                        <div style="padding:0 12px 8px;">
-                            <div style="font-size:10px;color:var(--adm-text-3);font-weight:600;margin-bottom:4px;">Filtrar por CT</div>
+                        <div style="margin-bottom:8px;">
+                            <div style="font-size:10px;color:var(--adm-text-3);font-weight:600;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.5px;">Filtrar por CT</div>
                             <div id="cronoAdmCTChips" style="display:flex;flex-wrap:wrap;gap:4px;"></div>
                         </div>
 
-                        <!-- Navegação de mês -->
-                        <div style="padding:0 12px 8px;display:flex;align-items:center;justify-content:space-between;">
-                            <button onclick="admCronoCalNav(-1)" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--adm-border);background:var(--adm-bg-elevated);color:var(--adm-text-2);font-size:14px;cursor:pointer;">◀</button>
-                            <div id="admCronoCalMonth" style="font-size:14px;font-weight:800;color:var(--adm-text-1);font-family:'Sora',sans-serif;"></div>
-                            <button onclick="admCronoCalNav(1)" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--adm-border);background:var(--adm-bg-elevated);color:var(--adm-text-2);font-size:14px;cursor:pointer;">▶</button>
-                        </div>
-
-                        <!-- Calendário mini -->
-                        <div style="padding:0 12px 8px;background:var(--adm-bg-card);margin:0 12px;border:1px solid var(--adm-border);border-radius:12px;padding:10px;">
-                            <div style="display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:4px;">
-                                <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding:3px 0;">S</div>
-                                <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding:3px 0;">T</div>
-                                <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding:3px 0;">Q</div>
-                                <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding:3px 0;">Q</div>
-                                <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding:3px 0;">S</div>
-                                <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding:3px 0;">S</div>
-                                <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding:3px 0;">D</div>
+                        <!-- Calendário com navegação -->
+                        <div style="background:var(--adm-bg-elevated);border:1px solid var(--adm-border);border-radius:12px;overflow:hidden;margin-bottom:10px;">
+                            <!-- Header mês -->
+                            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid var(--adm-border);">
+                                <button onclick="admCronoCalNav(-1)" style="width:30px;height:30px;border-radius:8px;border:1px solid var(--adm-border);background:transparent;color:var(--adm-text-2);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;">◀</button>
+                                <div id="admCronoCalMonth" style="font-size:14px;font-weight:800;color:var(--adm-text-1);font-family:'Sora',sans-serif;"></div>
+                                <button onclick="admCronoCalNav(1)"  style="width:30px;height:30px;border-radius:8px;border:1px solid var(--adm-border);background:transparent;color:var(--adm-text-2);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;">▶</button>
                             </div>
-                            <div id="admCronoCalGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;"></div>
+                            <!-- Dias da semana -->
+                            <div style="display:grid;grid-template-columns:repeat(7,1fr);padding:6px 8px 0;">
+                                <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding-bottom:4px;">S</div>
+                                <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding-bottom:4px;">T</div>
+                                <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding-bottom:4px;">Q</div>
+                                <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding-bottom:4px;">Q</div>
+                                <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding-bottom:4px;">S</div>
+                                <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding-bottom:4px;">S</div>
+                                <div style="text-align:center;font-size:9px;font-weight:700;color:var(--adm-text-3);padding-bottom:4px;">D</div>
+                            </div>
+                            <!-- Grid de dias -->
+                            <div id="admCronoCalGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;padding:0 8px 8px;"></div>
                         </div>
 
-                        <!-- Dias selecionados (chips) -->
-                        <div id="admCronoSelectedDates" style="display:none;padding:8px 12px;"></div>
+                        <!-- Legenda -->
+                        <div style="display:flex;gap:12px;margin-bottom:10px;flex-wrap:wrap;">
+                            <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--adm-text-3);">
+                                <div style="width:8px;height:8px;border-radius:50%;background:#38bdf8;"></div> Aula cadastrada
+                            </div>
+                            <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--adm-text-3);">
+                                <div style="width:8px;height:8px;border-radius:50%;background:var(--adm-primary);"></div> Selecionado
+                            </div>
+                            <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--adm-text-3);">
+                                <div style="width:8px;height:8px;border-radius:2px;border:2px solid var(--adm-primary);"></div> Hoje
+                            </div>
+                        </div>
 
-                        <!-- Agenda: lista de aulas do mês agrupada por dia -->
-                        <div style="padding:8px 12px 12px;" id="cronoAgendaList">
-                            <div class="admin-empty">Nenhuma aula cadastrada</div>
+                        <!-- Datas selecionadas (modo cadastro) -->
+                        <div id="admCronoSelectedDates" style="display:none;padding:6px 0 8px;"></div>
+
+                        <!-- Agenda: aulas do dia selecionado -->
+                        <div id="cronoAgendaList">
+                            <div class="admin-empty" style="padding:20px 0;color:var(--adm-text-3);">
+                                👆 Toque em uma data para ver as aulas
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Painel Nova Aula (slide-in) -->
-                    <div id="cronoNewAulaPanel" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9000;background:var(--adm-bg-card);border-top:1px solid var(--adm-border);border-radius:16px 16px 0 0;padding:16px;max-height:90vh;overflow-y:auto;box-shadow:0 -8px 32px rgba(0,0,0,0.4);">
-                        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-                            <div style="font-size:14px;font-weight:800;color:var(--adm-text-1);">📚 Nova Aula</div>
-                            <button onclick="closeCronoNewAulaPanel()" style="width:28px;height:28px;border-radius:50%;background:var(--adm-bg-elevated);color:var(--adm-text-2);border:1px solid var(--adm-border);cursor:pointer;font-size:14px;">✕</button>
+                    <!-- Overlay + Painel Nova Aula -->
+                    <div id="cronoAulaOverlay" onclick="closeCronoNewAulaPanel()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:9099;"></div>
+
+                    <div id="cronoNewAulaPanel" style="display:none;position:fixed;bottom:60px;left:0;right:0;z-index:9100;background:var(--adm-bg-card);border:2px solid var(--adm-border);border-radius:18px 18px 0 0;box-shadow:0 -12px 40px rgba(0,0,0,0.7);max-height:80vh;flex-direction:column;">
+                        <div style="flex-shrink:0;display:flex;justify-content:center;padding:8px 0 0;">
+                            <div style="width:36px;height:4px;border-radius:2px;background:rgba(255,255,255,0.15);"></div>
                         </div>
-                        <!-- CTs (multi) -->
-                        <div style="margin-bottom:8px;">
-                            <label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">CTs <span style="opacity:0.6;">(selecione um ou mais)</span></label>
-                            <div id="cronoNewCTChips" style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;"></div>
+                        <div style="flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--adm-border);">
+                            <div style="font-size:15px;font-weight:800;color:var(--adm-text-1);">📚 Nova Aula</div>
+                            <button onclick="closeCronoNewAulaPanel()" style="width:30px;height:30px;border-radius:50%;background:var(--adm-bg-elevated);color:var(--adm-text-2);border:1px solid var(--adm-border);cursor:pointer;font-size:14px;">✕</button>
                         </div>
-                        <!-- Datas selecionadas no calendário -->
-                        <div style="margin-bottom:8px;">
-                            <label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Datas selecionadas no calendário</label>
-                            <div id="cronoNewDatesChips" style="margin-top:4px;font-size:11px;color:var(--adm-primary);font-weight:600;"></div>
-                        </div>
-                        <!-- Horário + Tema -->
-                        <div style="display:grid;grid-template-columns:100px 1fr;gap:6px;margin-bottom:6px;">
-                            <div>
-                                <label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Horário</label>
-                                <input type="time" id="cronoAdmHorario" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                        <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 16px;">
+                            <div style="margin-bottom:12px;">
+                                <label style="font-size:10px;color:var(--adm-text-3);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:6px;">CTs <span style="font-weight:400;text-transform:none;">(selecione um ou mais)</span></label>
+                                <div id="cronoNewCTChips" style="display:flex;flex-wrap:wrap;gap:5px;"></div>
+                            </div>
+                            <div style="margin-bottom:12px;">
+                                <label style="font-size:10px;color:var(--adm-text-3);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:4px;">Datas selecionadas no calendário</label>
+                                <div id="cronoNewDatesChips" style="font-size:11px;color:var(--adm-primary);font-weight:600;min-height:20px;"></div>
+                            </div>
+                            <div style="display:grid;grid-template-columns:110px 1fr;gap:10px;margin-bottom:12px;">
+                                <div>
+                                    <label style="font-size:10px;color:var(--adm-text-3);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:4px;">Horário</label>
+                                    <input type="time" id="cronoAdmHorario" style="width:100%;box-sizing:border-box;padding:10px 8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:14px;">
+                                </div>
+                                <div>
+                                    <label style="font-size:10px;color:var(--adm-text-3);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:4px;">Tema da aula *</label>
+                                    <input type="text" id="cronoAdmTema" placeholder="Ex: Guarda De La Riva" style="width:100%;box-sizing:border-box;padding:10px 8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:13px;">
+                                </div>
                             </div>
                             <div>
-                                <label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Tema</label>
-                                <input type="text" id="cronoAdmTema" placeholder="Ex: Guarda De La Riva" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;">
+                                <label style="font-size:10px;color:var(--adm-text-3);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:4px;">Descrição</label>
+                                <textarea id="cronoAdmDesc" placeholder="Detalhes, técnicas, observações..." rows="3" style="width:100%;box-sizing:border-box;padding:10px 8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:13px;resize:none;font-family:inherit;"></textarea>
                             </div>
                         </div>
-                        <div style="margin-bottom:8px;">
-                            <label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Descrição</label>
-                            <textarea id="cronoAdmDesc" placeholder="Detalhes da aula..." rows="2" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;resize:vertical;"></textarea>
+                        <div style="flex-shrink:0;padding:12px 16px 16px;border-top:1px solid var(--adm-border);background:var(--adm-bg-card);">
+                            <button onclick="saveCronogramaAula()" id="cronoAdmSaveBtn" style="width:100%;padding:15px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:12px;font-weight:800;font-size:15px;cursor:pointer;letter-spacing:0.3px;">📚 Salvar Aula(s)</button>
+                            <div id="cronoAdmMsg" style="margin-top:8px;text-align:center;font-size:12px;min-height:16px;"></div>
                         </div>
-                        <button onclick="saveCronogramaAula()" id="cronoAdmSaveBtn" style="width:100%;padding:12px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;">📚 Salvar Aula(s)</button>
-                        <div id="cronoAdmMsg" style="margin-top:6px;"></div>
                     </div>
-                    <!-- Aniversariantes -->
+
+                                        <!-- Aniversariantes -->
                     <div class="admin-section">
                         <div class="admin-section-header">
                             <div class="admin-section-title">🎂 Aniversariantes <span class="admin-badge" id="adminBirthdayBadge" style="display:none">0</span></div>
@@ -6868,9 +7000,9 @@
                     </div>
 
                     <!-- Filtros -->
-                    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;align-items:center;">
+                    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;">
                         <div id="gradTabCTFilter" style="display:flex;gap:4px;flex-wrap:wrap;"></div>
-                        <div id="gradTabFaixaFilter" style="display:flex;gap:4px;flex-wrap:wrap;margin-left:auto;"></div>
+                        <div id="gradTabFaixaFilter" style="display:flex;gap:4px;flex-wrap:wrap;"></div>
                     </div>
 
                     <!-- Prontos -->
@@ -6965,7 +7097,7 @@
                             <div class="admin-section-title">📊 Visão Geral</div>
                             <button class="admin-refresh-btn" onclick="loadSuperAdminData()">↻</button>
                         </div>
-                        <div id="saStatsGrid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:4px;">
+                        <div id="saStatsGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:4px;">
                             <div class="sa-stat-card" id="saStatAlunos">—</div>
                             <div class="sa-stat-card" id="saStatAdmins">—</div>
                             <div class="sa-stat-card" id="saStatProfs">—</div>
@@ -7064,7 +7196,7 @@
                             <button class="admin-filter-btn" onclick="setPresListPeriod('mes',this)">Mês</button>
                         </div>
                         <!-- KPI Cards Turno -->
-                        <div id="presListKPI" style="display:none;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px;"></div>
+                        <div id="presListKPI" style="display:none;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px;"></div>
                         <!-- Results -->
                         <div id="presListResults"><div class="admin-empty">Selecione CT e data</div></div>
                         <!-- Gerar Relatório -->
@@ -7423,6 +7555,15 @@
                             <button class="admin-refresh-btn" onclick="loadAdminIBJJF()">↻</button>
                         </div>
                         <div id="adminIBJJFList" style="margin-bottom:12px;"><div class="admin-empty">Carregando...</div></div>
+                        <!-- Auto-busca -->
+                        <div style="margin-bottom:10px;padding:10px 12px;background:rgba(56,189,248,0.06);border:1px dashed rgba(56,189,248,0.2);border-radius:10px;">
+                            <div style="font-size:10px;font-weight:700;color:#38bdf8;margin-bottom:6px;">🤖 BUSCA AUTOMÁTICA</div>
+                            <div style="font-size:10px;color:var(--adm-text-3);margin-bottom:8px;">Busca novidades diretamente do site da IBJJF. Revise e edite o conteúdo após importar.</div>
+                            <button onclick="adminAutoFetchIBJJF()" id="btnAutoFetchIBJJF" style="width:100%;padding:9px;background:rgba(56,189,248,0.12);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);border-radius:8px;font-size:11px;font-weight:800;cursor:pointer;">
+                                🔄 Buscar atualizações do site IBJJF
+                            </button>
+                            <div id="autoFetchIBJJFMsg" style="font-size:11px;margin-top:6px;text-align:center;"></div>
+                        </div>
                         <!-- Form nova novidade -->
                         <div style="padding:12px;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);border-radius:10px;">
                             <div style="font-size:11px;font-weight:700;color:var(--adm-text-2);margin-bottom:8px;">+ Publicar Atualização</div>
@@ -7444,7 +7585,10 @@
                                 <option value="Padrão">📌 Padrão (todos os CTs)</option>
                             </select>
                         </div>
-                        <div id="gradConfigGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+
+                        <!-- Adultos -->
+                        <div style="font-size:10px;font-weight:800;color:var(--adm-text-3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">🥋 Adultos</div>
+                        <div id="gradConfigGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
                             <div class="grad-cfg-item">
                                 <label style="font-size:11px;color:var(--adm-text-3);margin-bottom:4px;display:block;">⚪ Branca (aulas/grau)</label>
                                 <input type="number" id="gradCfgBranca" min="1" max="999" value="30" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:14px;font-weight:700;text-align:center;">
@@ -7462,8 +7606,30 @@
                                 <input type="number" id="gradCfgMarrom" min="1" max="999" value="130" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:14px;font-weight:700;text-align:center;">
                             </div>
                         </div>
-                        <div style="margin-top:8px;padding:8px;background:rgba(20,184,166,0.05);border:1px dashed rgba(20,184,166,0.2);border-radius:8px;">
-                            <div style="font-size:10px;color:var(--adm-text-3);margin-bottom:4px;">📊 Resumo: total de aulas para exame de faixa (4 graus)</div>
+
+                        <!-- Kids -->
+                        <div style="font-size:10px;font-weight:800;color:var(--adm-text-3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">🧒 Kids</div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+                            <div class="grad-cfg-item">
+                                <label style="font-size:11px;color:var(--adm-text-3);margin-bottom:4px;display:block;">🔘 Cinza (aulas/grau)</label>
+                                <input type="number" id="gradCfgKidsCinza" min="1" max="999" value="20" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:14px;font-weight:700;text-align:center;">
+                            </div>
+                            <div class="grad-cfg-item">
+                                <label style="font-size:11px;color:var(--adm-text-3);margin-bottom:4px;display:block;">🟡 Amarela (aulas/grau)</label>
+                                <input type="number" id="gradCfgKidsAmarela" min="1" max="999" value="25" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:14px;font-weight:700;text-align:center;">
+                            </div>
+                            <div class="grad-cfg-item">
+                                <label style="font-size:11px;color:var(--adm-text-3);margin-bottom:4px;display:block;">🟠 Laranja (aulas/grau)</label>
+                                <input type="number" id="gradCfgKidsLaranja" min="1" max="999" value="30" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:14px;font-weight:700;text-align:center;">
+                            </div>
+                            <div class="grad-cfg-item">
+                                <label style="font-size:11px;color:var(--adm-text-3);margin-bottom:4px;display:block;">🟢 Verde (aulas/grau)</label>
+                                <input type="number" id="gradCfgKidsVerde" min="1" max="999" value="35" style="width:100%;padding:8px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:14px;font-weight:700;text-align:center;">
+                            </div>
+                        </div>
+
+                        <div style="margin-top:4px;padding:8px;background:rgba(20,184,166,0.05);border:1px dashed rgba(20,184,166,0.2);border-radius:8px;">
+                            <div style="font-size:10px;color:var(--adm-text-3);margin-bottom:4px;">📊 Resumo adultos: total de aulas para exame de faixa (4 graus)</div>
                             <div id="gradCfgSummary" style="font-size:11px;color:var(--adm-text-2);"></div>
                         </div>
                         <div id="gradConfigMsg" style="margin-top:8px;"></div>
@@ -7706,17 +7872,29 @@
                         <div class="stu-field">
                             <label>Faixa</label>
                             <select id="stuFaixa" onchange="updateGrauOptions('stuFaixa','stuGrau')">
-                                <option value="Branca">Branca</option>
-                                <option value="Cinza">Cinza</option>
-                                <option value="Amarela">Amarela</option>
-                                <option value="Laranja">Laranja</option>
-                                <option value="Verde">Verde</option>
-                                <option value="Azul">Azul</option>
-                                <option value="Roxa">Roxa</option>
-                                <option value="Marrom">Marrom</option>
-                                <option value="Preta">Preta</option>
-                                <option value="Coral">Coral</option>
-                                <option value="Vermelha">Vermelha</option>
+                                <optgroup label="🥋 Adultos">
+                                    <option value="Branca">⚪ Branca</option>
+                                    <option value="Azul">🔵 Azul</option>
+                                    <option value="Roxa">🟣 Roxa</option>
+                                    <option value="Marrom">🟤 Marrom</option>
+                                    <option value="Preta">⚫ Preta</option>
+                                    <option value="Coral">🪸 Coral</option>
+                                    <option value="Vermelha">🔴 Vermelha</option>
+                                </optgroup>
+                                <optgroup label="🧒 Kids">
+                                    <option value="Cinza-Branca">⬜ Cinza-Branca</option>
+                                    <option value="Cinza">🩶 Cinza</option>
+                                    <option value="Cinza-Preta">🖤 Cinza-Preta</option>
+                                    <option value="Amarela-Branca">⬜ Amarela-Branca</option>
+                                    <option value="Amarela">🟡 Amarela</option>
+                                    <option value="Amarela-Preta">🖤 Amarela-Preta</option>
+                                    <option value="Laranja-Branca">⬜ Laranja-Branca</option>
+                                    <option value="Laranja">🟠 Laranja</option>
+                                    <option value="Laranja-Preta">🖤 Laranja-Preta</option>
+                                    <option value="Verde-Branca">⬜ Verde-Branca</option>
+                                    <option value="Verde">🟢 Verde</option>
+                                    <option value="Verde-Preta">🖤 Verde-Preta</option>
+                                </optgroup>
                             </select>
                         </div>
                         <div class="stu-field">
@@ -7748,7 +7926,7 @@
                         </div>
                         <div class="stu-days-hint" id="stuDiasHint"></div>
                     </div>
-                    <div class="stu-toggle-row">
+                    <div class="stu-toggle-row" id="stuAdminRow">
                         <div class="stu-toggle-label">🛡️ Administrador / Professor</div>
                         <div class="stu-toggle" id="stuAdminToggle" onclick="onStuAdminToggle()"></div>
                     </div>
@@ -7895,15 +8073,27 @@
                             <option value="faixa">🟣 Graduação de faixa</option>
                         </select>
                         <select id="gradFaixa" onchange="updateGrauOptions('gradFaixa','gradGrau')">
-                            <option value="Branca">Branca</option>
-                            <option value="Cinza">Cinza</option>
-                            <option value="Amarela">Amarela</option>
-                            <option value="Laranja">Laranja</option>
-                            <option value="Verde">Verde</option>
-                            <option value="Azul">Azul</option>
-                            <option value="Roxa">Roxa</option>
-                            <option value="Marrom">Marrom</option>
-                            <option value="Preta">Preta</option>
+                            <optgroup label="🥋 Adultos">
+                                <option value="Branca">⚪ Branca</option>
+                                <option value="Azul">🔵 Azul</option>
+                                <option value="Roxa">🟣 Roxa</option>
+                                <option value="Marrom">🟤 Marrom</option>
+                                <option value="Preta">⚫ Preta</option>
+                            </optgroup>
+                            <optgroup label="🧒 Kids">
+                                <option value="Cinza-Branca">⬜ Cinza-Branca</option>
+                                <option value="Cinza">🩶 Cinza</option>
+                                <option value="Cinza-Preta">🖤 Cinza-Preta</option>
+                                <option value="Amarela-Branca">⬜ Amarela-Branca</option>
+                                <option value="Amarela">🟡 Amarela</option>
+                                <option value="Amarela-Preta">🖤 Amarela-Preta</option>
+                                <option value="Laranja-Branca">⬜ Laranja-Branca</option>
+                                <option value="Laranja">🟠 Laranja</option>
+                                <option value="Laranja-Preta">🖤 Laranja-Preta</option>
+                                <option value="Verde-Branca">⬜ Verde-Branca</option>
+                                <option value="Verde">🟢 Verde</option>
+                                <option value="Verde-Preta">🖤 Verde-Preta</option>
+                            </optgroup>
                         </select>
                         <select id="gradGrau">
                             <option value="0">0º Grau</option>
@@ -8042,7 +8232,140 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx37lVXlaZugSJF0iZ_GnnVITtfdlZELkgqZgJvjlXAbd9bd-0SzBHH6Rulqm7zD2Um/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyn2zFwbFUm-0l7WO5ysjorvYfIlrOk52jg-_jMj4JiVe-SiKptQKf5qbCzy3jmxsSm/exec';
+
+        // ===== PWA INSTALL PROMPT =====
+        (function() {
+            // Cria o manifest inline via blob (necessário pois é arquivo único sem servidor)
+            try {
+                var manifest = {
+                    name: 'JJ Academy',
+                    short_name: 'JJ Academy',
+                    description: 'Sistema de gestão para academias de Jiu-Jitsu',
+                    start_url: window.location.href,
+                    display: 'standalone',
+                    background_color: '#08080a',
+                    theme_color: '#d4a829',
+                    orientation: 'portrait',
+                    icons: [
+                        { src: 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" rx="38" fill="#08080a"/><circle cx="96" cy="96" r="74" fill="none" stroke="#d4a829" stroke-width="6"/><text x="96" y="118" font-size="80" text-anchor="middle" fill="#d4a829">🥋</text></svg>'), sizes: '192x192', type: 'image/svg+xml' },
+                        { src: 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="96" fill="#08080a"/><circle cx="256" cy="256" r="200" fill="none" stroke="#d4a829" stroke-width="14"/><text x="256" y="310" font-size="220" text-anchor="middle" fill="#d4a829">🥋</text></svg>'), sizes: '512x512', type: 'image/svg+xml' }
+                    ]
+                };
+                var blob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+                var url  = URL.createObjectURL(blob);
+                var link = document.getElementById('pwaManifest');
+                if (link) link.href = url;
+            } catch(e) {}
+
+            // Captura o evento de instalação (Android/Chrome)
+            var _deferredInstallPrompt = null;
+            window.addEventListener('beforeinstallprompt', function(e) {
+                e.preventDefault();
+                _deferredInstallPrompt = e;
+                // Mostra o banner customizado se ainda não instalou
+                try {
+                    if (!localStorage.getItem('pwaInstalled') && !localStorage.getItem('pwaDismissed')) {
+                        showInstallBanner('android');
+                    }
+                } catch(ex) {}
+            });
+
+            // Detecta quando foi instalado
+            window.addEventListener('appinstalled', function() {
+                try { localStorage.setItem('pwaInstalled', '1'); } catch(e) {}
+                hideInstallBanner();
+            });
+
+            // iOS: mostra instruções se não estiver em standalone e não tiver dispensado
+            window.addEventListener('DOMContentLoaded', function() {
+                var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+                var isStandalone = (window.navigator.standalone === true) || window.matchMedia('(display-mode: standalone)').matches;
+                if (isIOS && !isStandalone) {
+                    try {
+                        if (!localStorage.getItem('pwaInstalled') && !localStorage.getItem('pwaDismissed')) {
+                            setTimeout(function() { showInstallBanner('ios'); }, 1500);
+                        }
+                    } catch(e) {}
+                }
+            });
+
+            // Expõe função global para o botão do banner Android
+            window._triggerInstallPrompt = function() {
+                if (_deferredInstallPrompt) {
+                    _deferredInstallPrompt.prompt();
+                    _deferredInstallPrompt.userChoice.then(function(r) {
+                        if (r.outcome === 'accepted') {
+                            try { localStorage.setItem('pwaInstalled', '1'); } catch(e) {}
+                        }
+                        _deferredInstallPrompt = null;
+                        hideInstallBanner();
+                    });
+                }
+            };
+        })();
+
+        function showInstallBanner(type) {
+            if (document.getElementById('pwaBanner')) return;
+            var banner = document.createElement('div');
+            banner.id = 'pwaBanner';
+            banner.style.cssText = [
+                'position:fixed;bottom:0;left:0;right:0;z-index:99999',
+                'background:linear-gradient(135deg,#1a1a0f,#0f0f08)',
+                'border-top:2px solid #d4a829',
+                'border-radius:20px 20px 0 0',
+                'padding:20px 20px calc(20px + env(safe-area-inset-bottom,0px))',
+                'box-shadow:0 -8px 40px rgba(0,0,0,0.8)',
+                'animation:slideUpBanner 0.4s cubic-bezier(0.34,1.56,0.64,1)',
+                'font-family:DM Sans,sans-serif'
+            ].join(';');
+
+            if (type === 'ios') {
+                banner.innerHTML = [
+                    '<div style="display:flex;align-items:flex-start;gap:14px;">',
+                    '  <div style="font-size:44px;line-height:1;flex-shrink:0;">🥋</div>',
+                    '  <div style="flex:1;">',
+                    '    <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">Adicionar à tela de início</div>',
+                    '    <div style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.5;margin-bottom:12px;">',
+                    '      Acesse o app rapidamente como um aplicativo nativo.',
+                    '    </div>',
+                    '    <div style="background:rgba(212,168,41,0.08);border:1px solid rgba(212,168,41,0.2);border-radius:10px;padding:10px 12px;font-size:11px;color:rgba(255,255,255,0.7);line-height:1.6;">',
+                    '      1. Toque em <strong style="color:#d4a829">Compartilhar</strong> <span style="font-size:13px;">⎙</span> no Safari<br>',
+                    '      2. Role e toque em <strong style="color:#d4a829">Adicionar à Tela de Início</strong> <span style="font-size:13px;">＋</span>',
+                    '    </div>',
+                    '  </div>',
+                    '</div>',
+                    '<button onclick="dismissInstallBanner()" style="position:absolute;top:14px;right:16px;background:rgba(255,255,255,0.08);border:none;border-radius:50%;width:28px;height:28px;color:rgba(255,255,255,0.5);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>'
+                ].join('');
+            } else {
+                banner.innerHTML = [
+                    '<div style="display:flex;align-items:center;gap:14px;">',
+                    '  <div style="font-size:44px;line-height:1;flex-shrink:0;">🥋</div>',
+                    '  <div style="flex:1;">',
+                    '    <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:3px;">Instalar JJ Academy</div>',
+                    '    <div style="font-size:12px;color:rgba(255,255,255,0.6);">Acesso rápido como app nativo</div>',
+                    '  </div>',
+                    '  <button onclick="window._triggerInstallPrompt()" style="flex-shrink:0;padding:10px 18px;background:linear-gradient(135deg,#d4a829,#b8860b);color:#000;border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;">Instalar</button>',
+                    '</div>',
+                    '<button onclick="dismissInstallBanner()" style="position:absolute;top:14px;right:16px;background:rgba(255,255,255,0.08);border:none;border-radius:50%;width:28px;height:28px;color:rgba(255,255,255,0.5);font-size:14px;cursor:pointer;">✕</button>'
+                ].join('');
+            }
+
+            document.body.appendChild(banner);
+        }
+
+        function hideInstallBanner() {
+            var b = document.getElementById('pwaBanner');
+            if (b) {
+                b.style.animation = 'slideDownBanner 0.3s ease forwards';
+                setTimeout(function() { if (b.parentNode) b.parentNode.removeChild(b); }, 300);
+            }
+        }
+
+        function dismissInstallBanner() {
+            try { localStorage.setItem('pwaDismissed', '1'); } catch(e) {}
+            hideInstallBanner();
+        }
         let currentUser = null;
         let selectedCT = null;
         let allCTs = [];
@@ -13622,32 +13945,46 @@
 
         function onGradConfigCTChange() {
             var ct = document.getElementById('gradConfigCT').value;
-            // Find config for this CT, fallback to Padrão
             var cfg = _gradConfigs.find(function(c) { return c.ct === ct; });
             if (!cfg) cfg = _gradConfigs.find(function(c) { return c.ct === 'Padrão'; });
-            if (!cfg) cfg = { branca: 30, azul: 78, roxa: 108, marrom: 130 };
+            if (!cfg) cfg = { branca: 30, azul: 78, roxa: 108, marrom: 130, kids_cinza: 20, kids_amarela: 25, kids_laranja: 30, kids_verde: 35 };
 
-            document.getElementById('gradCfgBranca').value = cfg.branca;
-            document.getElementById('gradCfgAzul').value = cfg.azul;
-            document.getElementById('gradCfgRoxa').value = cfg.roxa;
-            document.getElementById('gradCfgMarrom').value = cfg.marrom;
+            document.getElementById('gradCfgBranca').value  = cfg.branca  || 30;
+            document.getElementById('gradCfgAzul').value    = cfg.azul    || 78;
+            document.getElementById('gradCfgRoxa').value    = cfg.roxa    || 108;
+            document.getElementById('gradCfgMarrom').value  = cfg.marrom  || 130;
+            document.getElementById('gradCfgKidsCinza').value   = cfg.kids_cinza   || 20;
+            document.getElementById('gradCfgKidsAmarela').value = cfg.kids_amarela || 25;
+            document.getElementById('gradCfgKidsLaranja').value = cfg.kids_laranja || 30;
+            document.getElementById('gradCfgKidsVerde').value   = cfg.kids_verde   || 35;
             updateGradCfgSummary();
         }
 
         function updateGradCfgSummary() {
-            var b = parseInt(document.getElementById('gradCfgBranca').value) || 30;
-            var a = parseInt(document.getElementById('gradCfgAzul').value) || 78;
-            var r = parseInt(document.getElementById('gradCfgRoxa').value) || 108;
-            var m = parseInt(document.getElementById('gradCfgMarrom').value) || 130;
-            var html = '⚪ Branca: <b>' + (b*4) + '</b> aulas (4×' + b + ') · ';
-            html += '🔵 Azul: <b>' + (a*4) + '</b> aulas (4×' + a + ') · ';
-            html += '🟣 Roxa: <b>' + (r*4) + '</b> aulas (4×' + r + ') · ';
-            html += '🟤 Marrom: <b>' + (m*4) + '</b> aulas (4×' + m + ')';
+            var b = parseInt(document.getElementById('gradCfgBranca').value)  || 30;
+            var a = parseInt(document.getElementById('gradCfgAzul').value)    || 78;
+            var r = parseInt(document.getElementById('gradCfgRoxa').value)    || 108;
+            var m = parseInt(document.getElementById('gradCfgMarrom').value)  || 130;
+            var kc = parseInt(document.getElementById('gradCfgKidsCinza').value)   || 20;
+            var ka = parseInt(document.getElementById('gradCfgKidsAmarela').value) || 25;
+            var kl = parseInt(document.getElementById('gradCfgKidsLaranja').value) || 30;
+            var kv = parseInt(document.getElementById('gradCfgKidsVerde').value)   || 35;
+            var html = '<div style="margin-bottom:4px;font-size:10px;font-weight:700;color:var(--adm-text-3);">🥋 Adultos</div>';
+            html += '⚪ Branca: <b>' + (b*4) + '</b> (4×' + b + ') · ';
+            html += '🔵 Azul: <b>' + (a*4) + '</b> (4×' + a + ') · ';
+            html += '🟣 Roxa: <b>' + (r*4) + '</b> (4×' + r + ') · ';
+            html += '🟤 Marrom: <b>' + (m*4) + '</b> (4×' + m + ')';
+            html += '<div style="margin-top:6px;margin-bottom:4px;font-size:10px;font-weight:700;color:var(--adm-text-3);">🧒 Kids</div>';
+            html += '🩶 Cinza: <b>' + (kc*4) + '</b> (4×' + kc + ') · ';
+            html += '🟡 Amarela: <b>' + (ka*4) + '</b> (4×' + ka + ') · ';
+            html += '🟠 Laranja: <b>' + (kl*4) + '</b> (4×' + kl + ') · ';
+            html += '🟢 Verde: <b>' + (kv*4) + '</b> (4×' + kv + ')';
             document.getElementById('gradCfgSummary').innerHTML = html;
         }
 
         // Auto-update summary on input change
-        ['gradCfgBranca','gradCfgAzul','gradCfgRoxa','gradCfgMarrom'].forEach(function(id) {
+        ['gradCfgBranca','gradCfgAzul','gradCfgRoxa','gradCfgMarrom',
+         'gradCfgKidsCinza','gradCfgKidsAmarela','gradCfgKidsLaranja','gradCfgKidsVerde'].forEach(function(id) {
             var el = document.getElementById(id);
             if (el) el.addEventListener('input', updateGradCfgSummary);
         });
@@ -13656,10 +13993,14 @@
             var ct = document.getElementById('gradConfigCT').value;
             var payload = {
                 ct: ct,
-                branca: parseInt(document.getElementById('gradCfgBranca').value) || 30,
-                azul: parseInt(document.getElementById('gradCfgAzul').value) || 78,
-                roxa: parseInt(document.getElementById('gradCfgRoxa').value) || 108,
-                marrom: parseInt(document.getElementById('gradCfgMarrom').value) || 130
+                branca:       parseInt(document.getElementById('gradCfgBranca').value)       || 30,
+                azul:         parseInt(document.getElementById('gradCfgAzul').value)         || 78,
+                roxa:         parseInt(document.getElementById('gradCfgRoxa').value)         || 108,
+                marrom:       parseInt(document.getElementById('gradCfgMarrom').value)       || 130,
+                kids_cinza:   parseInt(document.getElementById('gradCfgKidsCinza').value)   || 20,
+                kids_amarela: parseInt(document.getElementById('gradCfgKidsAmarela').value) || 25,
+                kids_laranja: parseInt(document.getElementById('gradCfgKidsLaranja').value) || 30,
+                kids_verde:   parseInt(document.getElementById('gradCfgKidsVerde').value)   || 35
             };
             var msgEl = document.getElementById('gradConfigMsg');
             msgEl.innerHTML = '<div style="color:var(--adm-primary);font-size:12px;">Salvando...</div>';
@@ -13667,7 +14008,7 @@
                 var data = await secureFetch('saveGradConfig', payload);
                 if (data.success) {
                     msgEl.innerHTML = '<div style="color:#2d8a4e;font-size:12px;">✅ Configuração salva para ' + escapeHtml(ct) + '!</div>';
-                    loadGradConfig(); // refresh cache
+                    loadGradConfig();
                 } else {
                     msgEl.innerHTML = '<div style="color:#E85D5D;font-size:12px;">❌ ' + (data.message || 'Erro') + '</div>';
                 }
@@ -13682,18 +14023,28 @@
          * Checks CT-specific config first, then falls back to Padrão, then hardcoded defaults.
          */
         function getAulasGrau(faixa, ct) {
-            var faixaKey = faixa.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            var faixaLower = (faixa || '').toLowerCase();
+            // Mapear faixas kids para chave de config
+            var kidsKey = null;
+            if (faixaLower.indexOf('cinza')   !== -1) kidsKey = 'kids_cinza';
+            else if (faixaLower.indexOf('amarela')  !== -1) kidsKey = 'kids_amarela';
+            else if (faixaLower.indexOf('laranja')  !== -1) kidsKey = 'kids_laranja';
+            else if (faixaLower.indexOf('verde')    !== -1) kidsKey = 'kids_verde';
+
+            var configKey = kidsKey || faixaLower.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
             // Try CT-specific config
             if (ct && _gradConfigs.length > 0) {
                 var ctCfg = _gradConfigs.find(function(c) { return c.ct === ct; });
-                if (ctCfg && ctCfg[faixaKey]) return ctCfg[faixaKey];
+                if (ctCfg && ctCfg[configKey]) return ctCfg[configKey];
             }
             // Fallback to Padrão
             var padrao = _gradConfigs.find(function(c) { return c.ct === 'Padrão'; });
-            if (padrao && padrao[faixaKey]) return padrao[faixaKey];
+            if (padrao && padrao[configKey]) return padrao[configKey];
             // Hardcoded defaults
-            var defaults = { branca: 30, azul: 78, roxa: 108, marrom: 130 };
-            return defaults[faixaKey] || 30;
+            var defaults = { branca: 30, azul: 78, roxa: 108, marrom: 130,
+                             kids_cinza: 20, kids_amarela: 25, kids_laranja: 30, kids_verde: 35 };
+            return defaults[configKey] || 30;
         }
 
         // --- SEALS TABS ---
@@ -14436,14 +14787,27 @@
         // ═══════════════════════════════════════════════════
         // ADMIN: CRONOGRAMA DE AULAS (CALENDÁRIO)
         // ═══════════════════════════════════════════════════
-        var _admCronoAulas = [];
-        var _admCronoSeries = [];
-        var _admCronoCalYear, _admCronoCalMonth;
+        // ═══════════════════════════════════════════════════
+        // MÓDULO: CRONOGRAMA DE AULAS (ADMIN)
+        // ═══════════════════════════════════════════════════
+
+        var _admCronoAulas         = [];
+        var _admCronoSeries        = [];
         var _admCronoSelectedDates = [];
-        var _admCronoSelectedCTs = [];
+        var _admCronoSelectedCTs   = [];
+        var _admCronoCalYear       = 0;
+        var _admCronoCalMonth      = 0;
+        var _cronoNewAulaMode      = false;
+
+        // ── Helper: sincroniza calendário do aluno após mudança no cronograma
+        function _syncCronoAluno() {
+            _cronoAulas = null; // invalida cache do aluno
+            if (typeof loadCronograma === 'function') {
+                try { loadCronograma(); } catch(e) {}
+            }
+        }
 
         async function loadAdminCronograma() {
-            // Ensure allCTs is loaded
             if (!allCTs || allCTs.length === 0) {
                 try {
                     var ctData = await secureFetch('getCTsList', {});
@@ -14467,6 +14831,8 @@
                 var data = await secureFetch('getCronogramaAulas', {});
                 if (data.success) {
                     _admCronoAulas = data.aulas || [];
+                    console.log('[Cronograma] aulas recebidas:', _admCronoAulas.length, 'isAdm:', data.debug_isAdm);
+                    if (_admCronoAulas.length > 0) console.log('[Cronograma] primeira aula:', JSON.stringify(_admCronoAulas[0]));
                     renderAdmCronoCal();
                     renderAdminCronoList();
                 }
@@ -14489,6 +14855,8 @@
                     if (idx !== -1) _admCronoSelectedCTs.splice(idx, 1);
                     else _admCronoSelectedCTs.push(name);
                     renderAdmCTChips();
+                    renderAdmCronoCal();
+                    renderCronoAgenda();
                 });
                 el.appendChild(btn);
             });
@@ -14497,33 +14865,39 @@
         function admCronoCalNav(dir) {
             _admCronoCalMonth += dir;
             if (_admCronoCalMonth > 11) { _admCronoCalMonth = 0; _admCronoCalYear++; }
-            if (_admCronoCalMonth < 0) { _admCronoCalMonth = 11; _admCronoCalYear--; }
+            if (_admCronoCalMonth < 0)  { _admCronoCalMonth = 11; _admCronoCalYear--; }
+            if (!_cronoNewAulaMode) _admCronoSelectedDates = [];
             renderAdmCronoCal();
+            if (!_cronoNewAulaMode) renderCronoAgenda();
         }
 
         function renderAdmCronoCal() {
             var monthEl = document.getElementById('admCronoCalMonth');
-            var gridEl = document.getElementById('admCronoCalGrid');
+            var gridEl  = document.getElementById('admCronoCalGrid');
             if (!monthEl || !gridEl) return;
             var monthNames = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
             monthEl.textContent = monthNames[_admCronoCalMonth] + ' ' + _admCronoCalYear;
             var existingByDate = {};
-            _admCronoAulas.forEach(function(a) { if (!existingByDate[a.data]) existingByDate[a.data] = []; existingByDate[a.data].push(a); });
-            var firstDay = new Date(_admCronoCalYear, _admCronoCalMonth, 1);
-            var startDay = (firstDay.getDay() + 6) % 7;
+            _admCronoAulas.forEach(function(a) {
+                if (_admCronoSelectedCTs.length > 0 && _admCronoSelectedCTs.indexOf(a.ct) === -1) return;
+                if (!existingByDate[a.data]) existingByDate[a.data] = [];
+                existingByDate[a.data].push(a);
+            });
+            var firstDay    = new Date(_admCronoCalYear, _admCronoCalMonth, 1);
+            var startDay    = (firstDay.getDay() + 6) % 7;
             var daysInMonth = new Date(_admCronoCalYear, _admCronoCalMonth + 1, 0).getDate();
-            var today = new Date();
-            var todayStr = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+            var today       = new Date();
+            var todayStr    = today.getFullYear() + '-' + ('0'+(today.getMonth()+1)).slice(-2) + '-' + ('0'+today.getDate()).slice(-2);
             var h = '';
             for (var e = 0; e < startDay; e++) h += '<div style="aspect-ratio:1;"></div>';
             for (var d = 1; d <= daysInMonth; d++) {
-                var dateStr = _admCronoCalYear + '-' + ('0' + (_admCronoCalMonth + 1)).slice(-2) + '-' + ('0' + d).slice(-2);
-                var isToday = dateStr === todayStr;
+                var dateStr    = _admCronoCalYear + '-' + ('0'+(_admCronoCalMonth+1)).slice(-2) + '-' + ('0'+d).slice(-2);
+                var isToday    = dateStr === todayStr;
                 var isSelected = _admCronoSelectedDates.indexOf(dateStr) !== -1;
-                var hasExisting = existingByDate[dateStr];
+                var hasExisting= existingByDate[dateStr];
                 var bg = 'transparent', color = 'var(--adm-text-2)', border = '1px solid transparent', fw = '600';
-                if (isSelected) { bg = 'var(--adm-primary)'; color = '#000'; fw = '800'; border = '1px solid var(--adm-primary)'; }
-                else if (hasExisting) { bg = 'rgba(56,189,248,0.12)'; color = '#38bdf8'; fw = '700'; }
+                if (isSelected)        { bg = 'var(--adm-primary)'; color = '#000'; fw = '800'; border = '1px solid var(--adm-primary)'; }
+                else if (hasExisting)  { bg = 'rgba(56,189,248,0.12)'; color = '#38bdf8'; fw = '700'; }
                 if (isToday && !isSelected) border = '2px solid var(--adm-primary)';
                 h += '<div onclick="toggleAdmCronoDate(\'' + dateStr + '\')" style="aspect-ratio:1;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12px;font-weight:' + fw + ';cursor:pointer;background:' + bg + ';color:' + color + ';border:' + border + ';position:relative;transition:all 0.15s;">';
                 h += d;
@@ -14537,15 +14911,13 @@
 
         function toggleAdmCronoDate(dateStr) {
             if (_cronoNewAulaMode) {
-                // Modo nova aula: acumula datas para cadastro em lote
                 var idx = _admCronoSelectedDates.indexOf(dateStr);
                 if (idx !== -1) _admCronoSelectedDates.splice(idx, 1);
                 else _admCronoSelectedDates.push(dateStr);
                 _admCronoSelectedDates.sort();
                 renderAdmCronoCal();
-                openCronoNewAulaPanel(); // atualiza chips
+                openCronoNewAulaPanel();
             } else {
-                // Modo agenda: single-select, mostra aulas do dia
                 if (_admCronoSelectedDates.length === 1 && _admCronoSelectedDates[0] === dateStr) {
                     _admCronoSelectedDates = [];
                 } else {
@@ -14561,106 +14933,43 @@
         }
 
         function renderAdmSelectedDates() {
-            // No modo agenda, não exibimos os chips de datas — a agenda já mostra o dia selecionado
             var el = document.getElementById('admCronoSelectedDates');
             if (el) el.style.display = 'none';
         }
 
-        // ===== CRONOGRAMA AGENDA — renderização e edição inline =====
-
-        var _cronoEditRowIndex = null;
-
-        function openCronoNewAulaPanel() {
-            // Sync CTs chips
-            var el = document.getElementById('cronoNewCTChips');
-            if (el) {
-                el.innerHTML = '';
-                (allCTs || []).forEach(function(ct) {
-                    var name = typeof ct === 'string' ? ct : ct.name || ct.toString();
-                    var isSelected = _admCronoSelectedCTs.indexOf(name) !== -1;
-                    var btn = document.createElement('button');
-                    btn.style.cssText = 'padding:6px 12px;border-radius:8px;font-size:11px;font-weight:' + (isSelected ? '800' : '600') + ';cursor:pointer;border:1px solid ' + (isSelected ? 'var(--adm-primary)' : 'var(--adm-border)') + ';background:' + (isSelected ? 'var(--adm-primary)' : 'var(--adm-bg-elevated)') + ';color:' + (isSelected ? '#000' : 'var(--adm-text-2)') + ';';
-                    btn.textContent = (isSelected ? '✓ ' : '') + name;
-                    btn.addEventListener('click', function() {
-                        var idx = _admCronoSelectedCTs.indexOf(name);
-                        if (idx !== -1) _admCronoSelectedCTs.splice(idx, 1); else _admCronoSelectedCTs.push(name);
-                        openCronoNewAulaPanel();
-                    });
-                    el.appendChild(btn);
-                });
-            }
-            // Datas selecionadas
-            var datesEl = document.getElementById('cronoNewDatesChips');
-            if (datesEl) {
-                if (_admCronoSelectedDates.length === 0) {
-                    datesEl.innerHTML = '<span style="font-size:11px;color:var(--adm-text-3);">⚠️ Toque nas datas do calendário para selecionar</span>';
-                } else {
-                    var dayNames = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
-                    var chips = _admCronoSelectedDates.map(function(ds) {
-                        var label = ds;
-                        try { var p = ds.split('-'); var d = new Date(parseInt(p[0]),parseInt(p[1])-1,parseInt(p[2])); label = dayNames[d.getDay()] + ' ' + p[2] + '/' + p[1]; } catch(x) {}
-                        return '<span style="padding:3px 9px;background:rgba(212,165,41,0.12);border:1px solid rgba(212,165,41,0.25);border-radius:6px;font-size:11px;color:var(--adm-primary);font-weight:700;">' + label + '</span>';
-                    }).join(' ');
-                    datesEl.innerHTML = chips;
-                }
-            }
-            document.getElementById('cronoNewAulaPanel').style.display = 'block';
-        }
-
-        function closeCronoNewAulaPanel() {
-            document.getElementById('cronoNewAulaPanel').style.display = 'none';
-            _cronoNewAulaMode = false;
-            // Voltar ao modo agenda: manter só 1 data (a última selecionada)
-            if (_admCronoSelectedDates.length > 1) {
-                _admCronoSelectedDates = [_admCronoSelectedDates[0]];
-                renderAdmCronoCal();
-                renderCronoAgenda();
-            }
-        }
-
-        function renderAdminCronoList() {
-            renderCronoAgenda();
-        }
+        function renderAdminCronoList() { renderCronoAgenda(); }
 
         function renderCronoAgenda() {
             var el = document.getElementById('cronoAgendaList');
             if (!el) return;
-
-            // Se nenhum dia selecionado, instrução
             if (_admCronoSelectedDates.length === 0) {
                 el.innerHTML = '<div class="admin-empty" style="padding:16px 0;color:var(--adm-text-3);">👆 Toque em uma data no calendário para ver as aulas</div>';
                 return;
             }
-
-            // Mostrar apenas o primeiro dia selecionado (agenda-style)
-            var dateStr = _admCronoSelectedDates[0];
-
-            // Filtrar aulas do dia
+            var dateStr  = _admCronoSelectedDates[0];
             var ctFilter = _admCronoSelectedCTs.length > 0 ? _admCronoSelectedCTs : null;
-            var aulas = _admCronoAulas.filter(function(a) {
+            var aulas    = _admCronoAulas.filter(function(a) {
                 if (a.data !== dateStr) return false;
                 if (ctFilter && ctFilter.indexOf(a.ct) === -1) return false;
                 return true;
             });
             aulas.sort(function(a,b){ return (a.horario||'') < (b.horario||'') ? -1 : 1; });
 
-            // Label do dia — parse manual para evitar bug de fuso
             var dayNames = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
             var dayLabel = dateStr;
             try {
                 var p = dateStr.split('-');
-                var d = new Date(parseInt(p[0]), parseInt(p[1]) - 1, parseInt(p[2]));
+                var d = new Date(parseInt(p[0]), parseInt(p[1])-1, parseInt(p[2]));
                 dayLabel = dayNames[d.getDay()] + ', ' + p[2] + '/' + p[1] + '/' + p[0];
             } catch(x) {}
 
-            var today = new Date();
-            var todayStr = today.getFullYear() + '-' + ('0'+(today.getMonth()+1)).slice(-2) + '-' + ('0'+today.getDate()).slice(-2);
+            var today   = new Date();
+            var todayStr= today.getFullYear() + '-' + ('0'+(today.getMonth()+1)).slice(-2) + '-' + ('0'+today.getDate()).slice(-2);
             var isToday = dateStr === todayStr;
             var isPast  = dateStr < todayStr;
             var headerColor = isToday ? 'var(--adm-primary)' : (isPast ? 'var(--adm-text-3)' : 'var(--adm-text-1)');
 
             var h = '';
-            // Cabeçalho do dia
             h += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--adm-border);">';
             h += '<div style="flex:1;font-size:13px;font-weight:800;color:' + headerColor + ';">';
             h += dayLabel;
@@ -14675,7 +14984,6 @@
                 aulas.forEach(function(a) {
                     var cardBg = isToday ? 'rgba(212,165,41,0.05)' : (isPast ? 'rgba(255,255,255,0.02)' : 'var(--adm-bg-elevated)');
                     h += '<div id="cronoCard_' + a.rowIndex + '" style="border-radius:10px;margin-bottom:6px;overflow:hidden;">';
-                    // Card
                     h += '<div style="display:flex;align-items:center;gap:8px;padding:10px 12px;background:' + cardBg + ';border:1px solid var(--adm-border);border-radius:10px;">';
                     h += '<div style="width:3px;height:36px;background:var(--adm-primary);border-radius:2px;flex-shrink:0;"></div>';
                     h += '<div style="min-width:36px;font-size:12px;font-weight:800;color:var(--adm-primary);">' + (a.horario || '—') + '</div>';
@@ -14686,16 +14994,13 @@
                     h += '<div style="display:flex;gap:4px;flex-shrink:0;">';
                     h += '<button onclick="cronoAgendaEdit(' + a.rowIndex + ')" style="width:28px;height:28px;border-radius:6px;background:rgba(56,189,248,0.1);color:#38bdf8;border:none;font-size:13px;cursor:pointer;" title="Editar">✏️</button>';
                     h += '<button onclick="deleteCronogramaAula(' + a.rowIndex + ')" style="width:28px;height:28px;border-radius:6px;background:rgba(248,113,113,0.1);color:#f87171;border:none;font-size:13px;cursor:pointer;" title="Remover">✕</button>';
-                    h += '</div>';
-                    h += '</div>';
-                    // Inline edit
+                    h += '</div></div>';
                     h += '<div id="cronoInlineEdit_' + a.rowIndex + '" style="display:none;padding:12px;border:1px solid var(--adm-primary);border-top:none;border-radius:0 0 10px 10px;background:rgba(212,165,41,0.04);margin-top:-6px;">';
                     h += '<div style="display:grid;grid-template-columns:90px 1fr;gap:6px;margin-bottom:6px;">';
                     h += '<div><label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Horário</label>';
                     h += '<input type="time" id="ceHorario_' + a.rowIndex + '" value="' + escapeHtml(a.horario||'') + '" style="width:100%;padding:6px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;"></div>';
                     h += '<div><label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Tema</label>';
-                    h += '<input type="text" id="ceTema_' + a.rowIndex + '" value="' + escapeHtml(a.tema||'') + '" style="width:100%;padding:6px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;"></div>';
-                    h += '</div>';
+                    h += '<input type="text" id="ceTema_' + a.rowIndex + '" value="' + escapeHtml(a.tema||'') + '" style="width:100%;padding:6px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;"></div></div>';
                     h += '<div style="margin-bottom:8px;"><label style="font-size:10px;color:var(--adm-text-3);font-weight:600;">Descrição</label>';
                     h += '<textarea id="ceDesc_' + a.rowIndex + '" rows="2" style="width:100%;padding:6px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:11px;resize:vertical;">' + escapeHtml(a.descricao||'') + '</textarea></div>';
                     h += '<div style="display:flex;gap:6px;">';
@@ -14703,14 +15008,121 @@
                     h += '<button onclick="cronoAgendaCloseEdit(' + a.rowIndex + ')" style="padding:8px 12px;background:var(--adm-bg-elevated);color:var(--adm-text-2);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;cursor:pointer;">✕</button>';
                     h += '</div>';
                     h += '<div id="ceMsg_' + a.rowIndex + '" style="margin-top:4px;"></div>';
-                    h += '</div>';
-                    h += '</div>';
+                    h += '</div></div>';
                 });
             }
             el.innerHTML = h;
         }
+
+        function openCronoNewAulaPanel() {
+            _cronoNewAulaMode = true;
+            var el = document.getElementById('cronoNewCTChips');
+            if (el) {
+                el.innerHTML = '';
+                (allCTs || []).forEach(function(ct) {
+                    var name = typeof ct === 'string' ? ct : ct.name || ct.toString();
+                    var isSelected = _admCronoSelectedCTs.indexOf(name) !== -1;
+                    var btn = document.createElement('button');
+                    btn.style.cssText = 'padding:6px 12px;border-radius:8px;font-size:11px;font-weight:' + (isSelected?'800':'600') + ';cursor:pointer;border:1px solid ' + (isSelected?'var(--adm-primary)':'var(--adm-border)') + ';background:' + (isSelected?'var(--adm-primary)':'var(--adm-bg-elevated)') + ';color:' + (isSelected?'#000':'var(--adm-text-2)') + ';';
+                    btn.textContent = (isSelected ? '✓ ' : '') + name;
+                    btn.addEventListener('click', function() {
+                        var idx = _admCronoSelectedCTs.indexOf(name);
+                        if (idx !== -1) _admCronoSelectedCTs.splice(idx, 1); else _admCronoSelectedCTs.push(name);
+                        openCronoNewAulaPanel();
+                    });
+                    el.appendChild(btn);
+                });
+            }
+            var datesEl = document.getElementById('cronoNewDatesChips');
+            if (datesEl) {
+                if (_admCronoSelectedDates.length === 0) {
+                    datesEl.innerHTML = '<span style="font-size:11px;color:var(--adm-text-3);">⚠️ Toque nas datas do calendário para selecionar</span>';
+                } else {
+                    var dayNames = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+                    datesEl.innerHTML = _admCronoSelectedDates.map(function(ds) {
+                        var label = ds;
+                        try { var p=ds.split('-'); var d=new Date(parseInt(p[0]),parseInt(p[1])-1,parseInt(p[2])); label=dayNames[d.getDay()]+' '+p[2]+'/'+p[1]; } catch(x) {}
+                        return '<span style="padding:3px 9px;background:rgba(212,165,41,0.12);border:1px solid rgba(212,165,41,0.25);border-radius:6px;font-size:11px;color:var(--adm-primary);font-weight:700;">' + label + '</span>';
+                    }).join(' ');
+                }
+            }
+            var panel = document.getElementById('cronoNewAulaPanel');
+            if (panel) panel.style.display = 'flex';
+            var ov = document.getElementById('cronoAulaOverlay');
+            if (ov) ov.style.display = 'block';
+        }
+
+        function closeCronoNewAulaPanel() {
+            var panel = document.getElementById('cronoNewAulaPanel');
+            if (panel) panel.style.display = 'none';
+            var ov = document.getElementById('cronoAulaOverlay');
+            if (ov) ov.style.display = 'none';
+            _cronoNewAulaMode = false;
+            if (_admCronoSelectedDates.length > 1) {
+                _admCronoSelectedDates = [_admCronoSelectedDates[0]];
+                renderAdmCronoCal();
+                renderCronoAgenda();
+            }
+        }
+
+        async function saveCronogramaAula() {
+            var tema      = (document.getElementById('cronoAdmTema') || {}).value || '';
+            var descricao = (document.getElementById('cronoAdmDesc') || {}).value || '';
+            var horario   = (document.getElementById('cronoAdmHorario') || {}).value || '';
+            if (_admCronoSelectedCTs.length === 0)  { showMessage('cronoAdmMsg', 'Selecione pelo menos um CT', 'danger'); return; }
+            if (!tema.trim())                        { showMessage('cronoAdmMsg', 'Preencha o tema da aula', 'danger'); return; }
+            if (_admCronoSelectedDates.length === 0) { showMessage('cronoAdmMsg', 'Selecione pelo menos uma data no calendário', 'danger'); return; }
+            var totalAulas = _admCronoSelectedCTs.length * _admCronoSelectedDates.length;
+            showMessage('cronoAdmMsg', 'Cadastrando ' + totalAulas + ' aula(s)...', 'info');
+            try {
+                var result = await secureFetch('saveCronogramaAula', {
+                    cts:      _admCronoSelectedCTs.join(','),
+                    datas:    _admCronoSelectedDates.join(','),
+                    horario:  horario,
+                    tema:     tema.trim(),
+                    descricao: descricao.trim()
+                });
+                showMessage('cronoAdmMsg', result.success ? '✅ ' + result.message : result.message, result.success ? 'success' : 'danger');
+                if (result.success) {
+                    document.getElementById('cronoAdmTema').value    = '';
+                    document.getElementById('cronoAdmDesc').value    = '';
+                    document.getElementById('cronoAdmHorario').value = '';
+                    // Guarda data/mês para navegar depois do reload
+                    var primeiraData = _admCronoSelectedDates[0] || null;
+                    _admCronoSelectedDates = primeiraData ? [primeiraData] : [];
+                    _cronoNewAulaMode = false;
+                    closeCronoNewAulaPanel();
+                    // Recarrega admin
+                    await loadAdminCronograma();
+                    // Navega para mês/dia da aula salva e exibe na agenda
+                    if (primeiraData) {
+                        var parts = primeiraData.split('-');
+                        _admCronoCalYear  = parseInt(parts[0]);
+                        _admCronoCalMonth = parseInt(parts[1]) - 1;
+                        _admCronoSelectedDates = [primeiraData];
+                        renderAdmCronoCal();
+                        renderCronoAgenda();
+                        setTimeout(function() {
+                            var ag = document.getElementById('cronoAgendaList');
+                            if (ag) ag.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }, 200);
+                    }
+                    // ⬇ Sincroniza calendário do ALUNO
+                    _syncCronoAluno();
+                }
+            } catch(e) { showMessage('cronoAdmMsg', 'Erro: ' + e.message, 'danger'); }
+        }
+
+        function cronoAgendaAddDay(dateStr) {
+            _cronoNewAulaMode = true;
+            if (_admCronoSelectedDates.indexOf(dateStr) === -1) {
+                _admCronoSelectedDates = [dateStr];
+            }
+            renderAdmCronoCal();
+            openCronoNewAulaPanel();
+        }
+
         function cronoAgendaEdit(rowIndex) {
-            // Fechar outros abertos
             document.querySelectorAll('[id^="cronoInlineEdit_"]').forEach(function(el) { el.style.display = 'none'; });
             var el = document.getElementById('cronoInlineEdit_' + rowIndex);
             if (el) el.style.display = 'block';
@@ -14723,58 +15135,34 @@
 
         async function cronoAgendaSaveEdit(rowIndex, data, ct) {
             var horario = (document.getElementById('ceHorario_' + rowIndex) || {}).value || '';
-            var tema    = (document.getElementById('ceTema_' + rowIndex) || {}).value || '';
-            var desc    = (document.getElementById('ceDesc_' + rowIndex) || {}).value || '';
+            var tema    = (document.getElementById('ceTema_'    + rowIndex) || {}).value || '';
+            var desc    = (document.getElementById('ceDesc_'    + rowIndex) || {}).value || '';
             var msgEl   = document.getElementById('ceMsg_' + rowIndex);
             if (!tema) { if (msgEl) msgEl.innerHTML = '<span style="color:var(--coral);font-size:11px;">Tema obrigatório</span>'; return; }
             if (msgEl) msgEl.innerHTML = '<span style="font-size:11px;color:var(--adm-text-3);">Salvando...</span>';
             try {
                 var result = await secureFetch('saveCronogramaAula', { rowIndex: rowIndex, data: data, ct: ct, horario: horario, tema: tema, descricao: desc });
-                if (result.success) { cronoAgendaCloseEdit(rowIndex); loadAdminCronograma(); }
-                else if (msgEl) msgEl.innerHTML = '<span style="color:var(--coral);font-size:11px;">' + escapeHtml(result.message) + '</span>';
+                if (result.success) {
+                    cronoAgendaCloseEdit(rowIndex);
+                    await loadAdminCronograma();
+                    renderAdmCronoCal();
+                    renderCronoAgenda();
+                    _syncCronoAluno();
+                } else if (msgEl) msgEl.innerHTML = '<span style="color:var(--coral);font-size:11px;">' + escapeHtml(result.message) + '</span>';
             } catch(e) { if (msgEl) msgEl.innerHTML = '<span style="color:var(--coral);font-size:11px;">Erro de conexão</span>'; }
         }
 
-        function cronoAgendaAddDay(dateStr) {
-            // Ao clicar em "+ Aula" de um dia da agenda: seleciona esse dia e abre painel
-            // No painel, o usuário pode adicionar mais datas clicando no calendário
-            // Mudar o comportamento do toggle para acumular (modo new-aula)
-            _cronoNewAulaMode = true;
-            if (_admCronoSelectedDates.indexOf(dateStr) === -1) {
-                _admCronoSelectedDates = [dateStr];
-            }
-            renderAdmCronoCal();
-            openCronoNewAulaPanel();
-        }
-
-        var _cronoNewAulaMode = false;
-
-        async function saveCronogramaAula() {
-            var tema = (document.getElementById('cronoAdmTema') || {}).value || '';
-            var descricao = (document.getElementById('cronoAdmDesc') || {}).value || '';
-            var horario = (document.getElementById('cronoAdmHorario') || {}).value || '';
-            if (_admCronoSelectedCTs.length === 0) { showMessage('cronoAdmMsg', 'Selecione pelo menos um CT', 'danger'); return; }
-            if (!tema) { showMessage('cronoAdmMsg', 'Preencha o tema', 'danger'); return; }
-            if (_admCronoSelectedDates.length === 0) { showMessage('cronoAdmMsg', 'Selecione pelo menos uma data no calendário', 'danger'); return; }
-            var totalAulas = _admCronoSelectedCTs.length * _admCronoSelectedDates.length;
-            showMessage('cronoAdmMsg', 'Cadastrando ' + totalAulas + ' aula(s)...', 'info');
+        async function deleteCronogramaAula(rowIndex) {
+            if (!confirm('Remover esta aula?')) return;
             try {
-                var result = await secureFetch('saveCronogramaAula', {
-                    cts: _admCronoSelectedCTs.join(','),
-                    datas: _admCronoSelectedDates.join(','),
-                    horario: horario, tema: tema, descricao: descricao
-                });
-                showMessage('cronoAdmMsg', result.success ? '✅ ' + result.message : result.message, result.success ? 'success' : 'danger');
-                if (result.success) {
-                    document.getElementById('cronoAdmTema').value = '';
-                    document.getElementById('cronoAdmDesc').value = '';
-                    document.getElementById('cronoAdmHorario').value = '';
-                    _admCronoSelectedDates = [];
-                    _cronoNewAulaMode = false;
-                    closeCronoNewAulaPanel();
-                    loadAdminCronograma();
+                var data = await secureFetch('deleteCronogramaAula', { rowIndex: rowIndex });
+                if (data.success) {
+                    await loadAdminCronograma();
+                    renderAdmCronoCal();
+                    renderCronoAgenda();
+                    _syncCronoAluno();
                 }
-            } catch(e) { showMessage('cronoAdmMsg', 'Erro: ' + e.message, 'danger'); }
+            } catch(e) { alert('Erro: ' + e.message); }
         }
 
         async function deleteCronoSerie(serieIdx) {
@@ -14783,18 +15171,14 @@
             if (!confirm('Remover ' + s.aulas.length + ' aula(s) do tema "' + s.tema + '"?')) return;
             try {
                 var data = await secureFetch('deleteCronogramaAula', { deleteTema: s.tema });
-                if (data.success) { loadAdminCronograma(); } else alert(data.message || 'Erro');
+                if (data.success) {
+                    await loadAdminCronograma();
+                    renderAdmCronoCal();
+                    renderCronoAgenda();
+                    _syncCronoAluno();
+                } else alert(data.message || 'Erro');
             } catch(e) { alert('Erro: ' + e.message); }
         }
-
-        async function deleteCronogramaAula(rowIndex) {
-            if (!confirm('Remover esta aula?')) return;
-            try {
-                var data = await secureFetch('deleteCronogramaAula', { rowIndex: rowIndex });
-                if (data.success) loadAdminCronograma();
-            } catch(e) { alert('Erro: ' + e.message); }
-        }
-
 
         // ═══════════════════════════════════════════════════
         // MUSCULAÇÃO MODULE
@@ -14922,61 +15306,74 @@
             return base.concat(custom);
         }
 
-        // Botão "Salvar Treino" — registra no log e mostra mensagem motivacional
         async function salvarTreinoRealizado(btn) {
             var treinoId   = btn.getAttribute('data-id');
             var treinoNome = btn.getAttribute('data-nome') || '';
             var dateStr    = btn.getAttribute('data-date');
+            var treinoCor  = btn.getAttribute('data-cor') || '#3b82f6';
+            // Lê observação do campo (se existir)
+            var obsEl = document.getElementById('muscObs_' + dateStr);
+            var obs   = obsEl ? (obsEl.value || '').trim() : '';
             var duracao = '';
             if (_treinoStartTime) {
                 var mins = Math.round((Date.now() - _treinoStartTime) / 60000);
                 if (mins > 0) duracao = mins + ' min';
             }
+            btn.disabled = true;
             try {
                 var result = await secureFetch('saveTreinoRealizado', {
-                    treinoId: treinoId,
+                    treinoId:   treinoId,
                     treinoNome: treinoNome,
-                    data: dateStr,
-                    duracao: duracao,
-                    observacao: ''
+                    data:       dateStr,
+                    duracao:    duracao,
+                    observacao: obs
                 });
                 if (result.success) {
+                    btn.textContent = '✅ Treino salvo!';
                     _treinoStartTime = null;
-                    // Recarrega histórico
+                    if (obsEl) obsEl.style.display = 'none';
                     loadHistoricoTreinos();
-                    // Toast motivacional
-                    var msgs = [
-                        '💪 Treino concluído! Cada rep te aproxima do seu melhor!',
-                        '🔥 Mandou bem! Consistência é o segredo do campeão!',
-                        '🏆 Mais um treino no banco! A faixa preta agradece!',
-                        '⚡ Treino salvo! O tatame vai sentir sua evolução!',
-                        '🥋 Corpo forte, mente afiada! Assim se constrói um lutador!',
-                        '💥 Trabalho feito! Recupera bem para o próximo round!'
-                    ];
-                    var msg = msgs[Math.floor(Math.random() * msgs.length)];
+                    // Mensagens por categoria de treino
+                    var nome = treinoNome.toLowerCase();
+                    var msgSets = {
+                        forca:      ['💪 Força construída! Os músculos agradecem!', '🔥 Levantou pesado! Continue assim!', '⚡ Força máxima ativada! Bora!'],
+                        cardio:     ['🫀 Coração forte, lutador forte!', '🏃 Resistência em outro nível!', '🔥 Queimou geral! Recupera bem!'],
+                        mobilidade: ['🧘 Mobilidade é a base do BJJ!', '🌊 Corpo solto, técnica fluida!', '✨ Flexibilidade que faz diferença no tatame!'],
+                        core:       ['💥 Core ativado! A base de tudo!', '🏆 Abdômen de aço, base inabalável!', '⚡ Core forte = BJJ poderoso!'],
+                        padrao:     ['💪 Treino concluído! Cada rep te aproxima do teu melhor!', '🔥 Mandou bem! Consistência é o segredo!', '🏆 Mais um treino no banco! A faixa preta agradece!', '⚡ Treino salvo! O tatame vai sentir sua evolução!', '🥋 Corpo forte, mente afiada!', '💥 Trabalho feito! Recupera bem para o próximo round!']
+                    };
+                    var cat = nome.includes('forc') || nome.includes('muscu') || nome.includes('peso') ? 'forca'
+                            : nome.includes('cardio') || nome.includes('aerob') || nome.includes('corrida') ? 'cardio'
+                            : nome.includes('mobil') || nome.includes('flexi') || nome.includes('alonga') ? 'mobilidade'
+                            : nome.includes('core') || nome.includes('abdom') || nome.includes('prancha') ? 'core'
+                            : 'padrao';
+                    var msgs = msgSets[cat];
+                    var msg  = msgs[Math.floor(Math.random() * msgs.length)];
                     var toast = document.createElement('div');
-                    toast.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#1a472a,#2d6a4f);color:#fff;padding:14px 22px;border-radius:14px;font-size:13px;font-weight:700;z-index:10000;box-shadow:0 4px 24px rgba(0,0,0,.5);white-space:nowrap;max-width:90vw;text-align:center;line-height:1.4;';
+                    toast.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,' + treinoCor + '22,' + treinoCor + '44);border:1px solid ' + treinoCor + '66;color:#fff;padding:14px 22px;border-radius:14px;font-size:13px;font-weight:700;z-index:10000;box-shadow:0 4px 24px rgba(0,0,0,.5);max-width:90vw;text-align:center;line-height:1.4;';
                     toast.textContent = msg;
                     document.body.appendChild(toast);
                     setTimeout(function() { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 4000);
                 }
-            } catch(e) {}
+            } catch(e) { btn.disabled = false; }
         }
 
         // ===== HISTÓRICO DE TREINOS REALIZADOS =====
-        async function loadHistoricoTreinos() {
+        async function loadHistoricoTreinos(limit) {
             var el = document.getElementById('treinoHistoricoList');
             if (!el) return;
+            limit = limit || 20;
             try {
                 var data = await secureFetch('getHistoricoTreinos', {});
                 if (!data.success || !data.historico || data.historico.length === 0) {
                     el.innerHTML = '<div style="text-align:center;color:var(--text-3);font-size:12px;padding:16px;">Nenhum treino salvo ainda.<br>Realize um treino e clique em <strong>Salvar Treino</strong>!</div>';
                     return;
                 }
+                var _limit = 20;
                 var h = '';
                 // Agrupar por mês
                 var meAtual = '';
-                data.historico.slice(0, 30).forEach(function(t) { // últimos 30
+                data.historico.slice(0, _limit).forEach(function(t) { // últimos 30
                     var dataParts = (t.data || '').split('-');
                     var mes = dataParts.length >= 2 ? dataParts[0] + '-' + dataParts[1] : '';
                     var MESES = ['','Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
@@ -14988,17 +15385,20 @@
                     // Formatar data DD/MM
                     var dLabel = dataParts.length === 3 ? dataParts[2] + '/' + dataParts[1] : t.data;
                     h += '<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:10px;margin-bottom:5px;">';
-                    h += '<div style="width:36px;height:36px;border-radius:8px;background:rgba(59,130,246,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🏋️</div>';
+                    var iconBg  = t.cor ? t.cor + '33' : 'rgba(59,130,246,0.15)';
+                    var iconBdr = t.cor ? t.cor + '55' : 'transparent';
+                    h += '<div style="width:36px;height:36px;border-radius:8px;background:' + iconBg + ';border:1px solid ' + iconBdr + ';display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🏋️</div>';
                     h += '<div style="flex:1;min-width:0;">';
                     h += '<div style="font-size:12px;font-weight:700;color:var(--text-1);">' + escapeHtml(t.treinoNome || 'Treino') + '</div>';
-                    h += '<div style="font-size:10px;color:var(--text-3);">' + dLabel + (t.duracao ? ' · ' + t.duracao : '') + '</div>';
-                    if (t.obs) h += '<div style="font-size:10px;color:var(--text-2);margin-top:2px;font-style:italic;">' + escapeHtml(t.obs) + '</div>';
+                    h += '<div style="font-size:10px;color:var(--text-3);">' + dLabel + (t.duracao ? ' · ⏱ ' + t.duracao : '') + (t.pct && t.pct < 100 ? ' · ' + t.pct + '%' : '') + '</div>';
+                    if (t.obs) h += '<div style="font-size:11px;color:var(--text-2);margin-top:3px;padding:4px 8px;background:rgba(255,255,255,0.04);border-radius:6px;font-style:italic;">"' + escapeHtml(t.obs) + '"</div>';
                     h += '</div>';
                     h += '<div style="font-size:10px;color:#4ade80;font-weight:700;">✓</div>';
                     h += '</div>';
-                });
-                if (data.historico.length > 30) {
-                    h += '<div style="text-align:center;font-size:11px;color:var(--text-3);padding:8px;">... e mais ' + (data.historico.length - 30) + ' treinos anteriores</div>';
+                
+});
+                if (data.historico.length > _limit) {
+                    h += '<button onclick="loadHistoricoTreinos(' + _limit + 20 + ')" style="width:100%;padding:10px;background:var(--bg-elevated);color:var(--text-3);border:1px solid var(--border);border-radius:10px;font-size:12px;cursor:pointer;margin-top:4px;">📋 Carregar mais (' + (data.historico.length - _limit) + ' restantes)</button>';
                 }
                 el.innerHTML = h;
             } catch(e) {
@@ -15230,14 +15630,16 @@
                 h += '<div class="musc-rest">⏱ Descanso entre séries: ' + escapeHtml(treino.descanso) + '</div>';
             }
 
-            // Botão Salvar Treino — usa data-attributes para evitar escaping problemático
+            // Botão Salvar Treino
             if (doneCount > 0) {
                 var _nomeEsc = (treino.nome || '').replace(/"/g, '&quot;');
+                h += '<textarea id="muscObs_' + dateStr + '" placeholder="💬 Como foi o treino? (opcional)" maxlength="300" style="width:100%;box-sizing:border-box;margin-top:10px;padding:10px;background:rgba(255,255,255,0.05);color:var(--text-1);border:1px solid var(--border);border-radius:10px;font-size:12px;line-height:1.5;resize:none;font-family:inherit;height:60px;"></textarea>';
                 h += '<button onclick="salvarTreinoRealizado(this)"'
                    + ' data-id="' + treino.id + '"'
                    + ' data-nome="' + _nomeEsc + '"'
                    + ' data-date="' + dateStr + '"'
-                   + ' style="width:100%;margin-top:12px;padding:13px;background:linear-gradient(135deg,#1a472a,#2d6a4f);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;">'
+                   + ' data-cor="' + (treino.cor || '#3b82f6') + '"'
+                   + ' style="width:100%;margin-top:8px;padding:13px;background:linear-gradient(135deg,#1a472a,#2d6a4f);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;">'
                    + (pct >= 100 ? '🏆 Salvar Treino Completo' : '💾 Salvar Progresso (' + pct + '%)')
                    + '</button>';
             }
@@ -17207,8 +17609,9 @@
             var cor = diasRestantes <= 3 ? '#f87171' : diasRestantes <= 7 ? '#fbbf24' : '#38bdf8';
             var banner = document.createElement('div');
             banner.id  = 'trialBanner';
-            // Posiciona abaixo do header fixo sem sobrepor
-            banner.style.cssText = 'position:fixed;top:56px;left:0;right:0;z-index:900;background:' + cor + ';color:#000;text-align:center;padding:5px 12px;font-size:11px;font-weight:800;';
+            // Usa variável CSS do header se disponível, fallback 56px
+            var headerH = (document.querySelector('.app-header') || {}).offsetHeight || 56;
+            banner.style.cssText = 'position:fixed;top:' + headerH + 'px;left:0;right:0;z-index:900;background:' + cor + ';color:#000;text-align:center;padding:5px 12px;font-size:11px;font-weight:800;';
             banner.textContent = '⏳ Período de teste: ' + diasRestantes + ' dia' + (diasRestantes !== 1 ? 's' : '') + ' restante' + (diasRestantes !== 1 ? 's' : '');
             document.body.prepend(banner);
         }
@@ -17791,7 +18194,7 @@
             h += '</div>';
             
             // Summary
-            h += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;">';
+            h += '<div style="display:grid;grid-template-columns:repeat(3,minmax(70px,1fr));gap:6px;margin-bottom:12px;">';
             h += '<div style="text-align:center;"><div style="font-size:20px;font-weight:900;color:#fbbf24;">' + totalManha + '</div><div style="font-size:9px;color:var(--adm-text-3);">Manhã</div></div>';
             h += '<div style="text-align:center;"><div style="font-size:20px;font-weight:900;color:#6366f1;">' + totalNoite + '</div><div style="font-size:9px;color:var(--adm-text-3);">Noite</div></div>';
             h += '<div style="text-align:center;"><div style="font-size:20px;font-weight:900;color:#22c55e;">' + list.length + '</div><div style="font-size:9px;color:var(--adm-text-3);">Total</div></div>';
@@ -18361,6 +18764,25 @@
         }
 
         // ===== ADMIN: IBJJF UPDATES =====
+        async function adminAutoFetchIBJJF() {
+            var btn = document.getElementById('btnAutoFetchIBJJF');
+            var msg = document.getElementById('autoFetchIBJJFMsg');
+            if (btn) btn.disabled = true;
+            if (msg) { msg.style.color = 'var(--adm-text-3)'; msg.textContent = '🔄 Buscando...'; }
+            try {
+                var data = await secureFetch('autoFetchIBJJF', {});
+                if (data.success) {
+                    if (msg) { msg.style.color = data.novos > 0 ? '#4ade80' : '#fbbf24'; msg.textContent = data.message; }
+                    if (data.novos > 0) loadAdminIBJJF();
+                } else {
+                    if (msg) { msg.style.color = '#f87171'; msg.textContent = '❌ ' + (data.message || 'Erro'); }
+                }
+            } catch(e) {
+                if (msg) { msg.style.color = '#f87171'; msg.textContent = '❌ ' + e.message; }
+            }
+            if (btn) btn.disabled = false;
+        }
+
         async function loadAdminIBJJF() {
             var el = document.getElementById('adminIBJJFList');
             if (!el) return;
@@ -18370,6 +18792,7 @@
                     el.innerHTML = '<div class="admin-empty" style="font-size:11px;">Nenhuma novidade publicada ainda</div>';
                     return;
                 }
+                window._adminIBJJFCache = data.updates; // cache para edição
                 var h = '';
                 data.updates.forEach(function(u) {
                     h += '<div style="padding:8px 10px;border-radius:8px;margin-bottom:4px;background:var(--adm-bg-card);border:1px solid var(--adm-border);">';
@@ -18378,28 +18801,32 @@
                     h += '<div style="font-size:12px;font-weight:700;color:var(--adm-text-1);">' + escapeHtml(u.titulo) + '</div>';
                     h += '<div style="font-size:10px;color:var(--adm-text-3);">' + (u.versao ? escapeHtml(u.versao) + ' · ' : '') + escapeHtml(u.data||'') + '</div>';
                     h += '</div>';
+                    h += '<button onclick="setIBJJFEditData(\''+u.id+'\')" style="padding:4px 8px;background:rgba(212,165,41,0.1);color:var(--adm-primary);border:1px solid rgba(212,165,41,0.2);border-radius:5px;font-size:10px;cursor:pointer;margin-right:4px;">✏️</button>';
                     h += '<button onclick="adminRemoverIBJJF(\'' + u.id + '\')" style="padding:4px 8px;background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.2);border-radius:5px;font-size:10px;cursor:pointer;">✕</button>';
                     h += '</div>';
                     h += '</div>';
-                });
-                el.innerHTML = h;
+                });                el.innerHTML = h;
             } catch(e) {
                 el.innerHTML = '<div class="admin-empty">Erro: ' + e.message + '</div>';
             }
         }
 
         async function adminPublicarIBJJF() {
-            var titulo   = (document.getElementById('adminIBJJFTitulo').value   || '').trim();
+            var tituloEl = document.getElementById('adminIBJJFTitulo');
+            var titulo   = (tituloEl.value   || '').trim();
             var versao   = (document.getElementById('adminIBJJFVersao').value   || '').trim();
             var conteudo = (document.getElementById('adminIBJJFConteudo').value || '').trim();
+            var editId   = tituloEl.getAttribute('data-edit-id') || '';
             var msg = document.getElementById('adminIBJJFMsg');
             if (!titulo || !conteudo) { msg.style.color='#f87171'; msg.textContent='⚠️ Título e conteúdo obrigatórios'; return; }
-            msg.style.color='var(--adm-text-3)'; msg.textContent='Publicando...';
+            msg.style.color='var(--adm-text-3)'; msg.textContent='Salvando...';
             try {
-                var result = await secureFetch('saveIBJJFUpdate', { titulo: titulo, versao: versao, conteudo: conteudo });
+                var payload = { titulo: titulo, versao: versao, conteudo: conteudo };
+                if (editId) payload.id = editId; // edição de existente
+                var result = await secureFetch('saveIBJJFUpdate', payload);
                 if (result.success) {
-                    msg.style.color='#4ade80'; msg.textContent='✅ Publicado!';
-                    document.getElementById('adminIBJJFTitulo').value   = '';
+                    msg.style.color='#4ade80'; msg.textContent = editId ? '✅ Atualizado!' : '✅ Publicado!';
+                    tituloEl.value = ''; tituloEl.removeAttribute('data-edit-id');
                     document.getElementById('adminIBJJFVersao').value   = '';
                     document.getElementById('adminIBJJFConteudo').value = '';
                     loadAdminIBJJF();
@@ -18413,6 +18840,27 @@
                 var result = await secureFetch('saveIBJJFUpdate', { id: id, titulo: '-', conteudo: '-', ativo: false });
                 if (result.success) loadAdminIBJJF();
             } catch(e) {}
+        }
+
+        function setIBJJFEditData(id) {
+            // Busca no cache já carregado
+            var u = null;
+            // Tenta no cache do painel admin (loadAdminIBJJF guarda em _adminIBJJFCache)
+            if (window._adminIBJJFCache) u = window._adminIBJJFCache.find(function(x){ return x.id === id; });
+            // Fallback: busca no cache do aluno
+            if (!u && _ibjjfUpdates) u = _ibjjfUpdates.find(function(x){ return x.id === id; });
+            if (u) adminEditarIBJJF(u);
+        }
+
+        function adminEditarIBJJF(u) {
+            document.getElementById('adminIBJJFTitulo').value   = u.titulo  || '';
+            document.getElementById('adminIBJJFVersao').value   = u.versao  || '';
+            document.getElementById('adminIBJJFConteudo').value = u.conteudo || '';
+            document.getElementById('adminIBJJFTitulo').setAttribute('data-edit-id', u.id || '');
+            var msg = document.getElementById('adminIBJJFMsg');
+            if (msg) { msg.style.color = '#38bdf8'; msg.textContent = '✏️ Editando — clique em Publicar para salvar'; }
+            var form = document.getElementById('adminIBJJFTitulo');
+            if (form) form.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
         async function loadGradAlerts() {
@@ -19098,7 +19546,18 @@
 
             // Core fields
             document.getElementById('stuName').value = s.name || '';
-            document.getElementById('stuFaixa').value = s.faixa || 'Branca';
+            // Garante que a faixa do aluno existe no select antes de selecionar
+            var faixaSelect = document.getElementById('stuFaixa');
+            var faixaVal = s.faixa || 'Branca';
+            var faixaExists = Array.from(faixaSelect.options).some(function(o) { return o.value === faixaVal; });
+            if (!faixaExists && faixaVal) {
+                // Adiciona a faixa dinamicamente caso não esteja listada
+                var opt = document.createElement('option');
+                opt.value = faixaVal;
+                opt.textContent = faixaVal;
+                faixaSelect.appendChild(opt);
+            }
+            faixaSelect.value = faixaVal;
             updateGrauOptions('stuFaixa', 'stuGrau');
             document.getElementById('stuGrau').value = s.grau || '0';
 
@@ -19116,9 +19575,13 @@
                 }
             }
 
-            // Admin toggle
+            // Admin toggle — somente admins reais podem ver e alterar
             var toggle = document.getElementById('stuAdminToggle');
+            var adminRow = document.getElementById('stuAdminRow');
             var isAdminUser = s.admin === true || s.admin === 'TRUE';
+            var currentIsRealAdmin = currentUser && (currentUser.admin === true || currentUser.admin === 'TRUE') && !(currentUser.tipoPerfil === 'professor');
+            // Mostra o toggle somente para admins (não professores)
+            if (adminRow) adminRow.style.display = currentIsRealAdmin ? '' : 'none';
             if (isAdminUser) { toggle.classList.add('on'); } else { toggle.classList.remove('on'); }
             renderStuCTSections(s, isAdminUser);
 
@@ -19343,6 +19806,7 @@
             saveBtn.textContent = 'Salvando...';
 
             var isAdminStu = document.getElementById('stuAdminToggle').classList.contains('on');
+            var currentIsRealAdmin = currentUser && (currentUser.admin === true || currentUser.admin === 'TRUE') && !(currentUser.tipoPerfil === 'professor');
 
             // Coleta CTs do professor (se admin) ou CTs liberados (se aluno)
             var ctsdoprof = '';
@@ -19368,7 +19832,6 @@
                 faixa: document.getElementById('stuFaixa').value,
                 grau: document.getElementById('stuGrau').value,
                 ct: document.getElementById('stuCT').value,
-                admin: isAdminStu,
                 nascimento: document.getElementById('stuNascimento').value,
                 genero: document.getElementById('stuGenero').value,
                 profissao: document.getElementById('stuProfissao').value,
@@ -19388,10 +19851,14 @@
                     });
                     return dias.join(',');
                 })(),
-                isProfessor:  isAdminStu,
-                ctsProfessor: ctsdoprof,
+                isProfessor:  currentIsRealAdmin ? isAdminStu : undefined,
+                ctsProfessor: currentIsRealAdmin ? ctsdoprof : undefined,
                 ctsliberados: ctsliberados
             };
+            // Somente admin real pode alterar status de admin/professor
+            if (currentIsRealAdmin) {
+                payload.admin = isAdminStu;
+            }
 
             try {
                 if (getSessionToken()) payload.token = getSessionToken();
